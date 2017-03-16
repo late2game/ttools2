@@ -1,2 +1,2 @@
-This repository contains the Robofont tools by TypeTailors
+This repository contains TypeTailors Robofont tools
 Dev by Roberto Arista
