@@ -22,7 +22,7 @@ from miscFunctions import collectIDsFromSelectedPoints, guessStemPoints
 
 # standard
 import sys
-from math import cos, sin, radians
+from math import cos, sin, radians, tan, ceil
 from mojo.UI import UpdateCurrentGlyphView, AccordionView
 from vanilla import FloatingWindow, CheckBox, Group
 from vanilla import TextBox, EditText, ColorWell, SquareButton
@@ -50,11 +50,11 @@ STEM_COLOR = (1, 127/255., 102/255., 1)
 DIAGONAL_COLOR = (102/255., 124/255., 1, 1)
 DIAGONAL_OFFSET = 3
 
-GRID_COLOR_ONE = (0.88, 1, 0.4, 1)
-GRID_COLOR_TWO = (0.4, 1, 0.64, 1)
-GRID_COLOR_THREE = (0.4, 0.64, 1, 1)
-GRID_COLOR_FOUR = (0.88, 0.4, 1, 1)
-GRID_COLOR_FIVE = (1, 0.4, 0.4, 1)
+GRID_COLOR_ONE = (1, 0.4, 0.4, 1)
+GRID_COLOR_TWO = (0.4, 0.64, 1, 1)
+GRID_COLOR_THREE = (0.88, 0.4, 1, 1)
+GRID_COLOR_FOUR = (0.4, 1, 0.64, 1)
+GRID_COLOR_FIVE = (0.88, 1, 0.4, 1)
 GRID_COLOR_INIT = [GRID_COLOR_ONE, GRID_COLOR_TWO, GRID_COLOR_THREE, GRID_COLOR_FOUR, GRID_COLOR_FIVE]
 
 PLUGIN_WIDTH = 220
@@ -416,13 +416,10 @@ class DrawingAssistant(BaseWindowController):
         scalingFactor = infoDict['scale']
 
         try:
-
-            if self.sqrActive is True and 1.5 > scalingFactor:
+            if self.sqrActive is True and 2 > scalingFactor:
                 self._drawSquarings(currentGlyph, scalingFactor, 4)
-
-            if self.bcpLengthActive is True and 1.5 > scalingFactor > .2:
+            if self.bcpLengthActive is True and 2 > scalingFactor:
                 self._drawBcpLenght(currentGlyph, scalingFactor, 2)
-
         except Exception as error:
             print error
             print sys.exc_info()
@@ -432,12 +429,12 @@ class DrawingAssistant(BaseWindowController):
         scalingFactor = infoDict['scale']
 
         try:
-            if self.gridActive is True and 1.5 > scalingFactor:
+            if self.gridActive is True and 2 > scalingFactor:
                 offsetFromOrigin = infoDict['view'].offset()
                 visibleRect = infoDict['view'].visibleRect()
                 frameOrigin = int(visibleRect.origin.x-offsetFromOrigin[0]), int(visibleRect.origin.y-offsetFromOrigin[1])
                 frameSize = int(visibleRect.size.width), int(visibleRect.size.height)
-                self._drawGrids(frameOrigin, frameSize, scalingFactor)
+                self._drawGrids(frameOrigin, frameSize, currentGlyph.getParent().info.italicAngle, scalingFactor)
 
             if self.stemActive is True and 1 > scalingFactor:
                 self._drawStems(currentGlyph, scalingFactor)
@@ -449,8 +446,8 @@ class DrawingAssistant(BaseWindowController):
             print error
             print sys.exc_info()
 
-    def _drawGrids(self, frameOrigin, frameSize, scalingFactor):
-        for eachGridDescription in self.gridsDB:
+    def _drawGrids(self, frameOrigin, frameSize, italicAngle, scalingFactor):
+        for eachGridDescription in reversed(self.gridsDB):
             gridColor = eachGridDescription['color']
             isHorizontal = eachGridDescription['horizontal']
             isVertical = eachGridDescription['vertical']
@@ -461,6 +458,8 @@ class DrawingAssistant(BaseWindowController):
             if not gridStep:
                 continue
 
+            save()
+            skew(-italicAngle, 0)
             stroke(*gridColor)
             strokeWidth(1*scalingFactor)
             fill(None)
@@ -483,6 +482,8 @@ class DrawingAssistant(BaseWindowController):
                 for eachY in [i for i in range(frameOrigin[1], 0) if i % gridStep == 0]:
                     line((frameOrigin[0]-GRID_TOLERANCE, eachY), (frameOrigin[0]+frameSize[0]+GRID_TOLERANCE, eachY))
 
+            restore()
+
     def _drawBcpLenght(self, glyph, scalingFactor, offset):
         for eachContour in glyph:
             for indexBcp, eachBcp in enumerate(eachContour.bPoints):
@@ -500,9 +501,9 @@ class DrawingAssistant(BaseWindowController):
                     save()
                     translate(projOut_X, projOut_Y)
                     rotate(bcpOutAngle % 90)
-                    belowRect = (-textWidth/2.-1, -textHeight/2.-1, textWidth+2, textHeight+2)
+                    belowRect = (-textWidth/2.-1, -textHeight/2.-1, textWidth+2, textHeight+2, 1)
                     fill(0, 0, 0, .7)
-                    rect(*belowRect)
+                    roundedRect(*belowRect)
 
                     textRect = (-textWidth/2., -textHeight/2., textWidth, textHeight)
                     textQualities(BODYSIZE_CAPTION*scalingFactor, weight='bold', color=WHITE_COLOR)
@@ -525,9 +526,9 @@ class DrawingAssistant(BaseWindowController):
                     translate(projIn_X, projIn_Y)
                     rotate(bcpInAngle % 90)
 
-                    belowRect = (-textWidth/2.-1, -textHeight/2.-1, textWidth+2, textHeight+2)
+                    belowRect = (-textWidth/2.-1, -textHeight/2.-1, textWidth+2, textHeight+2, 1)
                     fill(0, 0, 0, .7)
-                    rect(*belowRect)
+                    roundedRect(*belowRect)
 
                     textQualities(BODYSIZE_CAPTION*scalingFactor, weight='bold', color=WHITE_COLOR)
                     textRect = (-textWidth/2., -textHeight/2., textWidth, textHeight)
@@ -658,10 +659,17 @@ class DrawingAssistant(BaseWindowController):
             fill(None)
             strokeWidth(1*scalingFactor)
 
-            diagonalPt1 = pt1[0]+cos(radians(angle % 180+90))*(DIAGONAL_OFFSET-1), pt1[1]+sin(radians(angle%180+90))*(DIAGONAL_OFFSET-1)
-            diagonalPt2 = pt2[0]+cos(radians(angle % 180+90))*(DIAGONAL_OFFSET-1), pt2[1]+sin(radians(angle%180+90))*(DIAGONAL_OFFSET-1)
-            offsetPt1 = pt1[0]+cos(radians(angle % 180+90))*DIAGONAL_OFFSET, pt1[1]+sin(radians(angle%180+90))*DIAGONAL_OFFSET
-            offsetPt2 = pt2[0]+cos(radians(angle % 180+90))*DIAGONAL_OFFSET, pt2[1]+sin(radians(angle%180+90))*DIAGONAL_OFFSET
+            if 90 < angle <= 180 or -180 < angle < -90:
+                direction = -1
+                adjustedAngle = angle+180+90
+            else:
+                direction = 1
+                adjustedAngle = angle+90
+
+            diagonalPt1 = pt1[0]+cos(radians(adjustedAngle))*((DIAGONAL_OFFSET-1)*direction), pt1[1]+sin(radians(adjustedAngle))*((DIAGONAL_OFFSET-1)*direction)
+            diagonalPt2 = pt2[0]+cos(radians(adjustedAngle))*((DIAGONAL_OFFSET-1)*direction), pt2[1]+sin(radians(adjustedAngle))*((DIAGONAL_OFFSET-1)*direction)
+            offsetPt1 = pt1[0]+cos(radians(adjustedAngle))*DIAGONAL_OFFSET*direction, pt1[1]+sin(radians(adjustedAngle))*DIAGONAL_OFFSET*direction
+            offsetPt2 = pt2[0]+cos(radians(adjustedAngle))*DIAGONAL_OFFSET*direction, pt2[1]+sin(radians(adjustedAngle))*DIAGONAL_OFFSET*direction
 
             line((pt1), (offsetPt1))
             line((pt2), (offsetPt2))
@@ -670,12 +678,19 @@ class DrawingAssistant(BaseWindowController):
 
             save()
             textQualities(BODYSIZE_CAPTION*scalingFactor)
-
             offsetMidPoint = calcMidPoint(offsetPt1, offsetPt2)
             translate(offsetMidPoint[0], offsetMidPoint[1])
-            rotate(angle % 180)
-            dataToPlot = u'∡%.1f ↗%d' % (angle % 180, distance)
-            textBox(dataToPlot, (-distance/2., 0, distance, BODYSIZE_CAPTION*1.4*scalingFactor), align='center')
+
+            if 90 < angle <= 180 or -180 < angle < -90:
+                rotate(angle+180)
+                textBoxY = -BODYSIZE_CAPTION*1.2*scalingFactor
+            else:
+                rotate(angle)
+                textBoxY = 0
+
+            dataToPlot = u'∡%.1f ↗%d' % (angle%180, distance)
+            textWidth, textHeight = textSize(dataToPlot)
+            textBox(dataToPlot, (-textWidth/2., textBoxY, textWidth, BODYSIZE_CAPTION*1.2*scalingFactor), align='center')
             restore()
 
     # ui callback
