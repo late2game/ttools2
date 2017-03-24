@@ -159,7 +159,7 @@ class SingleGridController(Group):
         self.indexText = TextBox((jumpin_X, 0, 16, vanillaControlsSize['TextBoxRegularHeight']), '%d)' % index)
         jumpin_X += self.indexText.getPosSize()[2]
 
-        self.stepCtrl = EditText((jumpin_X, 0, 24, vanillaControlsSize['EditTextRegularHeight']),
+        self.stepCtrl = EditText((jumpin_X, 0, 38, vanillaControlsSize['EditTextRegularHeight']),
                                  callback=self.stepCtrlCallback)
         jumpin_X += self.stepCtrl.getPosSize()[2] + 16
 
