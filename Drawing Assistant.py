@@ -22,11 +22,14 @@ from miscFunctions import collectIDsFromSelectedPoints, guessStemPoints
 
 # standard
 import sys
+from collections import OrderedDict
 from math import cos, sin, radians, tan, ceil
 from mojo.UI import UpdateCurrentGlyphView, AccordionView
 from vanilla import FloatingWindow, CheckBox, Group
 from vanilla import TextBox, EditText, ColorWell, SquareButton
+from vanilla import PopUpButton, ComboBox
 from mojo.drawingTools import *
+from mojo.UI import OpenGlyphWindow
 from defconAppKit.windows.baseWindow import BaseWindowController
 from AppKit import NSColor
 from mojo.events import addObserver, removeObserver
@@ -40,10 +43,14 @@ GRID_TOLERANCE = 2
 
 # ui
 BODYSIZE_CAPTION = 11
+SQR_CAPTION_OFFSET = 4
+BCP_RADIUS = 4
+
 SYSTEM_FONT_NAME = '.HelveticaNeueDeskInterface-Regular'
 SYSTEM_FONT_NAME_BOLD = '.HelveticaNeueDeskInterface-Bold'
 
 BLACK_COLOR = (0, 0, 0)
+LIGHT_GRAY = (.6, .6, .6)
 WHITE_COLOR = (1, 1, 1)
 
 STEM_COLOR = (1, 127/255., 102/255., 1)
@@ -57,7 +64,7 @@ GRID_COLOR_FOUR = (0.4, 1, 0.64, 1)
 GRID_COLOR_FIVE = (0.88, 1, 0.4, 1)
 GRID_COLOR_INIT = [GRID_COLOR_ONE, GRID_COLOR_TWO, GRID_COLOR_THREE, GRID_COLOR_FOUR, GRID_COLOR_FIVE]
 
-PLUGIN_WIDTH = 220
+PLUGIN_WIDTH = 230
 
 MARGIN_HOR = 10
 MARGIN_VER = 8
@@ -354,22 +361,163 @@ class DistancesController(Group):
             return None
 
 
+class NeighborsController(Group):
+
+    def __init__(self, posSize, openedFonts, lftNeighborActive, lftFont, lftGlyph, cntNeighborActive, cntFont, cntGlyph, rgtNeighborActive, rgtFont, rgtGlyph, callback):
+        Group.__init__(self, posSize)
+        self.callback = callback
+        self.ctrlHeight = posSize[3]
+
+        self.neighborsDB = {}
+        self.neighborsDB['lft'] = lftNeighborActive, lftFont, lftGlyph
+        self.neighborsDB['cnt'] = cntNeighborActive, cntFont, cntGlyph
+        self.neighborsDB['rgt'] = rgtNeighborActive, rgtFont, rgtGlyph
+
+        jumpin_X = 0
+        self.lftController = SingleNeighborController((jumpin_X, 0, 60, self.ctrlHeight),
+                                                      'Left',
+                                                      isActive=lftNeighborActive,
+                                                      openedFonts=openedFonts,
+                                                      activeFont=lftFont,
+                                                      activeGlyph=lftGlyph,
+                                                      callback=self.lftControllerCallback)
+
+        jumpin_X += 60+MARGIN_HOR
+        self.cntController = SingleNeighborController((jumpin_X, 0, 60, self.ctrlHeight),
+                                                      'Center',
+                                                      isActive=cntNeighborActive,
+                                                      openedFonts=openedFonts,
+                                                      activeFont=cntFont,
+                                                      activeGlyph=cntGlyph,
+                                                      callback=self.cntControllerCallback)
+
+        jumpin_X += 60+MARGIN_HOR
+        self.rgtController = SingleNeighborController((jumpin_X, 0, 60, self.ctrlHeight),
+                                                      'Right',
+                                                      isActive=rgtNeighborActive,
+                                                      openedFonts=openedFonts,
+                                                      activeFont=rgtFont,
+                                                      activeGlyph=rgtGlyph,
+                                                      callback=self.rgtControllerCallback)
+
+    def get(self):
+        return self.neighborsDB
+
+    def setFontData(self, openedFonts):
+        self.lftController.setOpenedFonts(openedFonts)
+        self.cntController.setOpenedFonts(openedFonts)
+        self.rgtController.setOpenedFonts(openedFonts)
+
+    def lftControllerCallback(self, sender):
+        self.neighborsDB['lft'] = sender.get()
+        self.callback(self)
+
+    def cntControllerCallback(self, sender):
+        self.neighborsDB['cnt'] = sender.get()
+        self.callback(self)
+
+    def rgtControllerCallback(self, sender):
+        self.neighborsDB['rgt'] = sender.get()
+        self.callback(self)
+
+
+class SingleNeighborController(Group):
+
+    chosenFont = None
+    glyphName = None
+    isActive = False
+
+    def __init__(self, posSize, title, isActive, openedFonts, activeFont, activeGlyph, callback):
+        Group.__init__(self, posSize)
+        self.isActive = isActive
+        self.openedFonts = openedFonts
+        self.activeFont = activeFont
+        self.activeGlyph = activeGlyph
+        self.callback = callback
+        ctrlWidth = posSize[2]
+
+        if self.activeFont:
+            activeGlyphOrder = self.activeFont.glyphOrder
+        else:
+            activeGlyphOrder = []
+
+        jumpingY = 4
+        self.isActiveCheck = CheckBox((0, jumpingY, ctrlWidth, vanillaControlsSize['CheckBoxRegularHeight']),
+                                      title,
+                                      value=self.isActive,
+                                      callback=self.isActiveCallback)
+
+        jumpingY += vanillaControlsSize['CheckBoxRegularHeight']+2
+        self.fontPop = PopUpButton((1, jumpingY, ctrlWidth-1, vanillaControlsSize['PopUpButtonRegularHeight']),
+                                   ['%s %s' % (f.info.familyName, f.info.styleName) for f in openedFonts],
+                                   callback=self.fontPopCallback)
+
+        jumpingY += vanillaControlsSize['PopUpButtonRegularHeight']+MARGIN_VER
+        self.glyphPop = PopUpButton((1, jumpingY, ctrlWidth-1, vanillaControlsSize['ComboBoxRegularHeight']),
+                                      activeGlyphOrder,
+                                      callback=self.glyphPopCallback)
+
+    def get(self):
+        return self.isActive, self.activeFont, self.activeGlyph
+
+    def setOpenedFonts(self, openedFonts):
+        self.openedFonts = openedFonts
+        self.fontPop.setItems(['%s %s' % (f.info.familyName, f.info.styleName) for f in self.openedFonts])
+
+    def isActiveCallback(self, sender):
+        self.isActive = bool(sender.get())
+        self.callback(self)
+
+    def fontPopCallback(self, sender):
+        self.activeFont = self.openedFonts[sender.get()]
+        self.activeGlyph = self.activeFont[self.activeGlyph.name]
+        self.callback(self)
+
+    def glyphPopCallback(self, sender):
+        self.activeGlyph = self.activeFont[self.activeFont.glyphOrder[sender.get()]]
+        self.callback(self)
+
+
 class DrawingAssistant(BaseWindowController):
     """the aim of this plugin is to provide useful visualizations on glyph canvas"""
 
-    # modes
+    # switches
     sqrActive = False
     bcpLengthActive = False
     gridActive = False
     stemActive = False
     diagonalActive = False
 
+    openedFonts = []
+
+    lftNeighborActive = False
+    lftFont = None
+    lftGlyph = None
+    cntNeighborActive = False
+    cntFont = None
+    cntGlyph = None
+    rgtNeighborActive = False
+    rgtFont = None
+    rgtGlyph = None
+
     gridsDB = []
 
     def __init__(self):
 
-        # init data
+        # collect currentGlyph (if available)
         self.currentGlyph = CurrentGlyph()
+
+        # collect opened fonts
+        if AllFonts():
+            self.collectOpenedFonts()
+
+        if self.openedFonts:
+            self.lftFont = self.openedFonts[0]
+            self.lftGlyph = self.lftFont[self.lftFont.glyphOrder[0]]
+            self.cntFont = self.openedFonts[0]
+            self.cntGlyph = self.cntFont[self.cntFont.glyphOrder[0]]
+            self.rgtFont = self.openedFonts[0]
+            self.rgtGlyph = self.rgtFont[self.rgtFont.glyphOrder[0]]
 
         # init views
         self.bcpController = BcpController((MARGIN_HOR, 0, NET_WIDTH, vanillaControlsSize['CheckBoxRegularHeight']*2.5),
@@ -389,37 +537,103 @@ class DrawingAssistant(BaseWindowController):
                                                        currentGlyph=self.currentGlyph,
                                                        callback=self.distancesControllerCallback)
 
+        self.neighborsController = NeighborsController((MARGIN_HOR, 0, NET_WIDTH, 94),
+                                                       openedFonts=self.openedFonts,
+                                                       lftNeighborActive=self.lftNeighborActive,
+                                                       lftFont=self.lftFont,
+                                                       lftGlyph=self.lftGlyph,
+                                                       cntNeighborActive=self.cntNeighborActive,
+                                                       cntFont=self.cntFont,
+                                                       cntGlyph=self.cntGlyph,
+                                                       rgtNeighborActive=self.rgtNeighborActive,
+                                                       rgtFont=self.rgtFont,
+                                                       rgtGlyph=self.rgtGlyph,
+                                                       callback=self.neighborsControllerCallback)
+
+
         # collect views
         accordionItems = [
                 {'label': 'bcp controller',       'view': self.bcpController,       'size': self.bcpController.ctrlHeight,       'collapsed': False, 'canResize': False},
                 {'label': 'grid controller',      'view': self.gridController,      'size': self.gridController.ctrlHeight,      'collapsed': False, 'canResize': False},
                 {'label': 'distances controller', 'view': self.distancesController, 'size': self.distancesController.ctrlHeight, 'collapsed': False, 'canResize': False},
+                {'label': 'neighbors controller', 'view': self.neighborsController, 'size': self.neighborsController.ctrlHeight, 'collapsed': False, 'canResize': False},
             ]
 
         # init window with accordion obj
-        self.w = FloatingWindow((0, 0, PLUGIN_WIDTH, 600), PLUGIN_TITLE)
+        self.w = FloatingWindow((0, 0, PLUGIN_WIDTH, 800), PLUGIN_TITLE)
         self.w.accordionView = AccordionView((0, 0, -0, -0), accordionItems)
 
         # add observers
         addObserver(self, "_draw", "draw")
         addObserver(self, "_draw", "drawInactive")
+        addObserver(self, "_drawPreview", "drawPreview")
+        addObserver(self, "_mouseDown", "mouseDown")
         addObserver(self, "_drawBackground", "drawBackground")
         addObserver(self, '_updateGlyphData', 'viewDidChangeGlyph')
+        addObserver(self, "_updateFontDataObs", "newFontDidOpen")
+        addObserver(self, "aFontIsClosing", "fontWillClose")
+        addObserver(self, "_updateFontDataObs", "fontDidOpen")
         self.w.bind('close', self.windowCloseCallback)
+
 
         # open window
         self.w.open()
 
     # drawing callbacks
+    def _mouseDown(self, infoDict):
+        mouseDownPoint = infoDict['point']
+        mouseDownClickCount = infoDict['clickCount']
+
+        # double click
+        if mouseDownClickCount == 2:
+            if self.lftNeighborActive is True and self.lftGlyph:
+                xMin, yMin, xMax, yMax = self.lftGlyph.box
+                if xMin < (mouseDownPoint.x+self.lftGlyph.width) < xMax and yMin < mouseDownPoint.y < yMax:
+                    OpenGlyphWindow(glyph=self.lftGlyph, newWindow=True)
+
+            if self.rgtNeighborActive is True and self.rgtGlyph:
+                xMin, yMin, xMax, yMax = self.rgtGlyph.box
+                if xMin < (mouseDownPoint.x-self.currentGlyph.width) < xMax and yMin < mouseDownPoint.y < yMax:
+                    OpenGlyphWindow(glyph=self.rgtGlyph, newWindow=True)
+
+
     def _draw(self, infoDict):
         currentGlyph = infoDict['glyph']
         scalingFactor = infoDict['scale']
 
         try:
+            if self.lftGlyph and self.lftNeighborActive is True:
+                self._drawGlyphOutline(self.lftGlyph, scalingFactor, offset_X=-self.lftGlyph.width)
+            if self.rgtGlyph and self.rgtNeighborActive is True:
+                self._drawGlyphOutline(self.rgtGlyph, scalingFactor, offset_X=currentGlyph.width)
+
             if self.sqrActive is True and 2 > scalingFactor:
-                self._drawSquarings(currentGlyph, scalingFactor, 4)
+                self._drawSquarings(currentGlyph, scalingFactor)
+                if self.lftGlyph and self.lftNeighborActive is True:
+                    self._drawSquarings(self.lftGlyph, scalingFactor, offset_X=-self.lftGlyph.width)
+                if self.rgtGlyph and self.rgtNeighborActive is True:
+                    self._drawSquarings(self.rgtGlyph, scalingFactor, offset_X=currentGlyph.width)
+
             if self.bcpLengthActive is True and 2 > scalingFactor:
                 self._drawBcpLenght(currentGlyph, scalingFactor, 2)
+                if self.lftGlyph and self.lftNeighborActive is True:
+                    self._drawBcpLenght(self.lftGlyph, scalingFactor, offset_X=-self.lftGlyph.width)
+                if self.rgtGlyph and self.rgtNeighborActive is True:
+                    self._drawBcpLenght(self.rgtGlyph, scalingFactor, offset_X=currentGlyph.width)
+
+        except Exception as error:
+            print error
+            print sys.exc_info()
+
+    def _drawPreview(self, infoDict):
+        currentGlyph = infoDict['glyph']
+        scalingFactor = infoDict['scale']
+
+        try:
+            if self.lftGlyph and self.lftNeighborActive is True:
+                self._drawGlyphBlack(self.lftGlyph, scalingFactor, offset_X=-self.lftGlyph.width)
+            if self.rgtGlyph and self.rgtNeighborActive is True:
+                self._drawGlyphBlack(self.rgtGlyph, scalingFactor, offset_X=currentGlyph.width)
         except Exception as error:
             print error
             print sys.exc_info()
@@ -438,9 +652,17 @@ class DrawingAssistant(BaseWindowController):
 
             if self.stemActive is True and 1 > scalingFactor:
                 self._drawStems(currentGlyph, scalingFactor)
+                if self.lftGlyph and self.lftNeighborActive is True:
+                    self._drawStems(self.lftGlyph, scalingFactor, offset_X=-self.lftGlyph.width)
+                if self.rgtGlyph and self.rgtNeighborActive is True:
+                    self._drawStems(self.rgtGlyph, scalingFactor, offset_X=currentGlyph.width)
 
             if self.diagonalActive is True and 1 > scalingFactor:
                 self._drawDiagonals(currentGlyph, scalingFactor)
+                if self.lftGlyph and self.lftNeighborActive is True:
+                    self._drawDiagonals(self.lftGlyph, scalingFactor, offset_X=-self.lftGlyph.width)
+                if self.rgtGlyph and self.rgtNeighborActive is True:
+                    self._drawDiagonals(self.rgtGlyph, scalingFactor, offset_X=currentGlyph.width)
 
         except Exception as error:
             print error
@@ -484,7 +706,7 @@ class DrawingAssistant(BaseWindowController):
 
             restore()
 
-    def _drawBcpLenght(self, glyph, scalingFactor, offset):
+    def _drawBcpLenght(self, glyph, scalingFactor, offset_X=0):
         for eachContour in glyph:
             for indexBcp, eachBcp in enumerate(eachContour.bPoints):
                 if eachBcp.bcpOut != (0, 0):
@@ -499,7 +721,7 @@ class DrawingAssistant(BaseWindowController):
                     textWidth, textHeight = textSize(captionBcpOut)
 
                     save()
-                    translate(projOut_X, projOut_Y)
+                    translate(projOut_X+offset_X, projOut_Y)
                     rotate(bcpOutAngle % 90)
                     belowRect = (-textWidth/2.-1, -textHeight/2.-1, textWidth+2, textHeight+2, 1)
                     fill(0, 0, 0, .7)
@@ -523,7 +745,7 @@ class DrawingAssistant(BaseWindowController):
                     textWidth, textHeight = textSize(captionBcpIn)
 
                     save()
-                    translate(projIn_X, projIn_Y)
+                    translate(projIn_X+offset_X, projIn_Y)
                     rotate(bcpInAngle % 90)
 
                     belowRect = (-textWidth/2.-1, -textHeight/2.-1, textWidth+2, textHeight+2, 1)
@@ -535,7 +757,7 @@ class DrawingAssistant(BaseWindowController):
                     textBox(captionBcpIn, textRect, align='center')
                     restore()
 
-    def _drawSquarings(self, glyph, scalingFactor, offset):
+    def _drawSquarings(self, glyph, scalingFactor, offset_X=0):
         for eachContour in glyph:
             for indexBcp, eachBcp in enumerate(eachContour.bPoints):
 
@@ -570,17 +792,17 @@ class DrawingAssistant(BaseWindowController):
                     captionSqrOut = captionSqrOut.replace('0.', '')
 
                     save()
-                    translate(projOut_X, projOut_Y)
+                    translate(projOut_X+offset_X, projOut_Y)
                     textQualities(BODYSIZE_CAPTION*scalingFactor)
                     textWidth, textHeight = textSize(captionSqrOut)
                     if angleOut == 90:          # text above
-                        textRect = (-textWidth/2., offset*scalingFactor, textWidth, textHeight)
+                        textRect = (-textWidth/2., SQR_CAPTION_OFFSET*scalingFactor, textWidth, textHeight)
                     elif angleOut == -90:       # text below
-                        textRect = (-textWidth/2., -textHeight-offset*scalingFactor, textWidth, textHeight)
+                        textRect = (-textWidth/2., -textHeight-SQR_CAPTION_OFFSET*scalingFactor, textWidth, textHeight)
                     elif -90 < angleOut < 90:   # text on the right
-                        textRect = (offset*scalingFactor, -textHeight/2., textWidth, textHeight)
+                        textRect = (SQR_CAPTION_OFFSET*scalingFactor, -textHeight/2., textWidth, textHeight)
                     else:                       # text on the left
-                        textRect = (-textWidth-offset*scalingFactor, -textHeight/2., textWidth, textHeight)
+                        textRect = (-textWidth-SQR_CAPTION_OFFSET*scalingFactor, -textHeight/2., textWidth, textHeight)
                     textBox(captionSqrOut, textRect, align='center')
                     restore()
 
@@ -593,21 +815,76 @@ class DrawingAssistant(BaseWindowController):
                     captionSqrIn = captionSqrIn.replace('0.', '')
 
                     save()
-                    translate(projIn_X, projIn_Y)
+                    translate(projIn_X+offset_X, projIn_Y)
                     textQualities(BODYSIZE_CAPTION*scalingFactor)
                     textWidth, textHeight = textSize(captionSqrIn)
                     if angleIn == 90:          # text above
-                        textRect = (-textWidth/2., offset*scalingFactor, textWidth, textHeight)
+                        textRect = (-textWidth/2., SQR_CAPTION_OFFSET*scalingFactor, textWidth, textHeight)
                     elif angleIn == -90:       # text below
-                        textRect = (-textWidth/2., -textHeight-offset*scalingFactor, textWidth, textHeight)
+                        textRect = (-textWidth/2., -textHeight-SQR_CAPTION_OFFSET*scalingFactor, textWidth, textHeight)
                     elif -90 < angleIn < 90:   # text on the right
-                        textRect = (offset*scalingFactor, -textHeight/2., textWidth, textHeight)
+                        textRect = (SQR_CAPTION_OFFSET*scalingFactor, -textHeight/2., textWidth, textHeight)
                     else:                      # text on the left
-                        textRect = (-textWidth-offset*scalingFactor, -textHeight/2., textWidth, textHeight)
+                        textRect = (-textWidth-SQR_CAPTION_OFFSET*scalingFactor, -textHeight/2., textWidth, textHeight)
                     textBox(captionSqrIn, textRect, align='center')
                     restore()
 
-    def _drawStems(self, currentGlyph, scalingFactor):
+    def _drawGlyphOutline(self, glyph, scalingFactor, offset_X=0):
+        save()
+        translate(offset_X, 0)
+
+        fill(None)
+        strokeWidth(1*scalingFactor)
+        stroke(*LIGHT_GRAY)
+        drawGlyph(glyph)
+
+        scaledRadius = BCP_RADIUS*scalingFactor
+
+        for eachContour in glyph:
+            for eachPt in eachContour.bPoints:
+                stroke(None)
+                fill(*LIGHT_GRAY)
+                rect(eachPt.anchor[0]-scaledRadius/2., eachPt.anchor[1]-scaledRadius/2., scaledRadius, scaledRadius)
+
+                if eachPt.bcpIn != (0, 0):
+                    stroke(None)
+                    fill(*LIGHT_GRAY)
+                    oval(eachPt.anchor[0]+eachPt.bcpIn[0]-scaledRadius/2.,
+                         eachPt.anchor[1]+eachPt.bcpIn[1]-scaledRadius/2.,
+                         scaledRadius,
+                         scaledRadius)
+
+                    stroke(*LIGHT_GRAY)
+                    fill(None)
+                    line((eachPt.anchor[0], eachPt.anchor[1]),
+                         (eachPt.anchor[0]+eachPt.bcpIn[0], eachPt.anchor[1]+eachPt.bcpIn[1]))
+
+                if eachPt.bcpOut != (0, 0):
+                    stroke(None)
+                    fill(*LIGHT_GRAY)
+                    oval(eachPt.anchor[0]+eachPt.bcpOut[0]-scaledRadius/2.,
+                         eachPt.anchor[1]+eachPt.bcpOut[1]-scaledRadius/2.,
+                         scaledRadius,
+                         scaledRadius)
+
+                    stroke(*LIGHT_GRAY)
+                    fill(None)
+                    line((eachPt.anchor[0], eachPt.anchor[1]),
+                         (eachPt.anchor[0]+eachPt.bcpOut[0], eachPt.anchor[1]+eachPt.bcpOut[1]))
+
+        restore()
+
+    def _drawGlyphBlack(self, glyph, scalingFactor, offset_X=0):
+        save()
+        translate(offset_X, 0)
+
+        fill(*BLACK_COLOR)
+        stroke(None)
+        drawGlyph(glyph)
+
+        restore()
+
+    def _drawStems(self, currentGlyph, scalingFactor, offset_X=0):
         if STEM_KEY not in currentGlyph.lib:
             return None
 
@@ -617,6 +894,7 @@ class DrawingAssistant(BaseWindowController):
             horDiff, verDiff = DIFFs
 
             save()
+            translate(offset_X, 0)
             stroke(*self.stemColor)
             fill(None)
             strokeWidth(1*scalingFactor)
@@ -639,6 +917,7 @@ class DrawingAssistant(BaseWindowController):
             restore()
 
             save()
+            translate(offset_X, 0)
             textQualities(BODYSIZE_CAPTION*scalingFactor)
             dataToPlot = u'↑%d\n→%d' % (verDiff, horDiff)
             textWidth, textHeight = textSize(dataToPlot)
@@ -646,7 +925,7 @@ class DrawingAssistant(BaseWindowController):
             textBox(dataToPlot, textRect, align='center')
             restore()
 
-    def _drawDiagonals(self, currentGlyph, scalingFactor):
+    def _drawDiagonals(self, currentGlyph, scalingFactor, offset_X=0):
         if DIAGONALS_KEY not in currentGlyph.lib:
             return None
 
@@ -694,6 +973,18 @@ class DrawingAssistant(BaseWindowController):
             restore()
 
     # ui callback
+    def collectOpenedFonts(self):
+        self.openedFonts = sorted(AllFonts(), key=lambda f:'%s %s' % (f.info.familyName, f.info.styleName))
+
+    def aFontIsClosing(self, infoDict):
+        willCloseFont = infoDict['font']
+        self.openedFonts.remove(willCloseFont)
+        self.neighborsController.setFontData(self.openedFonts)
+
+    def _updateFontDataObs(self, infoDict):
+        self.collectOpenedFonts()
+        self.neighborsController.setFontData(self.openedFonts)
+
     def _updateGlyphData(self, infoDict):
         if infoDict['glyph']:
             self.currentGlyph = infoDict['glyph']
@@ -704,7 +995,12 @@ class DrawingAssistant(BaseWindowController):
         removeObserver(self, 'draw')
         removeObserver(self, 'drawInactive')
         removeObserver(self, 'drawBackground')
+        removeObserver(self, "drawPreview")
+        removeObserver(self, "mouseDown")
         removeObserver(self, 'viewDidChangeGlyph')
+        removeObserver(self, 'newFontDidOpen')
+        removeObserver(self, 'fontWillClose')
+        removeObserver(self, 'fontDidOpen')
 
     def bcpControllerCallback(self, sender):
         self.sqrActive = sender.getSqr()
@@ -717,6 +1013,19 @@ class DrawingAssistant(BaseWindowController):
 
     def distancesControllerCallback(self, sender):
         self.stemActive, self.stemColor, self.diagonalActive, self.diagonalColor = sender.get()
+        UpdateCurrentGlyphView()
+
+    def neighborsControllerCallback(self, sender):
+        neighborsDB = sender.get()
+        self.lftNeighborActive = neighborsDB['lft'][0]
+        self.lftFont = neighborsDB['lft'][1]
+        self.lftGlyph = neighborsDB['lft'][2]
+        self.cntNeighborActive = neighborsDB['cnt'][0]
+        self.cntFont = neighborsDB['cnt'][1]
+        self.cntGlyph = neighborsDB['cnt'][2]
+        self.rgtNeighborActive = neighborsDB['rgt'][0]
+        self.rgtFont = neighborsDB['rgt'][1]
+        self.rgtGlyph = neighborsDB['rgt'][2]
         UpdateCurrentGlyphView()
 
 
