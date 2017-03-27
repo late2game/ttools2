@@ -4,7 +4,6 @@
 from math import radians, cos, sin
 from calcFunctions import calcDistance, calcAngle, calcMidPoint
 
-# def connectPointsWithWavyLine(glyph, centerX, centerY, angle, length, thickness, howManyWaves, waveHeight, pseudoSquaring):
 def calcWavyLine(pt1, pt2, waveLength, waveHeight, pseudoSquaring=.57):
     diagonal = calcDistance(pt1, pt2)
     angleRad = radians(calcAngle(pt1, pt2))
@@ -14,11 +13,10 @@ def calcWavyLine(pt1, pt2, waveLength, waveHeight, pseudoSquaring=.57):
     bcpLength = waveLength/2.*pseudoSquaring
 
     wavePoints = [pt1]
+    prevAnchor = pt1
     for waveIndex in range(1, howManyWaves+1):
 
-        if waveIndex == 1:
-            prevAnchor = pt1
-        else:
+        if waveIndex != 1:
             prevAnchor = wavePoints[-1][-1]
 
         flexPoint = prevAnchor[0]+cos(angleRad)*waveLengthAdj, prevAnchor[1]+sin(angleRad)*waveLengthAdj
