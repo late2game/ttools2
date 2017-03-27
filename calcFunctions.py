@@ -77,4 +77,3 @@ def calcDiagonalsData(glyph, pluginKey):
         distance = calcDistance(pt1, pt2)
         diagonalsData.append((ptsToDisplay, angle, distance))
     return diagonalsData
-
