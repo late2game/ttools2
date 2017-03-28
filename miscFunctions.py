@@ -7,6 +7,12 @@ import calcFunctions
 reload(calcFunctions)
 from calcFunctions import isBlackInBetween, calcDistanceBetweenPTs
 
+def getOpenedFontFromPath(openedFonts, pth):
+    for eachFont in openedFonts:
+        if eachFont.path == pth:
+            return eachFont
+    return None
+
 def collectIDsFromSelectedPoints(glyph):
     selectedIDs = []
     for eachContour in glyph:
@@ -16,7 +22,6 @@ def collectIDsFromSelectedPoints(glyph):
     selectedIDs.sort()
     return selectedIDs
 
-
 def getPointFromID(glyph, ID):
     for eachContour in glyph:
         for eachPt in eachContour:
@@ -24,12 +29,14 @@ def getPointFromID(glyph, ID):
                 return eachPt.onCurve
     return None
 
-
 def guessStemPoints(glyph):
     guessedStems = []
     selectedIDs = collectIDsFromSelectedPoints(glyph)
     remainingIDs = list(selectedIDs)
     for eachSelectedID in selectedIDs:
+        if len(remainingIDs) == 1:
+            return guessedStems
+
         if eachSelectedID in remainingIDs:
             eachSelectedPT = getPointFromID(glyph, eachSelectedID)
             remainingIDs.remove(eachSelectedID)
@@ -50,6 +57,3 @@ def guessStemPoints(glyph):
             guessedStems.append(tuple(stem))
 
     return guessedStems
-
-
-
