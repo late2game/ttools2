@@ -24,6 +24,7 @@ from miscFunctions import getOpenedFontFromPath
 # standard
 import os, sys
 from math import cos, sin, radians, tan, ceil
+from mojo.roboFont import CurrentGlyph, AllFonts
 from mojo.UI import UpdateCurrentGlyphView, AccordionView
 from vanilla import FloatingWindow, CheckBox, Group
 from vanilla import TextBox, EditText, ColorWell, SquareButton
@@ -35,9 +36,9 @@ from AppKit import NSColor
 from mojo.events import addObserver, removeObserver
 
 ### Constants
-PLUGIN_TITLE = 'TTdrawingAssistant'
-STEM_KEY = 'TTdrawingAssistant_stems'
-DIAGONALS_KEY = 'TTdrawingAssistant_diagonals'
+PLUGIN_TITLE = 'TT Drawing Assistant'
+STEM_KEY = 'com.ttools.drawingAssistant_stems'
+DIAGONALS_KEY = 'com.ttools.drawingAssistant_diagonals'
 
 GRID_TOLERANCE = 2
 
@@ -1177,5 +1178,3 @@ class BcpController(Group):
         self.bcpLengthActive = bool(sender.get())
         self.callback(self)
 
-
-da = DrawingAssistant()
