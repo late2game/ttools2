@@ -6,21 +6,42 @@
 #############
 
 ### Modules
+# custom
+import miscFunctions
+reload(miscFunctions)
+from miscFunctions import collectIDsFromSelectedPoints
+
+import calcFunctions
+reload(calcFunctions)
+from calcFunctions import interpolateValue, calcDistance
+
+import bezierTools
+reload(bezierTools)
+from bezierTools import calcPointOnBezier, collectsPointsOnBezierCurve
+from bezierTools import collectsPointsOnBezierCurveWithFixedDistance
+
+
+# standard
 import math
 from fontTools.misc.transform import Identity
 from AppKit import NSColor, NSFont, NSFontAttributeName
 from AppKit import NSForegroundColorAttributeName
 from vanilla import FloatingWindow, CheckBox, TextBox
-from vanilla import EditText, SquareButton
+from vanilla import EditText, SquareButton, RadioGroup
 from robofab.pens.filterPen import thresholdGlyph, flattenGlyph
 from mojo.events import addObserver, removeObserver
 from mojo.UI import UpdateCurrentGlyphView
+from mojo.roboFont import CurrentGlyph, RGlyph
 from lib.eventTools.eventManager import getActiveEventTool
 from lib.tools.defaults import getDefault
-from fontTools.misc.bezierTools import calcCubicParameters
 from mojo.drawingTools import *
 
 ### Constants
+SHAPE_OPTIONS = ['Rect', 'Oval']
+MASTER_COLOR = (45/255., 90/255., 150/255.)
+SUB_COLOR = (180/255., 240/255., 170/255.)
+BLACK_COLOR = (0,0,0)
+
 # glyph lib key
 PLUGIN_KEY = 'broadNib'
 bodySizeCaption = 9
@@ -36,70 +57,25 @@ LIGHT_YELLOW = getDefault('glyphViewPreviewBackgroundColor')
 
 
 ### Extra functions
-def getSelectedIDs(glyph):
-    selectedPoints = []
-    for eachContour in glyph:
-        for eachSegment in eachContour:
-            if eachSegment.onCurve.selected is True:
-                ID = eachSegment.onCurve.naked().uniqueID
-                selectedPoints.append(ID)
-    return selectedPoints
+def robofabRect(glyph, x, y, width, height):
+    """custom rect routine robofab-flavour code, this is used for expansion"""
+    x1, y1 = x, y-height/2.
+    x2, y2 = x+width/2., y
+    x3, y3 = x, y+height/2.
+    x4, y4 = x-width/2., y
 
+    pen = glyph.getPen()
+    pen.moveTo((x1, y1))
+    pen.lineTo((x2, y2))
+    pen.lineTo((x3, y3))
+    pen.lineTo((x4, y4))
+    pen.lineTo((x1, y1))
+    pen.closePath()
 
-def calcDistance(pt1, pt2):
-    return math.sqrt((pt1[0] - pt2[0])**2 + (pt1[1] - pt2[1])**2)
+def robofabOval(glyph, x, y, width, height):
+    """custom oval routine robofab-flavour code, this is used for expansion"""
 
-
-def interpolate(poleOne, poleTwo, factor):
-    desiredValue = poleOne + factor*(poleTwo-poleOne)
-    return desiredValue
-
-
-def calcPointOnBezier(a, b, c, d, tValue):
-    ax, ay = a
-    bx, by = b
-    cx, cy = c
-    dx, dy = d
-    return ax*tValue**3 + bx*tValue**2 + cx*tValue + dx, ay*tValue**3 + by*tValue**2 + cy*tValue + dy
-
-
-def collectsPointsOnBezierCurve(pt1, pt2, pt3, pt4, tStep):
-    """Adapted from calcCubicBounds in fontTools
-       by Just van Rossum https://github.com/behdad/fonttools"""
-    a, b, c, d = calcCubicParameters(pt1, pt2, pt3, pt4)
-    steps = [t/float(tStep) for t in xrange(tStep)]
-
-    pointsWithT = [(pt1, 0)]
-    for eachT in steps:
-        pt = calcPointOnBezier(a, b, c, d, eachT)
-        pointsWithT.append((pt, eachT))
-    pointsWithT.append((pt4, 1))
-    return pointsWithT
-
-
-def collectsPointsOnBezierCurveWithFixedDistance(pt1, pt2, pt3, pt4, distance):
-    tStep = 1000
-    rawPoints = collectsPointsOnBezierCurve(pt1, pt2, pt3, pt4, tStep)
-
-    index = 0
-    cleanPoints = []
-    while index < len(rawPoints):
-        eachPt, tStep = rawPoints[index]
-        cleanPoints.append((eachPt, tStep))
-
-        for progress in xrange(1, len(rawPoints) - index):
-            if calcDistance(eachPt, rawPoints[index+progress][0]) >= distance:
-                index = index + progress
-                break
-        else:
-            break
-
-    return cleanPoints
-
-# def fabOval(phantomGlyph, matrix, -width/2., -height/2., width, height):
-def fabOval(glyph, x, y, width, height):
     sqr = .62
-
     x1, y1 = x, y-height/2.
     x2, y2 = x+width/2., y
     x3, y3 = x, y+height/2.
@@ -122,6 +98,7 @@ class BroadNib(object):
 
     preview = False
     drawValues = False
+    elementShape = SHAPE_OPTIONS[0]
 
     pluginWidth = 120
     pluginHeight = 300
@@ -147,8 +124,16 @@ class BroadNib(object):
                                     sizeStyle='small',
                                     callback=self.previewCallback)
 
+        jumpingY += CheckBoxHeight
+        self.win.shapeRadio = RadioGroup((self.marginLft+10, jumpingY, self.netWidth, 32),
+                                         SHAPE_OPTIONS,
+                                         sizeStyle='small',
+                                         callback=self.shapeRadioCallback)
+        self.win.shapeRadio.enable(False)
+        self.win.shapeRadio.set(0)
+
         # checkBox draw values
-        jumpingY += self.marginRow + CheckBoxHeight - 3
+        jumpingY += self.marginRow + self.win.shapeRadio.getPosSize()[3] - 3
         self.win.drawValues = CheckBox((self.marginLft, jumpingY, self.netWidth, CheckBoxHeight),
                                        "Draw Values",
                                        value=self.drawValues,
@@ -207,6 +192,7 @@ class BroadNib(object):
 
         # managing observers
         addObserver(self, "_drawBackground", "drawBackground")
+        addObserver(self, "_drawBackground", "drawInactive")
         addObserver(self, "_drawBlack", "drawPreview")
         self.win.bind("close", self.closing)
 
@@ -219,6 +205,11 @@ class BroadNib(object):
 
     def previewCallback(self, sender):
         self.preview = bool(sender.get())
+        self.win.shapeRadio.enable(self.preview)
+        UpdateCurrentGlyphView()
+
+    def shapeRadioCallback(self, sender):
+        self.elementShape = SHAPE_OPTIONS[sender.get()]
         UpdateCurrentGlyphView()
 
     def drawValuesCallback(self, sender):
@@ -228,21 +219,21 @@ class BroadNib(object):
     def widthEditCallback(self, sender):
         try:
             self.nibWidth = int(sender.get())
-        except Exception:
+        except ValueError:
             self.nibWidth = None
             self.win.widthEdit.set('')
 
     def heightEditCallback(self, sender):
         try:
             self.nibHeight = int(sender.get())
-        except Exception:
+        except ValueError:
             self.nibHeight = None
             self.win.heightEdit.set('')
 
     def angleEditCallback(self, sender):
         try:
             self.nibAngle = int(sender.get())
-        except Exception:
+        except ValueError:
             self.nibAngle = None
             self.win.angleEdit.set('')
 
@@ -254,7 +245,7 @@ class BroadNib(object):
         if PLUGIN_KEY not in CurrentGlyph().lib:
             CurrentGlyph().lib[PLUGIN_KEY] = {}
 
-        selectedIDs = getSelectedIDs(CurrentGlyph())
+        selectedIDs = collectIDsFromSelectedPoints(CurrentGlyph())
         for eachSelectedID in selectedIDs:
             CurrentGlyph().lib[PLUGIN_KEY][eachSelectedID] = {'width': self.nibWidth,
                                                               'height': self.nibHeight,
@@ -269,7 +260,7 @@ class BroadNib(object):
         UpdateCurrentGlyphView()
 
     def expandToForegroundCallback(self, sender):
-        self._drawOvals(CurrentGlyph(), None, 2, 'foreground')
+        self._drawElements(CurrentGlyph(), None, 2, 'foreground')
 
     def loadDataFromLib(self, glyph, ID):
         nibData = glyph.lib[PLUGIN_KEY][ID]
@@ -281,6 +272,8 @@ class BroadNib(object):
         self.nibAngle = nibData['angle']
 
     def _drawBackground(self, infoDict):
+        assert self.elementShape in SHAPE_OPTIONS
+
         glyph = infoDict['glyph']
         currentTool = getActiveEventTool()
         view = currentTool.getNSView()
@@ -294,9 +287,9 @@ class BroadNib(object):
                     if eachPt.selected is True and eachPt.type != 'offCurve' and eachPt.naked().uniqueID in glyph.lib[PLUGIN_KEY]:
                         self.loadDataFromLib(glyph, eachPt.naked().uniqueID)
 
-        # draw interpolated ovals
+        # draw interpolateValued ovals
         if self.preview is True and PLUGIN_KEY in glyph.lib:
-            self._drawOvals(glyph, (180/255., 240/255., 170/255.), 4, 'canvas')
+            self._drawElements(glyph, SUB_COLOR, 4, 'canvas')
 
         # draw master ovals
         if self.preview is True and PLUGIN_KEY in glyph.lib:
@@ -304,13 +297,17 @@ class BroadNib(object):
                 for eachSegment in eachContour:
                     ID = eachSegment.onCurve.naked().uniqueID
                     if ID in glyph.lib[PLUGIN_KEY]:
-                        ovalDict = glyph.lib[PLUGIN_KEY][ID]
+                        elementDict = glyph.lib[PLUGIN_KEY][ID]
                         save()
-                        fill(45/255., 90/255., 150/255.)
+                        fill(*MASTER_COLOR)
                         translate(eachSegment.onCurve.x,
                                   eachSegment.onCurve.y)
-                        rotate(ovalDict['angle'])
-                        oval(-ovalDict['width']/2., -ovalDict['height']/2., ovalDict['width'], ovalDict['height'])
+                        rotate(elementDict['angle'])
+
+                        if self.elementShape == 'Oval':
+                            oval(-elementDict['width']/2., -elementDict['height']/2., elementDict['width'], elementDict['height'])
+                        else:
+                            rect(-elementDict['width']/2., -elementDict['height']/2., elementDict['width'], elementDict['height'])
                         restore()
 
         # draw values
@@ -334,10 +331,11 @@ class BroadNib(object):
             rect(-1000, -1000, 2000, 2000)
 
             # calligraphy
-            self._drawOvals(glyph, (0,0,0), 4, 'canvas')
+            self._drawElements(glyph, BLACK_COLOR, 4, 'canvas')
 
-    def _drawOvals(self, glyph, color, distance, mode):
+    def _drawElements(self, glyph, color, distance, mode):
         assert mode == 'canvas' or mode == 'foreground'
+        assert self.elementShape in SHAPE_OPTIONS
 
         if mode == 'foreground':
             phantomGlyph = RGlyph()
@@ -372,22 +370,31 @@ class BroadNib(object):
                     bezPoints = collectsPointsOnBezierCurveWithFixedDistance(pt1, pt2, pt3, pt4, distance)
                     for indexBezPt, eachBezPt in enumerate(bezPoints):
                         factor = indexBezPt/float(len(bezPoints))
-                        width = interpolate(startLib['width'], endLib['width'], factor)
-                        height = interpolate(startLib['height'], endLib['height'], factor)
-                        angle = interpolate(startLib['angle'], endLib['angle'], factor)
+                        width = interpolateValue(startLib['width'], endLib['width'], factor)
+                        height = interpolateValue(startLib['height'], endLib['height'], factor)
+                        angle = interpolateValue(startLib['angle'], endLib['angle'], factor)
 
                         if mode == 'canvas':
                             save()
                             fill(*color)
                             translate(eachBezPt[0][0], eachBezPt[0][1])
                             rotate(angle)
-                            oval(-width/2., -height/2., width, height)
+                            
+                            if self.elementShape == 'Oval':
+                                oval(-width/2., -height/2., width, height)
+                            else:
+                                rect(-width/2., -height/2., width, height)
                             restore()
+
                         else:
                             matrix = Identity
                             matrix = matrix.translate(eachBezPt[0][0], eachBezPt[0][1])
                             matrix = matrix.rotate(math.radians(angle))
-                            fabOval(phantomGlyph, 0, 0, width, height)
+
+                            if self.elementShape == 'Oval':
+                                robofabOval(phantomGlyph, 0, 0, width, height)
+                            else:
+                                robofabRect(phantomGlyph, 0, 0, width, height)
                             phantomGlyph[len(phantomGlyph)-1].transform(matrix)
 
         if mode == 'foreground':
@@ -399,6 +406,7 @@ class BroadNib(object):
 
     def closing(self, sender):
         removeObserver(self, "drawBackground")
+        removeObserver(self, "drawInactive")
         removeObserver(self, "drawPreview")
 
 ### Instructions
