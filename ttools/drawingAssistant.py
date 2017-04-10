@@ -702,7 +702,6 @@ class DrawingAssistant(BaseWindowController):
                 self._drawCentralBackgroundGlyph(self.cntGlyph)
 
             if self.offgridActive is True:
-                print self.offgridActive
                 self._drawOffgridPoints(currentGlyph, scalingFactor)
 
         except Exception as error:
