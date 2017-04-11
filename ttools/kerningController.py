@@ -36,6 +36,7 @@ PLUGIN_TITLE = 'TT Kerning editor'
 # func
 KERNING_TEXT_FOLDER = 'kerningTexts'
 KERNING_STATUS_PATH = 'lastKerningStatus.json'
+JOYSTICK_EVENTS = ['minusMajor', 'minusMinor', 'plusMinor', 'plusMajor', 'preview', 'solved', 'previousWord', 'cursorUp', 'cursorLeft', 'cursorRight', 'cursorDown', 'nextWord']
 
 # colors
 LIGHT_RED = (1,0,0,.4)
@@ -114,10 +115,17 @@ class KerningController(BaseWindowController):
         self.w.word_font_separationLine = HorizontalLine((self.jumping_X, self.jumping_Y, LEFT_COLUMN, vanillaControlsSize['HorizontalLineThickness']))
 
         self.jumping_Y += MARGIN_VER
-        self.w.fontController = FontsController((self.jumping_X, self.jumping_Y, LEFT_COLUMN, 200),
+        self.w.fontController = FontsController((self.jumping_X, self.jumping_Y, LEFT_COLUMN, 118),
                                                 self.openedFonts,
                                                 callback=self.fontControllerCallback)
         self.activeFonts = self.w.fontController.get()
+
+        self.jumping_Y += self.w.fontController.getPosSize()[3]+MARGIN_VER
+        self.w.fonts_controller_separationLine = HorizontalLine((self.jumping_X, self.jumping_Y, LEFT_COLUMN, vanillaControlsSize['HorizontalLineThickness']))
+        
+        self.jumping_Y += MARGIN_VER
+        self.w.joystick = JoystickGroup((self.jumping_X, self.jumping_Y, LEFT_COLUMN, 240),
+                                        callback=self.joystickCallback)
 
         self.jumping_X += LEFT_COLUMN+MARGIN_COL*2
         self.jumping_Y = MARGIN_VER
@@ -162,6 +170,7 @@ class KerningController(BaseWindowController):
     def nextWord(self):
         self.w.wordListController.nextWord()
         self.displayedWord = self.w.wordListController.get()
+        self.updateWordDisplays()
         self.displayedPairs = buildPairsFromString(self.displayedWord)
         if len(self.displayedPairs) > (self.navCursor_X+1):
             self.activePair = self.displayedPairs[self.navCursor_X]
@@ -171,30 +180,45 @@ class KerningController(BaseWindowController):
     def previousWord(self):
         self.w.wordListController.previousWord()
         self.displayedWord = self.w.wordListController.get()
+        self.updateWordDisplays()
         self.displayedPairs = buildPairsFromString(self.displayedWord)
         if len(self.displayedPairs) > (self.navCursor_X+1):
             self.activePair = self.displayedPairs[self.navCursor_X]
         else:
             self.activePair = self.displayedPairs[0]
 
+    def markWordAsSolved(self):
+        self.w.wordListController.markActiveWordAsSolved()
+
+    def printCursorIndexes(self):
+        print self.navCursor_X, self.navCursor_Y
+
     # cursor methods
     def cursorLeft(self):
         self.navCursor_X = (self.navCursor_X-1)%len(self.displayedPairs)
         getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(self.navCursor_X)
+        self.updateWordDisplays()
+        self.printCursorIndexes()
 
     def cursorRight(self):
         self.navCursor_X = (self.navCursor_X+1)%len(self.displayedPairs)
         getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(self.navCursor_X)
+        self.updateWordDisplays()
+        self.printCursorIndexes()
 
     def cursorUp(self):
+        getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(None)   # old
         self.navCursor_Y = (self.navCursor_Y-1)%len(self.activeFonts)
-        getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y)).setActivePairIndex(None)   # old
         getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(self.navCursor_X)   # new
+        self.updateWordDisplays()
+        self.printCursorIndexes()
 
     def cursorDown(self):
+        getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(None)   # old
         self.navCursor_Y = (self.navCursor_Y+1)%len(self.activeFonts)
-        getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y)).setActivePairIndex(None)   # old
         getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(self.navCursor_X)   # new
+        self.updateWordDisplays()
+        self.printCursorIndexes()
 
     ### callbacks
     def mainWindowResize(self, mainWindow):
@@ -226,6 +250,198 @@ class KerningController(BaseWindowController):
         self.initWordDisplays()
 
 
+    def joystickCallback(self, sender):
+        joystickEvent = sender.getLastEvent()
+        assert joystickEvent in JOYSTICK_EVENTS
+
+        if joystickEvent == 'minusMajor':
+            pass
+
+        elif joystickEvent == 'minusMinor':
+            pass
+
+        elif joystickEvent == 'plusMinor':
+            pass
+
+        elif joystickEvent == 'plusMajor':
+            pass
+
+        elif joystickEvent == 'preview':
+            pass
+
+        elif joystickEvent == 'solved':
+            self.markWordAsSolved()
+
+        elif joystickEvent == 'previousWord':
+            self.previousWord()
+
+        elif joystickEvent == 'cursorUp':
+            self.cursorUp()
+
+        elif joystickEvent == 'cursorLeft':
+            self.cursorLeft()
+
+        elif joystickEvent == 'cursorRight':
+            self.cursorRight()
+
+        elif joystickEvent == 'cursorDown':
+            self.cursorDown()
+
+        elif joystickEvent == 'nextWord':
+            self.nextWord()
+
+
+class JoystickGroup(Group):
+
+    lastEvent = None
+
+    def __init__(self, posSize, callback):
+        super(JoystickGroup, self).__init__(posSize)
+        buttonSide = 36
+        self.callback = callback
+
+        self.jumping_X = buttonSide/2.
+        self.jumping_Y = 0
+
+        self.minusMajorCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
+                                           "-20",
+                                           sizeStyle='small',
+                                           callback=self.minusMajorCtrlCallback)
+        self.minusMajorCtrl.bind('leftarrow', ['option', 'command'])
+
+        self.jumping_X += buttonSide
+        self.minusMinorCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
+                                           "-4",
+                                           sizeStyle='small',
+                                           callback=self.minusMinorCtrlCallback)
+        self.minusMinorCtrl.bind('leftarrow', ['command'])
+
+        self.jumping_X += buttonSide
+        self.plusMinorCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
+                                          "+4",
+                                          sizeStyle='small',
+                                          callback=self.plusMinorCtrlCallback)
+        self.plusMinorCtrl.bind('rightarrow', ["command"])
+
+        self.jumping_X += buttonSide
+        self.plusMajorCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
+                                          "+20",
+                                          sizeStyle='small',
+                                          callback=self.plusMajorCtrlCallback)
+        self.plusMajorCtrl.bind('rightarrow', ['option', 'command'])
+
+        self.jumping_X = buttonSide/2.
+        self.jumping_Y += buttonSide
+        self.previewCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide*2, buttonSide),
+                                        "preview",
+                                        sizeStyle='small',
+                                        callback=self.previewCtrlCallback)
+
+        self.jumping_X += buttonSide*2
+        self.solvedCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide*2, buttonSide),
+                                       "solved",
+                                       sizeStyle='small',
+                                       callback=self.solvedCtrlCallback)
+        self.solvedCtrl.bind(unichr(13), ['command'])
+
+        self.jumping_X = buttonSide
+        self.jumping_Y += buttonSide*2
+        self.previousWordCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
+                                             u'↖',
+                                             sizeStyle='small',
+                                             callback=self.previousWordCtrlCallback)
+        self.previousWordCtrl.bind('uparrow', ['command'])
+
+        self.jumping_X += buttonSide
+        self.cursorUpCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
+                                         u'↑',
+                                         sizeStyle='small',
+                                         callback=self.cursorUpCtrlCallback)
+        self.cursorUpCtrl.bind("uparrow", [])
+
+        self.jumping_X = buttonSide
+        self.jumping_Y += buttonSide
+        self.cursorLeftCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
+                                           u"←",
+                                           sizeStyle='small',
+                                           callback=self.cursorLeftCtrlCallback)
+        self.cursorLeftCtrl.bind("leftarrow", [])
+
+        self.jumping_X += buttonSide*2
+        self.cursorRightCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
+                                            u'→',
+                                            sizeStyle='small',
+                                            callback=self.cursorRightCtrlCallback)
+        self.cursorRightCtrl.bind("rightarrow", [])
+
+        self.jumping_X = buttonSide*2
+        self.jumping_Y += buttonSide
+        self.cursorDownCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
+                                           u'↓',
+                                           sizeStyle='small',
+                                           callback=self.cursorDownCtrlCallback)
+        self.cursorDownCtrl.bind("downarrow", [])
+
+        self.jumping_X += buttonSide
+        self.nextWordCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
+                                         u'↘',
+                                         sizeStyle='small',
+                                         callback=self.nextWordCtrlCallback)
+        self.nextWordCtrl.bind('downarrow', ['command'])
+
+    def getLastEvent(self):
+        return self.lastEvent
+
+    def minusMajorCtrlCallback(self, sender):
+        self.lastEvent = 'minusMajor'
+        self.callback(self)
+
+    def minusMinorCtrlCallback(self, sender):
+        self.lastEvent = 'minusMinor'
+        self.callback(self)
+
+    def plusMinorCtrlCallback(self, sender):
+        self.lastEvent = 'plusMinor'
+        self.callback(self)
+
+    def plusMajorCtrlCallback(self, sender):
+        self.lastEvent = 'plusMajor'
+        self.callback(self)
+
+    def previewCtrlCallback(self, sender):
+        self.lastEvent = 'preview'
+        self.callback(self)
+
+    def solvedCtrlCallback(self, sender):
+        self.lastEvent = 'solved'
+        self.callback(self)
+
+    def previousWordCtrlCallback(self, sender):
+        self.lastEvent = 'previousWord'
+        self.callback(self)
+
+    def cursorUpCtrlCallback(self, sender):
+        self.lastEvent = 'cursorUp'
+        self.callback(self)
+
+    def cursorLeftCtrlCallback(self, sender):
+        self.lastEvent = 'cursorLeft'
+        self.callback(self)
+
+    def cursorRightCtrlCallback(self, sender):
+        self.lastEvent = 'cursorRight'
+        self.callback(self)
+
+    def cursorDownCtrlCallback(self, sender):
+        self.lastEvent = 'cursorDown'
+        self.callback(self)
+
+    def nextWordCtrlCallback(self, sender):
+        self.lastEvent = 'nextWord'
+        self.callback(self)
+
+
+
 class WordDisplay(Group):
 
     def __init__(self, posSize, displayedWord, displayedPairs, fontObj, activePair=None, pairIndex=None):
@@ -254,7 +470,10 @@ class WordDisplay(Group):
 
     def setActivePairIndex(self, pairIndex):
         self.pairIndex = pairIndex
-        self.activePair = self.displayedPairs[pairIndex]
+        if self.pairIndex is not None:
+            self.activePair = self.displayedPairs[pairIndex]
+        else:
+            self.activePair = None
 
     def _drawCorrection(self, correction, displayHeight, descender, unitsPerEm):
         save()
@@ -295,8 +514,19 @@ class WordDisplay(Group):
         textBox(u'%s       %s' % (leftMargin, rightMargin),  (0, -22, width*displayHeight/2000, 11), align='center')
         restore()
 
+    def _drawCursor(self, lftGlyphName, rgtGlyphName):
+        save()
+        fill(*LIGHT_RED)
+        lftGlyph = self.fontObj[lftGlyphName]
+        rgtGlyph = self.fontObj[rgtGlyphName]
+        cursorWidth = lftGlyph.width/2. + rgtGlyph.width/2.
+        rect(lftGlyph.width/2., 0, cursorWidth, 50)
+        restore()
+
     def draw(self):
         displayHeight = self.getPosSize()[3]
+        print self.activePair
+        print self.pairIndex
 
         try:
             save()
@@ -317,6 +547,10 @@ class WordDisplay(Group):
                         correction = flatKerning[(prevGlyphName, eachGlyphName)]
                         self._drawCorrection(correction, displayHeight, descender, unitsPerEm)
                         translate(correction, 0)
+
+                if indexChar == self.pairIndex:
+                    print 'here'
+                    self._drawCursor(prevGlyphName, eachGlyphName)
 
                 # # draw metrics info
                 self._drawMetricsData(glyphToDisplay.width, glyphToDisplay.leftMargin, glyphToDisplay.rightMargin, descender*2, displayHeight)
@@ -356,11 +590,17 @@ class FontsController(Group):
                                                   ['%s' % i for i in range(1, self.maxFontsAmount+1)],
                                                   callback=self.activeFontsAmountPopUpCallback)
 
-        for eachI in range(self.activeFontsAmount):
+        for eachI in range(self.maxFontsAmount):
             self.jumping_Y += vanillaControlsSize['PopUpButtonRegularHeight']+MARGIN_HOR/2.
-            singleFontCtrl = PopUpButton((0, self.jumping_Y, self.ctrlWidth, vanillaControlsSize['PopUpButtonRegularHeight']),
+            singleFontCtrl = PopUpButton((1, self.jumping_Y, self.ctrlWidth-1, vanillaControlsSize['PopUpButtonRegularHeight']),
                                          self.displayedFontNames,
                                          callback=self.singleFontCtrlCallback)
+
+            if (eachI+1) == self.activeFontsAmount:
+                singleFontCtrl.enable(True)
+            else:
+                singleFontCtrl.enable(False)
+
             setattr(self, 'singleFontCtrl_%#02d' % (eachI+1), singleFontCtrl)
 
     def get(self):
@@ -379,17 +619,12 @@ class FontsController(Group):
 
         elif gonnaBeActiveFontsAmount > self.activeFontsAmount: # add ctrls
             for eachI in range(self.activeFontsAmount, gonnaBeActiveFontsAmount):
-                self.jumping_Y += vanillaControlsSize['PopUpButtonRegularHeight']+MARGIN_HOR/2.
-                singleFontCtrl = PopUpButton((0, self.jumping_Y, self.ctrlWidth, vanillaControlsSize['PopUpButtonRegularHeight']),
-                                             self.displayedFontNames,
-                                             callback=self.singleFontCtrlCallback)
-                setattr(self, 'singleFontCtrl_%#02d' % (eachI+1), singleFontCtrl)
+                getattr(self, 'singleFontCtrl_%#02d' % (eachI+1)).enable(True)
                 self.activeFonts.append(self.openedFonts[0])
 
         else:                                                   # delete ctrls
             for eachI in range(gonnaBeActiveFontsAmount, self.activeFontsAmount):
-                self.jumping_Y -= vanillaControlsSize['PopUpButtonRegularHeight']+MARGIN_HOR/2.
-                delattr(self, 'singleFontCtrl_%#02d' % (eachI+1))
+                getattr(self, 'singleFontCtrl_%#02d' % (eachI+1)).enable(False)
                 self.activeFonts.pop()
 
         self.activeFontsAmount = gonnaBeActiveFontsAmount
@@ -461,16 +696,25 @@ class WordListController(Group):
         return self.activeWord
 
     def nextWord(self):
-        activeWordIndex = self.wordsDisplayList.index(self.activeWord)
+        activeWordData = [wordData for wordData in self.wordsDisplayList if wordData['word'] == self.activeWord][0]
+        activeWordIndex = self.wordsDisplayList.index(activeWordData)
         nextWordIndex = (activeWordIndex+1)%len(self.wordsDisplayList)
-        self.activeWord = self.wordsDisplayList[nextWordIndex]
+        self.activeWord = self.wordsDisplayList[nextWordIndex]['word']
         self.wordsListCtrl.setSelection([nextWordIndex])
 
     def previousWord(self):
-        activeWordIndex = self.wordsDisplayList.index(self.activeWord)
-        nextWordIndex = (activeWordIndex-1)%len(self.wordsDisplayList)
-        self.activeWord = self.wordsDisplayList[nextWordIndex]
-        self.wordsListCtrl.setSelection([nextWordIndex])
+        activeWordData = [wordData for wordData in self.wordsDisplayList if wordData['word'] == self.activeWord][0]
+        activeWordIndex = self.wordsDisplayList.index(activeWordData)
+        previousWordIndex = (activeWordIndex-1)%len(self.wordsDisplayList)
+        self.activeWord = self.wordsDisplayList[previousWordIndex]['word']
+        self.wordsListCtrl.setSelection([previousWordIndex])
+
+    def markActiveWordAsSolved(self):
+        activeWordData = [wordData for wordData in self.wordsDisplayList if wordData['word'] == self.activeWord][0]
+        activeWordIndex = self.wordsDisplayList.index(activeWordData)
+        self.wordsDisplayList[activeWordIndex] = {'done?': 1, 'word': self.activeWord}
+        self.wordsListCtrl.set(self.wordsDisplayList)
+        self.wordsListCtrl.setSelection([activeWordIndex])
 
     def updateInfoCaption(self):
         self.infoCaption.set('done: %d/%d' % (self.wordsDone, len(self.wordsWorkingList)))
