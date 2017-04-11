@@ -19,7 +19,7 @@ from calcFunctions import calcStemsData, calcDiagonalsData, calcMidPoint
 import miscFunctions
 reload(miscFunctions)
 from miscFunctions import collectIDsFromSelectedPoints, guessStemPoints
-from miscFunctions import getOpenedFontFromPath
+from miscFunctions import getOpenedFontFromPath, printException
 
 # standard
 import os, sys
@@ -215,7 +215,9 @@ class SingleGridController(Group):
             self.step = int(sender.get())
             self.callback(self)
         except ValueError as error:
-            print error
+            printException(sys.exc_info())
+            self.step = None
+            self.stepCtrl.set('')
 
     def isHorizontalCheckCallback(self, sender):
         self.isHorizontal = bool(sender.get())
@@ -656,8 +658,7 @@ class DrawingAssistant(BaseWindowController):
                     self._drawBcpLenght(self.rgtGlyph, scalingFactor, offset_X=currentGlyph.width)
 
         except Exception as error:
-            print error
-            print sys.exc_info()
+            printException(sys.exc_info())
 
     def _drawPreview(self, infoDict):
         currentGlyph = infoDict['glyph']
@@ -669,8 +670,7 @@ class DrawingAssistant(BaseWindowController):
             if self.rgtGlyph and self.rgtNeighborActive is True:
                 self._drawGlyphBlack(self.rgtGlyph, scalingFactor, offset_X=currentGlyph.width)
         except Exception as error:
-            print error
-            print sys.exc_info()
+            printException(sys.exc_info())
 
     def _drawBackground(self, infoDict):
         currentGlyph = infoDict['glyph']
@@ -705,8 +705,7 @@ class DrawingAssistant(BaseWindowController):
                 self._drawOffgridPoints(currentGlyph, scalingFactor)
 
         except Exception as error:
-            print error
-            print sys.exc_info()
+            printException(sys.exc_info())
 
     def _drawOffgridPoints(self, glyph, scalingFactor):
         save()

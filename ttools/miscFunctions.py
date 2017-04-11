@@ -10,11 +10,18 @@ reload(calcFunctions)
 from calcFunctions import isBlackInBetween, calcDistanceBetweenPTs
 
 # standard
-import os
+import os, sys
 import types
 from collections import OrderedDict
 
 ### Functions
+def printException(sysInfo):
+    exc_type, exc_obj, tb = sysInfo
+    f = tb.tb_frame
+    lineno = tb.tb_lineno
+    filename = f.f_code.co_filename
+    print '[EXCEPTION] {}, LINE {}: {}'.format(filename, lineno, exc_obj)
+
 def buildPairsFromString(word):
     assert isinstance(word, types.StringType) is True
     pairs = []

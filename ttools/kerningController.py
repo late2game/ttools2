@@ -10,6 +10,7 @@
 import miscFunctions
 reload(miscFunctions)
 from miscFunctions import loadKerningTexts, buildPairsFromString
+from miscFunctions import printException
 
 import userInterfaceValues
 reload(userInterfaceValues)
@@ -17,6 +18,7 @@ from userInterfaceValues import vanillaControlsSize
 
 # standard
 import os
+import sys
 import json
 from mojo.drawingTools import *
 from mojo.roboFont import AllFonts
@@ -327,7 +329,7 @@ class WordDisplay(Group):
             restore()
 
         except Exception:
-            pass
+            printException(sys.exc_info())
 
 
 class FontsController(Group):

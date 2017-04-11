@@ -9,7 +9,7 @@
 # custom
 import miscFunctions
 reload(miscFunctions)
-from miscFunctions import collectIDsFromSelectedPoints
+from miscFunctions import collectIDsFromSelectedPoints, printException
 
 import calcFunctions
 reload(calcFunctions)
@@ -22,6 +22,7 @@ from bezierTools import collectsPointsOnBezierCurveWithFixedDistance
 
 
 # standard
+import sys
 import math
 from fontTools.misc.transform import Identity
 from AppKit import NSColor, NSFont, NSFontAttributeName
@@ -220,6 +221,7 @@ class BroadNib(object):
         try:
             self.nibWidth = int(sender.get())
         except ValueError:
+            printException(sys.exc_info())
             self.nibWidth = None
             self.win.widthEdit.set('')
 
@@ -227,6 +229,7 @@ class BroadNib(object):
         try:
             self.nibHeight = int(sender.get())
         except ValueError:
+            printException(sys.exc_info())
             self.nibHeight = None
             self.win.heightEdit.set('')
 
@@ -234,6 +237,7 @@ class BroadNib(object):
         try:
             self.nibAngle = int(sender.get())
         except ValueError:
+            printException(sys.exc_info())
             self.nibAngle = None
             self.win.angleEdit.set('')
 
