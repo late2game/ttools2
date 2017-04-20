@@ -26,7 +26,7 @@ def buildPairsFromString(word):
     assert isinstance(word, types.StringType) is True
     pairs = []
     for eachI in range(1, len(word)):
-        pairs.append(word[eachI-1 : eachI+1])
+        pairs.append(tuple(word[eachI-1 : eachI+1]))
     return pairs
 
 def loadKerningTexts(kerningTextFolder):
