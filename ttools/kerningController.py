@@ -20,6 +20,7 @@ from userInterfaceValues import vanillaControlsSize
 import os
 import sys
 import json
+import types
 from mojo.drawingTools import *
 from mojo.roboFont import AllFonts
 from mojo.canvas import CanvasGroup
@@ -27,21 +28,29 @@ from operator import itemgetter
 from defconAppKit.windows.baseWindow import BaseWindowController
 from vanilla import Window, Group, PopUpButton, List, EditText
 from vanilla import CheckBoxListCell, TextBox, SquareButton, HorizontalLine
-from vanilla import VerticalLine
+from vanilla import VerticalLine, CheckBox, Button
 
 
 ### Constants
 PLUGIN_TITLE = 'TT Kerning editor'
 
 # func
-KERNING_TEXT_FOLDER = 'kerningTexts'
+KERNING_TEXT_FOLDER = os.path.join(os.path.dirname(__file__), 'kerningTexts')
 KERNING_STATUS_PATH = 'lastKerningStatus.json'
-JOYSTICK_EVENTS = ['minusMajor', 'minusMinor', 'plusMinor', 'plusMajor', 'preview', 'solved', 'previousWord', 'cursorUp', 'cursorLeft', 'cursorRight', 'cursorDown', 'nextWord']
+JOYSTICK_EVENTS = ['minusMajor', 'minusMinor', 'plusMinor', 'plusMajor', 'preview', 'solved', 'symmetricalEditing', 'keyboardEdit', 'previousWord', 'cursorUp', 'cursorLeft', 'cursorRight', 'cursorDown', 'nextWord']
+
+MAJOR_STEP = 20
+MINOR_STEP = 4
+
+KERNING_NOT_DISPLAYED_ERROR = 'Why are you editing kerning if it is not displayed?'
 
 # colors
-LIGHT_RED = (1,0,0,.4)
-LIGHT_GREEN = (0,1,0,.4)
-BLACK = (0,0,0)
+BLACK = (0, 0, 0)
+LIGHT_RED = (1, 0, 0, .4)
+LIGHT_GREEN = (0, 1, 0, .4)
+LIGHT_BLUE = (0, 0, 1, .4)
+LIGHT_GRAY = (0, 0, 0, .4)
+SYMMETRICAL_BACKGROUND_COLOR = (1, 0, 1, .2)
 
 # ui
 MARGIN_VER = 8
@@ -53,11 +62,9 @@ PLUGIN_WIDTH = 1000
 PLUGIN_HEIGHT = 800
 
 TEXT_MARGIN = 200 #upm
-
-WORD_CONTROL_HEIGHT = 100
+CANVAS_UPM_HEIGHT = 1600.
 
 SYSTEM_FONT_NAME = '.HelveticaNeueDeskInterface-Regular'
-SYSTEM_FONT_NAME_BOLD = '.HelveticaNeueDeskInterface-Bold'
 
 """
 Desired keys
@@ -80,8 +87,14 @@ return: mark the word as "done"
 
 
 ### Controllers
+def checkPairFormat(value):
+    assert isinstance(value, types.TupleType), 'wrong pair format'
+    assert len(value) == 2, 'wrong pair format'
+    assert isinstance(value[0], types.StringType), 'wrong pair format'
+    assert isinstance(value[1], types.StringType), 'wrong pair format'
+
 class KerningController(BaseWindowController):
-    """docstring for KerningController"""
+    """this is the main controller of TT kerning editor, it handles different controllers and dialogues with font data"""
 
     displayedWord = ''
     displayedPairs = []
@@ -90,6 +103,13 @@ class KerningController(BaseWindowController):
     openedFonts = None
     navCursor_X = 0    # related to pairs
     navCursor_Y = 0    # related to active fonts
+
+    isPreviewOn = False
+    isKerningDisplayActive = True
+    isSidebearingsActive = True
+    isMetricsActive = True
+    isColorsActive = True
+    isSymmetricalEditingOn = False
 
     def __init__(self):
         super(KerningController, self).__init__()
@@ -110,6 +130,7 @@ class KerningController(BaseWindowController):
         self.displayedWord = self.w.wordListController.get()
         self.displayedPairs = buildPairsFromString(self.displayedWord)
         self.activePair = self.displayedPairs[0]
+        checkPairFormat(self.activePair)
 
         self.jumping_Y += self.w.wordListController.getPosSize()[3]+4
         self.w.word_font_separationLine = HorizontalLine((self.jumping_X, self.jumping_Y, LEFT_COLUMN, vanillaControlsSize['HorizontalLineThickness']))
@@ -125,7 +146,18 @@ class KerningController(BaseWindowController):
         
         self.jumping_Y += MARGIN_VER
         self.w.joystick = JoystickGroup((self.jumping_X, self.jumping_Y, LEFT_COLUMN, 240),
+                                        self.activeFonts[self.navCursor_Y],
+                                        self.activePair,
+                                        self.isSymmetricalEditingOn,
                                         callback=self.joystickCallback)
+
+        self.jumping_Y += self.w.joystick.getPosSize()[3] + MARGIN_VER
+        self.w.graphicsManager = GraphicsManager((self.jumping_X, -120, LEFT_COLUMN, 120),
+                                                 self.isKerningDisplayActive,
+                                                 self.isSidebearingsActive,
+                                                 self.isMetricsActive,
+                                                 self.isColorsActive,
+                                                 callback=self.graphicsManagerCallback)
 
         self.jumping_X += LEFT_COLUMN+MARGIN_COL*2
         self.jumping_Y = MARGIN_VER
@@ -154,71 +186,124 @@ class KerningController(BaseWindowController):
 
         self.jumping_Y = MARGIN_VER+vanillaControlsSize['TextBoxRegularHeight']+MARGIN_COL
         for eachI in range(len(self.activeFonts)):
+
+            if eachI == self.navCursor_Y:
+                initActivePair = self.displayedPairs[self.navCursor_X]
+                initPairIndex = self.navCursor_X
+            else:
+                initActivePair = None
+                initPairIndex = None
+
             wordCtrl = WordDisplay((self.jumping_X, self.jumping_Y, rightColumnWidth, singleWindowHeight),
-                                     self.displayedWord,
-                                     self.displayedPairs,
-                                     self.activeFonts[eachI])
+                                    self.displayedWord,
+                                    self.displayedPairs,
+                                    self.activeFonts[eachI],
+                                    self.isKerningDisplayActive,
+                                    self.isSidebearingsActive,
+                                    self.isMetricsActive,
+                                    self.isColorsActive,
+                                    self.isPreviewOn,
+                                    self.isSymmetricalEditingOn,
+                                    activePair=initActivePair,
+                                    pairIndex=initPairIndex)
+
             self.jumping_Y += singleWindowHeight + MARGIN_HOR
             setattr(self.w, 'wordCtrl_%#02d' % (eachI+1), wordCtrl)
 
     def updateWordDisplays(self):
         for eachI in range(len(self.activeFonts)):
             eachDisplay = getattr(self.w, 'wordCtrl_%#02d' % (eachI+1))
-            eachDisplay.displayedWord = self.displayedWord
+            eachDisplay.setDisplayedWord(self.displayedWord)
+            eachDisplay.setDisplayedPairs(self.displayedPairs)
+            eachDisplay.setGraphicsBooleans(self.isKerningDisplayActive, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive)
+            eachDisplay.setPreviewMode(self.isPreviewOn)
+            eachDisplay.setSymmetricalEditingMode(self.isSymmetricalEditingOn)
             eachDisplay.wordCanvasGroup.update()
 
     def nextWord(self):
         self.w.wordListController.nextWord()
         self.displayedWord = self.w.wordListController.get()
-        self.updateWordDisplays()
-        self.displayedPairs = buildPairsFromString(self.displayedWord)
-        if len(self.displayedPairs) > (self.navCursor_X+1):
-            self.activePair = self.displayedPairs[self.navCursor_X]
-        else:
-            self.activePair = self.displayedPairs[0]
+        self.updateEditorAccordingToDiplayedWord()
 
     def previousWord(self):
         self.w.wordListController.previousWord()
         self.displayedWord = self.w.wordListController.get()
-        self.updateWordDisplays()
+        self.updateEditorAccordingToDiplayedWord()
+
+    def updateEditorAccordingToDiplayedWord(self):
+        self.w.displayedWordCaption.set(self.displayedWord)
+        self.w.displayedWordCaption.set(self.displayedWord)
         self.displayedPairs = buildPairsFromString(self.displayedWord)
-        if len(self.displayedPairs) > (self.navCursor_X+1):
-            self.activePair = self.displayedPairs[self.navCursor_X]
+        if len(self.displayedPairs) < (self.navCursor_X+1):
+            self.navCursor_X = len(self.displayedPairs)-1
+        self.activePair = self.displayedPairs[self.navCursor_X]
+        checkPairFormat(self.activePair)
+        self.w.joystick.setActivePair(self.activePair)
+        self.updateWordDisplays()
+        getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(self.navCursor_X)
+
+    def switchSolvedAttribute(self):
+        self.w.wordListController.switchActiveWordSolvedAttribute()
+
+    def switchSymmetricalEditing(self):
+        self.isSymmetricalEditingOn = not self.isSymmetricalEditingOn
+        self.updateWordDisplays()
+
+    # manipulate data
+    def setPairCorrection(self, amount):
+        selectedFont = self.activeFonts[self.navCursor_Y]
+        selectedPair = tuple(self.displayedPairs[self.navCursor_X])
+        selectedFont.naked().flatKerning[selectedPair] = amount
+
+        if self.isSymmetricalEditingOn is True:
+            flippedSelectedPair = selectedPair[1], selectedPair[0]
+            selectedFont.naked().flatKerning[flippedSelectedPair] = amount
+        self.updateWordDisplays()
+
+    def modifyPairCorrection(self, amount):
+        selectedFont = self.activeFonts[self.navCursor_Y]
+        selectedPair = tuple(self.displayedPairs[self.navCursor_X])
+
+        if selectedPair in selectedFont.naked().flatKerning:
+            selectedFont.naked().flatKerning[selectedPair] += amount
         else:
-            self.activePair = self.displayedPairs[0]
+            selectedFont.naked().flatKerning[selectedPair] = amount
 
-    def markWordAsSolved(self):
-        self.w.wordListController.markActiveWordAsSolved()
-
-    def printCursorIndexes(self):
-        print self.navCursor_X, self.navCursor_Y
+        if self.isSymmetricalEditingOn is True:
+            flippedSelectedPair = selectedPair[1], selectedPair[0]
+            if flippedSelectedPair in selectedFont.naked().flatKerning:
+                selectedFont.naked().flatKerning[flippedSelectedPair] += amount
+            else:
+                selectedFont.naked().flatKerning[flippedSelectedPair] = amount
+        self.w.joystick.updateCorrectionValue()
+        self.updateWordDisplays()
 
     # cursor methods
     def cursorLeft(self):
         self.navCursor_X = (self.navCursor_X-1)%len(self.displayedPairs)
         getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(self.navCursor_X)
+        self.w.joystick.setActivePair(self.displayedPairs[self.navCursor_X])
         self.updateWordDisplays()
-        self.printCursorIndexes()
 
     def cursorRight(self):
         self.navCursor_X = (self.navCursor_X+1)%len(self.displayedPairs)
         getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(self.navCursor_X)
+        self.w.joystick.setActivePair(self.displayedPairs[self.navCursor_X])
         self.updateWordDisplays()
-        self.printCursorIndexes()
 
     def cursorUp(self):
         getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(None)   # old
         self.navCursor_Y = (self.navCursor_Y-1)%len(self.activeFonts)
         getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(self.navCursor_X)   # new
+        self.w.joystick.setFontObj(self.activeFonts[self.navCursor_Y])
         self.updateWordDisplays()
-        self.printCursorIndexes()
 
     def cursorDown(self):
         getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(None)   # old
         self.navCursor_Y = (self.navCursor_Y+1)%len(self.activeFonts)
         getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(self.navCursor_X)   # new
+        self.w.joystick.setFontObj(self.activeFonts[self.navCursor_Y])
         self.updateWordDisplays()
-        self.printCursorIndexes()
 
     ### callbacks
     def mainWindowResize(self, mainWindow):
@@ -241,36 +326,60 @@ class KerningController(BaseWindowController):
 
     def wordListControllerCallback(self, sender):
         self.displayedWord = sender.get()
-        self.w.displayedWordCaption.set(self.displayedWord)
-        self.updateWordDisplays()
+        self.updateEditorAccordingToDiplayedWord()
 
     def fontControllerCallback(self, sender):
         self.deleteWordDisplays()
         self.activeFonts = sender.get()
         self.initWordDisplays()
 
+    def graphicsManagerCallback(self, sender):
+        self.isKerningDisplayActive, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive = sender.get()
+        self.updateWordDisplays()
 
     def joystickCallback(self, sender):
         joystickEvent = sender.getLastEvent()
         assert joystickEvent in JOYSTICK_EVENTS
 
         if joystickEvent == 'minusMajor':
-            pass
+            if self.isKerningDisplayActive is True:
+                self.modifyPairCorrection(-MAJOR_STEP)
+            else:
+                self.showMessage('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
 
         elif joystickEvent == 'minusMinor':
-            pass
+            if self.isKerningDisplayActive is True:
+                self.modifyPairCorrection(-MINOR_STEP)
+            else:
+                self.showMessage('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
 
         elif joystickEvent == 'plusMinor':
-            pass
+            if self.isKerningDisplayActive is True:
+                self.modifyPairCorrection(MINOR_STEP)
+            else:
+                self.showMessage('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
 
         elif joystickEvent == 'plusMajor':
-            pass
+            if self.isKerningDisplayActive is True:
+                self.modifyPairCorrection(MAJOR_STEP)
+            else:
+                self.showMessage('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
 
         elif joystickEvent == 'preview':
-            pass
+            if self.isPreviewOn is True:
+                self.isPreviewOn = False
+                self.w.graphicsManager.switchControls(True)
+            else:
+                self.isPreviewOn = True
+                self.w.graphicsManager.switchControls(False)
+            self.updateWordDisplays()
 
         elif joystickEvent == 'solved':
-            self.markWordAsSolved()
+            self.switchSolvedAttribute()
+            self.nextWord()
+
+        elif joystickEvent == 'symmetricalEditing':
+            self.switchSymmetricalEditing()
 
         elif joystickEvent == 'previousWord':
             self.previousWord()
@@ -290,67 +399,99 @@ class KerningController(BaseWindowController):
         elif joystickEvent == 'nextWord':
             self.nextWord()
 
+        elif joystickEvent == 'keyboardEdit':
+            if self.isKerningDisplayActive is True:
+                self.setPairCorrection(self.w.joystick.getKeyboardCorrection())
+                self.updateWordDisplays()
+            else:
+                self.showMessage('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
+                self.w.joystick.updateCorrectionValue()
+
+
 
 class JoystickGroup(Group):
 
     lastEvent = None
+    keyboardCorrection = 0
 
-    def __init__(self, posSize, callback):
+    def __init__(self, posSize, fontObj, activePair, isSymmetricalEditingOn, callback):
         super(JoystickGroup, self).__init__(posSize)
-        buttonSide = 36
+        self.activePair = activePair
+        self.fontObj = fontObj
+        self.isSymmetricalEditingOn = isSymmetricalEditingOn
         self.callback = callback
 
+        buttonSide = 36
+        self.ctrlWidth, self.ctrlHeight = posSize[2], posSize[3]
         self.jumping_X = buttonSide/2.
         self.jumping_Y = 0
 
+        if self.activePair in self.fontObj.naked().flatKerning:
+            correction = self.fontObj.naked().flatKerning[self.activePair]
+        else:
+            correction = 0
+
         self.minusMajorCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
-                                           "-20",
+                                           "-%s" % MAJOR_STEP,
                                            sizeStyle='small',
                                            callback=self.minusMajorCtrlCallback)
         self.minusMajorCtrl.bind('leftarrow', ['option', 'command'])
 
         self.jumping_X += buttonSide
         self.minusMinorCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
-                                           "-4",
+                                           "-%s" % MINOR_STEP,
                                            sizeStyle='small',
                                            callback=self.minusMinorCtrlCallback)
         self.minusMinorCtrl.bind('leftarrow', ['command'])
 
         self.jumping_X += buttonSide
         self.plusMinorCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
-                                          "+4",
+                                          "+%s" % MINOR_STEP,
                                           sizeStyle='small',
                                           callback=self.plusMinorCtrlCallback)
         self.plusMinorCtrl.bind('rightarrow', ["command"])
 
         self.jumping_X += buttonSide
         self.plusMajorCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
-                                          "+20",
+                                          "+%s" % MAJOR_STEP,
                                           sizeStyle='small',
                                           callback=self.plusMajorCtrlCallback)
         self.plusMajorCtrl.bind('rightarrow', ['option', 'command'])
 
         self.jumping_X = buttonSide/2.
         self.jumping_Y += buttonSide
-        self.previewCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide*2, buttonSide),
+        self.previewCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide*2, buttonSide*.75),
                                         "preview",
                                         sizeStyle='small',
                                         callback=self.previewCtrlCallback)
+        self.previewCtrl.bind(unichr(112), ['command'])
 
         self.jumping_X += buttonSide*2
-        self.solvedCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide*2, buttonSide),
+        self.solvedCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide*2, buttonSide*.75),
                                        "solved",
                                        sizeStyle='small',
                                        callback=self.solvedCtrlCallback)
         self.solvedCtrl.bind(unichr(13), ['command'])
 
+        self.jumping_X = buttonSide/2.
+        self.jumping_Y += buttonSide*.75+2
+        self.symmetryModeCheck = CheckBox((self.jumping_X, self.jumping_Y, self.ctrlWidth, vanillaControlsSize['CheckBoxRegularHeight']),
+                                          'symmetrical editing',
+                                          value=self.isSymmetricalEditingOn,
+                                          callback=self.symmetryModeCheckCallback)
+
+        self.hiddenSymmetryEditingButton = Button((self.jumping_X, self.ctrlHeight+40, self.ctrlWidth, vanillaControlsSize['ButtonRegularHeight']),
+                                                   'hiddenSymmetriyEditingButton',
+                                                   callback=self.hiddenSymmetryEditingButtonCallback)
+        self.hiddenSymmetryEditingButton.bind('s', ['command'])
+
         self.jumping_X = buttonSide
-        self.jumping_Y += buttonSide*2
+        self.jumping_Y += buttonSide
         self.previousWordCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
                                              u'↖',
                                              sizeStyle='small',
                                              callback=self.previousWordCtrlCallback)
-        self.previousWordCtrl.bind('uparrow', ['command'])
+        self.previousWordCtrl.bind('uparrow', ['command', 'option'])
 
         self.jumping_X += buttonSide
         self.cursorUpCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
@@ -358,6 +499,12 @@ class JoystickGroup(Group):
                                          sizeStyle='small',
                                          callback=self.cursorUpCtrlCallback)
         self.cursorUpCtrl.bind("uparrow", [])
+
+        self.jumping_X += buttonSide*1.5
+        self.activePairEditCorrection = EditText((self.jumping_X, self.jumping_Y, 50, vanillaControlsSize['EditTextRegularHeight']),
+                                                 text='%s' % correction,
+                                                 continuous=False,
+                                                 callback=self.activePairEditCorrectionCallback)
 
         self.jumping_X = buttonSide
         self.jumping_Y += buttonSide
@@ -387,10 +534,29 @@ class JoystickGroup(Group):
                                          u'↘',
                                          sizeStyle='small',
                                          callback=self.nextWordCtrlCallback)
-        self.nextWordCtrl.bind('downarrow', ['command'])
+        self.nextWordCtrl.bind('downarrow', ['command', 'option'])
 
     def getLastEvent(self):
         return self.lastEvent
+
+    def getKeyboardCorrection(self):
+        return self.keyboardCorrection
+
+    def setActivePair(self, value):
+        checkPairFormat(value)
+        self.activePair = value
+        self.updateCorrectionValue()
+
+    def setFontObj(self, value):
+        self.fontObj = value
+        self.updateCorrectionValue()
+
+    def updateCorrectionValue(self):
+        if tuple(self.activePair) in self.fontObj.naked().flatKerning:
+            correction = self.fontObj.naked().flatKerning[tuple(self.activePair)]
+        else:
+            correction = 0
+        self.activePairEditCorrection.set(correction)
 
     def minusMajorCtrlCallback(self, sender):
         self.lastEvent = 'minusMajor'
@@ -414,6 +580,17 @@ class JoystickGroup(Group):
 
     def solvedCtrlCallback(self, sender):
         self.lastEvent = 'solved'
+        self.callback(self)
+
+    def symmetryModeCheckCallback(self, sender):
+        self.lastEvent = 'symmetricalEditing'
+        self.isSymmetricalEditingOn = bool(sender.get())
+        self.callback(self)
+
+    def hiddenSymmetryEditingButtonCallback(self, sender):
+        self.lastEvent = 'symmetricalEditing'
+        self.isSymmetricalEditingOn = not self.isSymmetricalEditingOn
+        self.symmetryModeCheck.set(self.isSymmetricalEditingOn)
         self.callback(self)
 
     def previousWordCtrlCallback(self, sender):
@@ -440,11 +617,104 @@ class JoystickGroup(Group):
         self.lastEvent = 'nextWord'
         self.callback(self)
 
+    def activePairEditCorrectionCallback(self, sender):
+        try:
+            self.lastEvent = 'keyboardEdit'
+            self.keyboardCorrection = int(sender.get())
+            self.callback(self)
+
+        except ValueError:
+            if sender.get() != '-' or sender.get() != '':
+                if self.activePair in self.fontObj.naked().flatKerning:
+                    self.activePairEditCorrection.set('%s' % self.fontObj.naked().flatKerning[self.activePair])
+                else:
+                    self.activePairEditCorrection.set('%s' % 0)
+                printException(sys.exc_info())
+
+
+class GraphicsManager(Group):
+
+    previousState = None
+
+    def __init__(self, posSize, isSidebearingsActive, isKerningDisplayActive, isMetricsActive, isColorsActive, callback):
+        super(GraphicsManager, self).__init__(posSize)
+        self.isKerningDisplayActive = isKerningDisplayActive
+        self.isSidebearingsActive = isSidebearingsActive
+        self.isMetricsActive = isMetricsActive
+        self.isColorsActive = isColorsActive
+        self.callback = callback
+
+        self.ctrlWidth, self.ctrlHeight = posSize[2], posSize[3]
+
+        jumping_Y = 0
+        self.ctrlCaption = TextBox((0, jumping_Y, self.ctrlWidth, vanillaControlsSize['TextBoxRegularHeight']),
+                                   'Display options:')
+
+        jumping_Y = vanillaControlsSize['TextBoxRegularHeight'] + MARGIN_VER/2.
+        indent = 16
+        self.showKerningCheck = CheckBox((indent, jumping_Y, self.ctrlWidth-indent, vanillaControlsSize['CheckBoxRegularHeight']),
+                                          'show kerning',
+                                          value=self.isKerningDisplayActive,
+                                          callback=self.showKerningCheckCallback)
+
+        self.showKerningHiddenButton = Button((0,self.ctrlHeight+40,0,0),
+                                              'hidden kerning button',
+                                              callback=self.showKerningHiddenButtonCallback)
+        # self.showKerningHiddenButton.show(False)
+        self.showKerningHiddenButton.bind('k', ['command'])
+
+        jumping_Y += vanillaControlsSize['CheckBoxRegularHeight']
+        self.showSidebearingsCheck = CheckBox((indent, jumping_Y, self.ctrlWidth-indent, vanillaControlsSize['CheckBoxRegularHeight']),
+                                          'show sidebearings',
+                                          value=self.isSidebearingsActive,
+                                          callback=self.showSidebearingsCheckCallback)
+
+        jumping_Y += vanillaControlsSize['CheckBoxRegularHeight']
+        self.showMetricsCheck = CheckBox((indent, jumping_Y, self.ctrlWidth-indent, vanillaControlsSize['CheckBoxRegularHeight']),
+                                     'show metrics',
+                                     value=self.isMetricsActive,
+                                     callback=self.showMetricsCheckCallback)
+
+        jumping_Y += vanillaControlsSize['CheckBoxRegularHeight']
+        self.showColorsCheck = CheckBox((indent, jumping_Y, self.ctrlWidth-indent, vanillaControlsSize['CheckBoxRegularHeight']),
+                                    'show corrections',
+                                    value=self.isColorsActive,
+                                    callback=self.showColorsCheckCallback)
+
+    def get(self):
+        return self.isKerningDisplayActive, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive
+
+    def switchControls(self, value):
+        self.showSidebearingsCheck.enable(value)
+        self.showMetricsCheck.enable(value)
+        self.showColorsCheck.enable(value)
+
+    def showKerningCheckCallback(self, sender):
+        self.isKerningDisplayActive = bool(sender.get())
+        self.showColorsCheck.enable(bool(sender.get()))
+        self.callback(self)
+
+    def showKerningHiddenButtonCallback(self, sender):
+        self.isKerningDisplayActive = not self.isKerningDisplayActive
+        self.showKerningCheck.set(self.isKerningDisplayActive)
+        self.callback(self)
+
+    def showSidebearingsCheckCallback(self, sender):
+        self.isSidebearingsActive = bool(sender.get())
+        self.callback(self)
+
+    def showMetricsCheckCallback(self, sender):
+        self.isMetricsActive = bool(sender.get())
+        self.callback(self)
+
+    def showColorsCheckCallback(self, sender):
+        self.isColorsActive = bool(sender.get())
+        self.callback(self)
 
 
 class WordDisplay(Group):
 
-    def __init__(self, posSize, displayedWord, displayedPairs, fontObj, activePair=None, pairIndex=None):
+    def __init__(self, posSize, displayedWord, displayedPairs, fontObj, isKerningDisplayActive, isSidebearingsActive, isMetricsActive, isColorsActive, isPreviewOn, isSymmetricalEditingOn, activePair=None, pairIndex=None):
         super(WordDisplay, self).__init__(posSize)
 
         self.displayedWord = displayedWord
@@ -453,13 +723,28 @@ class WordDisplay(Group):
         self.activePair = activePair
         self.pairIndex = pairIndex
 
-        width, height = posSize[2], posSize[3]
+        self.isKerningDisplayActive = isKerningDisplayActive
+        self.isSidebearingsActive = isSidebearingsActive
+        self.isMetricsActive = isMetricsActive
+        self.isColorsActive = isColorsActive
+        self.isPreviewOn = isPreviewOn
+        self.isSymmetricalEditingOn = isSymmetricalEditingOn
+
+        self.ctrlWidth, self.ctrlHeight = posSize[2], posSize[3]
         self.wordCanvasGroup = CanvasGroup((0, 0, 0, 0),
-                                           # canvasSize=(width, height),
-                                           delegate=self,
-                                           # autohidesScrollers=False,
-                                           # drawsBackground=True
-                                           )
+                                           delegate=self)
+
+    def setSymmetricalEditingMode(self, value):
+        self.isSymmetricalEditingOn = value
+
+    def setPreviewMode(self, value):
+        self.isPreviewOn = value
+
+    def setGraphicsBooleans(self, isKerningDisplayActive, isSidebearingsActive, isMetricsActive, isColorsActive):
+        self.isKerningDisplayActive = isKerningDisplayActive
+        self.isSidebearingsActive = isSidebearingsActive
+        self.isMetricsActive = isMetricsActive
+        self.isColorsActive = isColorsActive
 
     def adjustSize(self, posSize):
         x, y, width, height = posSize
@@ -468,30 +753,39 @@ class WordDisplay(Group):
         self.wordCanvasGroup.resize(width, height)
         self.wordCanvasGroup.update()
 
+    def setDisplayedWord(self, displayedWord):
+        self.displayedWord = displayedWord
+
+    def setDisplayedPairs(self, displayedPairs):
+        self.displayedPairs = displayedPairs
+
     def setActivePairIndex(self, pairIndex):
         self.pairIndex = pairIndex
         if self.pairIndex is not None:
-            self.activePair = self.displayedPairs[pairIndex]
+            self.activePair = self.displayedPairs[self.pairIndex]
         else:
             self.activePair = None
 
-    def _drawCorrection(self, correction, displayHeight, descender, unitsPerEm):
+    def _drawColoredCorrection(self, correction):
         save()
-
         if correction > 0:
             fill(*LIGHT_GREEN)
         else:
             fill(*LIGHT_RED)
-        rect(0, descender, correction, unitsPerEm)
+        rect(0, self.fontObj.info.descender, correction, self.fontObj.info.unitsPerEm)
+        restore()
 
+    def _drawMetricsCorrection(self, correction):
+        save()
         fill(*BLACK)
         stroke(None)
-        translate(0, unitsPerEm)
-        scale(1/(displayHeight/2000))
+        translate(0, self.fontObj.info.unitsPerEm+self.fontObj.info.descender+100)
+        scale(1/(self.getPosSize()[3]/CANVAS_UPM_HEIGHT))
         font(SYSTEM_FONT_NAME)
         fontSize(10)
         textWidth, textHeight = textSize('%s' % correction)
         textBox('%s' % correction, (-textWidth/2., -textHeight, textWidth, textHeight), align='center')
+
         restore()
 
     def _drawGlyphOutlines(self, glyphToDisplay):
@@ -501,64 +795,134 @@ class WordDisplay(Group):
         drawGlyph(glyphToDisplay)
         restore()
 
-    def _drawMetricsData(self, width, leftMargin, rightMargin, offset, displayHeight):
+    def _drawMetricsData(self, glyphToDisplay, offset):
         save()
+        translate(0, self.fontObj.info.descender)
+        reverseScalingFactor = self.getPosSize()[3]/CANVAS_UPM_HEIGHT
+
+        if self.isSidebearingsActive is True:
+            fill(None)
+            stroke(*LIGHT_GRAY)
+            strokeWidth(1/reverseScalingFactor)
+            line((0, 0), (0, -offset*1/reverseScalingFactor))
+            line((glyphToDisplay.width, 0), (glyphToDisplay.width, -offset*1/reverseScalingFactor))
+
+        scale(1/reverseScalingFactor)
+        translate(0, -offset)
         fill(*BLACK)
         stroke(None)
-        translate(0, offset)
-
-        scale(1/(displayHeight/2000))
         font(SYSTEM_FONT_NAME)
         fontSize(10)
-        textBox(u'%s' % width, (0, -11, width*displayHeight/2000, 11), align='center')
-        textBox(u'%s       %s' % (leftMargin, rightMargin),  (0, -22, width*displayHeight/2000, 11), align='center')
+        textBox(u'%s' % glyphToDisplay.width, (0, 11, glyphToDisplay.width*reverseScalingFactor, 11), align='center')
+        textBox(u'%s' % glyphToDisplay.leftMargin, (0, 0, glyphToDisplay.width/2.*reverseScalingFactor, 11), align='center')
+        textBox(u'%s' % glyphToDisplay.rightMargin, (glyphToDisplay.width/2.*reverseScalingFactor, 0, glyphToDisplay.width/2.*reverseScalingFactor, 11), align='center')
         restore()
 
-    def _drawCursor(self, lftGlyphName, rgtGlyphName):
+    def _drawVerticalMetrics(self, glyphToDisplay):
         save()
-        fill(*LIGHT_RED)
+        stroke(*LIGHT_GRAY)
+        fill(None)
+        strokeWidth(1/(self.getPosSize()[3]/CANVAS_UPM_HEIGHT))
+
+        line((0, 0), (glyphToDisplay.width, 0))
+        line((0, self.fontObj.info.ascender), (glyphToDisplay.width, self.fontObj.info.ascender))
+        line((0, self.fontObj.info.xHeight), (glyphToDisplay.width, self.fontObj.info.xHeight))
+        line((0, self.fontObj.info.descender), (glyphToDisplay.width, self.fontObj.info.descender))
+
+        restore()
+
+    def _drawSidebearings(self, glyphToDisplay):
+        save()
+        stroke(*LIGHT_GRAY)
+        fill(None)
+        strokeWidth(1/(self.getPosSize()[3]/CANVAS_UPM_HEIGHT))
+
+        line((0, self.fontObj.info.descender), (0, self.fontObj.info.descender+self.fontObj.info.unitsPerEm))
+        line((glyphToDisplay.width, self.fontObj.info.descender), (glyphToDisplay.width, self.fontObj.info.descender+self.fontObj.info.unitsPerEm))
+
+        restore()
+
+    def _drawCursor(self, correction):
+        save()
+        lftGlyphName, rgtGlyphName = self.activePair
+        fill(*LIGHT_BLUE)
         lftGlyph = self.fontObj[lftGlyphName]
         rgtGlyph = self.fontObj[rgtGlyphName]
-        cursorWidth = lftGlyph.width/2. + rgtGlyph.width/2.
-        rect(lftGlyph.width/2., 0, cursorWidth, 50)
+        cursorWidth = lftGlyph.width/2. + rgtGlyph.width/2. + correction
+        cursorHeight = 50   # upm
+        rect(-lftGlyph.width/2.-correction, self.fontObj.info.descender-cursorHeight+cursorHeight/2., cursorWidth, cursorHeight)
         restore()
 
     def draw(self):
-        displayHeight = self.getPosSize()[3]
-        print self.activePair
-        print self.pairIndex
-
         try:
             save()
-            translate(MARGIN_HOR, 0)
-            scale(displayHeight/2000)   # the canvas is virtually 2000upm scaled according to ctrl size
 
-            descender, unitsPerEm = self.fontObj.info.descender, self.fontObj.info.unitsPerEm
+            # this is for safety reason, user should be notified about possible unwanted kerning corrections
+            if self.isSymmetricalEditingOn is True:
+                save()
+                fill(*SYMMETRICAL_BACKGROUND_COLOR)
+                rect(0, 0, self.getPosSize()[2], self.getPosSize()[3])
+                restore()
+
+            scale(self.getPosSize()[3]/CANVAS_UPM_HEIGHT)   # the canvas is virtually scaled according to CANVAS_UPM_HEIGHT value and canvasSize
+            translate(TEXT_MARGIN, 0)
+
             flatKerning = self.fontObj.naked().flatKerning
-            prevGlyphName = None
 
-            translate(0, 700)
+            # background loop
+            translate(0, 600)
+            save()
+            prevGlyphName = None
             for indexChar, eachGlyphName in enumerate(self.displayedWord):
                 glyphToDisplay = self.fontObj[eachGlyphName]
 
-                # handling kerning correction
+                # this is for kerning
                 if indexChar > 0:
-                    if (prevGlyphName, eachGlyphName) in flatKerning:
+                    if (prevGlyphName, eachGlyphName) in flatKerning and self.isKerningDisplayActive is True:
                         correction = flatKerning[(prevGlyphName, eachGlyphName)]
-                        self._drawCorrection(correction, displayHeight, descender, unitsPerEm)
-                        translate(correction, 0)
+                        if correction != 0:
 
-                if indexChar == self.pairIndex:
-                    print 'here'
-                    self._drawCursor(prevGlyphName, eachGlyphName)
+                            if self.isColorsActive is True and self.isPreviewOn is False:
+                                self._drawColoredCorrection(correction)
+                            if self.isMetricsActive is True and self.isPreviewOn is False:
+                                self._drawMetricsCorrection(correction)
+
+                            translate(correction, 0)
+                    else:
+                        correction = 0
+
+                    if (indexChar-1) == self.pairIndex:
+                        self._drawCursor(correction)
 
                 # # draw metrics info
-                self._drawMetricsData(glyphToDisplay.width, glyphToDisplay.leftMargin, glyphToDisplay.rightMargin, descender*2, displayHeight)
+                if self.isMetricsActive is True and self.isPreviewOn is False:
+                    self._drawMetricsData(glyphToDisplay, 33)
 
-                # # drawing just the black letter
+                if self.isSidebearingsActive is True and self.isPreviewOn is False:
+                    self._drawVerticalMetrics(glyphToDisplay)
+                    self._drawSidebearings(glyphToDisplay)
+
+                translate(glyphToDisplay.width, 0)
+                prevGlyphName = eachGlyphName
+            restore()
+
+            # foreground loop
+            save()
+            prevGlyphName = None
+            for indexChar, eachGlyphName in enumerate(self.displayedWord):
+                glyphToDisplay = self.fontObj[eachGlyphName]
+
+                # this is for kerning
+                if indexChar > 0:
+                    if (prevGlyphName, eachGlyphName) in flatKerning and self.isKerningDisplayActive is True:
+                        correction = flatKerning[(prevGlyphName, eachGlyphName)]
+                        if correction != 0:
+                            translate(correction, 0)
+
                 self._drawGlyphOutlines(glyphToDisplay)
                 translate(glyphToDisplay.width, 0)
                 prevGlyphName = eachGlyphName
+            restore()
 
             restore()
 
@@ -579,7 +943,6 @@ class FontsController(Group):
 
         self.openedFonts = openedFonts
         self.displayedFontNames = [os.path.basename(f.path) for f in self.openedFonts]
-        self.activeFonts.append(self.openedFonts[0])
 
         self.jumping_Y = 0
         self.activeFontsCaption = TextBox((0, self.jumping_Y, 130, vanillaControlsSize['TextBoxRegularHeight']),
@@ -589,6 +952,10 @@ class FontsController(Group):
         self.activeFontsAmountPopUp = PopUpButton((-(self.ctrlWidth-activeFontsCaptionWidth), self.jumping_Y, self.ctrlWidth-activeFontsCaptionWidth, vanillaControlsSize['PopUpButtonRegularHeight']),
                                                   ['%s' % i for i in range(1, self.maxFontsAmount+1)],
                                                   callback=self.activeFontsAmountPopUpCallback)
+        if len(self.openedFonts) < self.maxFontsAmount:
+            self.activeFontsAmountPopUp.set(len(self.openedFonts)-1)
+        else:
+            self.activeFontsAmountPopUp.set(self.maxFontsAmount-1)
 
         for eachI in range(self.maxFontsAmount):
             self.jumping_Y += vanillaControlsSize['PopUpButtonRegularHeight']+MARGIN_HOR/2.
@@ -596,8 +963,10 @@ class FontsController(Group):
                                          self.displayedFontNames,
                                          callback=self.singleFontCtrlCallback)
 
-            if (eachI+1) == self.activeFontsAmount:
+            if (eachI+1) <= len(self.openedFonts):
                 singleFontCtrl.enable(True)
+                singleFontCtrl.set(eachI)
+                self.activeFonts.append(self.openedFonts[eachI])
             else:
                 singleFontCtrl.enable(False)
 
@@ -709,10 +1078,13 @@ class WordListController(Group):
         self.activeWord = self.wordsDisplayList[previousWordIndex]['word']
         self.wordsListCtrl.setSelection([previousWordIndex])
 
-    def markActiveWordAsSolved(self):
+    def switchActiveWordSolvedAttribute(self):
         activeWordData = [wordData for wordData in self.wordsDisplayList if wordData['word'] == self.activeWord][0]
         activeWordIndex = self.wordsDisplayList.index(activeWordData)
-        self.wordsDisplayList[activeWordIndex] = {'done?': 1, 'word': self.activeWord}
+        if activeWordData['done?'] == 0:
+            self.wordsDisplayList[activeWordIndex] = {'done?': 1, 'word': self.activeWord}
+        else:
+            self.wordsDisplayList[activeWordIndex] = {'done?': 0, 'word': self.activeWord}
         self.wordsListCtrl.set(self.wordsDisplayList)
         self.wordsListCtrl.setSelection([activeWordIndex])
 
@@ -791,5 +1163,5 @@ class WordListController(Group):
         jsonFile.write('\n')
         jsonFile.close()
 
-
-kc = KerningController()
+if __name__ == '__main__':
+    kc = KerningController()
