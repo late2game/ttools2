@@ -53,7 +53,7 @@ def calcStemsData(glyph, pluginKey):
                 currentID = eachSegment.onCurve.naked().uniqueID
                 if currentID == ID1 or currentID == ID2:
                     ptsToDisplay.append(eachSegment.onCurve)
-        assert len(ptsToDisplay) == 2
+        assert len(ptsToDisplay) == 2, 'the points to display are not 2: %s' % ptsToDisplay
 
         pt1, pt2 = ptsToDisplay
         middlePoint = (pt2.x+pt1.x)/2, (pt2.y+pt1.y)/2
