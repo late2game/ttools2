@@ -19,10 +19,11 @@ from calcFunctions import calcStemsData, calcDiagonalsData, calcMidPoint
 import miscFunctions
 reload(miscFunctions)
 from miscFunctions import collectIDsFromSelectedPoints, guessStemPoints
-from miscFunctions import getOpenedFontFromPath, printException
+from miscFunctions import getOpenedFontFromPath
 
 # standard
 import os, sys
+import traceback
 from math import cos, sin, radians, tan, ceil
 from mojo.roboFont import CurrentGlyph, AllFonts
 from mojo.UI import UpdateCurrentGlyphView, AccordionView
@@ -215,7 +216,6 @@ class SingleGridController(Group):
             self.step = int(sender.get())
             self.callback(self)
         except ValueError as error:
-            printException(sys.exc_info())
             self.step = None
             self.stepCtrl.set('')
 
@@ -279,9 +279,13 @@ class DistancesController(Group):
                                                callback=self.addDiagonalsButtonCallback)
 
         jumpin_Y += vanillaControlsSize['ButtonRegularHeight']*2+MARGIN_VER
-        self.deleteButton = SquareButton((0, jumpin_Y, -MARGIN_HOR, vanillaControlsSize['ButtonRegularHeight']*1.5),
+        self.deleteButton = SquareButton((0, jumpin_Y, self.ctrlWidth*.45, vanillaControlsSize['ButtonRegularHeight']*1.5),
                                          "Delete",
                                          callback=self.deleteButtonCallback)
+
+        self.clearLibButton = SquareButton((-self.ctrlWidth*.45-MARGIN_HOR, jumpin_Y, self.ctrlWidth*.45, vanillaControlsSize['ButtonRegularHeight']*1.5),
+                                           "Clear lib",
+                                           callback=self.clearLibButtonCallback)
 
     def setCurrentGlyph(self, glyph):
         self.currentGlyph = glyph
@@ -375,6 +379,13 @@ class DistancesController(Group):
             self.currentGlyph.update()
         else:
             return None
+
+    def clearLibButtonCallback(self, sender):
+        if STEM_KEY in self.currentGlyph.lib:
+            del self.currentGlyph.lib[STEM_KEY]
+
+        if DIAGONALS_KEY in self.currentGlyph.lib:
+            del self.currentGlyph.lib[DIAGONALS_KEY]
 
 
 class NeighborsController(Group):
@@ -658,7 +669,7 @@ class DrawingAssistant(BaseWindowController):
                     self._drawBcpLenght(self.rgtGlyph, scalingFactor, offset_X=currentGlyph.width)
 
         except Exception as error:
-            printException(sys.exc_info())
+            print traceback.format_exc()
 
     def _drawPreview(self, infoDict):
         currentGlyph = infoDict['glyph']
@@ -670,7 +681,7 @@ class DrawingAssistant(BaseWindowController):
             if self.rgtGlyph and self.rgtNeighborActive is True:
                 self._drawGlyphBlack(self.rgtGlyph, scalingFactor, offset_X=currentGlyph.width)
         except Exception as error:
-            printException(sys.exc_info())
+            print traceback.format_exc()
 
     def _drawBackground(self, infoDict):
         currentGlyph = infoDict['glyph']
@@ -705,7 +716,7 @@ class DrawingAssistant(BaseWindowController):
                 self._drawOffgridPoints(currentGlyph, scalingFactor)
 
         except Exception as error:
-            printException(sys.exc_info())
+            print traceback.format_exc()
 
     def _drawOffgridPoints(self, glyph, scalingFactor):
         save()
@@ -750,7 +761,7 @@ class DrawingAssistant(BaseWindowController):
             save()
             skew(-italicAngle, 0)
             stroke(*gridColor)
-            strokeWidth(1*scalingFactor)
+            strokeWidth(.5*scalingFactor)
             fill(None)
 
             if isVertical is True:
@@ -1176,5 +1187,5 @@ class BcpController(Group):
         self.bcpLengthActive = bool(sender.get())
         self.callback(self)
 
-
-da = DrawingAssistant()
+if __name__ == '__main__':
+    da = DrawingAssistant()
