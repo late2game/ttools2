@@ -15,12 +15,10 @@ import types
 from collections import OrderedDict
 
 ### Functions
-def printException(sysInfo):
-    exc_type, exc_obj, tb = sysInfo
-    f = tb.tb_frame
-    lineno = tb.tb_lineno
-    filename = f.f_code.co_filename
-    print '[EXCEPTION] {}, LINE {}: {}'.format(filename, lineno, exc_obj)
+def catchFilesAndFolders(path, extension):
+    """Return all the files in a path with a specific extension"""
+    items = [os.path.join(path, item) for item in os.listdir(path) if item.endswith(extension)]
+    return items
 
 def buildPairsFromString(word):
     assert isinstance(word, types.StringType) is True
