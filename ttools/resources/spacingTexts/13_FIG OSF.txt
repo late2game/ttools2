@@ -1,0 +1,10 @@
+M E D I E V A L space F I G
+hyphen hyphen hyphen T a b u l a r space M e d i e v a l hyphen hyphen hyphen
+zero one two three four five six seven eight nine zero.zero zero.tosf one.tosf two.tosf three.tosf four.tosf five.tosf six.tosf seven.tosf eight.tosf nine.tosf zero.tosf.zero
+hyphen hyphen hyphen P r o p o r t i o n a l space M e d i e v a l hyphen hyphen hyphen
+zero.tosf one.tosf two.tosf three.tosf four.tosf five.tosf six.tosf seven.tosf eight.tosf nine.tosf zero.tosf.zero zero.osf one.osf two.osf three.osf four.osf five.osf six.osf seven.osf eight.osf nine.osf zero.osf.zero
+n n zero.osf n n one.osf n n two.osf n n three.osf n n four.osf n n
+n n five.osf n n six.osf n n seven.osf n n eight.osf n n nine.osf n n zero.osf.zero n n
+o o zero.osf o o one.osf o o two.osf o o three.osf o o four.osf o o
+o o five.osf o o six.osf o o seven.osf o o eight.osf o o nine.osf o o zero.osf.zero o o
+n n zero.osf n n one.osf n n two.osf n n three.osf n n four.osf n n n n five.osf n n six.osf n n seven.osf n n eight.osf n n nine.osf n n zero.osf.zero n n o o zero.osf o o one.osf o o two.osf o o three.osf o o four.osf o o o o five.osf o o six.osf o o seven.osf o o eight.osf o o nine.osf o o zero.osf.zero o o

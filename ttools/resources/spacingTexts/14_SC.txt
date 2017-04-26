@@ -1,0 +1,18 @@
+s.sc c.sc
+a.sc b.sc c.sc d.sc e.sc f.sc g.sc h.sc i.sc j.sc k.sc l.sc m.sc n.sc o.sc p.sc q.sc r.sc s.sc t.sc u.sc v.sc w.sc x.sc y.sc z.sc
+a.sc b.sc c.sc d.sc e.sc f.sc g.sc h.sc i.sc j.sc k.sc l.sc m.sc
+n.sc o.sc p.sc q.sc r.sc s.sc t.sc u.sc v.sc w.sc x.sc y.sc z.sc
+h.sc h.sc o.sc h.sc h.sc space o.sc o.sc o.sc o.sc o.sc
+h.sc h.sc h.sc h.sc h.sc space o.sc o.sc h.sc o.sc o.sc
+h.sc h.sc a.sc h.sc h.sc space o.sc o.sc a.sc o.sc o.sc
+h.sc h.sc v.sc h.sc h.sc space o.sc o.sc v.sc o.sc o.sc
+h.sc a.sc h.sc v.sc h.sc w.sc h.sc y.sc h.sc o.sc a.sc o.sc v.sc o.sc w.sc o.sc y.sc o.sc
+h.sc e.sc h.sc f.sc h.sc l.sc h.sc t.sc h.sc o.sc e.sc o.sc f.sc o.sc l.sc o.sc t.sc o.sc
+h.sc c.sc h.sc d.sc h.sc g.sc h.sc o.sc h.sc q.sc h.sc o.sc c.sc o.sc d.sc o.sc g.sc o.sc o.sc o.sc q.sc o.sc
+h.sc b.sc h.sc p.sc h.sc r.sc h.sc s.sc h.sc o.sc b.sc o.sc p.sc o.sc r.sc o.sc s.sc o.sc
+h.sc m.sc h.sc n.sc h.sc u.sc h.sc i.sc h.sc j.sc h.sc o.sc m.sc o.sc n.sc o.sc u.sc o.sc i.sc o.sc j.sc o.sc
+h.sc k.sc h.sc x.sc h.sc s.sc h.sc z.sc h.sc o.sc k.sc o.sc x.sc o.sc s.sc o.sc z.sc o.sc
+h.sc t.sc h.sc y.sc h.sc s.sc h.sc z.sc h.sc o.sc t.sc o.sc y.sc o.sc s.sc o.sc z.sc o.sc
+a.sc e.sc ae.sc space o.sc e.sc oe.sc
+s.sc s.sc space germandbls.sc
+d.sc o.sc l.sc c.sc e.sc space ampersand.sc space g.sc a.sc b.sc b.sc a.sc n.sc a.sc

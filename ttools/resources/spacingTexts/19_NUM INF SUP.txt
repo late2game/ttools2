@@ -1,0 +1,24 @@
+hyphen hyphen hyphen N u m e r a t o r hyphen hyphen hyphen
+H H a.numr H b.numr H c.numr H d.numr H e.numr H f.numr H g.numr H h.numr H i.numr H j.numr H k.numr H l.numr H m.numr H n.numr H o.numr H p.numr H q.numr H r.numr H s.numr H t.numr H u.numr H v.numr H w.numr H x.numr H y.numr H z.numr H H
+H H a.numr H b.numr H c.numr H d.numr H e.numr H f.numr H g.numr H H
+H H h.numr H i.numr H j.numr H k.numr H l.numr H m.numr H n.numr H H
+H H o.numr H p.numr H q.numr H r.numr H s.numr H t.numr H u.numr H H
+H H v.numr H w.numr H x.numr H y.numr H z.numr H H
+H H zero.numr H one.numr H two.numr H three.numr H four.numr H five.numr H six.numr H seven.numr H eight.numr H nine.numr H H
+H H dollar.numr H cent.numr H Euro.numr H plus.numr H minus.numr H equal.numr H period.numr H comma.numr H hyphen.numr H parenleft.numr H parenright.numr H H
+hyphen hyphen hyphen I n f e r i o r hyphen hyphen hyphen
+H H uni2090 H b.subs H c.subs H d.subs H uni2091 H f.subs H g.subs H uni2095 H i.subs H j.subs H uni2096 H uni2097 H uni2098 H uni2099 H uni2092 H uni209A H q.subs H r.subs H uni209B H uni209C H u.subs H v.subs H w.subs H uni2093 H y.subs H z.subs H H
+H H uni2090 H b.subs H c.subs H d.subs H uni2091 H f.subs H g.subs H H
+H H uni2095 H i.subs H j.subs H uni2096 H uni2097 H uni2098 H uni2099 H H
+H H uni2092 H uni209A H q.subs H r.subs H uni209B H uni209C H u.subs H H
+H H v.subs H w.subs H uni2093 H y.subs H z.subs H H
+H H uni2080 H uni2081 H uni2082 H uni2083 H uni2084 H uni2085 H uni2086 H uni2087 H uni2088 H uni2089 H H
+H H dollar.subs H cent.subs H Euro.subs H uni208A H uni208B H uni208C H period.subs H comma.subs H hyphen.subs H uni208D H uni208E H H
+hyphen hyphen hyphen S u p e r i o r hyphen hyphen hyphen
+H H a.sups H b.sups H c.sups H d.sups H e.sups H f.sups H g.sups H h.sups H uni2071 H j.sups H k.sups H l.sups H m.sups H uni207F H o.sups H p.sups H q.sups H r.sups H s.sups H t.sups H u.sups H v.sups H w.sups H x.sups H y.sups H z.sups H H
+H H a.sups H b.sups H c.sups H d.sups H e.sups H f.sups H g.sups H H
+H H h.sups H uni2071 H j.sups H k.sups H l.sups H m.sups H uni207F H H
+H H o.sups H p.sups H q.sups H r.sups H s.sups H t.sups H u.sups H H
+H H v.sups H w.sups H x.sups H y.sups H z.sups H H
+H H uni2070 H onesuperior H twosuperior H threesuperior H uni2074 H uni2075 H uni2076 H uni2077 H uni2078 H uni2079 H H
+H H dollar.sups H cent.sups H Euro.sups H uni207A H uni207B H uni207C H period.sups H comma.sups H hyphen.sups H uni207D H uni207E H H

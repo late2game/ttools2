@@ -1,0 +1,20 @@
+hyphen hyphen hyphen U C space A c c e n t e d hyphen hyphen hyphen
+AE AEacute H H AE H AEacute H H O O AE O AEacute O O
+A Agrave Aacute Adieresis Acircumflex Amacron Atilde Aring Abreve Aogonek H H A H Agrave H Aacute H Adieresis H Acircumflex H Amacron H Atilde H Aring H Abreve H Aogonek H H O O A O Agrave O Aacute O Adieresis O Acircumflex O Amacron O Atilde O Aring O Abreve O Aogonek O O
+C Cacute Cdotaccent Ccircumflex Ccaron Ccedilla H H C H Cacute H Cdotaccent H Ccircumflex H Ccaron H Ccedilla H H O O C O Cacute O Cdotaccent O Ccircumflex O Ccaron O Ccedilla O O
+D Dcaron H H D H Dcaron H H O O D O Dcaron O O
+E Egrave Eacute Edotaccent Edieresis Ecircumflex Ecaron Emacron Ebreve Eogonek H H E H Egrave H Eacute H Edotaccent H Edieresis H Ecircumflex H Ecaron H Emacron H Ebreve H Eogonek H H O O E O Egrave O Eacute O Edotaccent O Edieresis O Ecircumflex O Ecaron O Emacron O Ebreve O Eogonek O O
+G Gdotaccent Gcircumflex Gbreve Gcommaaccent Gcedilla H H G H Gdotaccent H Gcircumflex H Gbreve H Gcommaaccent H Gcedilla H H O O G O Gdotaccent O Gcircumflex O Gbreve O Gcommaaccent O Gcedilla O O
+H Hcircumflex H H H H Hcircumflex H H O O H O Hcircumflex O O
+I space Igrave space Iacute space Idotaccent space Idieresis space Icircumflex space Imacron space Itilde space Ibreve space Iogonek H H I H Igrave H Iacute H Idotaccent H Idieresis H Icircumflex H Imacron H Itilde H Ibreve H Iogonek H H O O I O Igrave O Iacute O Idotaccent O Idieresis O Icircumflex O Imacron O Itilde O Ibreve O Iogonek O O
+J Jcircumflex H H J H Jcircumflex H H O O J O Jcircumflex O O
+K Kcommaaccent Kcedilla H H K H Kcommaaccent H Kcedilla H H O O K O Kcommaaccent O Kcedilla O O
+L Lacute Lcommaaccent Lcedilla H H L H Lacute H Lcommaaccent H Lcedilla H H O O L O Lacute O Lcommaaccent O Lcedilla O O
+N Nacute Ncaron Ntilde Ncommaaccent Ncedilla H H N H Nacute H Ncaron H Ntilde H Ncommaaccent H Ncedilla H H O O N O Nacute O Ncaron O Ntilde O Ncommaaccent O Ncedilla O O
+O Ograve Oacute Ohungarumlaut Odieresis Ocircumflex Omacron Obreve Otilde Oslashacute H H O H Ograve H Oacute H Ohungarumlaut H Odieresis H Ocircumflex H Omacron H Obreve H Otilde H Oslashacute H H O O O O Ograve O Oacute O Ohungarumlaut O Odieresis O Ocircumflex O Omacron O Obreve O Otilde O Oslashacute O O
+R Racute Rcaron Rcommaaccent Rcedilla H H R H Racute H Rcaron H Rcommaaccent H Rcedilla H H O O R O Racute O Rcaron O Rcommaaccent O Rcedilla O O
+S Sacute Scircumflex Scaron Scommaaccent Scedilla H H S H Sacute H Scircumflex H Scaron H Scommaaccent H Scedilla H H O O S O Sacute O Scircumflex O Scaron O Scommaaccent O Scedilla O O
+T Tcaron Tcedilla Tcommaaccent H H T H Tcaron H Tcedilla H Tcommaaccent H H O O T O Tcaron O Tcedilla O Tcommaaccent O O
+U Ugrave Uacute Uhungarumlaut Udieresis Ucircumflex Umacron Utilde Ubreve Uring Uogonek H H U H Ugrave H Uacute H Uhungarumlaut H Udieresis H Ucircumflex H Umacron H Utilde H Ubreve H Uring H Uogonek H H O O U O Ugrave O Uacute O Uhungarumlaut O Udieresis O Ucircumflex O Umacron O Utilde O Ubreve O Uring O Uogonek O O
+W Wgrave Wacute Wdieresis Wcircumflex H H W H Wgrave H Wacute H Wdieresis H Wcircumflex H H O O W O Wgrave O Wacute O Wdieresis O Wcircumflex O O
+Y Ygrave Yacute Ydieresis Ycircumflex H H Y H Ygrave H Yacute H Ydieresis H Ycircumflex H H O O Y O Ygrave O Yacute O Ydieresis O Ycircumflex O O

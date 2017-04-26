@@ -1,0 +1,8 @@
+L C space L i g a t u r e s
+n n f_j n n f_b n n f_h n n f_k n n f_t n n t_t n n t_f n n n n uniFB03 n n f_f_j n n uniFB04 n n f_f_b n n f_f_h n n f_f_k n n f_f_t n n
+n n f_j n n f_b n n f_h n n f_k n n f_t n n t_t n n t_f n n
+n n uniFB03 n n f_f_j n n uniFB04 n n f_f_b n n f_f_h n n f_f_k n n f_f_t n n
+o o f_j o o f_b o o f_h o o f_k o o f_t o o t_t o o t_f o o o o n uniFB03 o o f_f_j o o uniFB04 o o f_f_b o o f_f_h o o f_f_k o o f_f_t o o
+o o f_j o o f_b o o f_h o o f_k o o f_t o o t_t o o t_f o o
+o o n uniFB03 o o f_f_j o o uniFB04 o o f_f_b o o f_f_h o o f_f_k o o f_f_t o o
+n n f_j n n f_b n n f_h n n f_k n n f_t n n t_t n n t_f n n o o f_j o o f_b o o f_h o o f_k o o f_t o o t_t o o t_f o o n n uniFB03 n n f_f_j n n uniFB04 n n f_f_b n n f_f_h n n f_f_k n n f_f_t n n o o n uniFB03 o o f_f_j o o uniFB04 o o f_f_b o o f_f_h o o f_f_k o o f_f_t o o

@@ -1,0 +1,13 @@
+hyphen hyphen hyphen F R A C T I O N S hyphen hyphen hyphen
+percent perthousand onehalf onethird twothirds onequarter threequarters uni2155 uni2156 uni2157 uni2158 uni2159 uni215A oneeighth threeeighths fiveeighths seveneighths fraction space percent.sc perthousand.sc
+H H percent H perthousand H onehalf H onethird H twothirds H onequarter H H H H threequarters H uni2155 H uni2156 H uni2157 H uni2158 H uni2159 H uni215A H H H H oneeighth H threeeighths H fiveeighths H seveneighths H H H H fraction space H percent.sc H perthousand.sc H H
+H H percent H perthousand H onehalf H onethird H twothirds H onequarter H H
+H H threequarters H uni2155 H uni2156 H uni2157 H uni2158 H uni2159 H uni215A H H
+H H oneeighth H threeeighths H fiveeighths H seveneighths H H
+H H fraction space H percent.sc H perthousand.sc H H
+zero zero percent zero perthousand zero onehalf zero onethird zero twothirds zero onequarter zero zero zero zero threequarters zero uni2155 zero uni2156 zero uni2157 zero uni2158 zero uni2159 zero uni215A zero zero zero zero oneeighth zero threeeighths zero fiveeighths zero seveneighths zero zero zero zero fraction space zero percent.sc zero perthousand.sc zero zero
+zero zero percent zero perthousand zero onehalf zero onethird zero twothirds zero onequarter zero zero
+zero zero threequarters zero uni2155 zero uni2156 zero uni2157 zero uni2158 zero uni2159 zero uni215A zero zero
+zero zero oneeighth zero threeeighths zero fiveeighths zero seveneighths zero zero
+zero zero fraction space zero percent.sc zero perthousand.sc zero zero
+H H percent H perthousand H onehalf H onethird H twothirds H onequarter H H zero zero percent zero perthousand zero onehalf zero onethird zero twothirds zero onequarter zero zero H H threequarters H uni2155 H uni2156 H uni2157 H uni2158 H uni2159 H uni215A H H zero zero threequarters zero uni2155 zero uni2156 zero uni2157 zero uni2158 zero uni2159 zero uni215A zero zero H H oneeighth H threeeighths H fiveeighths H seveneighths H H zero zero oneeighth zero threeeighths zero fiveeighths zero seveneighths zero zero H H fraction space H percent.sc H perthousand.sc H H zero zero fraction space zero percent.sc zero perthousand.sc zero zero

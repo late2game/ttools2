@@ -1,0 +1,21 @@
+fi n d space section space five.tosf nine.tosf space b space u n d space section section space eight.tosf three.tosf space b i s space one.tosf six.tosf four.tosf
+one.tosf two.tosf dollar space three.tosf four.tosf cent space five.tosf six.tosf Euro space seven.tosf eight.tosf yen space nine.tosf zero sterling space one.tosf zero.zero florin
+dollar one.tosf two.tosf space cent three.tosf four.tosf space Euro five.tosf six.tosf space yen seven.tosf eight.tosf space sterling nine.tosf zero space florin one.tosf zero.zero
+asterisk zero.tosf one.tosf period zero.tosf three.tosf period one.tosf eight.tosf eight.tosf three.tosf comma space dagger two.tosf three.tosf period zero.tosf four.tosf period one.tosf nine.tosf five.tosf six.tosf
+asterisk one.tosf four.tosf period zero.tosf five.tosf period one.tosf eight.tosf nine.tosf nine.tosf comma space daggerdbl zero.tosf seven.tosf period one.tosf two.tosf period one.tosf nine.tosf one.tosf nine.tosf
+F o r m a t colon space three.tosf five.tosf multiply six.tosf five.tosf comma space P L Z space greaterequal space two.tosf zero.tosf zero.tosf zero.tosf zero.tosf
+four.tosf multiply one.tosf zero.tosf zero.tosf hyphen m hyphen S t a f f e l
+one.tosf two.tosf space notequal space one.tosf three.tosf comma space approxequal eight.tosf zero.tosf space P r o z e n t comma space numbersign one.tosf
+radical two.tosf space equal space one.tosf period four.tosf one.tosf four.tosf two.tosf one.tosf three.tosf five.tosf six.tosf two.tosf comma space
+pi space equal space three.tosf comma one.tosf four.tosf one.tosf five.tosf nine.tosf two.tosf six.tosf five.tosf four.tosf
+bracketleft nine.tosf three.tosf seven.tosf mu m comma space three.tosf five.tosf space Omega bracketright
+braceleft Delta space equal one.tosf eight.tosf comma five.tosf four.tosf braceright space summation equal three.tosf four.tosf six.tosf comma two.tosf eight.tosf space
+lozenge space equal zero.tosf comma zero.tosf zero.tosf one.tosf space partialdiff equal one.tosf comma zero.tosf three.tosf
+integral two.tosf space b i s space nine.tosf comma space c l o s e space t o space infinity
+hyphen hyphen hyphen P r o p o r t i o n a l hyphen hyphen hyphen
+zero.lf.zero three.lf space four.lf one.lf space slash space one.lf nine.lf space zero.lf.zero eight.lf space seven.lf six.lf
+fi n d space section space five.lf nine.lf space b space u n d space section section space eight.lf three.lf space b i s space one.lf six.lf four.lf
+one.lf two.lf dollar.lf space three.lf four.lf cent.lf space five.lf six.lf Euro.lf space seven.lf eight.lf yen.lf space nine.lf zero sterling.lf space one.lf zero.zero florin.lf
+dollar.lf one.lf two.lf space cent.lf three.lf four.lf space Euro.lf five.lf six.lf space yen.lf seven.lf eight.lf space sterling.lf nine.lf zero space florin.lf one.lf zero.zero
+asterisk zero.lf one.lf period zero.lf three.lf period one.lf eight.lf eight.lf three.lf comma space dagger two.lf three.lf period zero.lf four.lf period one.lf nine.lf five.lf six.lf
+asterisk one.lf four.lf period zero.lf five.lf period one.lf eight.lf nine.lf nine.lf comma space daggerdbl zero.lf seven.lf period one.lf two.lf period one.lf nine.lf one.lf nine.lf
