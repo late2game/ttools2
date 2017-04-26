@@ -10,7 +10,6 @@
 import miscFunctions
 reload(miscFunctions)
 from miscFunctions import loadKerningTexts, buildPairsFromString
-from miscFunctions import printException
 
 import userInterfaceValues
 reload(userInterfaceValues)
@@ -35,7 +34,7 @@ from vanilla import VerticalLine, CheckBox, Button
 PLUGIN_TITLE = 'TT Kerning editor'
 
 # func
-KERNING_TEXT_FOLDER = os.path.join(os.path.dirname(__file__), 'kerningTexts')
+KERNING_TEXT_FOLDER = os.path.join(os.path.dirname(__file__), 'resources', 'kerningTexts')
 KERNING_STATUS_PATH = 'lastKerningStatus.json'
 JOYSTICK_EVENTS = ['minusMajor', 'minusMinor', 'plusMinor', 'plusMajor', 'preview', 'solved', 'symmetricalEditing', 'keyboardEdit', 'previousWord', 'cursorUp', 'cursorLeft', 'cursorRight', 'cursorDown', 'nextWord']
 
@@ -65,6 +64,7 @@ TEXT_MARGIN = 200 #upm
 CANVAS_UPM_HEIGHT = 1600.
 
 SYSTEM_FONT_NAME = '.HelveticaNeueDeskInterface-Regular'
+BODY_SIZE = 14
 
 """
 Desired keys
@@ -629,7 +629,7 @@ class JoystickGroup(Group):
                     self.activePairEditCorrection.set('%s' % self.fontObj.naked().flatKerning[self.activePair])
                 else:
                     self.activePairEditCorrection.set('%s' % 0)
-                printException(sys.exc_info())
+                print traceback.format_exc()
 
 
 class GraphicsManager(Group):
@@ -782,7 +782,7 @@ class WordDisplay(Group):
         translate(0, self.fontObj.info.unitsPerEm+self.fontObj.info.descender+100)
         scale(1/(self.getPosSize()[3]/CANVAS_UPM_HEIGHT))
         font(SYSTEM_FONT_NAME)
-        fontSize(10)
+        fontSize(BODY_SIZE)
         textWidth, textHeight = textSize('%s' % correction)
         textBox('%s' % correction, (-textWidth/2., -textHeight, textWidth, textHeight), align='center')
 
@@ -812,23 +812,19 @@ class WordDisplay(Group):
         fill(*BLACK)
         stroke(None)
         font(SYSTEM_FONT_NAME)
-        fontSize(10)
-        textBox(u'%s' % glyphToDisplay.width, (0, 11, glyphToDisplay.width*reverseScalingFactor, 11), align='center')
-        textBox(u'%s' % glyphToDisplay.leftMargin, (0, 0, glyphToDisplay.width/2.*reverseScalingFactor, 11), align='center')
-        textBox(u'%s' % glyphToDisplay.rightMargin, (glyphToDisplay.width/2.*reverseScalingFactor, 0, glyphToDisplay.width/2.*reverseScalingFactor, 11), align='center')
+        fontSize(BODY_SIZE)
+        textWidth, textHeight = textSize(u'%s' % glyphToDisplay.width)
+        textBox(u'%s' % glyphToDisplay.width, (0, 11, glyphToDisplay.width*reverseScalingFactor, textHeight), align='center')
+        textBox(u'%s' % glyphToDisplay.leftMargin, (0, 0, glyphToDisplay.width/2.*reverseScalingFactor, textHeight), align='center')
+        textBox(u'%s' % glyphToDisplay.rightMargin, (glyphToDisplay.width/2.*reverseScalingFactor, 0, glyphToDisplay.width/2.*reverseScalingFactor, textHeight), align='center')
         restore()
 
-    def _drawVerticalMetrics(self, glyphToDisplay):
+    def _drawBaseline(self, glyphToDisplay):
         save()
         stroke(*LIGHT_GRAY)
         fill(None)
         strokeWidth(1/(self.getPosSize()[3]/CANVAS_UPM_HEIGHT))
-
         line((0, 0), (glyphToDisplay.width, 0))
-        line((0, self.fontObj.info.ascender), (glyphToDisplay.width, self.fontObj.info.ascender))
-        line((0, self.fontObj.info.xHeight), (glyphToDisplay.width, self.fontObj.info.xHeight))
-        line((0, self.fontObj.info.descender), (glyphToDisplay.width, self.fontObj.info.descender))
-
         restore()
 
     def _drawSidebearings(self, glyphToDisplay):
@@ -899,7 +895,7 @@ class WordDisplay(Group):
                     self._drawMetricsData(glyphToDisplay, 33)
 
                 if self.isSidebearingsActive is True and self.isPreviewOn is False:
-                    self._drawVerticalMetrics(glyphToDisplay)
+                    self._drawBaseline(glyphToDisplay)
                     self._drawSidebearings(glyphToDisplay)
 
                 translate(glyphToDisplay.width, 0)
@@ -927,7 +923,7 @@ class WordDisplay(Group):
             restore()
 
         except Exception:
-            printException(sys.exc_info())
+            print traceback.format_exc()
 
 
 class FontsController(Group):
