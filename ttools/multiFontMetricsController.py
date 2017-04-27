@@ -5,19 +5,6 @@
 # Multi Font Metrics Window #
 #############################
 
-### Constants
-LIGHT_YELLOW = (255./255, 248./255, 216./255, 1)
-
-SPACING_COL_WIDTH = 74
-SPACING_COL_MARGIN = 2
-MARGIN_LFT = 15
-MARGIN_RGT = 15
-MARGIN_TOP = 15
-MARGIN_COL = 10
-MARGIN_ROW = 15
-MARGIN_BTM = 20
-MARGIN_HALFROW = 7
-
 ### Modules
 # standard modules
 import os
@@ -27,7 +14,7 @@ from types import DictType
 from AppKit import NSColor, NSFont, NSCenterTextAlignment
 from mojo.UI import MultiLineView, OpenGlyphWindow
 from mojo.events import addObserver, removeObserver
-from mojo.roboFont import AllFonts
+from mojo.roboFont import AllFonts, OpenFont
 from fontTools.agl import AGL2UV, UV2AGL
 from vanilla import Window, Group, EditText, CheckBox
 from vanilla import PopUpButton, ComboBox, TextBox
@@ -44,6 +31,21 @@ from miscFunctions import catchFilesAndFolders
 import userInterfaceValues
 reload(userInterfaceValues)
 from userInterfaceValues import vanillaControlsSize
+
+### Constants
+LIGHT_YELLOW = (255./255, 248./255, 216./255, 1)
+
+SPACING_COL_WIDTH = 74
+SPACING_COL_MARGIN = 2
+MARGIN_LFT = 15
+MARGIN_RGT = 15
+MARGIN_TOP = 15
+MARGIN_COL = 10
+MARGIN_ROW = 15
+MARGIN_BTM = 20
+MARGIN_HALFROW = 7
+
+NOT_DEF_GLYPH = OpenFont(os.path.join(os.path.dirname(__file__), 'resources', 'notdef.ufo'), showUI=False)['.notdef']
 
 ### Functions and classes
 def convertLineToPseudoUnicode(glyphNamesLine):
@@ -406,7 +408,7 @@ class MultiFontMetricsWindow(object):
                             if eachFont.has_key('.notdef'):
                                 displayedGlyphs.append(eachFont['.notdef'])
                             else:
-                                displayedGlyphs.append(notDefGlyph)
+                                displayedGlyphs.append(NOT_DEF_GLYPH)
 
             else:
                 for eachGlyphName in self.glyphNamesToDisplay:
@@ -418,7 +420,7 @@ class MultiFontMetricsWindow(object):
                             if eachFont.has_key('.notdef'):
                                 displayedGlyphs.append(eachFont['.notdef'])
                             else:
-                                displayedGlyphs.append(notDefGlyph)
+                                displayedGlyphs.append(NOT_DEF_GLYPH)
 
             self.win.lineView.set(displayedGlyphs)
 
@@ -876,7 +878,7 @@ class MultiGlyphMetricsEditor(Group):
             if eachFont.has_key(glyphName):
                 singleGlyph = eachFont[glyphName]
             else:
-                singleGlyph = notDefGlyph
+                singleGlyph = NOT_DEF_GLYPH
             singleGlyphEditor = SingleGlyphMetricsEditor((0, jumpingY, SPACING_COL_WIDTH, vanillaControlsSize['EditTextSmallHeight']*2),
                                                          singleGlyph,
                                                          callback=self.callback)
@@ -996,5 +998,4 @@ class SingleGlyphMetricsEditor(Group):
 
 ### Instructions
 if __name__ == '__main__':
-    notDefGlyph = OpenFont(os.path.join('resources', 'notdef.ufo'), showUI=False)['.notdef']
     mfmw = MultiFontMetricsWindow()
