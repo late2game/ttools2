@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="uni021B.sc" format="1">
+  <advance width="512"/>
+  <outline>
+    <contour>
+      <point x="20" y="444" type="line" name="hr01"/>
+      <point x="212" y="444" type="line"/>
+      <point x="212" y="0" type="line"/>
+      <point x="300" y="0" type="line"/>
+      <point x="300" y="444" type="line"/>
+      <point x="492" y="444" type="line"/>
+      <point x="492" y="520" type="line"/>
+      <point x="20" y="520" type="line"/>
+    </contour>
+    <contour>
+      <point x="216" y="-68" type="line" name="hr02"/>
+      <point x="216" y="-156" type="line"/>
+      <point x="253" y="-156" type="line"/>
+      <point x="227" y="-248" type="line"/>
+      <point x="267" y="-248" type="line"/>
+      <point x="304" y="-146" type="line"/>
+      <point x="304" y="-68" type="line"/>
+    </contour>
+  </outline>
+</glyph>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="aacute.sc" format="1">
+  <advance width="524"/>
+  <outline>
+    <contour>
+      <point x="8" y="0" type="line" name="hr00"/>
+      <point x="96" y="0" type="line"/>
+      <point x="144" y="126" type="line"/>
+      <point x="377" y="126" type="line"/>
+      <point x="424" y="0" type="line"/>
+      <point x="516" y="0" type="line"/>
+      <point x="316" y="520" type="line"/>
+      <point x="212" y="520" type="line"/>
+    </contour>
+    <contour>
+      <point x="264" y="432" type="line"/>
+      <point x="350" y="198" type="line"/>
+      <point x="171" y="198" type="line"/>
+      <point x="260" y="432" type="line"/>
+    </contour>
+    <contour>
+      <point x="230" y="600" type="line"/>
+      <point x="294" y="600" type="line"/>
+      <point x="438" y="764" type="line"/>
+      <point x="334" y="764" type="line"/>
+    </contour>
+  </outline>
+</glyph>

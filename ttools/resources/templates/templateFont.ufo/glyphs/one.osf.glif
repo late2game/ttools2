@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="one.osf" format="1">
+  <advance width="344"/>
+  <outline>
+    <contour>
+      <point x="52" y="296" type="line" name="hr00"/>
+      <point x="172" y="379" type="line"/>
+      <point x="172" y="0" type="line"/>
+      <point x="260" y="0" type="line"/>
+      <point x="260" y="488" type="line"/>
+      <point x="192" y="488" type="line"/>
+      <point x="12" y="364" type="line"/>
+    </contour>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.adobe.type.autohint</key>
+      <data>
+      </data>
+    </dict>
+  </lib>
+</glyph>

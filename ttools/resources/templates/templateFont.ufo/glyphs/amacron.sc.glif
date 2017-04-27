@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="amacron.sc" format="1">
+  <advance width="524"/>
+  <outline>
+    <contour>
+      <point x="8" y="0" type="line" name="hr01"/>
+      <point x="96" y="0" type="line"/>
+      <point x="144" y="126" type="line"/>
+      <point x="377" y="126" type="line"/>
+      <point x="424" y="0" type="line"/>
+      <point x="516" y="0" type="line"/>
+      <point x="316" y="520" type="line"/>
+      <point x="212" y="520" type="line"/>
+    </contour>
+    <contour>
+      <point x="264" y="432" type="line"/>
+      <point x="350" y="198" type="line"/>
+      <point x="171" y="198" type="line"/>
+      <point x="260" y="432" type="line"/>
+    </contour>
+    <contour>
+      <point x="122" y="648" type="line" name="hr02"/>
+      <point x="398" y="648" type="line"/>
+      <point x="398" y="716" type="line"/>
+      <point x="122" y="716" type="line"/>
+    </contour>
+  </outline>
+</glyph>

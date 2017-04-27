@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="uni013C" format="1">
+  <advance width="240"/>
+  <unicode hex="013C"/>
+  <outline>
+    <contour>
+      <point x="76" y="0" type="line" name="hr00"/>
+      <point x="164" y="0" type="line"/>
+      <point x="164" y="732" type="line"/>
+      <point x="76" y="732" type="line"/>
+    </contour>
+    <contour>
+      <point x="76" y="-68" type="line"/>
+      <point x="76" y="-156" type="line"/>
+      <point x="113" y="-156" type="line"/>
+      <point x="87" y="-248" type="line"/>
+      <point x="127" y="-248" type="line"/>
+      <point x="164" y="-146" type="line"/>
+      <point x="164" y="-68" type="line"/>
+    </contour>
+  </outline>
+</glyph>

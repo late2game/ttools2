@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="i.numr" format="1">
+  <advance width="176"/>
+  <outline>
+    <contour>
+      <point x="45" y="779" type="line" name="hr01"/>
+      <point x="131" y="779" type="line"/>
+      <point x="131" y="860" type="line"/>
+      <point x="45" y="860" type="line"/>
+    </contour>
+    <contour>
+      <point x="48" y="344" type="line" name="hr02"/>
+      <point x="128" y="344" type="line"/>
+      <point x="128" y="688" type="line"/>
+      <point x="48" y="688" type="line"/>
+    </contour>
+  </outline>
+</glyph>

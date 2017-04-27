@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="quoteright.sc" format="1">
+  <advance width="256"/>
+  <outline>
+    <contour>
+      <point x="92" y="268" type="line" name="hr00"/>
+      <point x="140" y="268" type="line"/>
+      <point x="180" y="420" type="line"/>
+      <point x="180" y="520" type="line"/>
+      <point x="76" y="520" type="line"/>
+      <point x="76" y="412" type="line"/>
+      <point x="120" y="412" type="line"/>
+    </contour>
+  </outline>
+</glyph>

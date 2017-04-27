@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="exclamdown.case" format="1">
+  <advance width="280"/>
+  <outline>
+    <contour>
+      <point x="88" y="380" type="line" name="hr00"/>
+      <point x="192" y="380" type="line"/>
+      <point x="192" y="488" type="line"/>
+      <point x="88" y="488" type="line"/>
+    </contour>
+    <contour>
+      <point x="88" y="-8" type="line"/>
+      <point x="88" y="-200" type="line"/>
+      <point x="192" y="-200" type="line"/>
+      <point x="192" y="-8" type="line"/>
+      <point x="164" y="296" type="line"/>
+      <point x="116" y="296" type="line"/>
+    </contour>
+  </outline>
+</glyph>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="i.subs" format="1">
+  <advance width="176"/>
+  <outline>
+    <contour>
+      <point x="45" y="283" type="line" name="hr01"/>
+      <point x="131" y="283" type="line"/>
+      <point x="131" y="364" type="line"/>
+      <point x="45" y="364" type="line"/>
+    </contour>
+    <contour>
+      <point x="48" y="-152" type="line" name="hr02"/>
+      <point x="128" y="-152" type="line"/>
+      <point x="128" y="192" type="line"/>
+      <point x="48" y="192" type="line"/>
+    </contour>
+  </outline>
+</glyph>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="i.dnom" format="1">
+  <advance width="176"/>
+  <outline>
+    <contour>
+      <point x="45" y="435" type="line" name="hr01"/>
+      <point x="131" y="435" type="line"/>
+      <point x="131" y="516" type="line"/>
+      <point x="45" y="516" type="line"/>
+    </contour>
+    <contour>
+      <point x="48" y="0" type="line" name="hr02"/>
+      <point x="128" y="0" type="line"/>
+      <point x="128" y="344" type="line"/>
+      <point x="48" y="344" type="line"/>
+    </contour>
+  </outline>
+</glyph>

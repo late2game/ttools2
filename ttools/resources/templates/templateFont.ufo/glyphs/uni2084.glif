@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="uni2084" format="1">
+  <advance width="352"/>
+  <unicode hex="2084"/>
+  <outline>
+    <contour>
+      <point x="24" y="-88" type="line" name="hr00"/>
+      <point x="200" y="-88" type="line"/>
+      <point x="200" y="-152" type="line"/>
+      <point x="276" y="-152" type="line"/>
+      <point x="276" y="-88" type="line"/>
+      <point x="324" y="-88" type="line"/>
+      <point x="324" y="-28" type="line"/>
+      <point x="276" y="-28" type="line"/>
+      <point x="276" y="192" type="line"/>
+      <point x="212" y="192" type="line"/>
+      <point x="24" y="-40" type="line"/>
+    </contour>
+    <contour>
+      <point x="107" y="-28" type="line"/>
+      <point x="200" y="89" type="line"/>
+      <point x="200" y="-28" type="line"/>
+    </contour>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.adobe.type.autohint</key>
+      <data>
+      </data>
+    </dict>
+  </lib>
+</glyph>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="yen.lf.sc" format="1">
+  <advance width="440"/>
+  <outline>
+    <contour>
+      <point x="92" y="520" type="line" name="hr01"/>
+      <point x="-12" y="520" type="line"/>
+      <point x="174" y="228" type="line"/>
+      <point x="56" y="228" type="line"/>
+      <point x="56" y="180" type="line"/>
+      <point x="180" y="180" type="line"/>
+      <point x="180" y="128" type="line"/>
+      <point x="56" y="128" type="line"/>
+      <point x="56" y="80" type="line" name="hr02"/>
+      <point x="180" y="80" type="line"/>
+      <point x="180" y="0" type="line" name="hr03"/>
+      <point x="268" y="0" type="line"/>
+      <point x="268" y="80" type="line" name="hr04"/>
+      <point x="388" y="80" type="line"/>
+      <point x="388" y="128" type="line" name="hr05"/>
+      <point x="268" y="128" type="line"/>
+      <point x="268" y="180" type="line"/>
+      <point x="388" y="180" type="line"/>
+      <point x="388" y="228" type="line"/>
+      <point x="269" y="228" type="line"/>
+      <point x="452" y="520" type="line"/>
+      <point x="360" y="520" type="line"/>
+      <point x="227" y="304" type="line"/>
+      <point x="225" y="304" type="line"/>
+    </contour>
+  </outline>
+</glyph>
