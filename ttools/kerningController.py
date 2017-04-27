@@ -23,7 +23,6 @@ import types
 from mojo.drawingTools import *
 from mojo.roboFont import AllFonts
 from mojo.canvas import CanvasGroup
-from operator import itemgetter
 from defconAppKit.windows.baseWindow import BaseWindowController
 from vanilla import Window, Group, PopUpButton, List, EditText
 from vanilla import CheckBoxListCell, TextBox, SquareButton, HorizontalLine
