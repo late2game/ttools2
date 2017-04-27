@@ -22,6 +22,7 @@ MARGIN_HALFROW = 7
 # standard modules
 import os
 from math import floor, ceil
+import traceback
 from types import DictType
 from AppKit import NSColor, NSFont, NSCenterTextAlignment
 from mojo.UI import MultiLineView, OpenGlyphWindow
