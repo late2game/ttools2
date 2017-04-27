@@ -6,9 +6,17 @@
 #############################
 
 ### Constants
+LIGHT_YELLOW = (255./255, 248./255, 216./255, 1)
+
 SPACING_COL_WIDTH = 74
 SPACING_COL_MARGIN = 2
-LIGHT_YELLOW = (255./255, 248./255, 216./255, 1)
+MARGIN_LFT = 15
+MARGIN_RGT = 15
+MARGIN_TOP = 15
+MARGIN_COL = 10
+MARGIN_ROW = 15
+MARGIN_BTM = 20
+MARGIN_HALFROW = 7
 
 ### Modules
 # standard modules
@@ -35,21 +43,6 @@ from miscFunctions import catchFilesAndFolders
 import userInterfaceValues
 reload(userInterfaceValues)
 from userInterfaceValues import vanillaControlsSize
-
-"""
-import resources
-reload(resources)
-from resources.userInterface import Margin
-"""
-
-### Constants
-MARGIN_LFT = 15
-MARGIN_RGT = 15
-MARGIN_TOP = 15
-MARGIN_COL = 10
-MARGIN_ROW = 15
-MARGIN_BTM = 20
-MARGIN_HALFROW = 7
 
 ### Functions and classes
 def convertLineToPseudoUnicode(glyphNamesLine):
