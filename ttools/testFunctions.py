@@ -22,6 +22,44 @@ from testsData import UCExtraSets, LCextraSets, LCligaturesSets
 from testsData import dnomNumInfSupBaseGlyphs, dnomNumInfSupNewSuffixes
 from testsData import dnomNumInfSupOldSuffixes
 
+"""
+implement flipped sidebearings
+‹
+guilsinglleft.case
+(
+[
+{
+parenleft.case 
+bracketleft.case 
+braceleft.case 
+)
+]
+}
+parenright.case 
+bracketright.case 
+braceright.case 
+«
+‘
+“
+guillemotleft.case
+»
+’
+”
+guillemotright.case
+›
+?
+¿
+guilsinglright.case 
+questiondown.case
+
+check string formatting, update with new Python3 format
+
+delete old csv module dependency
+
+update glyphnames
+
+"""
+
 
 ### Constants
 SEP = '-'*10
@@ -318,7 +356,7 @@ def checkFigures(sourceFont, nameScheme='new'):
     errorLines = [START % {'sep': SEP, 'funcName': checkFigures.__name__}]
     missingGlyphs = []
 
-    checksToBeDone = ['tabularLining', 'tabularOS', 'tabularSC', 'math']
+    checksToBeDone = ['tabularLining', 'tabularOS', 'tabularSC', 'math', 'mathSC']
     for eachCheck in checksToBeDone:
         digitsNames = figuresDict[eachCheck]
 
