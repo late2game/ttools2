@@ -784,10 +784,6 @@
 	<string>gbreve.glif</string>
 	<key>gbreve.sc</key>
 	<string>gbreve.sc.glif</string>
-	<key>gcedilla</key>
-	<string>gcedilla.glif</string>
-	<key>gcedilla.sc</key>
-	<string>gcedilla.sc.glif</string>
 	<key>gcircumflex</key>
 	<string>gcircumflex.glif</string>
 	<key>gcircumflex.sc</key>
@@ -1572,6 +1568,8 @@
 	<string>uni0122.glif</string>
 	<key>uni0123</key>
 	<string>uni0123.glif</string>
+	<key>uni0123.sc</key>
+	<string>uni0123.sc.glif</string>
 	<key>uni0136</key>
 	<string>uni0136.glif</string>
 	<key>uni0137</key>

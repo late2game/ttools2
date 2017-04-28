@@ -24,7 +24,7 @@ egrave.sc
 emacron.sc
 eogonek.sc
 gbreve.sc
-gcedilla.sc
+uni0123.sc
 gcircumflex.sc
 gcommaaccent.sc
 gdotaccent.sc

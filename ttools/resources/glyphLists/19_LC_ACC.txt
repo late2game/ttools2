@@ -84,7 +84,7 @@ ygrave
 zacute
 zcaron
 zdotaccent
-gcedilla
+uni0123
 kcedilla
 lcedilla
 ncedilla
