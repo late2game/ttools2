@@ -1166,7 +1166,9 @@
 			<string>emacron</string>
 			<string>eogonek</string>
 			<string>gbreve</string>
+			<string>gcedilla</string>
 			<string>gcircumflex</string>
+			<string>gcommaaccent</string>
 			<string>gdotaccent</string>
 			<string>hcircumflex</string>
 			<string>iacute</string>
@@ -1178,10 +1180,17 @@
 			<string>iogonek</string>
 			<string>itilde</string>
 			<string>jcircumflex</string>
+			<string>kcedilla</string>
+			<string>kcommaaccent</string>
 			<string>lacute</string>
+			<string>lcaron</string>
+			<string>lcedilla</string>
+			<string>lcommaaccent</string>
 			<string>nacute</string>
 			<string>napostrophe</string>
 			<string>ncaron</string>
+			<string>ncedilla</string>
+			<string>ncommaaccent</string>
 			<string>ntilde</string>
 			<string>oacute</string>
 			<string>obreve</string>
@@ -1194,10 +1203,15 @@
 			<string>otilde</string>
 			<string>racute</string>
 			<string>rcaron</string>
+			<string>rcedilla</string>
+			<string>rcommaaccent</string>
 			<string>sacute</string>
 			<string>scaron</string>
 			<string>scedilla</string>
 			<string>scircumflex</string>
+			<string>scommaaccent</string>
+			<string>tcaron</string>
+			<string>tcommaaccent</string>
 			<string>uacute</string>
 			<string>ubreve</string>
 			<string>ucircumflex</string>
@@ -1205,15 +1219,6 @@
 			<string>ugrave</string>
 			<string>uhungarumlaut</string>
 			<string>umacron</string>
-			<string>uni0123</string>
-			<string>uni0137</string>
-			<string>uni013C</string>
-			<string>uni013C</string>
-			<string>uni0146</string>
-			<string>uni0146</string>
-			<string>uni0157</string>
-			<string>uni0163</string>
-			<string>uni0219</string>
 			<string>uogonek</string>
 			<string>uring</string>
 			<string>utilde</string>
@@ -1230,7 +1235,7 @@
 			<string>zdotaccent</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {"aacute", "abreve", "acircumflex", "adieresis", "aeacute", "agrave", "amacron", "aogonek", "aring", "atilde", "cacute", "ccaron", "ccedilla", "ccircumflex", "cdotaccent", "eacute", "ebreve", "ecaron", "ecircumflex", "edieresis", "edotaccent", "egrave", "emacron", "eogonek", "gbreve", "gcircumflex", "gdotaccent", "hcircumflex", "iacute", "ibreve", "icircumflex", "idieresis", "igrave", "imacron", "iogonek", "itilde", "jcircumflex", "lacute", "nacute", "napostrophe", "ncaron", "ntilde", "oacute", "obreve", "ocircumflex", "odieresis", "ograve", "ohungarumlaut", "omacron", "oslashacute", "otilde", "racute", "rcaron", "sacute", "scaron", "scedilla", "scircumflex", "uacute", "ubreve", "ucircumflex", "udieresis", "ugrave", "uhungarumlaut", "umacron", "uni0123", "uni0137", "uni013C", "uni013C", "uni0146", "uni0146", "uni0157", "uni0163", "uni0219", "uogonek", "uring", "utilde", "wacute", "wcircumflex", "wdieresis", "wgrave", "yacute", "ycircumflex", "ydieresis", "ygrave", "zacute", "zcaron", "zdotaccent"}</string>
+		<string>Name IN {"aacute", "abreve", "acircumflex", "adieresis", "aeacute", "agrave", "amacron", "aogonek", "aring", "atilde", "cacute", "ccaron", "ccedilla", "ccircumflex", "cdotaccent", "eacute", "ebreve", "ecaron", "ecircumflex", "edieresis", "edotaccent", "egrave", "emacron", "eogonek", "gbreve", "gcedilla", "gcircumflex", "gcommaaccent", "gdotaccent", "hcircumflex", "iacute", "ibreve", "icircumflex", "idieresis", "igrave", "imacron", "iogonek", "itilde", "jcircumflex", "kcedilla", "kcommaaccent", "lacute", "lcaron", "lcedilla", "lcommaaccent", "nacute", "napostrophe", "ncaron", "ncedilla", "ncommaaccent", "ntilde", "oacute", "obreve", "ocircumflex", "odieresis", "ograve", "ohungarumlaut", "omacron", "oslashacute", "otilde", "racute", "rcaron", "rcedilla", "rcommaaccent", "sacute", "scaron", "scedilla", "scircumflex", "scommaaccent", "tcaron", "tcommaaccent", "uacute", "ubreve", "ucircumflex", "udieresis", "ugrave", "uhungarumlaut", "umacron", "uogonek", "uring", "utilde", "wacute", "wcircumflex", "wdieresis", "wgrave", "yacute", "ycircumflex", "ydieresis", "ygrave", "zacute", "zcaron", "zdotaccent"}</string>
 		<key>smartSetName</key>
 		<string>LC ACC</string>
 		<key>uniqueKey</key>

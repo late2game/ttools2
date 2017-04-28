@@ -9,10 +9,10 @@
 # standard
 import os
 import types
-import csv
 from datetime import datetime
 from robofab.interface.all.dialogs import PutFile
 from mojo.events import addObserver, removeObserver
+from mojo.roboFont import AllFonts
 from vanilla import Window, PopUpButton, HorizontalLine
 from vanilla import RadioGroup, TextBox, CheckBox, Button
 from defconAppKit.windows.baseWindow import BaseWindowController
@@ -24,7 +24,7 @@ from testFunctions import checkVerticalExtremes, checkAccented
 from testFunctions import checkInterpunction, checkFigures
 from testFunctions import checkDnomInfNumSup, checkFractions
 from testFunctions import checkLCligatures, checkUCligatures
-from testFunctions import checkLCextra, checkUCextra
+from testFunctions import checkLCextra, checkUCextra, checkFlippedMargins
 
 import userInterfaceValues
 reload(userInterfaceValues)
@@ -32,7 +32,7 @@ from userInterfaceValues import vanillaControlsSize
 
 ### Constants
 RADIO_GROUP_HEIGHT = 40
-NAMES_TABLE_PATH = 'resources/old_vs_new_names.csv'
+NAMES_TABLE_PATH = os.path.join(os.path.dirname(__file__), 'resources', 'old_vs_new_names.csv')
 
 PLUGIN_WIDTH = 300
 PLUGIN_HEIGHT = 600
@@ -68,23 +68,25 @@ def convertLinesToString(errorLines, missingGlyphs, missingGlyphsMode):
 
 
 ### Classes
-class MetricsTester(BaseWindowController):
+class TestMetrics(BaseWindowController):
 
     testOptions = ['Complete report', 'Vertical alignments', 'Accented letters',
                    'Interpunction', 'Figures', 'Dnom Inf Num Sup', 'Fractions',
-                   'LC ligatures', 'UC ligatures', 'LC extra', 'UC extra']
+                   'Flipped Margins', 'LC ligatures', 'UC ligatures',
+                   'LC extra', 'UC extra']
 
     testOptionsAbbr = ['completeReport', 'verticalAlignments', 'accented',
                        'interpunction', 'figures', 'dnomInfNumSup', 'fractions',
-                       'LCliga', 'UCliga', 'LCextra', 'UCextra']
+                       'flippedMargins', 'LCliga', 'UCliga', 'LCextra', 'UCextra']
 
-    testFunctions = {'Complete report': [checkVerticalExtremes, checkAccented, checkInterpunction, checkFigures, checkDnomInfNumSup, checkFractions, checkLCligatures, checkUCligatures, checkLCextra, checkUCextra],
+    testFunctions = {'Complete report': [checkVerticalExtremes, checkAccented, checkInterpunction, checkFigures, checkDnomInfNumSup, checkFractions, checkLCligatures, checkUCligatures, checkLCextra, checkUCextra, checkFlippedMargins],
                      'Vertical alignments': [checkVerticalExtremes],
                      'Accented letters': [checkAccented],
                      'Interpunction': [checkInterpunction],
                      'Figures': [checkFigures],
                      'Dnom Inf Num Sup': [checkDnomInfNumSup],
                      'Fractions': [checkFractions],
+                     'Flipped Margins': [checkFlippedMargins],
                      'LC ligatures': [checkLCligatures],
                      'UC ligatures': [checkUCligatures],
                      'LC extra': [checkLCextra],
@@ -174,9 +176,8 @@ class MetricsTester(BaseWindowController):
             self.chosenFont = None
 
     def readNameTable(self):
-        namesTableFile = open(NAMES_TABLE_PATH, 'rb')
-        namesTableReader = csv.reader(namesTableFile, delimiter='\t', quotechar='|')
-        self.namesDict = {old: new for (new, old) in namesTableReader}
+        namesTable = [(cell.strip() for cell in row.split('\t')) for row in open(NAMES_TABLE_PATH, 'r').readlines()]
+        self.namesDict = {old: new for (new, old) in namesTable}
 
     def targetPopUpCallback(self, sender):
         self.chosenFont = self.fontOptions[sender.get()]
@@ -210,4 +211,4 @@ class MetricsTester(BaseWindowController):
 
 ### Instructions
 if __name__ == '__main__':
-    mt = MetricsTester()
+    mt = TestMetrics()

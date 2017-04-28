@@ -442,14 +442,6 @@
 	<string>caron.glif</string>
 	<key>caron.case</key>
 	<string>caron.case.glif</string>
-	<key>caronquoteleft</key>
-	<string>caronquoteleft.glif</string>
-	<key>caronquoteleft.case</key>
-	<string>caronquoteleft.case.glif</string>
-	<key>caronquoteright</key>
-	<string>caronquoteright.glif</string>
-	<key>caronquoteright.case</key>
-	<string>caronquoteright.case.glif</string>
 	<key>ccaron</key>
 	<string>ccaron.glif</string>
 	<key>ccaron.sc</key>
@@ -582,8 +574,6 @@
 	<string>dotlessi.glif</string>
 	<key>dotlessi.sc</key>
 	<string>dotlessi.sc.glif</string>
-	<key>dotlessj</key>
-	<string>dotlessj.glif</string>
 	<key>e</key>
 	<string>e.glif</string>
 	<key>e.dnom</key>
@@ -794,6 +784,8 @@
 	<string>gbreve.glif</string>
 	<key>gbreve.sc</key>
 	<string>gbreve.sc.glif</string>
+	<key>gcedilla</key>
+	<string>gcedilla.glif</string>
 	<key>gcedilla.sc</key>
 	<string>gcedilla.sc.glif</string>
 	<key>gcircumflex</key>
@@ -968,6 +960,8 @@
 	<string>k.sc.glif</string>
 	<key>k.sups</key>
 	<string>k.sups.glif</string>
+	<key>kcedilla</key>
+	<string>kcedilla.glif</string>
 	<key>kcedilla.sc</key>
 	<string>kcedilla.sc.glif</string>
 	<key>kcommaaccent.sc</key>
@@ -990,6 +984,8 @@
 	<string>lcaron.glif</string>
 	<key>lcaron.sc</key>
 	<string>lcaron.sc.glif</string>
+	<key>lcedilla</key>
+	<string>lcedilla.glif</string>
 	<key>lcedilla.sc</key>
 	<string>lcedilla.sc.glif</string>
 	<key>lcommaaccent.sc</key>
@@ -1074,6 +1070,8 @@
 	<string>ncaron.glif</string>
 	<key>ncaron.sc</key>
 	<string>ncaron.sc.glif</string>
+	<key>ncedilla</key>
+	<string>ncedilla.glif</string>
 	<key>ncedilla.sc</key>
 	<string>ncedilla.sc.glif</string>
 	<key>ncommaaccent.sc</key>
@@ -1352,6 +1350,8 @@
 	<string>rcaron.glif</string>
 	<key>rcaron.sc</key>
 	<string>rcaron.sc.glif</string>
+	<key>rcedilla</key>
+	<string>rcedilla.glif</string>
 	<key>rcedilla.sc</key>
 	<string>rcedilla.sc.glif</string>
 	<key>rcommaaccent.sc</key>
@@ -1606,6 +1606,8 @@
 	<string>uni0237.glif</string>
 	<key>uni0312</key>
 	<string>uni0312.glif</string>
+	<key>uni0312.case</key>
+	<string>uni0312.case.glif</string>
 	<key>uni0313</key>
 	<string>uni0313.glif</string>
 	<key>uni0326</key>

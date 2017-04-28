@@ -7,7 +7,7 @@
 
 ### Modules
 from types import *
-from robofab.world import RFont, RGlyph
+from mojo.roboFont import RFont, RGlyph
 from string import lowercase
 from itertools import product
 from mojo.tools import IntersectGlyphWithLine
@@ -15,62 +15,23 @@ from types import IntType
 
 import testsData
 reload(testsData)
-
 from testsData import accentedDict, figuresDict, verticalGlyphSets
 from testsData import fractionBase, interpunctionSets, NEW2OLD
 from testsData import UCExtraSets, LCextraSets, LCligaturesSets
 from testsData import dnomNumInfSupBaseGlyphs, dnomNumInfSupNewSuffixes
-from testsData import dnomNumInfSupOldSuffixes
-
-"""
-implement flipped sidebearings
-‹
-guilsinglleft.case
-(
-[
-{
-parenleft.case 
-bracketleft.case 
-braceleft.case 
-)
-]
-}
-parenright.case 
-bracketright.case 
-braceright.case 
-«
-‘
-“
-guillemotleft.case
-»
-’
-”
-guillemotright.case
-›
-?
-¿
-guilsinglright.case 
-questiondown.case
-
-check string formatting, update with new Python3 format
-
-delete old csv module dependency
-
-update glyphnames
-
-"""
+from testsData import dnomNumInfSupOldSuffixes, flippedMarginsSet
 
 
 ### Constants
 SEP = '-'*10
-START = "%(sep)s %(funcName)s %(sep)s" # {'funcName': , 'sep': }
-END = "%(sep)s END %(sep)s" # {'sep'}
-WIDTH  = "\t%(glyphName)s width: %(width)s" # {'glyphName': , 'width': }
-LEFT_DIFFER = "%(glyphOne)s and %(glyphTwo)s left margins differ" # {'glyphOne': , 'glyphTwo': }
-RIGHT_DIFFER = "%(glyphOne)s and %(glyphTwo)s right margins differ" #  {'glyphOne': , 'glyphTwo': }
-WIDTH_DIFFER = "%(glyphOne)s and %(glyphTwo)s width differ (%(widthOne)s vs. %(widthTwo)s)"  # {'glyphOne': , 'glyphTwo': , 'widthOne': , 'widthTwo': }
-MOST_FREQUENT = "The most frequent width is %(mostOccur)s (%(times)s times)" # {'mostOccur': , 'times': }
-
+START_ERROR = "%(sep)s %(funcName)s %(sep)s" # {'funcName': , 'sep': }
+END_ERROR = "%(sep)s END %(sep)s" # {'sep'}
+WIDTH_ERROR = "\t%(glyphName)s width: %(width)s" # {'glyphName': , 'width': }
+LEFT_DIFFER_ERROR = "%(glyphOne)s and %(glyphTwo)s left margins differ" # {'glyphOne': , 'glyphTwo': }
+RIGHT_DIFFER_ERROR = "%(glyphOne)s and %(glyphTwo)s right margins differ" #  {'glyphOne': , 'glyphTwo': }
+WIDTH_DIFFER_ERROR = "%(glyphOne)s and %(glyphTwo)s width differ (%(widthOne)s vs. %(widthTwo)s)"  # {'glyphOne': , 'glyphTwo': , 'widthOne': , 'widthTwo': }
+MOST_FREQUENT_ERROR = "The most frequent width is %(mostOccur)s (%(times)s times)" # {'mostOccur': , 'times': }
+FLIPPED_ERROR = "%(glyphOne)s and %(glyphTwo)s have not flipped sidebearings" #  {'glyphOne': , 'glyphTwo': }
 
 ### Functions
 def occurDict(items):
@@ -102,6 +63,14 @@ def isWidthEqual(glyph1, glyph2):
     else:
         return False
 
+def areSidebearingsFlipped(glyph1, glyph2):
+    assert isinstance(glyph1, RGlyph), "%r is not a RGlyph object" % glyph1
+    assert isinstance(glyph2, RGlyph), "%r is not a RGlyph object" % glyph2
+
+    if glyph1.leftMargin == glyph2.rightMargin and glyph1.rightMargin == glyph2.leftMargin:
+        return True
+    else:
+        return False
 
 def isSidebearingEqual(glyph1, glyph2, position, height):
     # checking arguments qualities
@@ -148,9 +117,9 @@ def areVerticalExtremesEqual(glyphs):
 
 def checkVerticalExtremes(sourceFont, nameScheme='new'):
     assert isinstance(sourceFont, RFont), "%r is not a RFont object" % sourceFont
-    assert nameScheme == 'new' or nameScheme == 'old', "%r is neither 'new' or 'old'" % nameScheme
+    assert nameScheme in ['new', 'old'], "%r is neither 'new' or 'old'" % nameScheme
 
-    errorLines = [START % {'sep': SEP, 'funcName': checkVerticalExtremes.__name__}]
+    errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkVerticalExtremes.__name__}]
     missingGlyphs = []
 
     for eachSetToCheck in verticalGlyphSets:
@@ -173,15 +142,15 @@ def checkVerticalExtremes(sourceFont, nameScheme='new'):
 
             errorLines.append(subErrorLines)
 
-    errorLines.append(END % {'sep': SEP})
+    errorLines.append(END_ERROR % {'sep': SEP})
     return errorLines, missingGlyphs
 
 
 def checkLCextra(sourceFont, nameScheme='new'):
     assert isinstance(sourceFont, RFont), "%r is not a RFont object" % sourceFont
-    assert nameScheme == 'new' or nameScheme == 'old', "%r is neither 'new' or 'old'" % nameScheme
+    assert nameScheme in ['new', 'old'], "%r is neither 'new' or 'old'" % nameScheme
 
-    errorLines = [START % {'sep': SEP, 'funcName': checkLCextra.__name__}]
+    errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkLCextra.__name__}]
     missingGlyphs = []
 
     for subName, parentName, whichCheck in LCextraSets:
@@ -199,42 +168,42 @@ def checkLCextra(sourceFont, nameScheme='new'):
 
         if whichCheck == 'widthAndPosition':
             if isWidthEqual(subGlyph, parentGlyph) is False:
-                errorLines.append(WIDTH_DIFFER % {'glyphOne': parentGlyph.name,
+                errorLines.append(WIDTH_DIFFER_ERROR % {'glyphOne': parentGlyph.name,
                                                   'glyphTwo': subGlyph.name,
                                                   'widthOne': parentGlyph.width,
                                                   'widthTwo': subGlyph.width})
 
             if isSidebearingEqual(subGlyph, parentGlyph, 'left', int(sourceFont.info.xHeight/4)) is False:
-                errorLines.append(LEFT_DIFFER % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
+                errorLines.append(LEFT_DIFFER_ERROR % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
 
             # check right
             if isSidebearingEqual(subGlyph, parentGlyph, 'right', int(sourceFont.info.xHeight/4)) is False:
-                errorLines.append(RIGHT_DIFFER % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
+                errorLines.append(RIGHT_DIFFER_ERROR % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
 
         elif whichCheck == 'width':
             if isWidthEqual(subGlyph, parentGlyph) is False:
-                errorLines.append(WIDTH_DIFFER % {'glyphOne': parentGlyph.name,
+                errorLines.append(WIDTH_DIFFER_ERROR % {'glyphOne': parentGlyph.name,
                                                   'glyphTwo': subGlyph.name,
                                                   'widthOne': parentGlyph.width,
                                                   'widthTwo': subGlyph.width})
 
         elif whichCheck == 'left':
             if isSidebearingEqual(subGlyph, parentGlyph, 'left', int(10)) is False:
-                errorLines.append(LEFT_DIFFER % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
+                errorLines.append(LEFT_DIFFER_ERROR % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
 
         else:   # right
             if subGlyph.rightMargin != parentGlyph.rightMargin:
-                errorLines.append(RIGHT_DIFFER % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
+                errorLines.append(RIGHT_DIFFER_ERROR % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
 
-    errorLines.append(END % {'sep': SEP})
+    errorLines.append(END_ERROR % {'sep': SEP})
     return errorLines, missingGlyphs
 
 
 def checkUCextra(sourceFont, nameScheme='new'):
     assert isinstance(sourceFont, RFont), "%r is not a RFont object" % sourceFont
-    assert nameScheme == 'new' or nameScheme == 'old', "%r is neither 'new' or 'old'" % nameScheme
+    assert nameScheme in ['new', 'old'], "%r is neither 'new' or 'old'" % nameScheme
 
-    errorLines = [START % {'sep': SEP, 'funcName': checkUCextra.__name__}]
+    errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkUCextra.__name__}]
     missingGlyphs = []
 
     for parentName, subName, position in UCExtraSets:
@@ -256,26 +225,26 @@ def checkUCextra(sourceFont, nameScheme='new'):
             height = int(2)
 
         if parentGlyph.width != subGlyph.width:
-            errorLines.append(WIDTH_DIFFER % {'glyphOne': parentGlyph.name,
+            errorLines.append(WIDTH_DIFFER_ERROR % {'glyphOne': parentGlyph.name,
                                               'glyphTwo': subGlyph.name,
                                               'widthOne': parentGlyph.width,
                                               'widthTwo': subGlyph.width})
 
         if isSidebearingEqual(subGlyph, parentGlyph, 'left', height) is False:
-            errorLines.append(LEFT_DIFFER % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
+            errorLines.append(LEFT_DIFFER_ERROR % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
 
         if isSidebearingEqual(subGlyph, parentGlyph, 'right', height) is False:
-            errorLines.append(RIGHT_DIFFER % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
+            errorLines.append(RIGHT_DIFFER_ERROR % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
 
-    errorLines.append(END % {'sep': SEP})
+    errorLines.append(END_ERROR % {'sep': SEP})
     return errorLines, missingGlyphs
 
 
 def checkLCligatures(sourceFont, nameScheme='new'):
     assert isinstance(sourceFont, RFont), "%r is not a RFont object" % sourceFont
-    assert nameScheme == 'new' or nameScheme == 'old', "%r is neither 'new' or 'old'" % nameScheme
+    assert nameScheme in ['new', 'old'], "%r is neither 'new' or 'old'" % nameScheme
 
-    errorLines = [START % {'sep': SEP, 'funcName': checkLCligatures.__name__}]
+    errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkLCligatures.__name__}]
     missingGlyphs = []
 
     for leftParentName, ligatureName, rightParentName in LCligaturesSets:
@@ -292,20 +261,20 @@ def checkLCligatures(sourceFont, nameScheme='new'):
         rightParent = sourceFont[rightParentName]
 
         if leftParent.leftMargin != ligature.leftMargin:
-            errorLines.append(LEFT_DIFFER % {'glyphOne': ligature.name, 'glyphTwo': leftParent.name})
+            errorLines.append(LEFT_DIFFER_ERROR % {'glyphOne': ligature.name, 'glyphTwo': leftParent.name})
 
         if rightParent.rightMargin != ligature.rightMargin:
-            errorLines.append(RIGHT_DIFFER % {'glyphOne': ligature.name, 'glyphTwo': rightParent.name})
+            errorLines.append(RIGHT_DIFFER_ERROR % {'glyphOne': ligature.name, 'glyphTwo': rightParent.name})
 
-    errorLines.append(END % {'sep': SEP})
+    errorLines.append(END_ERROR % {'sep': SEP})
     return errorLines, missingGlyphs
 
 
 def checkUCligatures(sourceFont, nameScheme='new'):
     assert isinstance(sourceFont, RFont), "%r is not a RFont object" % sourceFont
-    assert nameScheme == 'new' or nameScheme == 'old', "%r is neither 'new' or 'old'" % nameScheme
+    assert nameScheme in ['new', 'old'], "%r is neither 'new' or 'old'" % nameScheme
 
-    errorLines = [START % {'sep': SEP, 'funcName': checkUCligatures.__name__}]
+    errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkUCligatures.__name__}]
     missingGlyphs = []
 
     # AE
@@ -319,7 +288,7 @@ def checkUCligatures(sourceFont, nameScheme='new'):
         liga = sourceFont[ligaName]
         rightParent = sourceFont[rightParentName]
         if liga.rightMargin != rightParent.rightMargin:
-            errorLines.append(RIGHT_DIFFER % {'glyphOne': liga.name, 'glyphTwo': rightParent.name})
+            errorLines.append(RIGHT_DIFFER_ERROR % {'glyphOne': liga.name, 'glyphTwo': rightParent.name})
     else:
         missingGlyphs.append(ligaName)
 
@@ -337,23 +306,23 @@ def checkUCligatures(sourceFont, nameScheme='new'):
         rightParent = sourceFont[rightParentName]
 
         if liga.leftMargin != leftParent.leftMargin:
-            errorLines.append(LEFT_DIFFER % {'glyphOne': liga.name, 'glyphTwo': leftParent.name})
+            errorLines.append(LEFT_DIFFER_ERROR % {'glyphOne': liga.name, 'glyphTwo': leftParent.name})
 
         if liga.rightMargin != rightParent.rightMargin:
-            errorLines.append(RIGHT_DIFFER % {'glyphOne': liga.name, 'glyphTwo': rightParent.name})
+            errorLines.append(RIGHT_DIFFER_ERROR % {'glyphOne': liga.name, 'glyphTwo': rightParent.name})
 
     else:
         missingGlyphs.append(ligaName)
 
-    errorLines.append(END % {'sep': SEP})
+    errorLines.append(END_ERROR % {'sep': SEP})
     return errorLines, missingGlyphs
 
 
 def checkFigures(sourceFont, nameScheme='new'):
     assert isinstance(sourceFont, RFont), "%r is not a RFont object" % sourceFont
-    assert nameScheme == 'new' or nameScheme == 'old', "%r is neither 'new' or 'old'" % nameScheme
+    assert nameScheme in ['new', 'old'], "%r is neither 'new' or 'old'" % nameScheme
 
-    errorLines = [START % {'sep': SEP, 'funcName': checkFigures.__name__}]
+    errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkFigures.__name__}]
     missingGlyphs = []
 
     checksToBeDone = ['tabularLining', 'tabularOS', 'tabularSC', 'math', 'mathSC']
@@ -378,25 +347,25 @@ def checkFigures(sourceFont, nameScheme='new'):
             widthsOccurrences = occurDict(widths.values())
             items = [(item[0], item[1]) for item in widthsOccurrences.items()]
             mostOccurrentWidth, occurrencesAmount = sorted(items, key=lambda item: item[1], reverse=True)[0]
-            subErrorLines.append(MOST_FREQUENT % {'mostOccur': mostOccurrentWidth, 'times': occurrencesAmount})
+            subErrorLines.append(MOST_FREQUENT_ERROR % {'mostOccur': mostOccurrentWidth, 'times': occurrencesAmount})
 
             # print widths
             for eachFigureName in digitsNames:
                 if eachFigureName in sourceFont:
                     glyph = sourceFont[eachFigureName]
                     if glyph.width != mostOccurrentWidth:
-                        subErrorLines.append(WIDTH % {'glyphName': glyph.name, 'width': glyph.width})
+                        subErrorLines.append(WIDTH_ERROR % {'glyphName': glyph.name, 'width': glyph.width})
             errorLines.append(subErrorLines)
 
-    errorLines.append(END % {'sep': SEP})
+    errorLines.append(END_ERROR % {'sep': SEP})
     return errorLines, missingGlyphs
 
 
 def checkDnomInfNumSup(sourceFont, nameScheme='new'):
     assert isinstance(sourceFont, RFont), "%r is not a RFont object" % sourceFont
-    assert nameScheme == 'new' or nameScheme == 'old', "%r is neither 'new' or 'old'" % nameScheme
+    assert nameScheme in ['new', 'old'], "%r is neither 'new' or 'old'" % nameScheme
 
-    errorLines = [START % {'sep': SEP, 'funcName': checkDnomInfNumSup.__name__}]
+    errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkDnomInfNumSup.__name__}]
     missingGlyphs = []
 
     # check consistency of dnom (they have to have same width)
@@ -427,13 +396,13 @@ def checkDnomInfNumSup(sourceFont, nameScheme='new'):
         widthsOccurrences = occurDict(widths.values())
         items = [(item[0], item[1]) for item in widthsOccurrences.items()]
         mostOccurrentWidth, occurrencesAmount = sorted(items, key=lambda item: item[1], reverse=True)[0]
-        subErrorLines.append(MOST_FREQUENT % {'mostOccur': mostOccurrentWidth, 'times': occurrencesAmount})
+        subErrorLines.append(MOST_FREQUENT_ERROR % {'mostOccur': mostOccurrentWidth, 'times': occurrencesAmount})
 
         # print widths
         for eachDnomName in dnomFiguresNames:
             if eachDnomName in sourceFont:
                 glyph = sourceFont[eachDnomName]
-                subErrorLines.append(WIDTH % {'glyphName': glyph.name, 'width': glyph.width})
+                subErrorLines.append(WIDTH_ERROR % {'glyphName': glyph.name, 'width': glyph.width})
         errorLines.append(subErrorLines)
 
     else:   # dnom are fine, let's see the rest
@@ -447,7 +416,7 @@ def checkDnomInfNumSup(sourceFont, nameScheme='new'):
 
                     # check set width
                     if isWidthEqual(subGlyph, parentGlyph) is False:
-                        errorLines.append(WIDTH_DIFFER % {'glyphOne': parentGlyph.name,
+                        errorLines.append(WIDTH_DIFFER_ERROR % {'glyphOne': parentGlyph.name,
                                                           'glyphTwo': subGlyph.name,
                                                           'widthOne': parentGlyph.width,
                                                           'widthTwo': subGlyph.width})
@@ -455,24 +424,50 @@ def checkDnomInfNumSup(sourceFont, nameScheme='new'):
 
                     # check left
                     if subGlyph.leftMargin != parentGlyph.leftMargin:
-                        errorLines.append(LEFT_DIFFER % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
+                        errorLines.append(LEFT_DIFFER_ERROR % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
 
                     # check right
                     if subGlyph.rightMargin != parentGlyph.rightMargin:
-                        errorLines.append(RIGHT_DIFFER % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
+                        errorLines.append(RIGHT_DIFFER_ERROR % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
 
                 else:
                     missingGlyphs.append(numInfSupName)
 
-    errorLines.append(END % {'sep': SEP})
+    errorLines.append(END_ERROR % {'sep': SEP})
+    return errorLines, missingGlyphs
+
+
+def checkFlippedMargins(sourceFont, nameScheme='new'):
+    assert isinstance(sourceFont, RFont), "%r is not a RFont object" % sourceFont
+    assert nameScheme in ['new', 'old'], "%r is neither 'new' or 'old'" % nameScheme
+
+    errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkFlippedMargins.__name__}]
+    missingGlyphs = []
+
+    for eachLftName, eachRgtName in flippedMarginsSet:
+        if sourceFont.has_key(eachLftName) and sourceFont.has_key(eachRgtName):
+            eachLftGlyph = sourceFont[eachLftName]
+            eachRgtGlyph = sourceFont[eachRgtName]
+            if areSidebearingsFlipped(eachLftGlyph, eachRgtGlyph) is False:
+                errorLines.append(FLIPPED_ERROR % {'glyphOne': eachLftName, 'glyphTwo': eachRgtName})
+        else:
+            if sourceFont.has_key(eachLftName) is False:
+                missingGlyphs.append(eachLftName)
+            elif sourceFont.has_key(eachRgtName) is False:
+                missingGlyphs.append(eachRgtName)
+
+    errorLines.append(END_ERROR % {'sep': SEP})
+    print errorLines
+    print missingGlyphs
+
     return errorLines, missingGlyphs
 
 
 def checkFractions(sourceFont, nameScheme='new'):
     assert isinstance(sourceFont, RFont), "%r is not a RFont object" % sourceFont
-    assert nameScheme == 'new' or nameScheme == 'old', "%r is neither 'new' or 'old'" % nameScheme
+    assert nameScheme in ['new', 'old'], "%r is neither 'new' or 'old'" % nameScheme
 
-    errorLines = [START % {'sep': SEP, 'funcName': checkFractions.__name__}]
+    errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkFractions.__name__}]
     missingGlyphs = []
 
     if nameScheme == 'old':
@@ -481,7 +476,6 @@ def checkFractions(sourceFont, nameScheme='new'):
         fractionNames = fractionBase
 
     widths = {}
-    print fractionBase
     for eachFractionName in fractionNames:
         if eachFractionName in sourceFont:
             glyph = sourceFont[eachFractionName]
@@ -496,24 +490,24 @@ def checkFractions(sourceFont, nameScheme='new'):
         widthsOccurrences = occurDict(widths.values())
         items = [(item[0], item[1]) for item in widthsOccurrences.items()]
         mostOccurrentWidth, occurrencesAmount = sorted(items, key=lambda item:item[1], reverse=True)[0]
-        errorLines.append(MOST_FREQUENT % {'mostOccur': mostOccurrentWidth, 'times': occurrencesAmount})
+        errorLines.append(MOST_FREQUENT_ERROR % {'mostOccur': mostOccurrentWidth, 'times': occurrencesAmount})
 
         # print widths
         for eachFractionName in fractionNames:
             if eachFractionName in sourceFont:
                 glyph = sourceFont[eachFractionName]
                 if glyph.width != mostOccurrentWidth:
-                    errorLines.append(WIDTH % {'glyphName': glyph.name, 'width': glyph.width})
+                    errorLines.append(WIDTH_ERROR % {'glyphName': glyph.name, 'width': glyph.width})
 
-    errorLines.append(END % {'sep': SEP})
+    errorLines.append(END_ERROR % {'sep': SEP})
     return errorLines, missingGlyphs
 
 
 def checkInterpunction(sourceFont, nameScheme='new'):
     assert isinstance(sourceFont, RFont), "%r is not a RFont object" % sourceFont
-    assert nameScheme == 'new' or nameScheme == 'old', "%r is neither 'new' or 'old'" % nameScheme
+    assert nameScheme in ['new', 'old'], "%r is neither 'new' or 'old'" % nameScheme
 
-    errorLines = [START % {'sep': SEP, 'funcName': checkInterpunction.__name__}]
+    errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkInterpunction.__name__}]
     missingGlyphs = []
 
     for eachSetToCheck in interpunctionSets:
@@ -547,15 +541,15 @@ def checkInterpunction(sourceFont, nameScheme='new'):
                                                                                      eachGlyph.leftMargin,
                                                                                      eachGlyph.rightMargin))
 
-    errorLines.append(END % {'sep': SEP})
+    errorLines.append(END_ERROR % {'sep': SEP})
     return errorLines, missingGlyphs
 
 
 def checkAccented(sourceFont, nameScheme='new'):
     assert isinstance(sourceFont, RFont), "%r is not a RFont object" % sourceFont
-    assert nameScheme == 'new' or nameScheme == 'old', "%r is neither 'new' or 'old'" % nameScheme
+    assert nameScheme in ['new', 'old'], "%r is neither 'new' or 'old'" % nameScheme
 
-    errorLines = [START % {'sep': SEP, 'funcName': checkAccented.__name__}]
+    errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkAccented.__name__}]
     missingGlyphs = []
 
     for eachAccentedGlyphName, eachAccentedData in accentedDict.items():
@@ -571,19 +565,19 @@ def checkAccented(sourceFont, nameScheme='new'):
 
             # check set width
             if isWidthEqual(accentedGlyph, parentGlyph) is False:
-                errorLines.append(WIDTH_DIFFER % {'glyphOne': parentGlyph.name,
+                errorLines.append(WIDTH_DIFFER_ERROR % {'glyphOne': parentGlyph.name,
                                                   'glyphTwo': accentedGlyph.name,
                                                   'widthOne': parentGlyph.width,
                                                   'widthTwo': accentedGlyph.width})
 
             # check left
             if isSidebearingEqual(accentedGlyph, parentGlyph, 'left', int(sourceFont.info.xHeight/2)) is False:
-                errorLines.append(LEFT_DIFFER % {'glyphOne': parentGlyph.name, 'glyphTwo': accentedGlyph.name})
+                errorLines.append(LEFT_DIFFER_ERROR % {'glyphOne': parentGlyph.name, 'glyphTwo': accentedGlyph.name})
 
             # check right
             if isSidebearingEqual(accentedGlyph, parentGlyph, 'right', int(sourceFont.info.xHeight/2)) is False:
-                errorLines.append(RIGHT_DIFFER % {'glyphOne': parentGlyph.name, 'glyphTwo': accentedGlyph.name})
+                errorLines.append(RIGHT_DIFFER_ERROR % {'glyphOne': parentGlyph.name, 'glyphTwo': accentedGlyph.name})
 
-    errorLines.append(END % {'sep': SEP})
+    errorLines.append(END_ERROR % {'sep': SEP})
     return errorLines, missingGlyphs
 
