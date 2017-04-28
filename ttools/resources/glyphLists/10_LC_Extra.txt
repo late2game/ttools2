@@ -1,0 +1,16 @@
+uni0237
+dotlessi
+eth
+dcroat
+dcaron
+hbar
+ij
+lslash
+ldot
+lcaron
+eng
+oslash
+longs
+thorn
+tcaron
+tbar
