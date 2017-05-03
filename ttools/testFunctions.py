@@ -16,10 +16,9 @@ from types import IntType
 import testsData
 reload(testsData)
 from testsData import accentedDict, figuresDict, verticalGlyphSets
-from testsData import fractionBase, interpunctionSets, NEW2OLD
+from testsData import fractionBase, interpunctionSets #, NEW2OLD
 from testsData import UCExtraSets, LCextraSets, LCligaturesSets
-from testsData import dnomNumInfSupBaseGlyphs, dnomNumInfSupNewSuffixes
-from testsData import dnomNumInfSupOldSuffixes, flippedMarginsSet
+from testsData import dnomNumrSubsSupsTable, flippedMarginsSet
 
 
 ### Constants
@@ -169,9 +168,9 @@ def checkLCextra(sourceFont, nameScheme='new'):
         if whichCheck == 'widthAndPosition':
             if isWidthEqual(subGlyph, parentGlyph) is False:
                 errorLines.append(WIDTH_DIFFER_ERROR % {'glyphOne': parentGlyph.name,
-                                                  'glyphTwo': subGlyph.name,
-                                                  'widthOne': parentGlyph.width,
-                                                  'widthTwo': subGlyph.width})
+                                                        'glyphTwo': subGlyph.name,
+                                                        'widthOne': parentGlyph.width,
+                                                        'widthTwo': subGlyph.width})
 
             if isSidebearingEqual(subGlyph, parentGlyph, 'left', int(sourceFont.info.xHeight/4)) is False:
                 errorLines.append(LEFT_DIFFER_ERROR % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
@@ -183,9 +182,9 @@ def checkLCextra(sourceFont, nameScheme='new'):
         elif whichCheck == 'width':
             if isWidthEqual(subGlyph, parentGlyph) is False:
                 errorLines.append(WIDTH_DIFFER_ERROR % {'glyphOne': parentGlyph.name,
-                                                  'glyphTwo': subGlyph.name,
-                                                  'widthOne': parentGlyph.width,
-                                                  'widthTwo': subGlyph.width})
+                                                        'glyphTwo': subGlyph.name,
+                                                        'widthOne': parentGlyph.width,
+                                                        'widthTwo': subGlyph.width})
 
         elif whichCheck == 'left':
             if isSidebearingEqual(subGlyph, parentGlyph, 'left', int(10)) is False:
@@ -361,32 +360,33 @@ def checkFigures(sourceFont, nameScheme='new'):
     return errorLines, missingGlyphs
 
 
-def checkDnomInfNumSup(sourceFont, nameScheme='new'):
+def checkDnomNumrSubsSups(sourceFont, nameScheme='new'):
+    """DnomNumrSubsSups figures are check as monospaced
+       then margins are checked --> a.dnom.leftMargin  == uni2090.leftMargin
+                                    a.dnom.rightMargin == uni2090.rightMargin
+    """
     assert isinstance(sourceFont, RFont), "%r is not a RFont object" % sourceFont
     assert nameScheme in ['new', 'old'], "%r is neither 'new' or 'old'" % nameScheme
 
-    errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkDnomInfNumSup.__name__}]
+    errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkDnomNumrSubsSups.__name__}]
     missingGlyphs = []
 
-    # check consistency of dnom (they have to have same width)
-    if nameScheme == 'old':
-        suffixes = dnomNumInfSupOldSuffixes
-    else:
-        suffixes = dnomNumInfSupNewSuffixes
-
-    dnomNumInfSupNames = ['%s.%s' % name for name in product(dnomNumInfSupBaseGlyphs, suffixes)]
-
-    dnomNames = [name for name in dnomNumInfSupNames if name.endswith('.dnom') is True]
-    notFigures = list(lowercase) + ['period', 'comma', 'hyphen', 'parenleft', 'parenright']
-    dnomFiguresNames = [name for name in dnomNames if name.replace('.dnom', '') not in notFigures]
+    # filter tabular dnoms
+    tabularRows = []
+    for eachDigitName in figuresDict['tabularLining']:
+        if eachDigitName == 'figurespace':
+            continue
+        for eachRow in dnomNumrSubsSupsTable[1:]:
+            if eachRow[0] == eachDigitName:
+                tabularRows.append(eachRow)
 
     widths = {}
-    for eachDnomName in dnomFiguresNames:
+    for eachRow in tabularRows:
+        eachDnomName = eachRow[1]
         if eachDnomName in sourceFont:
             glyph = sourceFont[eachDnomName]
             widths[eachDnomName] = glyph.width
         else:
-            print eachDnomName
             missingGlyphs.append(eachDnomName)
 
     if len(set(widths.values())) > 1:   # dnom have to be fixed
@@ -399,28 +399,31 @@ def checkDnomInfNumSup(sourceFont, nameScheme='new'):
         subErrorLines.append(MOST_FREQUENT_ERROR % {'mostOccur': mostOccurrentWidth, 'times': occurrencesAmount})
 
         # print widths
-        for eachDnomName in dnomFiguresNames:
+        for eachRow in tabularRows:
+            eachDnomName = eachRow[1]
             if eachDnomName in sourceFont:
                 glyph = sourceFont[eachDnomName]
                 subErrorLines.append(WIDTH_ERROR % {'glyphName': glyph.name, 'width': glyph.width})
         errorLines.append(subErrorLines)
+        errorLines.append('[WARNING] Please fix the DNOMs then check again NUMR SUBS and SUPS')
 
     else:   # dnom are fine, let's see the rest
 
-        for eachDnomName in dnomNames:
-            for eachSuffix in suffixes[1:]:
-                numInfSupName = eachDnomName.replace('dnom', eachSuffix)
+        for eachRow in dnomNumrSubsSupsTable[1:]:
+            eachDnomName = eachRow[1]
+            for eachColIndex in range(2, 5):
+                numInfSupName = eachRow[eachColIndex]
+
                 if numInfSupName in sourceFont:
                     parentGlyph = sourceFont[eachDnomName]
-                    subGlyph = sourceFont[eachDnomName.replace('dnom', eachSuffix)]
+                    subGlyph = sourceFont[numInfSupName]
 
                     # check set width
                     if isWidthEqual(subGlyph, parentGlyph) is False:
                         errorLines.append(WIDTH_DIFFER_ERROR % {'glyphOne': parentGlyph.name,
-                                                          'glyphTwo': subGlyph.name,
-                                                          'widthOne': parentGlyph.width,
-                                                          'widthTwo': subGlyph.width})
-
+                                                                'glyphTwo': subGlyph.name,
+                                                                'widthOne': parentGlyph.width,
+                                                                'widthTwo': subGlyph.width})
 
                     # check left
                     if subGlyph.leftMargin != parentGlyph.leftMargin:
@@ -457,9 +460,6 @@ def checkFlippedMargins(sourceFont, nameScheme='new'):
                 missingGlyphs.append(eachRgtName)
 
     errorLines.append(END_ERROR % {'sep': SEP})
-    print errorLines
-    print missingGlyphs
-
     return errorLines, missingGlyphs
 
 

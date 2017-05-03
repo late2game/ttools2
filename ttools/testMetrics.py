@@ -9,6 +9,7 @@
 # standard
 import os
 import types
+import traceback
 from datetime import datetime
 from robofab.interface.all.dialogs import PutFile
 from mojo.events import addObserver, removeObserver
@@ -22,7 +23,7 @@ import testFunctions
 reload(testFunctions)
 from testFunctions import checkVerticalExtremes, checkAccented
 from testFunctions import checkInterpunction, checkFigures
-from testFunctions import checkDnomInfNumSup, checkFractions
+from testFunctions import checkDnomNumrSubsSups, checkFractions
 from testFunctions import checkLCligatures, checkUCligatures
 from testFunctions import checkLCextra, checkUCextra, checkFlippedMargins
 
@@ -32,7 +33,7 @@ from userInterfaceValues import vanillaControlsSize
 
 ### Constants
 RADIO_GROUP_HEIGHT = 40
-NAMES_TABLE_PATH = os.path.join(os.path.dirname(__file__), 'resources', 'old_vs_new_names.csv')
+NAMES_TABLE_PATH = os.path.join(os.path.dirname(__file__), 'resources', 'tables', 'old_vs_new_names.csv')
 
 PLUGIN_WIDTH = 300
 PLUGIN_HEIGHT = 600
@@ -79,12 +80,12 @@ class TestMetrics(BaseWindowController):
                        'interpunction', 'figures', 'dnomInfNumSup', 'fractions',
                        'flippedMargins', 'LCliga', 'UCliga', 'LCextra', 'UCextra']
 
-    testFunctions = {'Complete report': [checkVerticalExtremes, checkAccented, checkInterpunction, checkFigures, checkDnomInfNumSup, checkFractions, checkLCligatures, checkUCligatures, checkLCextra, checkUCextra, checkFlippedMargins],
+    testFunctions = {'Complete report': [checkVerticalExtremes, checkAccented, checkInterpunction, checkFigures, checkDnomNumrSubsSups, checkFractions, checkLCligatures, checkUCligatures, checkLCextra, checkUCextra, checkFlippedMargins],
                      'Vertical alignments': [checkVerticalExtremes],
                      'Accented letters': [checkAccented],
                      'Interpunction': [checkInterpunction],
                      'Figures': [checkFigures],
-                     'Dnom Inf Num Sup': [checkDnomInfNumSup],
+                     'Dnom Inf Num Sup': [checkDnomNumrSubsSups],
                      'Fractions': [checkFractions],
                      'Flipped Margins': [checkFlippedMargins],
                      'LC ligatures': [checkLCligatures],
@@ -136,6 +137,7 @@ class TestMetrics(BaseWindowController):
                                         ['%s names' % name for name in self.nameSchemeOptions],
                                         callback=self.nameRadioCallback)
         self.w.nameRadio.set(0)
+        self.w.nameRadio.enable(False)
 
         jumpingY += RADIO_GROUP_HEIGHT + MARGIN_ROW
         self.w.missingGlyphCheck = CheckBox((MARGIN_LFT, jumpingY, NET_WIDTH, vanillaControlsSize['CheckBoxRegularHeight']),
@@ -159,7 +161,6 @@ class TestMetrics(BaseWindowController):
 
         # open win
         self.w.open()
-
 
     def closing(self, sender):
         removeObserver(self, "fontWillClose")
@@ -193,21 +194,28 @@ class TestMetrics(BaseWindowController):
         self.showMissingGlyph = bool(sender.get())
 
     def runButtonCallback(self, sender):
-        testsToRun = self.testFunctions[self.chosenTest]
-        rightNow = datetime.now()
-        reportFile = open(PutFile('Choose where to save the report',
-                          '%s%s%s_%s_%s.txt' % (rightNow.year, rightNow.month, rightNow.day,
-                          os.path.basename(self.chosenFont.path)[:-4],
-                          self.testOptionsAbbr[self.testOptions.index(self.chosenTest)])),
-                          'w')
+        progressWindow = self.startProgress('Running Tests')
 
-        # progressWindow = self.startProgress('Running Tests')
-        for eachFunc in testsToRun:
-            errorLines, missingGlyphs = eachFunc(self.chosenFont, self.nameScheme)
-            report = convertLinesToString(errorLines, missingGlyphs, self.showMissingGlyph)
-            reportFile.write(report)
-        reportFile.close()
-        # progressWindow.close()
+        try:
+            testsToRun = self.testFunctions[self.chosenTest]
+            rightNow = datetime.now()
+            reportFile = open(PutFile('Choose where to save the report',
+                              '%s%s%s_%s_%s.txt' % (rightNow.year, rightNow.month, rightNow.day,
+                              os.path.basename(self.chosenFont.path)[:-4],
+                              self.testOptionsAbbr[self.testOptions.index(self.chosenTest)])),
+                              'w')
+
+            for eachFunc in testsToRun:
+                errorLines, missingGlyphs = eachFunc(self.chosenFont, self.nameScheme)
+                report = convertLinesToString(errorLines, missingGlyphs, self.showMissingGlyph)
+                print report
+                reportFile.write(report)
+            reportFile.close()
+
+        except Exception:
+            print traceback.exc_info()
+
+        progressWindow.close()
 
 ### Instructions
 if __name__ == '__main__':
