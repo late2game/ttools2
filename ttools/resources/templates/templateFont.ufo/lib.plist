@@ -863,7 +863,7 @@
 				<string>registered.sc</string>
 				<string>trademark.sc</string>
 				<string>degree.sc</string>
-				<string>gcedilla.sc</string>
+				<string>uni0123.sc</string>
 				<string>gcommaaccent.sc</string>
 				<string>idotaccent.sc</string>
 				<string>kcedilla.sc</string>
@@ -974,7 +974,6 @@
 				<string>Euro.numr</string>
 				<string>.notdef</string>
 				<string>lcedilla</string>
-				<string>gcedilla</string>
 				<string>rcedilla</string>
 				<string>uni0312.case</string>
 				<string>ncedilla</string>
