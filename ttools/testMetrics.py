@@ -208,7 +208,6 @@ class TestMetrics(BaseWindowController):
             for eachFunc in testsToRun:
                 errorLines, missingGlyphs = eachFunc(self.chosenFont, self.nameScheme)
                 report = convertLinesToString(errorLines, missingGlyphs, self.showMissingGlyph)
-                print report
                 reportFile.write(report)
             reportFile.close()
 
