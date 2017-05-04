@@ -784,6 +784,8 @@
 	<string>gbreve.glif</string>
 	<key>gbreve.sc</key>
 	<string>gbreve.sc.glif</string>
+	<key>gcedilla</key>
+	<string>gcedilla.glif</string>
 	<key>gcircumflex</key>
 	<string>gcircumflex.glif</string>
 	<key>gcircumflex.sc</key>
