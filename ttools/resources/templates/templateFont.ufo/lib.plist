@@ -978,6 +978,7 @@
 				<string>uni0312.case</string>
 				<string>ncedilla</string>
 				<string>kcedilla</string>
+				<string>gcedilla</string>
 			</array>
 			<key>type</key>
 			<string>glyphList</string>
@@ -1330,8 +1331,8 @@
 		<string>quotedblbase</string>
 		<string>guilsinglleft</string>
 		<string>guilsinglright</string>
-		<string>guillemotleft</string>
-		<string>guillemotright</string>
+		<string>guillemetleft</string>
+		<string>guillemetright</string>
 		<string>asterisk</string>
 		<string>dagger</string>
 		<string>daggerdbl</string>
@@ -1473,8 +1474,8 @@
 		<string>braceright.case</string>
 		<string>guilsinglleft.case</string>
 		<string>guilsinglright.case</string>
-		<string>guillemotleft.case</string>
-		<string>guillemotright.case</string>
+		<string>guillemetleft.case</string>
+		<string>guillemetright.case</string>
 		<string>exclamdown.case</string>
 		<string>questiondown.case</string>
 		<string>periodcentered.case</string>

@@ -816,16 +816,16 @@
 	<string>greaterequal.case.glif</string>
 	<key>greaterequal.sc</key>
 	<string>greaterequal.sc.glif</string>
-	<key>guillemotleft</key>
-	<string>guillemotleft.glif</string>
-	<key>guillemotleft.case</key>
-	<string>guillemotleft.case.glif</string>
+	<key>guillemetleft</key>
+	<string>guillemetleft.glif</string>
+	<key>guillemetleft.case</key>
+	<string>guillemetleft.case.glif</string>
+	<key>guillemetright</key>
+	<string>guillemetright.glif</string>
+	<key>guillemetright.case</key>
+	<string>guillemetright.case.glif</string>
 	<key>guillemotleft.sc</key>
 	<string>guillemotleft.sc.glif</string>
-	<key>guillemotright</key>
-	<string>guillemotright.glif</string>
-	<key>guillemotright.case</key>
-	<string>guillemotright.case.glif</string>
 	<key>guillemotright.sc</key>
 	<string>guillemotright.sc.glif</string>
 	<key>guilsinglleft</key>
