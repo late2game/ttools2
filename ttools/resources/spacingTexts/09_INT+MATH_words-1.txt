@@ -5,7 +5,7 @@ D i n hyphen A four hyphen F o r m a t space r o m period hyphen space k a t h p
 three six zero degree hyphen G r a d hyphen D r e h u n g
 H i e r space endash space a u f g e m e r k t space endash space exclam
 B o n n space endash space B e r l i n comma space W i e n space emdash space K a s s e l
-parenleft P r e i s colon space guillemotright Euro space one comma endash endash guillemotleft parenright
+parenleft P r e i s colon space guillemetright Euro space one comma endash endash guillemetleft parenright
 j a space u n d slash o d e r space n e i n
 J A space U N D slash seven space O D E R space N E I N
 H U L E S H period slash period W e n z e l comma space U slash m i n
@@ -22,11 +22,11 @@ paragraph m a r k i e r t space e i n e n space A b s a t z paragraph
 parenleft H a l l o asterisk period parenright space parenleft H a l l o period asterisk parenright
 asciicircum t equal T a b u l a t o r comma space asciicircum p equal Z e i l e n u m b r u c h
 quotedblbase D i e space quotesinglbase m e i d quoteright quoteleft comma space quotesinglbase space s o quoteleft space r a t quoteright space i c h quotedblright period
-guillemotright D i e space guilsinglright s u c h quoteright guilsinglleft comma space guilsinglright s o guilsinglleft space r a t quoteright space i c h guillemotleft period
-guillemotleft D i e space guilsinglleft s u c h quoteright guilsinglright comma space guilsinglleft s o guilsinglright space r a t quoteright space i c h guillemotright period
-guilsinglright guillemotright t h a t guillemotleft guilsinglleft space i s space w i d e r space t h e n space quoteleft quotedblleft t h i s quoteright quotedblright
-guillemotright endash S t r i c h exclam guillemotleft space parenleft guillemotright K l a m m e r n guillemotleft parenright
-guillemotright ellipsis space P u n k t e ellipsis guillemotleft space guillemotright colon D o p p e l p u n k t e colon guillemotleft
+guillemetright D i e space guilsinglright s u c h quoteright guilsinglleft comma space guilsinglright s o guilsinglleft space r a t quoteright space i c h guillemetleft period
+guillemetleft D i e space guilsinglleft s u c h quoteright guilsinglright comma space guilsinglleft s o guilsinglright space r a t quoteright space i c h guillemetright period
+guilsinglright guillemetright t h a t guillemetleft guilsinglleft space i s space w i d e r space t h e n space quoteleft quotedblleft t h i s quoteright quotedblright
+guillemetright endash S t r i c h exclam guillemetleft space parenleft guillemetright K l a m m e r n guillemetleft parenright
+guillemetright ellipsis space P u n k t e ellipsis guillemetleft space guillemetright colon D o p p e l p u n k t e colon guillemetleft
 K a p i e r t question exclam question exclam space parenleft question parenright bracketleft question bracketright braceleft question braceright
 K a p i e r t question exclam question exclam space parenleft exclam parenright bracketleft exclam bracketright braceleft exclam braceright
 parenleft a space plus space b parenright space logicalnot space parenleft b space minus space c parenright

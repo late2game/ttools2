@@ -43,6 +43,7 @@ lacute
 lcedilla
 uni013C
 nacute
+napostrophe
 ncaron
 ncedilla
 uni0146

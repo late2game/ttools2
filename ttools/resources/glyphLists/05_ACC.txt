@@ -27,5 +27,4 @@ breve.case
 ring.case
 cedilla.case
 ogonek.case
-uni0312.case
 uni0326.case

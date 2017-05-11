@@ -26,7 +26,7 @@ eogonek.sc
 gbreve.sc
 uni0123.sc
 gcircumflex.sc
-gcommaaccent.sc
+gcedilla.sc
 gdotaccent.sc
 hcircumflex.sc
 iacute.sc

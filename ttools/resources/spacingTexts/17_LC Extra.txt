@@ -1,2 +1,2 @@
 L C space E x t r a
-dotlessj dotlessi eth dcroat dcaron hbar ij lslash ldot lcaron eng oslash longs thorn tcaron tbar j i d o h l n f p t comma uni0326 period
+uni0237 dotlessi eth dcroat dcaron hbar ij lslash ldot lcaron eng oslash longs thorn tcaron tbar j i d o h l n f p t comma uni0326 period

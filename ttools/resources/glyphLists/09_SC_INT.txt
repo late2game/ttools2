@@ -10,8 +10,8 @@ periodcentered.sc
 quotedblright.sc
 guilsinglleft.sc
 guilsinglright.sc
-guillemotleft.sc
-guillemotright.sc
+guillemetleft.sc
+guillemetright.sc
 dagger.sc
 daggerdbl.sc
 parenleft.sc
