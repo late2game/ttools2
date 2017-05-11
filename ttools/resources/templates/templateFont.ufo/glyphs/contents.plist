@@ -676,8 +676,6 @@
 	<string>exclam.sc.glif</string>
 	<key>exclamdown</key>
 	<string>exclamdown.glif</string>
-	<key>exclamdown.case</key>
-	<string>exclamdown.case.glif</string>
 	<key>exclamdown.sc</key>
 	<string>exclamdown.sc.glif</string>
 	<key>f</key>
@@ -786,12 +784,12 @@
 	<string>gbreve.sc.glif</string>
 	<key>gcedilla</key>
 	<string>gcedilla.glif</string>
+	<key>gcedilla.sc</key>
+	<string>gcedilla.sc.glif</string>
 	<key>gcircumflex</key>
 	<string>gcircumflex.glif</string>
 	<key>gcircumflex.sc</key>
 	<string>gcircumflex.sc.glif</string>
-	<key>gcommaaccent.sc</key>
-	<string>gcommaaccent.sc.glif</string>
 	<key>gdotaccent</key>
 	<string>gdotaccent.glif</string>
 	<key>gdotaccent.sc</key>
@@ -820,14 +818,14 @@
 	<string>guillemetleft.glif</string>
 	<key>guillemetleft.case</key>
 	<string>guillemetleft.case.glif</string>
+	<key>guillemetleft.sc</key>
+	<string>guillemetleft.sc.glif</string>
 	<key>guillemetright</key>
 	<string>guillemetright.glif</string>
 	<key>guillemetright.case</key>
 	<string>guillemetright.case.glif</string>
-	<key>guillemotleft.sc</key>
-	<string>guillemotleft.sc.glif</string>
-	<key>guillemotright.sc</key>
-	<string>guillemotright.sc.glif</string>
+	<key>guillemetright.sc</key>
+	<string>guillemetright.sc.glif</string>
 	<key>guilsinglleft</key>
 	<string>guilsinglleft.glif</string>
 	<key>guilsinglleft.case</key>
@@ -1294,8 +1292,6 @@
 	<string>question.sc.glif</string>
 	<key>questiondown</key>
 	<string>questiondown.glif</string>
-	<key>questiondown.case</key>
-	<string>questiondown.case.glif</string>
 	<key>questiondown.sc</key>
 	<string>questiondown.sc.glif</string>
 	<key>quotedbl</key>
@@ -1606,8 +1602,6 @@
 	<string>uni0237.glif</string>
 	<key>uni0312</key>
 	<string>uni0312.glif</string>
-	<key>uni0312.case</key>
-	<string>uni0312.case.glif</string>
 	<key>uni0313</key>
 	<string>uni0313.glif</string>
 	<key>uni0326</key>

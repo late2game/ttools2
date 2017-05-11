@@ -380,8 +380,8 @@
 				<string>quotedblbase</string>
 				<string>guilsinglleft</string>
 				<string>guilsinglright</string>
-				<string>guillemotleft</string>
-				<string>guillemotright</string>
+				<string>guillemetleft</string>
+				<string>guillemetright</string>
 				<string>asterisk</string>
 				<string>dagger</string>
 				<string>daggerdbl</string>
@@ -523,8 +523,8 @@
 				<string>braceright.case</string>
 				<string>guilsinglleft.case</string>
 				<string>guilsinglright.case</string>
-				<string>guillemotleft.case</string>
-				<string>guillemotright.case</string>
+				<string>guillemetleft.case</string>
+				<string>guillemetright.case</string>
 				<string>exclamdown.case</string>
 				<string>questiondown.case</string>
 				<string>periodcentered.case</string>
@@ -1476,8 +1476,6 @@
 		<string>guilsinglright.case</string>
 		<string>guillemetleft.case</string>
 		<string>guillemetright.case</string>
-		<string>exclamdown.case</string>
-		<string>questiondown.case</string>
 		<string>periodcentered.case</string>
 		<string>bullet.case</string>
 		<string>plus.case</string>
@@ -1775,8 +1773,8 @@
 		<string>quotedblright.sc</string>
 		<string>guilsinglleft.sc</string>
 		<string>guilsinglright.sc</string>
-		<string>guillemotleft.sc</string>
-		<string>guillemotright.sc</string>
+		<string>guillemetleft.sc</string>
+		<string>guillemetright.sc</string>
 		<string>asterisk.sc</string>
 		<string>dagger.sc</string>
 		<string>daggerdbl.sc</string>
@@ -1815,7 +1813,7 @@
 		<string>trademark.sc</string>
 		<string>degree.sc</string>
 		<string>uni0123.sc</string>
-		<string>gcommaaccent.sc</string>
+		<string>gcedilla.sc</string>
 		<string>idotaccent.sc</string>
 		<string>kcedilla.sc</string>
 		<string>kcommaaccent.sc</string>
@@ -1926,7 +1924,6 @@
 		<string>.notdef</string>
 		<string>lcedilla</string>
 		<string>rcedilla</string>
-		<string>uni0312.case</string>
 		<string>ncedilla</string>
 		<string>kcedilla</string>
 		<string>gcedilla</string>
