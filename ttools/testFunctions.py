@@ -104,8 +104,11 @@ def areVerticalExtremesEqual(glyphs):
     glyphsData = {}
 
     for eachGlyph in glyphs:
-        xMin, yMin, xMax, yMax = eachGlyph.box
-        glyphsData[eachGlyph.name] = (yMin, yMax)
+        if eachGlyph.box is None:
+            glyphsData[eachGlyph.name] = 'empty'
+        else:
+            xMin, yMin, xMax, yMax = eachGlyph.box
+            glyphsData[eachGlyph.name] = (yMin, yMax)
 
     if len(set(glyphsData.values())) <= 1:
         return True, {}
@@ -134,6 +137,10 @@ def checkVerticalExtremes(sourceFont, nameScheme='new'):
         areEqual, glyphsData = areVerticalExtremesEqual(glyphs)
 
         if areEqual is False:
+            if glyphsData == 'empty':
+                missingGlyphs.append(eachName)
+                continue
+
             subErrorLines = ['The following glyphs are not vertically aligned']
             for eachKey in eachSetToCheck:
                 eachValue = glyphsData[eachKey]

@@ -7,13 +7,13 @@
 
 ### Modules
 # standard
-import os
+import os, sys
 import types
 import traceback
 from datetime import datetime
 from robofab.interface.all.dialogs import PutFile
 from mojo.events import addObserver, removeObserver
-from mojo.roboFont import AllFonts
+from mojo.roboFont import AllFonts, RFont
 from vanilla import Window, PopUpButton, HorizontalLine
 from vanilla import RadioGroup, TextBox, CheckBox, Button
 from defconAppKit.windows.baseWindow import BaseWindowController
@@ -212,7 +212,8 @@ class TestMetrics(BaseWindowController):
             reportFile.close()
 
         except Exception:
-            print traceback.exc_info()
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            traceback.print_tb(exc_traceback)
 
         progressWindow.close()
 
