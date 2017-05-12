@@ -88,3 +88,9 @@ def guessStemPoints(glyph):
             guessedStems.append(tuple(stem))
 
     return guessedStems
+
+def selectAnchorByName(glyphObj, name):
+    for eachAnchor in glyphObj.anchors:
+        if eachAnchor.name == name:
+            return eachAnchor
+    return None
