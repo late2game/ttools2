@@ -18,3 +18,18 @@ T Tcaron uni021A uni0162 H H T H Tcaron H uni021A H uni0162 H H O O T O Tcaron O
 U Ugrave Uacute Uhungarumlaut Udieresis Ucircumflex Umacron Utilde Ubreve Uring Uogonek H H U H Ugrave H Uacute H Uhungarumlaut H Udieresis H Ucircumflex H Umacron H Utilde H Ubreve H Uring H Uogonek H H O O U O Ugrave O Uacute O Uhungarumlaut O Udieresis O Ucircumflex O Umacron O Utilde O Ubreve O Uring O Uogonek O O
 W Wgrave Wacute Wdieresis Wcircumflex H H W H Wgrave H Wacute H Wdieresis H Wcircumflex H H O O W O Wgrave O Wacute O Wdieresis O Wcircumflex O O
 Y Ygrave Yacute Ydieresis Ycircumflex H H Y H Ygrave H Yacute H Ydieresis H Ycircumflex H H O O Y O Ygrave O Yacute O Ydieresis O Ycircumflex O O
+grave Agrave Egrave Igrave Ograve Ugrave Wgrave Ygrave
+acute AEacute Aacute Cacute Eacute Iacute Lacute Nacute Oacute Oslashacute Racute Sacute Uacute Wacute Yacute Zacute
+hungarumlaut Ohungarumlaut Uhungarumlaut
+dotaccent Cdotaccent Edotaccent Gdotaccent Idotaccent Zdotaccent
+dieresis Adieresis Edieresis Idieresis Odieresis Udieresis Wdieresis Ydieresis
+circumflex Acircumflex Ccircumflex Ecircumflex Gcircumflex Hcircumflex Icircumflex Jcircumflex Ocircumflex Scircumflex Ucircumflex Wcircumflex Ycircumflex
+caron Ccaron Dcaron Ecaron Ncaron Rcaron Scaron Tcaron Zcaron
+macron Amacron Emacron Imacron Omacron Umacron
+tilde Atilde Itilde Ntilde Otilde Utilde
+breve Abreve Ebreve Gbreve Ibreve Obreve Ubreve
+ring Aring Uring
+cedilla Ccedilla Gcedilla Scedilla uni0162
+ogonek Aogonek Eogonek Iogonek Uogonek
+uni0313 Lcaron
+uni0326 Kcedilla Lcedilla Ncedilla Rcedilla uni0122 uni0136 uni013B uni0145 uni0156 uni0218 uni021A

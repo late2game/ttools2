@@ -18,3 +18,19 @@ u ugrave uacute uhungarumlaut udieresis ucircumflex umacron utilde ubreve uring 
 w wgrave wacute wdieresis wcircumflex n n w n wgrave n wacute n wdieresis n wcircumflex n n o o w o wgrave o wacute o wdieresis o wcircumflex o o
 y ygrave yacute ydieresis ycircumflex n n y n ygrave n yacute n ydieresis n ycircumflex n n o o y o ygrave o yacute o ydieresis o ycircumflex o o
 z zacute zdotaccent zcaron n n z n zacute n zdotaccent n zcaron n n o o z o zacute o zdotaccent o zcaron o o
+grave agrave egrave igrave ograve ugrave wgrave ygrave
+acute aacute aeacute cacute eacute iacute lacute nacute oacute oslashacute racute sacute uacute wacute yacute zacute
+hungarumlaut ohungarumlaut uhungarumlaut
+dotaccent cdotaccent edotaccent gdotaccent zdotaccent
+dieresis adieresis edieresis idieresis odieresis udieresis wdieresis ydieresis
+circumflex acircumflex ccircumflex ecircumflex gcircumflex hcircumflex icircumflex jcircumflex ocircumflex scircumflex ucircumflex wcircumflex ycircumflex
+caron ccaron ecaron ncaron rcaron scaron zcaron
+macron amacron emacron imacron omacron umacron
+tilde atilde itilde ntilde otilde utilde
+breve abreve ebreve gbreve ibreve obreve ubreve
+ring aring uring
+cedilla ccedilla scedilla uni0163
+ogonek aogonek eogonek iogonek uogonek
+uni0312 gcedilla uni0123
+uni0313 dcaron lcaron napostrophe tcaron uni0326
+uni0326 kcedilla lcedilla ncedilla rcedilla uni0137 uni013C uni0146 uni0157 uni0219 uni021B
