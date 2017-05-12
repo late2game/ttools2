@@ -36,15 +36,9 @@ for eachAccentName in accents:
     lowercaseStrings[eachAccentName] = lowerGlyphs
 
 for eachAccentName in accents:
-    print eachAccentName, ' '.join(uppercaseStrings[eachAccentName])
+    print ' '.join(uppercaseStrings[eachAccentName])
 
 print '-'*30
 
 for eachAccentName in accents:
-    print eachAccentName, ' '.join(lowercaseStrings[eachAccentName])
-
-
-
-# for eachComponent, eachGroup in 
-#     if eachComponent in accents:
-#         print eachComponent, eachGroup
+    print ' '.join(lowercaseStrings[eachAccentName])

@@ -32,5 +32,5 @@ ring aring uring
 cedilla ccedilla scedilla uni0163
 ogonek aogonek eogonek iogonek uogonek
 uni0312 gcedilla uni0123
-uni0313 dcaron lcaron napostrophe tcaron uni0326
+uni0313 dcaron lcaron napostrophe tcaron
 uni0326 kcedilla lcedilla ncedilla rcedilla uni0137 uni013C uni0146 uni0157 uni0219 uni021B
