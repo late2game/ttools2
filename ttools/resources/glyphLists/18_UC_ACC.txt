@@ -26,7 +26,7 @@ Eogonek
 Gbreve
 uni0122
 Gcircumflex
-uni0122
+Gcommaaccent
 Gdotaccent
 Hcircumflex
 Iacute

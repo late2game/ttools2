@@ -96,6 +96,8 @@
 	<string>G_.glif</string>
 	<key>Gbreve</key>
 	<string>Gbreve_.glif</string>
+	<key>Gcedilla</key>
+	<string>Gcedilla_.glif</string>
 	<key>Gcircumflex</key>
 	<string>Gcircumflex_.glif</string>
 	<key>Gdotaccent</key>
@@ -666,6 +668,8 @@
 	<string>exclam.sc.glif</string>
 	<key>exclamdown</key>
 	<string>exclamdown.glif</string>
+	<key>exclamdown.case</key>
+	<string>exclamdown.case.glif</string>
 	<key>exclamdown.sc</key>
 	<string>exclamdown.sc.glif</string>
 	<key>f</key>
@@ -1270,6 +1274,8 @@
 	<string>question.sc.glif</string>
 	<key>questiondown</key>
 	<string>questiondown.glif</string>
+	<key>questiondown.case</key>
+	<string>questiondown.case.glif</string>
 	<key>questiondown.sc</key>
 	<string>questiondown.sc.glif</string>
 	<key>quotedbl</key>
@@ -1688,6 +1694,8 @@
 	<string>uni215A_.glif</string>
 	<key>uni2196</key>
 	<string>uni2196.glif</string>
+	<key>uni2197</key>
+	<string>uni2197.glif</string>
 	<key>uni2198</key>
 	<string>uni2198.glif</string>
 	<key>uni2199</key>

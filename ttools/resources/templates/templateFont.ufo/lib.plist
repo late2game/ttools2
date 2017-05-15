@@ -145,6 +145,8 @@
 				<string>endash.case</string>
 				<string>emdash.case</string>
 				<string>bullet.case</string>
+				<string>exclamdown.case</string>
+				<string>questiondown.case</string>
 				<string>periodcentered.case</string>
 				<string>guilsinglleft.case</string>
 				<string>guilsinglright.case</string>
@@ -498,6 +500,7 @@
 				<string>arrowdown</string>
 				<string>arrowup</string>
 				<string>uni2196</string>
+				<string>uni2197</string>
 				<string>uni2198</string>
 				<string>uni2199</string>
 				<string>uni2605</string>
@@ -1084,6 +1087,8 @@
 		<string>endash.case</string>
 		<string>emdash.case</string>
 		<string>bullet.case</string>
+		<string>exclamdown.case</string>
+		<string>questiondown.case</string>
 		<string>periodcentered.case</string>
 		<string>guilsinglleft.case</string>
 		<string>guilsinglright.case</string>
@@ -1437,6 +1442,7 @@
 		<string>arrowdown</string>
 		<string>arrowup</string>
 		<string>uni2196</string>
+		<string>uni2197</string>
 		<string>uni2198</string>
 		<string>uni2199</string>
 		<string>uni2605</string>
@@ -1906,6 +1912,7 @@
 		<string>zacute.sc</string>
 		<string>zcaron.sc</string>
 		<string>zdotaccent.sc</string>
+		<string>Gcedilla</string>
 	</array>
 </dict>
 </plist>

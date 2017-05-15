@@ -30,4 +30,8 @@ for eachGlyphName in sourceFont.glyphOrder:
     if eachGlyphName not in newGlyphOrder:
         newGlyphOrder.append(eachGlyphName)
 
-sourceFont.glyphOrder = newGlyphOrder
+if len(sourceFont.glyphOrder) == len(newGlyphOrder):
+    sourceFont.glyphOrder = newGlyphOrder
+else:
+    print len(sourceFont.glyphOrder)
+    print len(newGlyphOrder)
