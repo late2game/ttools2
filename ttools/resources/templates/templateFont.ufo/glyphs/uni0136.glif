@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <glyph name="uni0136" format="1">
   <advance width="652"/>
-  <unicode hex="0136"/>
   <outline>
     <contour>
       <point x="88" y="0" type="line" name="hr00"/>
@@ -27,4 +26,11 @@
       <point x="384" y="-68" type="line"/>
     </contour>
   </outline>
+  <lib>
+    <dict>
+      <key>com.adobe.type.autohint</key>
+      <data>
+      </data>
+    </dict>
+  </lib>
 </glyph>

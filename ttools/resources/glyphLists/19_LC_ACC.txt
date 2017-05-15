@@ -41,7 +41,7 @@ uni0137
 uni0137
 lacute
 uni013C
-uni013C
+lcommaaccent
 nacute
 napostrophe
 ncaron
@@ -66,7 +66,6 @@ scaron
 scedilla
 scircumflex
 uni0219
-tcaron
 uni0163
 uni021B
 uacute

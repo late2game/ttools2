@@ -25,7 +25,7 @@ setsOrder = [os.path.basename(name).replace('.txt', '') for name in setsFilePath
 
 setsDictionary = {}
 for eachSetPath in setsFilePaths:
-    glyphNames = open(eachSetPath, 'r').read().split('\n')
+    glyphNames = [name.strip() for name in open(eachSetPath, 'r').readlines()]
     setsDictionary[os.path.basename(eachSetPath).replace('.txt', '')] = glyphNames
 
 for eachSetIndex, eachSetName in enumerate(setsOrder):
