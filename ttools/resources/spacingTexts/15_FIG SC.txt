@@ -1,9 +1,9 @@
 F I G space S C
 hyphen hyphen hyphen T a b u l a r hyphen hyphen hyphen
 zero.sc one.sc two.sc three.sc four.sc five.sc six.sc seven.sc eight.sc nine.sc zero.sc.zero h.sc o.sc b.sc
-h.sc figurespace h.sc zero.sc h.sc one.sc h.sc two.sc h.sc three.sc h.sc four.sc h.sc h.sc five.sc h.sc six.sc h.sc seven.sc h.sc eight.sc h.sc nine.sc h.sc zero.sc.zero h.sc
-zero.sc figurespace zero.sc zero.sc zero.sc one.sc zero.sc two.sc zero.sc three.sc zero.sc four.sc zero.sc zero.sc five.sc zero.sc six.sc zero.sc seven.sc zero.sc eight.sc zero.sc nine.sc zero.sc zero.sc.zero zero.sc
-h.sc figurespace h.sc zero.sc h.sc one.sc h.sc two.sc h.sc three.sc h.sc four.sc h.sc h.sc five.sc h.sc six.sc h.sc seven.sc h.sc eight.sc h.sc nine.sc h.sc zero.sc.zero h.sc zero.sc figurespace zero.sc zero.sc zero.sc one.sc zero.sc two.sc zero.sc three.sc zero.sc four.sc zero.sc zero.sc five.sc zero.sc six.sc zero.sc seven.sc zero.sc eight.sc zero.sc nine.sc zero.sc zero.sc.zero zero.sc
+h.sc uni2007 h.sc zero.sc h.sc one.sc h.sc two.sc h.sc three.sc h.sc four.sc h.sc h.sc five.sc h.sc six.sc h.sc seven.sc h.sc eight.sc h.sc nine.sc h.sc zero.sc.zero h.sc
+zero.sc uni2007 zero.sc zero.sc zero.sc one.sc zero.sc two.sc zero.sc three.sc zero.sc four.sc zero.sc zero.sc five.sc zero.sc six.sc zero.sc seven.sc zero.sc eight.sc zero.sc nine.sc zero.sc zero.sc.zero zero.sc
+h.sc uni2007 h.sc zero.sc h.sc one.sc h.sc two.sc h.sc three.sc h.sc four.sc h.sc h.sc five.sc h.sc six.sc h.sc seven.sc h.sc eight.sc h.sc nine.sc h.sc zero.sc.zero h.sc zero.sc uni2007 zero.sc zero.sc zero.sc one.sc zero.sc two.sc zero.sc three.sc zero.sc four.sc zero.sc zero.sc five.sc zero.sc six.sc zero.sc seven.sc zero.sc eight.sc zero.sc nine.sc zero.sc zero.sc.zero zero.sc
 currency.sc dollar.sc cent.sc Euro.sc yen.sc sterling.sc florin.sc s.sc c.sc y.sc l.sc c
 h.sc currency.sc h.sc dollar.sc h.sc cent.sc h.sc Euro.sc h.sc yen.sc h.sc sterling.sc h.sc florin.sc h.sc
 zero.sc currency.sc zero.sc dollar.sc zero.sc cent.sc zero.sc Euro.sc zero.sc yen.sc zero.sc sterling.sc zero.sc florin.sc zero.sc

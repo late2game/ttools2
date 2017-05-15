@@ -20,5 +20,5 @@ H H a.sups H b.sups H c.sups H d.sups H e.sups H f.sups H g.sups H H
 H H h.sups H uni2071 H j.sups H k.sups H l.sups H m.sups H uni207F H H
 H H o.sups H p.sups H q.sups H r.sups H s.sups H t.sups H u.sups H H
 H H v.sups H w.sups H x.sups H y.sups H z.sups H H
-H H uni2070 H onesuperior H twosuperior H threesuperior H uni2074 H uni2075 H uni2076 H uni2077 H uni2078 H uni2079 H H
+H H uni2070 H uni00B9 H uni00B2 H uni00B3 H uni2074 H uni2075 H uni2076 H uni2077 H uni2078 H uni2079 H H
 H H dollar.sups H cent.sups H Euro.sups H uni207A H uni207B H uni207C H period.sups H comma.sups H hyphen.sups H uni207D H uni207E H H

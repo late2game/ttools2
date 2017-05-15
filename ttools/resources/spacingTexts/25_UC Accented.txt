@@ -4,15 +4,15 @@ A Agrave Aacute Adieresis Acircumflex Amacron Atilde Aring Abreve Aogonek H H A 
 C Cacute Cdotaccent Ccircumflex Ccaron Ccedilla H H C H Cacute H Cdotaccent H Ccircumflex H Ccaron H Ccedilla H H O O C O Cacute O Cdotaccent O Ccircumflex O Ccaron O Ccedilla O O
 D Dcaron H H D H Dcaron H H O O D O Dcaron O O
 E Egrave Eacute Edotaccent Edieresis Ecircumflex Ecaron Emacron Ebreve Eogonek H H E H Egrave H Eacute H Edotaccent H Edieresis H Ecircumflex H Ecaron H Emacron H Ebreve H Eogonek H H O O E O Egrave O Eacute O Edotaccent O Edieresis O Ecircumflex O Ecaron O Emacron O Ebreve O Eogonek O O
-G Gdotaccent Gcircumflex Gbreve uni0122 Gcedilla H H G H Gdotaccent H Gcircumflex H Gbreve H uni0122 H Gcedilla H H O O G O Gdotaccent O Gcircumflex O Gbreve O uni0122 O Gcedilla O O
+G Gdotaccent Gcircumflex Gbreve uni0122 uni0122 H H G H Gdotaccent H Gcircumflex H Gbreve H uni0122 H uni0122 H H O O G O Gdotaccent O Gcircumflex O Gbreve O uni0122 O uni0122 O O
 H Hcircumflex H H H H Hcircumflex H H O O H O Hcircumflex O O
 I space Igrave space Iacute space Idotaccent space Idieresis space Icircumflex space Imacron space Itilde space Ibreve space Iogonek H H I H Igrave H Iacute H Idotaccent H Idieresis H Icircumflex H Imacron H Itilde H Ibreve H Iogonek H H O O I O Igrave O Iacute O Idotaccent O Idieresis O Icircumflex O Imacron O Itilde O Ibreve O Iogonek O O
 J Jcircumflex H H J H Jcircumflex H H O O J O Jcircumflex O O
-K uni0136 Kcedilla H H K H uni0136 H Kcedilla H H O O K O uni0136 O Kcedilla O O
-L Lacute uni013B Lcedilla H H L H Lacute H uni013B H Lcedilla H H O O L O Lacute O uni013B O Lcedilla O O
-N Nacute Ncaron Ntilde uni0145 Ncedilla H H N H Nacute H Ncaron H Ntilde H uni0145 H Ncedilla H H O O N O Nacute O Ncaron O Ntilde O uni0145 O Ncedilla O O
+K uni0136 uni0136 H H K H uni0136 H uni0136 H H O O K O uni0136 O uni0136 O O
+L Lacute uni013B uni013B H H L H Lacute H uni013B H uni013B H H O O L O Lacute O uni013B O uni013B O O
+N Nacute Ncaron Ntilde uni0145 uni0145 H H N H Nacute H Ncaron H Ntilde H uni0145 H uni0145 H H O O N O Nacute O Ncaron O Ntilde O uni0145 O uni0145 O O
 O Ograve Oacute Ohungarumlaut Odieresis Ocircumflex Omacron Obreve Otilde Oslashacute H H O H Ograve H Oacute H Ohungarumlaut H Odieresis H Ocircumflex H Omacron H Obreve H Otilde H Oslashacute H H O O O O Ograve O Oacute O Ohungarumlaut O Odieresis O Ocircumflex O Omacron O Obreve O Otilde O Oslashacute O O
-R Racute Rcaron uni0156 Rcedilla H H R H Racute H Rcaron H uni0156 H Rcedilla H H O O R O Racute O Rcaron O uni0156 O Rcedilla O O
+R Racute Rcaron uni0156 uni0156 H H R H Racute H Rcaron H uni0156 H uni0156 H H O O R O Racute O Rcaron O uni0156 O uni0156 O O
 S Sacute Scircumflex Scaron uni0218 Scedilla H H S H Sacute H Scircumflex H Scaron H uni0218 H Scedilla H H O O S O Sacute O Scircumflex O Scaron O uni0218 O Scedilla O O
 T Tcaron uni021A uni0162 H H T H Tcaron H uni021A H uni0162 H H O O T O Tcaron O uni021A O uni0162 O O
 U Ugrave Uacute Uhungarumlaut Udieresis Ucircumflex Umacron Utilde Ubreve Uring Uogonek H H U H Ugrave H Uacute H Uhungarumlaut H Udieresis H Ucircumflex H Umacron H Utilde H Ubreve H Uring H Uogonek H H O O U O Ugrave O Uacute O Uhungarumlaut O Udieresis O Ucircumflex O Umacron O Utilde O Ubreve O Uring O Uogonek O O
@@ -29,7 +29,7 @@ macron Amacron Emacron Imacron Omacron Umacron
 tilde Atilde Itilde Ntilde Otilde Utilde
 breve Abreve Ebreve Gbreve Ibreve Obreve Ubreve
 ring Aring Uring
-cedilla Ccedilla Gcedilla Scedilla uni0162
+cedilla Ccedilla uni0122 Scedilla uni0162
 ogonek Aogonek Eogonek Iogonek Uogonek
 uni0313 Lcaron
-uni0326 Kcedilla Lcedilla Ncedilla Rcedilla uni0122 uni0136 uni013B uni0145 uni0156 uni0218 uni021A
+uni0326 uni0136 uni013B uni0145 uni0156 uni0122 uni0136 uni013B uni0145 uni0156 uni0218 uni021A

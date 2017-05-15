@@ -24,7 +24,7 @@ Egrave
 Emacron
 Eogonek
 Gbreve
-Gcedilla
+uni0122
 Gcircumflex
 uni0122
 Gdotaccent
@@ -39,14 +39,14 @@ Imacron
 Iogonek
 Itilde
 Jcircumflex
-Kcedilla
+uni0136
 uni0136
 Lacute
-Lcedilla
+uni013B
 uni013B
 Nacute
 Ncaron
-Ncedilla
+uni0145
 uni0145
 Ntilde
 Oacute
@@ -60,7 +60,7 @@ Oslashacute
 Otilde
 Racute
 Rcaron
-Rcedilla
+uni0156
 uni0156
 Sacute
 Scaron

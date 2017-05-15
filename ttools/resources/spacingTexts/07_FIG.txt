@@ -1,10 +1,10 @@
 F I G
 hyphen hyphen hyphen T a b u l a r space L i n i n g hyphen hyphen hyphen
 zero one two three four five six seven eight nine zero.zero H O B
-H figurespace H zero H one H two H three H four H H five H six H seven H eight H nine H zero.zero H
-zero figurespace zero zero zero one zero two zero three zero four zero zero five zero six zero seven zero eight zero nine zero zero.zero zero
-H figurespace H zero H one H two H three H four H H five H six H seven H eight H nine H zero.zero H zero figurespace zero zero zero one zero two zero three zero four zero zero five zero six zero seven zero eight zero nine zero zero.zero zero
-H figurespace H zero H one H two H three H four H H five H six H seven H eight H nine H zero.zero H zero
+H uni2007 H zero H one H two H three H four H H five H six H seven H eight H nine H zero.zero H
+zero uni2007 zero zero zero one zero two zero three zero four zero zero five zero six zero seven zero eight zero nine zero zero.zero zero
+H uni2007 H zero H one H two H three H four H H five H six H seven H eight H nine H zero.zero H zero uni2007 zero zero zero one zero two zero three zero four zero zero five zero six zero seven zero eight zero nine zero zero.zero zero
+H uni2007 H zero H one H two H three H four H H five H six H seven H eight H nine H zero.zero H zero
 zero zero one zero two zero three zero four zero zero five zero six zero seven zero eight zero nine zero zero.zero zero
 currency dollar cent Euro yen sterling florin S C Y L c
 H currency H dollar H cent H Euro H yen H sterling H florin H
@@ -24,4 +24,4 @@ n n five.osf n n six.osf n n seven.osf n n eight.osf n n nine.osf n n zero.osf.z
 o o zero.osf o o one.osf o o two.osf o o three.osf o o four.osf o o
 o o five.osf o o six.osf o o seven.osf o o eight.osf o o nine.osf o o zero.osf.zero o o
 n n zero.osf n n one.osf n n two.osf n n three.osf n n four.osf n n n n five.osf n n six.osf n n seven.osf n n eight.osf n n nine.osf n n zero.osf.zero n n o o zero.osf o o one.osf o o two.osf o o three.osf o o four.osf o o o o five.osf o o six.osf o o seven.osf o o eight.osf o o nine.osf o o zero.osf.zero o o
-figurespace zero.tosf one.tosf two.tosf three.tosf four.tosf five.tosf six.tosf seven.tosf eight.tosf nine.tosf zero.tosf.zero
+uni2007 zero.tosf one.tosf two.tosf three.tosf four.tosf five.tosf six.tosf seven.tosf eight.tosf nine.tosf zero.tosf.zero

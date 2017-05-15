@@ -3,12 +3,12 @@ four.lf multiply one.lf zero.lf zero.lf hyphen m hyphen S t a f f e l
 one.lf two.lf space notequal space one.lf three.lf comma space approxequal eight.lf zero.lf space P r o z e n t comma space numbersign one.lf
 radical two.lf space equal space one.lf period four.lf one.lf four.lf two.lf one.lf three.lf five.lf six.lf two.lf comma space
 pi space equal space three.lf comma one.lf four.lf one five.lf nine.lf two.lf six.lf five.lf four.lf
-bracketleft nine.lf three.lf seven.lf mu m comma space three.lf five.lf space Omega bracketright
+bracketleft nine.lf three.lf seven.lf uni03BC m comma space three.lf five.lf space Omega bracketright
 braceleft Delta space equal one.lf eight.lf comma five.lf four.lf braceright space summation equal three.lf four.lf six.lf comma two.lf eight.lf space
 lozenge space equal zero.lf comma zero.lf zero.lf one.lf space partialdiff equal one.lf comma zero.lf three.lf
 integral two.lf space b i s space nine.lf comma space c l o s e space t o space infinity
 zero.osf.zero three.osf space four.osf one.osf space slash space one.osf nine.osf space zero.osf.zero eight.osf space seven.osf six.osf
-fi n d space section space five.osf nine.osf space b space u n d space section section space eight.osf three.osf space b i s space one.osf six.osf four.osf
+uniFB01 n d space section space five.osf nine.osf space b space u n d space section section space eight.osf three.osf space b i s space one.osf six.osf four.osf
 one.osf two.osf dollar space three.osf four.osf cent space five.osf six.osf Euro space seven.osf eight.osf yen space nine.osf zero sterling space one.osf zero.zero florin
 dollar one.osf two.osf space cent three.osf four.osf space Euro five.osf six.osf space yen seven.osf eight.osf space sterling nine.osf zero space florin one.osf zero.zero
 asterisk zero.osf one.osf period zero.osf three.osf period one.osf eight.osf eight.osf three.osf comma space
@@ -20,7 +20,7 @@ four.osf multiply one.osf zero.osf zero.osf hyphen m hyphen S t a f f e l
 one.osf two.osf space notequal space one.osf three.osf comma space approxequal eight.osf zero.osf space P r o z e n t comma space numbersign one.osf
 radical two.osf space equal space one.osf period four.osf one.osf four.osf two.osf one.osf three.osf five.osf six.osf two.osf comma space
 pi space equal space three.osf comma one.osf four.osf one.osf five.osf nine.osf two.osf six.osf five.osf four.osf
-bracketleft nine.osf three.osf seven.osf mu m comma space three.osf five.osf space Omega bracketright
+bracketleft nine.osf three.osf seven.osf uni03BC m comma space three.osf five.osf space Omega bracketright
 braceleft Delta space equal one.osf eight.osf comma five.osf four.osf braceright space summation equal three.osf four.osf six.osf comma two.osf eight.osf space
 lozenge space equal zero.osf comma zero.osf zero.osf one.osf space partialdiff equal one.osf comma zero.osf three.osf
 integral two.osf space b i s space nine.osf comma space c l o s e space t o space infinity

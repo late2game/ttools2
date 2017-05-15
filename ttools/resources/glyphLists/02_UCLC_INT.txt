@@ -11,8 +11,8 @@ bullet
 periodcentered
 guilsinglleft
 guilsinglright
-guillemetleft
-guillemetright
+guillemotleft
+guillemotright
 exclam
 question
 exclamdown
@@ -48,8 +48,8 @@ bullet.case
 periodcentered.case
 guilsinglleft.case
 guilsinglright.case
-guillemetleft.case
-guillemetright.case
+guillemotleft.case
+guillemotright.case
 parenleft.case
 parenright.case
 bracketleft.case

@@ -3,15 +3,15 @@ ae aeacute n n ae n aeacute n n o o ae o aeacute o o
 a agrave aacute adieresis acircumflex amacron atilde aring abreve aogonek n n a n agrave n aacute n adieresis n acircumflex n amacron n atilde n aring n abreve n aogonek n n o o a o agrave o aacute o adieresis o acircumflex o amacron o atilde o aring o abreve o aogonek o o
 c cacute cdotaccent ccircumflex ccaron ccedilla n n c n cacute n cdotaccent n ccircumflex n ccaron n ccedilla n n o o c o cacute o cdotaccent o ccircumflex o ccaron o ccedilla o o
 e egrave eacute edotaccent edieresis ecircumflex ecaron emacron ebreve eogonek n n e n egrave n eacute n edotaccent n edieresis n ecircumflex n ecaron n emacron n ebreve n eogonek n n o o e o egrave o eacute o edotaccent o edieresis o ecircumflex o ecaron o emacron o ebreve o eogonek o o
-g gdotaccent gcircumflex gbreve uni0123 gcedilla n n g n gdotaccent n gcircumflex n gbreve n uni0123 n gcedilla n n o o g o gdotaccent o gcircumflex o gbreve o uni0123 o gcedilla o o
+g gdotaccent gcircumflex gbreve gcommaaccent uni0123 n n g n gdotaccent n gcircumflex n gbreve n gcommaaccent n uni0123 n n o o g o gdotaccent o gcircumflex o gbreve o gcommaaccent o uni0123 o o
 h hcircumflex n n h n hcircumflex n n o o h o hcircumflex o o
 i space igrave space iacute space idieresis space icircumflex space imacron space itilde space ibreve space iogonek n n i n igrave n iacute n idieresis n icircumflex n imacron n itilde n ibreve n iogonek n n o o i o igrave o iacute o idieresis o icircumflex o imacron o itilde o ibreve o iogonek o o
 j jcircumflex n n j n jcircumflex n n o o j o jcircumflex o o
-k uni0137 kcedilla n n k n uni0137 n kcedilla n n o o k o uni0137 o kcedilla o o
-l lacute uni013C lcedilla n n l n lacute n uni013C n lcedilla n n o o l o lacute o uni013C o lcedilla o o
-n nacute ncaron ntilde uni0146 napostrophe ncedilla n n n n nacute n ncaron n ntilde n uni0146 n napostrophe n ncedilla n n o o n o nacute o ncaron o ntilde o uni0146 o napostrophe o ncedilla o o
+k uni0137 uni0137 n n k n uni0137 n uni0137 n n o o k o uni0137 o uni0137 o o
+l lacute uni013C uni013C n n l n lacute n uni013C n uni013C n n o o l o lacute o uni013C o uni013C o o
+n nacute ncaron ntilde uni0146 napostrophe uni0146 n n n n nacute n ncaron n ntilde n uni0146 n napostrophe n uni0146 n n o o n o nacute o ncaron o ntilde o uni0146 o napostrophe o uni0146 o o
 o ograve oacute ohungarumlaut odieresis ocircumflex omacron obreve otilde oslashacute n n o n ograve n oacute n ohungarumlaut n odieresis n ocircumflex n omacron n obreve n otilde n oslashacute n n o o o o ograve o oacute o ohungarumlaut o odieresis o ocircumflex o omacron o obreve o otilde o oslashacute o o
-r racute rcaron uni0157 rcedilla n n r n racute n rcaron n uni0157 n rcedilla n n o o r o racute o rcaron o uni0157 o rcedilla o o
+r racute rcaron uni0157 uni0157 n n r n racute n rcaron n uni0157 n uni0157 n n o o r o racute o rcaron o uni0157 o uni0157 o o
 s sacute scircumflex scaron uni0219 scedilla n n s n sacute n scircumflex n scaron n uni0219 n scedilla n n o o s o sacute o scircumflex o scaron o uni0219 o scedilla o o
 t uni0163 n n t n uni0163 n n o o t o uni0163 o o
 u ugrave uacute uhungarumlaut udieresis ucircumflex umacron utilde ubreve uring uogonek n n u n ugrave n uacute n uhungarumlaut n udieresis n ucircumflex n umacron n utilde n ubreve n uring n uogonek n n o o u o ugrave o uacute o uhungarumlaut o udieresis o ucircumflex o umacron o utilde o ubreve o uring o uogonek o o
@@ -31,6 +31,6 @@ breve abreve ebreve gbreve ibreve obreve ubreve
 ring aring uring
 cedilla ccedilla scedilla uni0163
 ogonek aogonek eogonek iogonek uogonek
-uni0312 gcedilla uni0123
+uni0312 uni0123 gcommaaccent
 uni0313 dcaron lcaron napostrophe tcaron
-uni0326 kcedilla lcedilla ncedilla rcedilla uni0137 uni013C uni0146 uni0157 uni0219 uni021B
+uni0326 uni0137 uni013C uni0146 uni0157 uni0137 uni013C uni0146 uni0157 uni0219 uni021B

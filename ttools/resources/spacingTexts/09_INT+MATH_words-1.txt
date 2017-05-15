@@ -5,7 +5,7 @@ D i n hyphen A four hyphen F o r m a t space r o m period hyphen space k a t h p
 three six zero degree hyphen G r a d hyphen D r e h u n g
 H i e r space endash space a u f g e m e r k t space endash space exclam
 B o n n space endash space B e r l i n comma space W i e n space emdash space K a s s e l
-parenleft P r e i s colon space guillemetright Euro space one comma endash endash guillemetleft parenright
+parenleft P r e i s colon space guillemotright Euro space one comma endash endash guillemotleft parenright
 j a space u n d slash o d e r space n e i n
 J A space U N D slash seven space O D E R space N E I N
 H U L E S H period slash period W e n z e l comma space U slash m i n
@@ -22,17 +22,17 @@ paragraph m a r k i e r t space e i n e n space A b s a t z paragraph
 parenleft H a l l o asterisk period parenright space parenleft H a l l o period asterisk parenright
 asciicircum t equal T a b u l a t o r comma space asciicircum p equal Z e i l e n u m b r u c h
 quotedblbase D i e space quotesinglbase m e i d quoteright quoteleft comma space quotesinglbase space s o quoteleft space r a t quoteright space i c h quotedblright period
-guillemetright D i e space guilsinglright s u c h quoteright guilsinglleft comma space guilsinglright s o guilsinglleft space r a t quoteright space i c h guillemetleft period
-guillemetleft D i e space guilsinglleft s u c h quoteright guilsinglright comma space guilsinglleft s o guilsinglright space r a t quoteright space i c h guillemetright period
-guilsinglright guillemetright t h a t guillemetleft guilsinglleft space i s space w i d e r space t h e n space quoteleft quotedblleft t h i s quoteright quotedblright
-guillemetright endash S t r i c h exclam guillemetleft space parenleft guillemetright K l a m m e r n guillemetleft parenright
-guillemetright ellipsis space P u n k t e ellipsis guillemetleft space guillemetright colon D o p p e l p u n k t e colon guillemetleft
+guillemotright D i e space guilsinglright s u c h quoteright guilsinglleft comma space guilsinglright s o guilsinglleft space r a t quoteright space i c h guillemotleft period
+guillemotleft D i e space guilsinglleft s u c h quoteright guilsinglright comma space guilsinglleft s o guilsinglright space r a t quoteright space i c h guillemotright period
+guilsinglright guillemotright t h a t guillemotleft guilsinglleft space i s space w i d e r space t h e n space quoteleft quotedblleft t h i s quoteright quotedblright
+guillemotright endash S t r i c h exclam guillemotleft space parenleft guillemotright K l a m m e r n guillemotleft parenright
+guillemotright ellipsis space P u n k t e ellipsis guillemotleft space guillemotright colon D o p p e l p u n k t e colon guillemotleft
 K a p i e r t question exclam question exclam space parenleft question parenright bracketleft question bracketright braceleft question braceright
 K a p i e r t question exclam question exclam space parenleft exclam parenright bracketleft exclam bracketright braceleft exclam braceright
 parenleft a space plus space b parenright space logicalnot space parenleft b space minus space c parenright
 hyphen hyphen hyphen T a b u l a r hyphen hyphen hyphen
 zero.zero three space four one space slash space one nine space zero.zero eight space seven six
-fi n d space section space five nine space b space u n d space section section space eight three space b i s space one six four
+uniFB01 n d space section space five nine space b space u n d space section section space eight three space b i s space one six four
 one two dollar space three four cent space five six Euro space seven eight yen space nine zero sterling space one zero.zero florin
 dollar one two space cent three four space Euro five six space yen seven eight space sterling nine zero space florin one zero.zero
 asterisk zero one period zero three period one eight eight three comma space dagger two three period zero four period one nine five six
@@ -41,7 +41,7 @@ F o r m a t colon space three five multiply six five comma space P L Z space gre
 four multiply one zero zero hyphen m hyphen S t a f f e l
 one two space notequal space one three comma space approxequal eight zero space P r o z e n t comma space numbersign one
 radical two space equal space one period four one four two one three five six two comma space pi space equal space three comma one four one five nine two six five four
-bracketleft nine three seven mu m comma space three five space Omega bracketright
+bracketleft nine three seven uni03BC m comma space three five space Omega bracketright
 braceleft Delta space equal one eight comma five four braceright space summation equal three four six comma two eight space
 lozenge space equal zero comma zero zero one space partialdiff equal one comma zero three
 integral two space b i s space nine comma space c l o s e space t o space infinity

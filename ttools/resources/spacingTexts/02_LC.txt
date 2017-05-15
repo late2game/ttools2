@@ -19,7 +19,7 @@ n a n g n s n z n o a o g o s o z o
 n k n x n o k o x o
 a e ae space o e oe
 f s germandbls
-f f space uniFB00 space f i space fi space f l space fl f f n uniFB00 n f i n fi n f l n fl f f o uniFB00 o f i o fi o f l o fl
-n uniFB00 n f i n fi n f l n fl f f n
-o uniFB00 o f i o fi o f l o fl f f o
+f f space uniFB00 space f i space uniFB01 space f l space uniFB02 f f n uniFB00 n f i n uniFB01 n f l n uniFB02 f f o uniFB00 o f i o uniFB01 o f l o uniFB02
+n uniFB00 n f i n uniFB01 n f l n uniFB02 f f n
+o uniFB00 o f i o uniFB01 o f l o uniFB02 f f o
 f r e d at o u r t y p e
