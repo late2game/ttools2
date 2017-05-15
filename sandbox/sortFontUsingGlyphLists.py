@@ -26,4 +26,8 @@ for eachGlyphName in allGLs:
     if eachGlyphName in sourceFont.glyphOrder:
         newGlyphOrder.append(eachGlyphName)
 
+for eachGlyphName in sourceFont.glyphOrder:
+    if eachGlyphName not in newGlyphOrder:
+        newGlyphOrder.append(eachGlyphName)
+
 sourceFont.glyphOrder = newGlyphOrder
