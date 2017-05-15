@@ -790,6 +790,10 @@
 	<string>gcircumflex.glif</string>
 	<key>gcircumflex.sc</key>
 	<string>gcircumflex.sc.glif</string>
+	<key>gcommaaccent</key>
+	<string>gcommaaccent.glif</string>
+	<key>gcommaaccent.sc</key>
+	<string>gcommaaccent.sc.glif</string>
 	<key>gdotaccent</key>
 	<string>gdotaccent.glif</string>
 	<key>gdotaccent.sc</key>
@@ -814,18 +818,18 @@
 	<string>greaterequal.case.glif</string>
 	<key>greaterequal.sc</key>
 	<string>greaterequal.sc.glif</string>
-	<key>guillemetleft</key>
-	<string>guillemetleft.glif</string>
-	<key>guillemetleft.case</key>
-	<string>guillemetleft.case.glif</string>
-	<key>guillemetleft.sc</key>
-	<string>guillemetleft.sc.glif</string>
-	<key>guillemetright</key>
-	<string>guillemetright.glif</string>
-	<key>guillemetright.case</key>
-	<string>guillemetright.case.glif</string>
-	<key>guillemetright.sc</key>
-	<string>guillemetright.sc.glif</string>
+	<key>guillemotleft</key>
+	<string>guillemotleft.glif</string>
+	<key>guillemotleft.case</key>
+	<string>guillemotleft.case.glif</string>
+	<key>guillemotleft.sc</key>
+	<string>guillemotleft.sc.glif</string>
+	<key>guillemotright</key>
+	<string>guillemotright.glif</string>
+	<key>guillemotright.case</key>
+	<string>guillemotright.case.glif</string>
+	<key>guillemotright.sc</key>
+	<string>guillemotright.sc.glif</string>
 	<key>guilsinglleft</key>
 	<string>guilsinglleft.glif</string>
 	<key>guilsinglleft.case</key>
@@ -980,10 +984,10 @@
 	<string>lcaron.glif</string>
 	<key>lcaron.sc</key>
 	<string>lcaron.sc.glif</string>
-	<key>lcedilla</key>
-	<string>lcedilla.glif</string>
 	<key>lcedilla.sc</key>
 	<string>lcedilla.sc.glif</string>
+	<key>lcommaaccent</key>
+	<string>lcommaaccent.glif</string>
 	<key>lcommaaccent.sc</key>
 	<string>lcommaaccent.sc.glif</string>
 	<key>ldot</key>
@@ -1564,10 +1568,6 @@
 	<string>underscore.glif</string>
 	<key>uni0122</key>
 	<string>uni0122.glif</string>
-	<key>uni0123</key>
-	<string>uni0123.glif</string>
-	<key>uni0123.sc</key>
-	<string>uni0123.sc.glif</string>
 	<key>uni0136</key>
 	<string>uni0136.glif</string>
 	<key>uni0137</key>

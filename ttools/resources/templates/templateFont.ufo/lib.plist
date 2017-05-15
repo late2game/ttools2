@@ -199,7 +199,7 @@
 				<string>gcircumflex</string>
 				<string>gbreve</string>
 				<string>gdotaccent</string>
-				<string>uni0123</string>
+				<string>gcommaaccent</string>
 				<string>h</string>
 				<string>hcircumflex</string>
 				<string>i</string>
@@ -861,7 +861,7 @@
 				<string>registered.sc</string>
 				<string>trademark.sc</string>
 				<string>degree.sc</string>
-				<string>uni0123.sc</string>
+				<string>gcommaaccent.sc</string>
 				<string>gcedilla.sc</string>
 				<string>idotaccent.sc</string>
 				<string>kcedilla.sc</string>
@@ -1147,7 +1147,7 @@
 		<string>gcircumflex</string>
 		<string>gbreve</string>
 		<string>gdotaccent</string>
-		<string>uni0123</string>
+		<string>gcommaaccent</string>
 		<string>h</string>
 		<string>hcircumflex</string>
 		<string>i</string>
@@ -1328,8 +1328,8 @@
 		<string>quotedblbase</string>
 		<string>guilsinglleft</string>
 		<string>guilsinglright</string>
-		<string>guillemetleft</string>
-		<string>guillemetright</string>
+		<string>guillemotleft</string>
+		<string>guillemotright</string>
 		<string>asterisk</string>
 		<string>dagger</string>
 		<string>daggerdbl</string>
@@ -1471,8 +1471,8 @@
 		<string>braceright.case</string>
 		<string>guilsinglleft.case</string>
 		<string>guilsinglright.case</string>
-		<string>guillemetleft.case</string>
-		<string>guillemetright.case</string>
+		<string>guillemotleft.case</string>
+		<string>guillemotright.case</string>
 		<string>periodcentered.case</string>
 		<string>bullet.case</string>
 		<string>plus.case</string>
@@ -1770,8 +1770,8 @@
 		<string>quotedblright.sc</string>
 		<string>guilsinglleft.sc</string>
 		<string>guilsinglright.sc</string>
-		<string>guillemetleft.sc</string>
-		<string>guillemetright.sc</string>
+		<string>guillemotleft.sc</string>
+		<string>guillemotright.sc</string>
 		<string>asterisk.sc</string>
 		<string>dagger.sc</string>
 		<string>daggerdbl.sc</string>
@@ -1809,7 +1809,7 @@
 		<string>registered.sc</string>
 		<string>trademark.sc</string>
 		<string>degree.sc</string>
-		<string>uni0123.sc</string>
+		<string>gcommaaccent.sc</string>
 		<string>gcedilla.sc</string>
 		<string>idotaccent.sc</string>
 		<string>kcedilla.sc</string>
@@ -1919,7 +1919,7 @@
 		<string>cent.numr</string>
 		<string>Euro.numr</string>
 		<string>.notdef</string>
-		<string>lcedilla</string>
+		<string>lcommaaccent</string>
 		<string>rcedilla</string>
 		<string>ncedilla</string>
 		<string>kcedilla</string>
