@@ -45,6 +45,8 @@ hyphen.case
 endash.case
 emdash.case
 bullet.case
+exclamdown.case
+questiondown.case
 periodcentered.case
 guilsinglleft.case
 guilsinglright.case
