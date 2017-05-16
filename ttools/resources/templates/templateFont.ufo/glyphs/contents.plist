@@ -106,6 +106,10 @@
 	<string>H_.glif</string>
 	<key>H18533</key>
 	<string>H18533_.glif</string>
+	<key>H18543</key>
+	<string>H18543_.glif</string>
+	<key>H18551</key>
+	<string>H18551_.glif</string>
 	<key>H22073</key>
 	<string>H22073_.glif</string>
 	<key>Hbar</key>
@@ -1028,6 +1032,8 @@
 	<string>minus.numr.glif</string>
 	<key>minus.sc</key>
 	<string>minus.sc.glif</string>
+	<key>mu</key>
+	<string>mu.glif</string>
 	<key>multiply</key>
 	<string>multiply.glif</string>
 	<key>multiply.case</key>
@@ -1590,8 +1596,6 @@
 	<string>uni0326.glif</string>
 	<key>uni0326.case</key>
 	<string>uni0326.case.glif</string>
-	<key>uni03BC</key>
-	<string>uni03BC_.glif</string>
 	<key>uni2007</key>
 	<string>uni2007.glif</string>
 	<key>uni2070</key>
@@ -1708,10 +1712,6 @@
 	<string>uni25C0_.glif</string>
 	<key>uni25C1</key>
 	<string>uni25C1_.glif</string>
-	<key>uni25FB</key>
-	<string>uni25FB_.glif</string>
-	<key>uni25FC</key>
-	<string>uni25FC_.glif</string>
 	<key>uni2605</key>
 	<string>uni2605.glif</string>
 	<key>uniFB00</key>

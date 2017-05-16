@@ -970,6 +970,7 @@
 				<string>zacute.sc</string>
 				<string>zcaron.sc</string>
 				<string>zdotaccent.sc</string>
+				<string>Gcedilla</string>
 			</array>
 			<key>type</key>
 			<string>glyphList</string>
@@ -1163,7 +1164,7 @@
 		<string>integral</string>
 		<string>product</string>
 		<string>pi</string>
-		<string>uni03BC</string>
+		<string>mu</string>
 		<string>grave</string>
 		<string>acute</string>
 		<string>hungarumlaut</string>
@@ -1449,8 +1450,8 @@
 		<string>uni2113</string>
 		<string>uni2116</string>
 		<string>estimated</string>
-		<string>uni25FB</string>
-		<string>uni25FC</string>
+		<string>H18551</string>
+		<string>H18543</string>
 		<string>a.numr</string>
 		<string>b.numr</string>
 		<string>c.numr</string>

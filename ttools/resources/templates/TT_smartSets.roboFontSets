@@ -1038,101 +1038,102 @@
 	<dict>
 		<key>glyphNames</key>
 		<array>
+			<string>Aacute</string>
+			<string>Abreve</string>
+			<string>Acircumflex</string>
+			<string>Adieresis</string>
 			<string>AEacute</string>
 			<string>Agrave</string>
-			<string>Aacute</string>
-			<string>Adieresis</string>
-			<string>Acircumflex</string>
 			<string>Amacron</string>
-			<string>Atilde</string>
-			<string>Aring</string>
-			<string>Abreve</string>
 			<string>Aogonek</string>
+			<string>Aring</string>
+			<string>Atilde</string>
 			<string>Cacute</string>
-			<string>Cdotaccent</string>
-			<string>Ccircumflex</string>
 			<string>Ccaron</string>
 			<string>Ccedilla</string>
+			<string>Ccircumflex</string>
+			<string>Cdotaccent</string>
 			<string>Dcaron</string>
-			<string>Egrave</string>
 			<string>Eacute</string>
-			<string>Edotaccent</string>
-			<string>Edieresis</string>
-			<string>Ecircumflex</string>
-			<string>Ecaron</string>
-			<string>Emacron</string>
 			<string>Ebreve</string>
+			<string>Ecaron</string>
+			<string>Ecircumflex</string>
+			<string>Edieresis</string>
+			<string>Edotaccent</string>
+			<string>Egrave</string>
+			<string>Emacron</string>
 			<string>Eogonek</string>
-			<string>Gdotaccent</string>
-			<string>Gcircumflex</string>
 			<string>Gbreve</string>
-			<string>Gcommaaccent</string>
 			<string>Gcedilla</string>
+			<string>Gcircumflex</string>
+			<string>uni0122</string>
+			<string>Gdotaccent</string>
 			<string>Hcircumflex</string>
-			<string>Igrave</string>
 			<string>Iacute</string>
-			<string>Idotaccent</string>
-			<string>Idieresis</string>
-			<string>Icircumflex</string>
-			<string>Imacron</string>
-			<string>Itilde</string>
 			<string>Ibreve</string>
+			<string>Icircumflex</string>
+			<string>Idieresis</string>
+			<string>Idotaccent</string>
+			<string>Igrave</string>
+			<string>Imacron</string>
 			<string>Iogonek</string>
+			<string>Itilde</string>
 			<string>Jcircumflex</string>
-			<string>Kcommaaccent</string>
 			<string>Kcedilla</string>
+			<string>uni0136</string>
 			<string>Lacute</string>
-			<string>Lcommaaccent</string>
 			<string>Lcedilla</string>
+			<string>uni013B</string>
 			<string>Nacute</string>
 			<string>Ncaron</string>
-			<string>Ntilde</string>
-			<string>Ncommaaccent</string>
 			<string>Ncedilla</string>
-			<string>Ograve</string>
+			<string>uni0145</string>
+			<string>Ntilde</string>
 			<string>Oacute</string>
-			<string>Ohungarumlaut</string>
-			<string>Odieresis</string>
-			<string>Ocircumflex</string>
-			<string>Omacron</string>
 			<string>Obreve</string>
-			<string>Otilde</string>
+			<string>Ocircumflex</string>
+			<string>Odieresis</string>
+			<string>Ograve</string>
+			<string>Ohungarumlaut</string>
+			<string>Omacron</string>
 			<string>Oslashacute</string>
+			<string>Otilde</string>
 			<string>Racute</string>
 			<string>Rcaron</string>
-			<string>Rcommaaccent</string>
 			<string>Rcedilla</string>
+			<string>uni0156</string>
 			<string>Sacute</string>
-			<string>Scircumflex</string>
 			<string>Scaron</string>
-			<string>Scommaaccent</string>
 			<string>Scedilla</string>
+			<string>Scircumflex</string>
+			<string>uni0218</string>
 			<string>Tcaron</string>
-			<string>Tcommaaccent</string>
-			<string>Ugrave</string>
+			<string>uni0162</string>
+			<string>uni021A</string>
 			<string>Uacute</string>
-			<string>Uhungarumlaut</string>
-			<string>Udieresis</string>
-			<string>Ucircumflex</string>
-			<string>Umacron</string>
-			<string>Utilde</string>
 			<string>Ubreve</string>
-			<string>Uring</string>
+			<string>Ucircumflex</string>
+			<string>Udieresis</string>
+			<string>Ugrave</string>
+			<string>Uhungarumlaut</string>
+			<string>Umacron</string>
 			<string>Uogonek</string>
-			<string>Wgrave</string>
+			<string>Uring</string>
+			<string>Utilde</string>
 			<string>Wacute</string>
-			<string>Wdieresis</string>
 			<string>Wcircumflex</string>
-			<string>Ygrave</string>
+			<string>Wdieresis</string>
+			<string>Wgrave</string>
 			<string>Yacute</string>
-			<string>Ydieresis</string>
 			<string>Ycircumflex</string>
+			<string>Ydieresis</string>
+			<string>Ygrave</string>
 			<string>Zacute</string>
-			<string>Zdotaccent</string>
 			<string>Zcaron</string>
+			<string>Zdotaccent</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {"AEacute", "Agrave", "Aacute", "Adieresis", "Acircumflex", "Amacron", "Atilde", "Aring", "Abreve", "Aogonek", "Cacute", "Cdotaccent", "Ccircumflex", "Ccaron", "Ccedilla", "Dcaron", "Egrave", "Eacute", "Edotaccent", "Edieresis", "Ecircumflex", "Ecaron", "Emacron", "Ebreve", "Eogonek", "Gdotaccent", "Gcircumflex", "Gbreve", "Gcommaaccent", "Gcedilla", "Hcircumflex", "Igrave", "Iacute", "Idotaccent", "Idieresis", "Icircumflex", "Imacron", "Itilde", "Ibreve", "Iogonek", "Jcircumflex", "Kcommaaccent", "Kcedilla", "Lacute", "Lcommaaccent", "Lcedilla", "Nacute", "Ncaron", "Ntilde", "Ncommaaccent", "Ncedilla", "Ograve", "Oacute", "Ohungarumlaut", "Odieresis", "Ocircumflex", "Omacron", "Obreve", "Otilde", "Oslashacute", "Racute", "Rcaron", "Rcommaaccent", "Rcedilla", "Sacute", "Scircumflex", "Scaron", "Scommaaccent", "Scedilla", "Tcaron", "Tcommaaccent", "Ugrave", "Uacute", "Uhungarumlaut", "Udieresis", "Ucircumflex", "Umacron", "Utilde", "Ubreve", "Uring", "Uogonek", "Wgrave", "Wacute", "Wdieresis", "Wcircumflex", "Ygrave", "Yacute", "Ydieresis", "Ycircumflex", "Zacute", "Zdotaccent", "Zcaron"}</string>
+		<string>Name IN {"Aacute", "Abreve", "Acircumflex", "Adieresis", "AEacute", "Agrave", "Amacron", "Aogonek", "Aring", "Atilde", "Cacute", "Ccaron", "Ccedilla", "Ccircumflex", "Cdotaccent", "Dcaron", "Eacute", "Ebreve", "Ecaron", "Ecircumflex", "Edieresis", "Edotaccent", "Egrave", "Emacron", "Eogonek", "Gbreve", "Gcedilla", "Gcircumflex", "uni0122", "Gdotaccent", "Hcircumflex", "Iacute", "Ibreve", "Icircumflex", "Idieresis", "Idotaccent", "Igrave", "Imacron", "Iogonek", "Itilde", "Jcircumflex", "Kcedilla", "uni0136", "Lacute", "Lcedilla", "uni013B", "Nacute", "Ncaron", "Ncedilla", "uni0145", "Ntilde", "Oacute", "Obreve", "Ocircumflex", "Odieresis", "Ograve", "Ohungarumlaut", "Omacron", "Oslashacute", "Otilde", "Racute", "Rcaron", "Rcedilla", "uni0156", "Sacute", "Scaron", "Scedilla", "Scircumflex", "uni0218", "Tcaron", "uni0162", "uni021A", "Uacute", "Ubreve", "Ucircumflex", "Udieresis", "Ugrave", "Uhungarumlaut", "Umacron", "Uogonek", "Uring", "Utilde", "Wacute", "Wcircumflex", "Wdieresis", "Wgrave", "Yacute", "Ycircumflex", "Ydieresis", "Ygrave", "Zacute", "Zcaron", "Zdotaccent"}</string>
 		<key>smartSetName</key>
 		<string>UC ACC</string>
 		<key>uniqueKey</key>
@@ -1271,7 +1272,7 @@
 			<string>gbreve.sc</string>
 			<string>uni0123.sc</string>
 			<string>gcircumflex.sc</string>
-			<string>gcommaaccent.sc</string>
+			<string>gcedilla.sc</string>
 			<string>gdotaccent.sc</string>
 			<string>hcircumflex.sc</string>
 			<string>iacute.sc</string>
@@ -1338,7 +1339,7 @@
 			<string>zdotaccent.sc</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {"aacute.sc", "abreve.sc", "acircumflex.sc", "adieresis.sc", "aeacute.sc", "agrave.sc", "amacron.sc", "aogonek.sc", "aring.sc", "atilde.sc", "cacute.sc", "ccaron.sc", "ccedilla.sc", "ccircumflex.sc", "cdotaccent.sc", "dcaron.sc", "eacute.sc", "ebreve.sc", "ecaron.sc", "ecircumflex.sc", "edieresis.sc", "edotaccent.sc", "egrave.sc", "emacron.sc", "eogonek.sc", "gbreve.sc", "uni0123.sc", "gcircumflex.sc", "gcommaaccent.sc", "gdotaccent.sc", "hcircumflex.sc", "iacute.sc", "ibreve.sc", "icircumflex.sc", "idieresis.sc", "idotaccent.sc", "igrave.sc", "imacron.sc", "iogonek.sc", "itilde.sc", "jcircumflex.sc", "kcedilla.sc", "kcommaaccent.sc", "lacute.sc", "lcedilla.sc", "lcommaaccent.sc", "nacute.sc", "ncaron.sc", "ncedilla.sc", "ncommaaccent.sc", "ntilde.sc", "oacute.sc", "obreve.sc", "ocircumflex.sc", "odieresis.sc", "ograve.sc", "ohungarumlaut.sc", "omacron.sc", "oslashacute.sc", "otilde.sc", "racute.sc", "rcaron.sc", "rcedilla.sc", "rcommaaccent.sc", "sacute.sc", "scaron.sc", "scedilla.sc", "scircumflex.sc", "scommaaccent.sc", "tcaron.sc", "tcommaaccent.sc", "uni021B.sc", "uacute.sc", "ubreve.sc", "ucircumflex.sc", "udieresis.sc", "ugrave.sc", "uhungarumlaut.sc", "umacron.sc", "uogonek.sc", "uring.sc", "utilde.sc", "wacute.sc", "wcircumflex.sc", "wdieresis.sc", "wgrave.sc", "yacute.sc", "ycircumflex.sc", "ydieresis.sc", "ygrave.sc", "zacute.sc", "zcaron.sc", "zdotaccent.sc"}</string>
+		<string>Name IN {"aacute.sc", "abreve.sc", "acircumflex.sc", "adieresis.sc", "aeacute.sc", "agrave.sc", "amacron.sc", "aogonek.sc", "aring.sc", "atilde.sc", "cacute.sc", "ccaron.sc", "ccedilla.sc", "ccircumflex.sc", "cdotaccent.sc", "dcaron.sc", "eacute.sc", "ebreve.sc", "ecaron.sc", "ecircumflex.sc", "edieresis.sc", "edotaccent.sc", "egrave.sc", "emacron.sc", "eogonek.sc", "gbreve.sc", "uni0123.sc", "gcircumflex.sc", "gcedilla.sc", "gdotaccent.sc", "hcircumflex.sc", "iacute.sc", "ibreve.sc", "icircumflex.sc", "idieresis.sc", "idotaccent.sc", "igrave.sc", "imacron.sc", "iogonek.sc", "itilde.sc", "jcircumflex.sc", "kcedilla.sc", "kcommaaccent.sc", "lacute.sc", "lcedilla.sc", "lcommaaccent.sc", "nacute.sc", "ncaron.sc", "ncedilla.sc", "ncommaaccent.sc", "ntilde.sc", "oacute.sc", "obreve.sc", "ocircumflex.sc", "odieresis.sc", "ograve.sc", "ohungarumlaut.sc", "omacron.sc", "oslashacute.sc", "otilde.sc", "racute.sc", "rcaron.sc", "rcedilla.sc", "rcommaaccent.sc", "sacute.sc", "scaron.sc", "scedilla.sc", "scircumflex.sc", "scommaaccent.sc", "tcaron.sc", "tcommaaccent.sc", "uni021B.sc", "uacute.sc", "ubreve.sc", "ucircumflex.sc", "udieresis.sc", "ugrave.sc", "uhungarumlaut.sc", "umacron.sc", "uogonek.sc", "uring.sc", "utilde.sc", "wacute.sc", "wcircumflex.sc", "wdieresis.sc", "wgrave.sc", "yacute.sc", "ycircumflex.sc", "ydieresis.sc", "ygrave.sc", "zacute.sc", "zcaron.sc", "zdotaccent.sc"}</string>
 		<key>smartSetName</key>
 		<string>SC ACC</string>
 		<key>uniqueKey</key>

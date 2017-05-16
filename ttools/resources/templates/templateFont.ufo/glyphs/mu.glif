@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<glyph name="uni03BC" format="1">
+<glyph name="mu" format="1">
   <advance width="568"/>
-  <unicode hex="03BC"/>
   <unicode hex="00B5"/>
   <outline>
     <contour>

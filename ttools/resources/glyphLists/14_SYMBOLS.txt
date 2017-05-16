@@ -17,6 +17,8 @@ uni25C1
 uni25C0
 circle
 H18533
+H18543
+H18551
 arrowleft
 arrowright
 arrowdown
