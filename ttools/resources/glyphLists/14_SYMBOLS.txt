@@ -31,5 +31,3 @@ uni2605
 uni2113
 uni2116
 estimated
-uni25FB
-uni25FC
