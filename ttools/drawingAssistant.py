@@ -26,7 +26,7 @@ import os, sys
 import traceback
 from math import cos, sin, radians, tan, ceil
 from mojo.roboFont import CurrentGlyph, AllFonts
-from mojo.UI import UpdateCurrentGlyphView, AccordionView
+from mojo.UI import UpdateCurrentGlyphView, AccordionView, CurrentGlyphWindow
 from vanilla import FloatingWindow, CheckBox, Group
 from vanilla import TextBox, EditText, ColorWell, SquareButton
 from vanilla import PopUpButton, ComboBox
@@ -49,8 +49,8 @@ SQR_CAPTION_OFFSET = 4
 BCP_RADIUS = 4
 OFFGRID_RADIUS = 20
 
-SYSTEM_FONT_NAME = '.HelveticaNeueDeskInterface-Regular'
-SYSTEM_FONT_NAME_BOLD = '.HelveticaNeueDeskInterface-Bold'
+SYSTEM_FONT_NAME = '.SFNSText'
+SYSTEM_FONT_NAME_BOLD = '.SFNSText-Bold'
 
 BLACK_COLOR = (0, 0, 0)
 LIGHT_GRAY_COLOR = (.6, .6, .6)
@@ -74,21 +74,6 @@ MARGIN_HOR = 10
 MARGIN_VER = 8
 
 NET_WIDTH = PLUGIN_WIDTH - MARGIN_HOR*2
-
-"""
-BaseWindowController methods
-    def setUpBaseWindowBehavior(self)
-    def windowCloseCallback(self, sender)
-    def windowSelectCallback(self, sender)
-    def windowDeselectCallback(self, sender)
-    def startProgress(self, text="", tickCount=None)
-    def showMessage(self, messageText, informativeText, callback=None)
-    def showAskYesNo(self, messageText, informativeText, callback)
-    def showGetFolder(self, callback)
-    def showGetFile(self, fileTypes, callback, allowsMultipleSelection=False)
-    def showPutFile(self, fileTypes, callback, fileName=None, directory=None, accessoryView=None)
-
-"""
 
 
 def textQualities(scaledFontSize, weight='regular', color=BLACK_COLOR):
@@ -466,11 +451,10 @@ class SingleNeighborController(Group):
         self.callback = callback
         ctrlWidth = posSize[2]
 
-        if self.activeFont:
-            activeGlyphOrder = self.activeFont.glyphOrder
-        else:
-            activeGlyphOrder = []
+        # load data
+        self.setActiveGlyphOrder()
 
+        # ui
         jumpingY = 4
         self.isActiveCheck = CheckBox((0, jumpingY, ctrlWidth, vanillaControlsSize['CheckBoxRegularHeight']),
                                       title,
@@ -484,11 +468,26 @@ class SingleNeighborController(Group):
 
         jumpingY += vanillaControlsSize['PopUpButtonRegularHeight']+MARGIN_VER
         self.glyphPop = PopUpButton((1, jumpingY, ctrlWidth-1, vanillaControlsSize['ComboBoxRegularHeight']),
-                                      activeGlyphOrder,
+                                      self.activeGlyphOrder,
                                       callback=self.glyphPopCallback)
+        self.glyphPop.set(self.activeGlyphOrder.index(self.activeGlyph.name))
+
+    def updateCurrentGlyph(self):
+        if self.glyphPop.get() == 0:
+            glyphName = CurrentGlyphWindow().getGlyph().name
+            if self.activeFont.has_key(glyphName):
+                self.activeGlyph = self.activeFont[glyphName]
+            else:
+                self.activeGlyph = None
+            self.callback(self)
 
     def get(self):
         return self.isActive, self.activeFont, self.activeGlyph
+
+    def setActiveGlyphOrder(self):
+        self.activeGlyphOrder = ['CurrentGlyph', ' '.join('-'*5)]
+        if self.activeFont:
+            self.activeGlyphOrder = self.activeGlyphOrder + self.activeFont.glyphOrder
 
     def setOpenedFonts(self, openedFonts):
         self.openedFonts = openedFonts
@@ -500,9 +499,13 @@ class SingleNeighborController(Group):
             self.fontPop.setItems([])
 
     def updateGlyphList(self):
+        self.activeGlyphOrder = ['CurrentGlyph', ' '.join('-'*5)]
+
         if self.activeFont:
-            self.glyphPop.setItems(self.activeFont.glyphOrder)
-            self.glyphPop.set(self.activeFont.glyphOrder.index(self.activeGlyph.name))
+            self.activeGlyphOrder = self.activeGlyphOrder + self.activeFont.glyphOrder
+
+            self.glyphPop.setItems(self.activeGlyphOrder)
+            self.glyphPop.set(self.activeGlyphOrder.index(self.activeGlyph.name))
         else:
             self.glyphPop.setItems([])
 
@@ -512,16 +515,27 @@ class SingleNeighborController(Group):
 
     def fontPopCallback(self, sender):
         self.activeFont = getOpenedFontFromPath(AllFonts(), self.openedFonts[sender.get()])
-        self.glyphPop.setItems(self.activeFont.glyphOrder)
+        self.glyphPop.setItems(self.activeGlyphOrder)
         if self.activeFont.has_key(self.activeGlyph.name):
             self.activeGlyph = self.activeFont[self.activeGlyph.name]
         else:
-            self.activeGlyph = self.activeFont[self.activeFont.glyphOrder[0]]
-        self.glyphPop.set(self.activeFont.glyphOrder.index(self.activeGlyph.name))
+            self.activeGlyph = self.activeFont[self.activeGlyphOrder[0]]
+        self.glyphPop.set(self.activeGlyphOrder.index(self.activeGlyph.name))
         self.callback(self)
 
     def glyphPopCallback(self, sender):
-        self.activeGlyph = self.activeFont[self.activeFont.glyphOrder[sender.get()]]
+        if sender.get() == 0:
+            glyphName = CurrentGlyphWindow().getGlyph().name
+        elif sender.get() == 1:
+            glyphName = ''
+        else:
+            glyphName = self.activeGlyphOrder[sender.get()]
+
+        if self.activeFont.has_key(glyphName):
+            self.activeGlyph = self.activeFont[glyphName]
+        else:
+            self.activeGlyph = None
+
         self.callback(self)
 
 
@@ -617,7 +631,7 @@ class DrawingAssistant(BaseWindowController):
         addObserver(self, "_drawPreview", "drawPreview")
         addObserver(self, "_mouseDown", "mouseDown")
         addObserver(self, "_drawBackground", "drawBackground")
-        addObserver(self, '_updateGlyphData', 'viewDidChangeGlyph')
+        addObserver(self, '_updateCurrentGlyph', 'viewDidChangeGlyph')
         addObserver(self, "aFontIsOpening", "newFontDidOpen")
         addObserver(self, "aFontIsOpening", "fontDidOpen")
         addObserver(self, "aFontIsClosing", "fontWillClose")
@@ -1107,10 +1121,16 @@ class DrawingAssistant(BaseWindowController):
             setattr(self, eachFontAttrName, firstAvailableFont)
             setattr(self, eachGlyphAttrName, firstAvailableGlyph)
 
-    def _updateGlyphData(self, infoDict):
+    def _updateCurrentGlyph(self, infoDict):
         if infoDict['glyph']:
+            # update distances
             self.currentGlyph = infoDict['glyph']
             self.distancesController.setCurrentGlyph(self.currentGlyph)
+
+            # update neiboghours
+            self.neighborsController.lftController.updateCurrentGlyph()
+            self.neighborsController.cntController.updateCurrentGlyph()
+            self.neighborsController.rgtController.updateCurrentGlyph()
 
     # controls callbacks
     def windowCloseCallback(self, sender):
