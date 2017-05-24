@@ -871,57 +871,58 @@ class DrawingAssistant(BaseWindowController):
                                                                       absBcpIn,
                                                                       nextBcp.anchor)
 
-                    maxOutLen = calcDistance(eachBcp.anchor, handlesIntersection)
-                    maxInLen = calcDistance(nextBcp.anchor, handlesIntersection)
+                    if handlesIntersection is not None:
+                        maxOutLen = calcDistance(eachBcp.anchor, handlesIntersection)
+                        maxInLen = calcDistance(nextBcp.anchor, handlesIntersection)
 
-                    sqrOut = handleOutLen/maxOutLen
-                    sqrIn = nextHandleInLen/maxInLen
+                        sqrOut = handleOutLen/maxOutLen
+                        sqrIn = nextHandleInLen/maxInLen
 
-                    projOut_X = eachBcp.anchor[0]+cos(radians(angleOut))*handleOutLen
-                    projOut_Y = eachBcp.anchor[1]+sin(radians(angleOut))*handleOutLen
-                    if angleOut != 0 and angleOut % 90 != 0:
-                        captionSqrOut = u'%.2f%%, %d°' % (sqrOut, angleOut%180)
-                    else:
-                        captionSqrOut = '%.2f%%' % sqrOut
-                    captionSqrOut = captionSqrOut.replace('0.', '')
+                        projOut_X = eachBcp.anchor[0]+cos(radians(angleOut))*handleOutLen
+                        projOut_Y = eachBcp.anchor[1]+sin(radians(angleOut))*handleOutLen
+                        if angleOut != 0 and angleOut % 90 != 0:
+                            captionSqrOut = u'%.2f%%, %d°' % (sqrOut, angleOut%180)
+                        else:
+                            captionSqrOut = '%.2f%%' % sqrOut
+                        captionSqrOut = captionSqrOut.replace('0.', '')
 
-                    save()
-                    translate(projOut_X+offset_X, projOut_Y)
-                    textQualities(BODYSIZE_CAPTION*scalingFactor)
-                    textWidth, textHeight = textSize(captionSqrOut)
-                    if angleOut == 90:          # text above
-                        textRect = (-textWidth/2., SQR_CAPTION_OFFSET*scalingFactor, textWidth, textHeight)
-                    elif angleOut == -90:       # text below
-                        textRect = (-textWidth/2., -textHeight-SQR_CAPTION_OFFSET*scalingFactor, textWidth, textHeight)
-                    elif -90 < angleOut < 90:   # text on the right
-                        textRect = (SQR_CAPTION_OFFSET*scalingFactor, -textHeight/2., textWidth, textHeight)
-                    else:                       # text on the left
-                        textRect = (-textWidth-SQR_CAPTION_OFFSET*scalingFactor, -textHeight/2., textWidth, textHeight)
-                    textBox(captionSqrOut, textRect, align='center')
-                    restore()
+                        save()
+                        translate(projOut_X+offset_X, projOut_Y)
+                        textQualities(BODYSIZE_CAPTION*scalingFactor)
+                        textWidth, textHeight = textSize(captionSqrOut)
+                        if angleOut == 90:          # text above
+                            textRect = (-textWidth/2., SQR_CAPTION_OFFSET*scalingFactor, textWidth, textHeight)
+                        elif angleOut == -90:       # text below
+                            textRect = (-textWidth/2., -textHeight-SQR_CAPTION_OFFSET*scalingFactor, textWidth, textHeight)
+                        elif -90 < angleOut < 90:   # text on the right
+                            textRect = (SQR_CAPTION_OFFSET*scalingFactor, -textHeight/2., textWidth, textHeight)
+                        else:                       # text on the left
+                            textRect = (-textWidth-SQR_CAPTION_OFFSET*scalingFactor, -textHeight/2., textWidth, textHeight)
+                        textBox(captionSqrOut, textRect, align='center')
+                        restore()
 
-                    projIn_X = nextBcp.anchor[0]+cos(radians(angleIn))*nextHandleInLen
-                    projIn_Y = nextBcp.anchor[1]+sin(radians(angleIn))*nextHandleInLen
-                    if angleIn != 0 and angleIn % 90 != 0:
-                        captionSqrIn = u'%.2f%%, %d°' % (sqrIn, angleIn%180)
-                    else:
-                        captionSqrIn = '%.2f%%' % sqrIn
-                    captionSqrIn = captionSqrIn.replace('0.', '')
+                        projIn_X = nextBcp.anchor[0]+cos(radians(angleIn))*nextHandleInLen
+                        projIn_Y = nextBcp.anchor[1]+sin(radians(angleIn))*nextHandleInLen
+                        if angleIn != 0 and angleIn % 90 != 0:
+                            captionSqrIn = u'%.2f%%, %d°' % (sqrIn, angleIn%180)
+                        else:
+                            captionSqrIn = '%.2f%%' % sqrIn
+                        captionSqrIn = captionSqrIn.replace('0.', '')
 
-                    save()
-                    translate(projIn_X+offset_X, projIn_Y)
-                    textQualities(BODYSIZE_CAPTION*scalingFactor)
-                    textWidth, textHeight = textSize(captionSqrIn)
-                    if angleIn == 90:          # text above
-                        textRect = (-textWidth/2., SQR_CAPTION_OFFSET*scalingFactor, textWidth, textHeight)
-                    elif angleIn == -90:       # text below
-                        textRect = (-textWidth/2., -textHeight-SQR_CAPTION_OFFSET*scalingFactor, textWidth, textHeight)
-                    elif -90 < angleIn < 90:   # text on the right
-                        textRect = (SQR_CAPTION_OFFSET*scalingFactor, -textHeight/2., textWidth, textHeight)
-                    else:                      # text on the left
-                        textRect = (-textWidth-SQR_CAPTION_OFFSET*scalingFactor, -textHeight/2., textWidth, textHeight)
-                    textBox(captionSqrIn, textRect, align='center')
-                    restore()
+                        save()
+                        translate(projIn_X+offset_X, projIn_Y)
+                        textQualities(BODYSIZE_CAPTION*scalingFactor)
+                        textWidth, textHeight = textSize(captionSqrIn)
+                        if angleIn == 90:          # text above
+                            textRect = (-textWidth/2., SQR_CAPTION_OFFSET*scalingFactor, textWidth, textHeight)
+                        elif angleIn == -90:       # text below
+                            textRect = (-textWidth/2., -textHeight-SQR_CAPTION_OFFSET*scalingFactor, textWidth, textHeight)
+                        elif -90 < angleIn < 90:   # text on the right
+                            textRect = (SQR_CAPTION_OFFSET*scalingFactor, -textHeight/2., textWidth, textHeight)
+                        else:                      # text on the left
+                            textRect = (-textWidth-SQR_CAPTION_OFFSET*scalingFactor, -textHeight/2., textWidth, textHeight)
+                        textBox(captionSqrIn, textRect, align='center')
+                        restore()
 
     def _drawGlyphOutline(self, glyph, scalingFactor, offset_X=0):
         save()
