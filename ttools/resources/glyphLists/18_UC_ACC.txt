@@ -26,7 +26,6 @@ Eogonek
 Gbreve
 uni0122
 Gcircumflex
-Gcommaaccent
 Gdotaccent
 Hcircumflex
 Iacute
@@ -40,13 +39,10 @@ Iogonek
 Itilde
 Jcircumflex
 uni0136
-uni0136
 Lacute
-uni013B
 uni013B
 Nacute
 Ncaron
-uni0145
 uni0145
 Ntilde
 Oacute
@@ -60,7 +56,6 @@ Oslashacute
 Otilde
 Racute
 Rcaron
-uni0156
 uni0156
 Sacute
 Scaron

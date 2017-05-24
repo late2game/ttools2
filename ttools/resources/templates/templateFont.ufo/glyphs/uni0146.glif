@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <glyph name="uni0146" format="1">
   <advance width="500"/>
+  <unicode hex="0146"/>
   <outline>
     <contour>
       <point x="76" y="0" type="line" name="hr01"/>
@@ -40,6 +41,13 @@
       <key>com.adobe.type.autohint</key>
       <data>
       </data>
+      <key>com.typemytype.robofont.mark</key>
+      <array>
+        <real>1.0</real>
+        <real>0.6471</real>
+        <real>0.6471</real>
+        <real>1.0</real>
+      </array>
     </dict>
   </lib>
 </glyph>

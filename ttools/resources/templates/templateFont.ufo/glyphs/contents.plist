@@ -96,8 +96,6 @@
 	<string>G_.glif</string>
 	<key>Gbreve</key>
 	<string>Gbreve_.glif</string>
-	<key>Gcedilla</key>
-	<string>Gcedilla_.glif</string>
 	<key>Gcircumflex</key>
 	<string>Gcircumflex_.glif</string>
 	<key>Gdotaccent</key>
@@ -774,16 +772,10 @@
 	<string>gbreve.glif</string>
 	<key>gbreve.sc</key>
 	<string>gbreve.sc.glif</string>
-	<key>gcedilla.sc</key>
-	<string>gcedilla.sc.glif</string>
 	<key>gcircumflex</key>
 	<string>gcircumflex.glif</string>
 	<key>gcircumflex.sc</key>
 	<string>gcircumflex.sc.glif</string>
-	<key>gcommaaccent</key>
-	<string>gcommaaccent.glif</string>
-	<key>gcommaaccent.sc</key>
-	<string>gcommaaccent.sc.glif</string>
 	<key>gdotaccent</key>
 	<string>gdotaccent.glif</string>
 	<key>gdotaccent.sc</key>
@@ -950,10 +942,6 @@
 	<string>k.sc.glif</string>
 	<key>k.sups</key>
 	<string>k.sups.glif</string>
-	<key>kcedilla.sc</key>
-	<string>kcedilla.sc.glif</string>
-	<key>kcommaaccent.sc</key>
-	<string>kcommaaccent.sc.glif</string>
 	<key>l</key>
 	<string>l.glif</string>
 	<key>l.dnom</key>
@@ -972,8 +960,6 @@
 	<string>lcaron.glif</string>
 	<key>lcaron.sc</key>
 	<string>lcaron.sc.glif</string>
-	<key>lcedilla.sc</key>
-	<string>lcedilla.sc.glif</string>
 	<key>lcommaaccent</key>
 	<string>lcommaaccent.glif</string>
 	<key>lcommaaccent.sc</key>
@@ -1058,10 +1044,6 @@
 	<string>ncaron.glif</string>
 	<key>ncaron.sc</key>
 	<string>ncaron.sc.glif</string>
-	<key>ncedilla.sc</key>
-	<string>ncedilla.sc.glif</string>
-	<key>ncommaaccent.sc</key>
-	<string>ncommaaccent.sc.glif</string>
 	<key>nine</key>
 	<string>nine.glif</string>
 	<key>nine.dnom</key>
@@ -1334,10 +1316,6 @@
 	<string>rcaron.glif</string>
 	<key>rcaron.sc</key>
 	<string>rcaron.sc.glif</string>
-	<key>rcedilla.sc</key>
-	<string>rcedilla.sc.glif</string>
-	<key>rcommaaccent.sc</key>
-	<string>rcommaaccent.sc.glif</string>
 	<key>registered</key>
 	<string>registered.glif</string>
 	<key>registered.sc</key>
@@ -1372,8 +1350,6 @@
 	<string>scircumflex.glif</string>
 	<key>scircumflex.sc</key>
 	<string>scircumflex.sc.glif</string>
-	<key>scommaaccent.sc</key>
-	<string>scommaaccent.sc.glif</string>
 	<key>section</key>
 	<string>section.glif</string>
 	<key>section.sc</key>
@@ -1554,32 +1530,50 @@
 	<string>uni00B9_.glif</string>
 	<key>uni0122</key>
 	<string>uni0122.glif</string>
+	<key>uni0122.sc</key>
+	<string>uni0122.sc.glif</string>
 	<key>uni0123</key>
 	<string>uni0123.glif</string>
+	<key>uni0123.sc</key>
+	<string>uni0123.sc.glif</string>
 	<key>uni0136</key>
 	<string>uni0136.glif</string>
 	<key>uni0137</key>
 	<string>uni0137.glif</string>
+	<key>uni0137.sc</key>
+	<string>uni0137.sc.glif</string>
 	<key>uni013B</key>
 	<string>uni013B_.glif</string>
 	<key>uni013C</key>
 	<string>uni013C_.glif</string>
+	<key>uni013C.sc</key>
+	<string>uni013C_.sc.glif</string>
 	<key>uni0145</key>
 	<string>uni0145.glif</string>
+	<key>uni0145.sc</key>
+	<string>uni0145.sc.glif</string>
 	<key>uni0146</key>
 	<string>uni0146.glif</string>
+	<key>uni0146.sc</key>
+	<string>uni0146.sc.glif</string>
 	<key>uni0156</key>
 	<string>uni0156.glif</string>
 	<key>uni0157</key>
 	<string>uni0157.glif</string>
+	<key>uni0157.sc</key>
+	<string>uni0157.sc.glif</string>
 	<key>uni0162</key>
 	<string>uni0162.glif</string>
 	<key>uni0163</key>
 	<string>uni0163.glif</string>
+	<key>uni0163.sc</key>
+	<string>uni0163.sc.glif</string>
 	<key>uni0218</key>
 	<string>uni0218.glif</string>
 	<key>uni0219</key>
 	<string>uni0219.glif</string>
+	<key>uni0219.sc</key>
+	<string>uni0219.sc.glif</string>
 	<key>uni021A</key>
 	<string>uni021A_.glif</string>
 	<key>uni021B</key>
