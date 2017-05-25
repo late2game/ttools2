@@ -19,9 +19,12 @@ from fontTools.agl import AGL2UV, UV2AGL
 from vanilla import Window, Group, EditText, CheckBox
 from vanilla import PopUpButton, ComboBox, TextBox
 from vanilla import HorizontalLine, SquareButton
+from vanilla import ScrollView
 from vanilla.dialogs import message
 from defconAppKit.tools.textSplitter import splitText
 from robofab.world import RFont
+from defconAppKit.windows.baseWindow import BaseWindowController
+from defconAppKit.controls.openTypeControlsView import DefconAppKitTopAnchoredNSView
 
 # custom modules
 import miscFunctions
@@ -45,6 +48,8 @@ MARGIN_ROW = 15
 MARGIN_BTM = 20
 MARGIN_HALFROW = 7
 
+SCROLLBAR_THICKNESS = 14
+
 NOT_DEF_GLYPH = OpenFont(os.path.join(os.path.dirname(__file__), 'resources', 'notdef.ufo'), showUI=False)['.notdef']
 
 ### Functions and classes
@@ -58,7 +63,7 @@ def convertLineToPseudoUnicode(glyphNamesLine):
     return pseudoUniString
 
 
-class MultiFontMetricsWindow(object):
+class MultiFontMetricsWindow(BaseWindowController):
 
     # attrs
     textModeOptions = ['Loaded Strings', 'Typewriter']
@@ -109,31 +114,31 @@ class MultiFontMetricsWindow(object):
         self.buildFontsData()
 
         # defining plugin window
-        self.win = Window((originLeft, originRight, width, height),
+        self.w = Window((originLeft, originRight, width, height),
                           "Multi Font Metrics Window",
                           minSize=(800, 400))
 
-        self.win.switchButton = PopUpButton((MARGIN_LFT, jumpingY, netWidth*.2, vanillaControlsSize['PopUpButtonRegularHeight']),
+        self.w.switchButton = PopUpButton((MARGIN_LFT, jumpingY, netWidth*.2, vanillaControlsSize['PopUpButtonRegularHeight']),
                                             self.textModeOptions,
                                             sizeStyle='regular',
                                             callback=self.switchButtonCallback)
 
         # free text
         textCtrlX = MARGIN_LFT+MARGIN_COL+netWidth*.2
-        self.win.typewriterCtrl = Typewriter((textCtrlX, jumpingY, -(self.optionsColWidth+MARGIN_COL+MARGIN_RGT), vanillaControlsSize['EditTextRegularHeight']),
+        self.w.typewriterCtrl = Typewriter((textCtrlX, jumpingY, -(self.optionsColWidth+MARGIN_COL+MARGIN_RGT), vanillaControlsSize['EditTextRegularHeight']),
                                              self.unicodeMinimum,
                                              callback=self.typewriterCtrlCallback)
-        self.win.typewriterCtrl.show(False)
+        self.w.typewriterCtrl.show(False)
         
         # strings ctrls
-        self.win.textStringsControls = TextStringsControls((textCtrlX, jumpingY, -(self.optionsColWidth+MARGIN_COL+MARGIN_RGT), vanillaControlsSize['PopUpButtonRegularHeight']+1),
+        self.w.textStringsControls = TextStringsControls((textCtrlX, jumpingY, -(self.optionsColWidth+MARGIN_COL+MARGIN_RGT), vanillaControlsSize['PopUpButtonRegularHeight']+1),
                                                            self.editTexts,
                                                            callback=self.textStringsControlsCallback)
-        self.stringDisplayMode, self.glyphNamesToDisplay = self.win.textStringsControls.get()
+        self.stringDisplayMode, self.glyphNamesToDisplay = self.w.textStringsControls.get()
 
         # multi line
         jumpingY += vanillaControlsSize['ButtonRegularHeight'] + MARGIN_ROW
-        self.spacingMatrixHeight = vanillaControlsSize['EditTextSmallHeight']+len(self.fontOrder)*vanillaControlsSize['EditTextSmallHeight']*2
+        self.spacingMatrixHeight = vanillaControlsSize['EditTextSmallHeight']+len(self.fontOrder)*vanillaControlsSize['EditTextSmallHeight']*2 + SCROLLBAR_THICKNESS
 
         self.multiLineOptions = {
             'Show Kerning': self.applyKerning,
@@ -154,7 +159,7 @@ class MultiFontMetricsWindow(object):
             'Show Control glyphs': True,
             'Fill': True,
             'Left to Right': True}
-        self.win.lineView = MultiLineView((MARGIN_LFT, jumpingY, -(self.optionsColWidth+MARGIN_COL+MARGIN_RGT), -MARGIN_BTM-MARGIN_HALFROW-self.spacingMatrixHeight),
+        self.w.lineView = MultiLineView((MARGIN_LFT, jumpingY, -(self.optionsColWidth+MARGIN_COL+MARGIN_RGT), -MARGIN_BTM-MARGIN_HALFROW-self.spacingMatrixHeight),
                                           pointSize=self.bodySize,
                                           lineHeight=self.lineHeight,
                                           doubleClickCallback=self.lineViewDoubleClickCallback,
@@ -171,7 +176,7 @@ class MultiFontMetricsWindow(object):
         # static options
             # body
         # jumpingY += size.ComboBoxHeight
-        self.win.bodyCtrl = ComboBoxWithCaption((-(self.optionsColWidth+MARGIN_RGT), jumpingY, self.optionsColWidth, vanillaControlsSize['ComboBoxSmallHeight']),
+        self.w.bodyCtrl = ComboBoxWithCaption((-(self.optionsColWidth+MARGIN_RGT), jumpingY, self.optionsColWidth, vanillaControlsSize['ComboBoxSmallHeight']),
                                                 'Body Size:',
                                                 self.bodySizeOptions,
                                                 '%s' % self.bodySize,
@@ -180,7 +185,7 @@ class MultiFontMetricsWindow(object):
 
             # line height
         jumpingY += vanillaControlsSize['ComboBoxSmallHeight'] + int(MARGIN_HALFROW)
-        self.win.lineHgtCtrl = ComboBoxWithCaption((-(self.optionsColWidth+MARGIN_RGT), jumpingY, self.optionsColWidth, vanillaControlsSize['ComboBoxSmallHeight']),
+        self.w.lineHgtCtrl = ComboBoxWithCaption((-(self.optionsColWidth+MARGIN_RGT), jumpingY, self.optionsColWidth, vanillaControlsSize['ComboBoxSmallHeight']),
                                                    'Line Height:',
                                                    self.lineHeightOptions,
                                                    '%s' % self.lineHeight,
@@ -189,7 +194,7 @@ class MultiFontMetricsWindow(object):
 
             # show metrics
         jumpingY += vanillaControlsSize['ComboBoxSmallHeight'] + MARGIN_ROW
-        self.win.showMetricsCheck = CheckBox((-(self.optionsColWidth*.9+MARGIN_RGT), jumpingY, self.optionsColWidth, vanillaControlsSize['ComboBoxSmallHeight']),
+        self.w.showMetricsCheck = CheckBox((-(self.optionsColWidth*.9+MARGIN_RGT), jumpingY, self.optionsColWidth, vanillaControlsSize['ComboBoxSmallHeight']),
                                              "Show Metrics",
                                              value=self.showMetrics,
                                              sizeStyle='small',
@@ -197,7 +202,7 @@ class MultiFontMetricsWindow(object):
 
             # show kerning checkbox
         jumpingY += vanillaControlsSize['ComboBoxSmallHeight'] + MARGIN_ROW*.3
-        self.win.applyKerningCheck = CheckBox((-(self.optionsColWidth*.9+MARGIN_RGT), jumpingY, self.optionsColWidth, vanillaControlsSize['ComboBoxSmallHeight']),
+        self.w.applyKerningCheck = CheckBox((-(self.optionsColWidth*.9+MARGIN_RGT), jumpingY, self.optionsColWidth, vanillaControlsSize['ComboBoxSmallHeight']),
                                          "Show Kerning",
                                          value=self.applyKerning,
                                          sizeStyle='small',
@@ -205,31 +210,31 @@ class MultiFontMetricsWindow(object):
 
         # separationLine
         jumpingY += vanillaControlsSize['ComboBoxSmallHeight'] + int(MARGIN_HALFROW)
-        self.win.separationLine = HorizontalLine((-(self.optionsColWidth+MARGIN_RGT), jumpingY, self.optionsColWidth, 1))
+        self.w.separationLine = HorizontalLine((-(self.optionsColWidth+MARGIN_RGT), jumpingY, self.optionsColWidth, 1))
 
         # dynamic options
             # fonts amount caption
         jumpingY += int(MARGIN_HALFROW)
-        self.win.fontsAmountCaption = TextBox((-(self.optionsColWidth+MARGIN_RGT), jumpingY+2, self.optionsColWidth*.35, vanillaControlsSize['TextBoxRegularHeight']),
+        self.w.fontsAmountCaption = TextBox((-(self.optionsColWidth+MARGIN_RGT), jumpingY+2, self.optionsColWidth*.35, vanillaControlsSize['TextBoxRegularHeight']),
                                               "Fonts:",
                                               sizeStyle='regular')
 
             # fonts amount popUp
         self.fontsAmount = len(self.fontsDB)
-        self.win.fontsAmountPopUp = PopUpButton((-(self.optionsColWidth+MARGIN_RGT)+self.optionsColWidth*.35, jumpingY, self.optionsColWidth*.4, vanillaControlsSize['PopUpButtonRegularHeight']),
+        self.w.fontsAmountPopUp = PopUpButton((-(self.optionsColWidth+MARGIN_RGT)+self.optionsColWidth*.35, jumpingY, self.optionsColWidth*.4, vanillaControlsSize['PopUpButtonRegularHeight']),
                                                 ['%s' % item for item in self.fontsAmountOptions],
                                                 sizeStyle='regular',
                                                 callback=self.fontsAmountPopUpCallback)
         if self.fontsAmountOptions[-1] >= self.fontsAmount > 0: # if between
-            self.win.fontsAmountPopUp.set(self.fontsAmountOptions.index(self.fontsAmount))
+            self.w.fontsAmountPopUp.set(self.fontsAmountOptions.index(self.fontsAmount))
             ctrlsToInit = self.fontsAmount
 
         elif self.fontsAmountOptions[-1] < self.fontsAmount: # if higher
-            self.win.fontsAmountPopUp.set(self.fontsAmountOptions.index(self.fontsAmountOptions[-1]))
+            self.w.fontsAmountPopUp.set(self.fontsAmountOptions.index(self.fontsAmountOptions[-1]))
             ctrlsToInit = self.fontsAmountOptions[-1]
     
         else: # if none
-            self.win.fontsAmountPopUp.set(self.fontsAmountOptions.index(1))
+            self.w.fontsAmountPopUp.set(self.fontsAmountOptions.index(1))
             ctrlsToInit = 1
 
         for eachI in range(ctrlsToInit):
@@ -240,27 +245,39 @@ class MultiFontMetricsWindow(object):
                                                     self.ctrlFontsList,
                                                     callback=self.fontCtrlCallback)
             fontCtrl.set(eachI)
-            setattr(self.win, '%#02d' % eachI, fontCtrl)
+            setattr(self.w, '%#02d' % eachI, fontCtrl)
 
         self.PopUpWithCaptionY = jumpingY
 
         # edit metrics
         spacingMatrixWidth = SPACING_COL_WIDTH*len(self.glyphNamesToDisplay)
-        self.win.spacingMatrix = SpacingMatrix((MARGIN_RGT, -(MARGIN_HALFROW+self.spacingMatrixHeight), -(self.optionsColWidth+MARGIN_COL+MARGIN_RGT), self.spacingMatrixHeight),
-                                               self.glyphNamesToDisplay,
-                                               self.fontOrder,
-                                               callback=self.spacingMatrixCallback)
+        self.spacingMatrix = SpacingMatrix((0, 0, spacingMatrixWidth, self.spacingMatrixHeight),
+                                           self.glyphNamesToDisplay,
+                                           self.fontOrder,
+                                           callback=self.spacingMatrixCallback)
+
+        view = DefconAppKitTopAnchoredNSView.alloc().init()
+        view.addSubview_(self.spacingMatrix.getNSView())
+        view.setFrame_(((0, 0), (spacingMatrixWidth+50, self.spacingMatrixHeight)))
+        self.spacingMatrix.setPosSize((0, 0, spacingMatrixWidth+50, self.spacingMatrixHeight))
+
+        self.w.spacingMatrixView = ScrollView((MARGIN_RGT, -(MARGIN_HALFROW+self.spacingMatrixHeight), -MARGIN_RGT, self.spacingMatrixHeight),
+                                              view,
+                                              drawsBackground=False,
+                                              autohidesScrollers=False,
+                                              hasHorizontalScroller=True,
+                                              hasVerticalScroller=False)
 
         # add observer
         addObserver(self, 'newFontOpened', "newFontDidOpen")
         addObserver(self, 'addFont', "fontDidOpen")
         addObserver(self, 'removeFont', "fontWillClose")
-        self.win.bind("close", self.closingPlugin)
+        self.w.bind("close", self.closingPlugin)
 
         # lit up!
         self.updateSubscriptions()
         self.updateLineView()
-        self.win.open()
+        self.w.open()
 
     # defcon observers (glyph obj)
     def updateSubscriptions(self):
@@ -287,7 +304,7 @@ class MultiFontMetricsWindow(object):
     # observers funcs
     def newFontOpened(self, notification):
         message('The MultiFont Metrics Window works only with saved font, please save the new font and re-open the plugin')
-        self.win.close()
+        self.w.close()
 
     def addFont(self, notification):
         fontToAdd = notification['font']
@@ -296,16 +313,16 @@ class MultiFontMetricsWindow(object):
         self.updateFontsCtrl()
 
     def spacingMatrixCallback(self, sender):
-        self.win.lineView.update()
-        self.win.spacingMatrix.update(self.glyphNamesToDisplay, self.fontOrder) # text, fontOrder
+        self.w.lineView.update()
+        self.spacingMatrix.update(self.glyphNamesToDisplay, self.fontOrder) # text, fontOrder
 
         # color the selected glyph in the spacing matrix, if any selected (same code from line view callback, they should be collected somewhere)
-        if self.win.lineView.getSelectedGlyph() is not None:
+        if self.w.lineView.getSelectedGlyph() is not None:
 
-            if self.win.lineView.getSelectedGlyph() != self.selectedGlyph and self.selectedGlyph is not None:
+            if self.w.lineView.getSelectedGlyph() != self.selectedGlyph and self.selectedGlyph is not None:
                 self.colorSelectedGlyph(NSColor.blackColor())
 
-            doodleGlyph = self.win.lineView.getSelectedGlyph()
+            doodleGlyph = self.w.lineView.getSelectedGlyph()
             doodleFont = doodleGlyph.getParent()
             self.selectedGlyph = self.fontsDB['%s' % doodleFont.path][doodleGlyph.name]
             self.colorSelectedGlyph(NSColor.redColor())
@@ -327,14 +344,32 @@ class MultiFontMetricsWindow(object):
 
     # other funcs
     def adjustSpacingMatrixHeight(self):
-        self.spacingMatrixHeight = vanillaControlsSize['EditTextSmallHeight']+2+len(self.fontOrder)*vanillaControlsSize['EditTextSmallHeight']*2
+        self.spacingMatrixHeight = vanillaControlsSize['EditTextSmallHeight']+2+len(self.fontOrder)*vanillaControlsSize['EditTextSmallHeight']*2 + SCROLLBAR_THICKNESS
 
-        lineViewPosSize = self.win.lineView.getPosSize()
-        self.win.lineView.setPosSize((lineViewPosSize[0], lineViewPosSize[1], lineViewPosSize[2], -MARGIN_BTM-MARGIN_HALFROW-self.spacingMatrixHeight))
+        # that's brutal, but it works
+        del self.spacingMatrix
+        del self.w.spacingMatrixView
 
-        spacingMatrixPosSize = self.win.spacingMatrix.getPosSize()
-        self.win.spacingMatrix.height = self.spacingMatrixHeight   # dirty hack
-        self.win.spacingMatrix.setPosSize((spacingMatrixPosSize[0], -(MARGIN_HALFROW+self.spacingMatrixHeight), spacingMatrixPosSize[2], self.spacingMatrixHeight))
+        lineViewPosSize = self.w.lineView.getPosSize()
+        self.w.lineView.setPosSize((lineViewPosSize[0], lineViewPosSize[1], lineViewPosSize[2], -MARGIN_BTM-MARGIN_HALFROW-self.spacingMatrixHeight))
+
+        spacingMatrixWidth = SPACING_COL_WIDTH*len(self.glyphNamesToDisplay)
+        self.spacingMatrix = SpacingMatrix((0, 0, spacingMatrixWidth, self.spacingMatrixHeight),
+                                           self.glyphNamesToDisplay,
+                                           self.fontOrder,
+                                           callback=self.spacingMatrixCallback)
+
+        view = DefconAppKitTopAnchoredNSView.alloc().init()
+        view.addSubview_(self.spacingMatrix.getNSView())
+        view.setFrame_(((0, 0), (spacingMatrixWidth+50, self.spacingMatrixHeight)))
+        self.spacingMatrix.setPosSize((0, 0, spacingMatrixWidth+50, self.spacingMatrixHeight))
+
+        self.w.spacingMatrixView = ScrollView((MARGIN_RGT, -(MARGIN_HALFROW+self.spacingMatrixHeight), -MARGIN_RGT, self.spacingMatrixHeight),
+                                              view,
+                                              drawsBackground=False,
+                                              autohidesScrollers=False,
+                                              hasHorizontalScroller=True,
+                                              hasVerticalScroller=False)
 
     def closingPlugin(self, sender):
         self.unsubscribeGlyphs()
@@ -346,14 +381,14 @@ class MultiFontMetricsWindow(object):
         if hasattr(self, 'win') is True:
             for eachI in range(self.fontsAmount):
                 if eachI >= len(self.fontOrder):
-                    delattr(self.win, '%#02d' % eachI)
+                    delattr(self.w, '%#02d' % eachI)
                     self.PopUpWithCaptionY -= vanillaControlsSize['PopUpButtonRegularHeight'] + int(MARGIN_HALFROW)
                 else:
-                    ctrl = getattr(self.win, '%#02d' % eachI)
+                    ctrl = getattr(self.w, '%#02d' % eachI)
                     ctrl.updateFontsNames(self.ctrlFontsList)
                     ctrl.set(self.ctrlFontsList.index('%s %s' % (self.fontOrder[eachI].info.familyName, self.fontOrder[eachI].info.styleName)))
         self.fontsAmount = len(self.fontOrder)
-        self.win.fontsAmountPopUp.set(self.fontsAmountOptions.index(self.fontsAmount))
+        self.w.fontsAmountPopUp.set(self.fontsAmountOptions.index(self.fontsAmount))
 
     def updateUnicodeMinimum(self):
         # collect everything
@@ -398,7 +433,7 @@ class MultiFontMetricsWindow(object):
                 for indexFont, eachFont in enumerate(self.fontOrder):
                     assert isinstance(eachFont, RFont), 'object in self.fontOrder not a RFont'
                     if indexFont != 0:
-                        newLineGlyph = self.win.lineView.createNewLineGlyph()
+                        newLineGlyph = self.w.lineView.createNewLineGlyph()
                         displayedGlyphs.append(newLineGlyph)
 
                     for eachGlyphName in self.glyphNamesToDisplay:
@@ -422,11 +457,11 @@ class MultiFontMetricsWindow(object):
                             else:
                                 displayedGlyphs.append(NOT_DEF_GLYPH)
 
-            self.win.lineView.set(displayedGlyphs)
+            self.w.lineView.set(displayedGlyphs)
 
             # add kerning if needed
             if self.applyKerning is True:
-                glyphRecords = self.win.lineView.contentView().getGlyphRecords()
+                glyphRecords = self.w.lineView.contentView().getGlyphRecords()
 
                 leftRecord = glyphRecords[0]
                 rightRecord = glyphRecords[1]
@@ -448,7 +483,7 @@ class MultiFontMetricsWindow(object):
                             leftRecord.xAdvance += leftFont.flatKerning[(leftGlyph.name, rightGlyph.name)]
 
             # update spacing matrix
-            self.win.spacingMatrix.update(self.glyphNamesToDisplay, self.fontOrder)
+            self.spacingMatrix.update(self.glyphNamesToDisplay, self.fontOrder)
 
         except Exception, error:
             print traceback.format_exc()
@@ -458,15 +493,15 @@ class MultiFontMetricsWindow(object):
         assert self.textMode in self.textModeOptions
         self.textMode = self.textModeOptions[sender.get()]
 
-        if self.win.typewriterCtrl.title == self.textMode:
-            self.win.typewriterCtrl.show(True)
-            self.stringDisplayMode, self.glyphNamesToDisplay = 'Waterfall', self.win.typewriterCtrl.get()
-            self.win.textStringsControls.show(False)
+        if self.w.typewriterCtrl.title == self.textMode:
+            self.w.typewriterCtrl.show(True)
+            self.stringDisplayMode, self.glyphNamesToDisplay = 'Waterfall', self.w.typewriterCtrl.get()
+            self.w.textStringsControls.show(False)
         else:
-            self.win.textStringsControls.show(True)
-            self.stringDisplayMode, self.glyphNamesToDisplay = self.win.textStringsControls.get()
+            self.w.textStringsControls.show(True)
+            self.stringDisplayMode, self.glyphNamesToDisplay = self.w.textStringsControls.get()
             print self.stringDisplayMode, self.glyphNamesToDisplay
-            self.win.typewriterCtrl.show(False)
+            self.w.typewriterCtrl.show(False)
 
         self.updateLineView()
 
@@ -481,12 +516,12 @@ class MultiFontMetricsWindow(object):
     def bodyCtrlCallback(self, sender):
         assert sender.get().isdigit() is True
         self.bodySize = int(sender.get())
-        self.win.lineView.setPointSize(self.bodySize)
+        self.w.lineView.setPointSize(self.bodySize)
 
     def lineHgtCtrlCallback(self, sender):
         assert sender.get().isdigit() is True
         self.lineHeight = int(sender.get())
-        self.win.lineView.setLineHeight(self.lineHeight)
+        self.w.lineView.setLineHeight(self.lineHeight)
 
     def lineViewSelectionCallback(self, sender):
         if sender.getSelectedGlyph() is not None:
@@ -509,7 +544,7 @@ class MultiFontMetricsWindow(object):
         colIndexes = [indexItem[0] for indexItem in enumerate(self.glyphNamesToDisplay) if indexItem[1] == self.selectedGlyph.name]
 
         for eachColIndex in colIndexes:
-            multiGlyphCtrl = getattr(self.win.spacingMatrix, '%#02d' % eachColIndex)
+            multiGlyphCtrl = getattr(self.spacingMatrix, '%#02d' % eachColIndex)
             for eachRowIndex in rowIndexes:
                 singleGlyphCtrl = getattr(multiGlyphCtrl, '%#02d' % eachRowIndex)
                 singleGlyphCtrl.colorText(whichColor)
@@ -525,7 +560,7 @@ class MultiFontMetricsWindow(object):
         self.showMetrics = bool(sender.get())
         self.multiLineOptions['Show Metrics'] = self.showMetrics
         self.multiLineOptions['Show Kerning'] = self.showMetrics
-        self.win.lineView.setDisplayStates(self.multiLineOptions)
+        self.w.lineView.setDisplayStates(self.multiLineOptions)
 
     def applyKerningCheckCallback(self, sender):
         self.applyKerning = bool(sender.get())
@@ -544,7 +579,7 @@ class MultiFontMetricsWindow(object):
             self.updateSubscriptions()
             for eachI in reversed(range(self.fontsAmountOptions[sender.get()], self.fontsAmount)):
                 self.PopUpWithCaptionY -= vanillaControlsSize['PopUpButtonRegularHeight'] + int(MARGIN_HALFROW)
-                delattr(self.win, '%#02d' % eachI)
+                delattr(self.w, '%#02d' % eachI)
         
         # add what's needed
         else:
@@ -555,7 +590,7 @@ class MultiFontMetricsWindow(object):
                                                         self.fontsDB,
                                                         self.ctrlFontsList,
                                                         callback=self.fontCtrlCallback)
-                setattr(self.win, '%#02d' % eachI, fontCtrl)
+                setattr(self.w, '%#02d' % eachI, fontCtrl)
 
                 if len(self.fontOrder) > 0:
                     self.fontOrder.append(self.fontOrder[0])
