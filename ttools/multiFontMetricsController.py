@@ -93,6 +93,7 @@ class MultiFontMetricsWindow(BaseWindowController):
     fontsAmountOptions = range(1, 9)
 
     def __init__(self):
+        super(MultiFontMetricsWindow, self).__init__()
 
         # ui vars
         originLeft = 0
@@ -115,8 +116,12 @@ class MultiFontMetricsWindow(BaseWindowController):
 
         # defining plugin window
         self.w = Window((originLeft, originRight, width, height),
-                          "Multi Font Metrics Window",
-                          minSize=(800, 400))
+                        "Multi Font Metrics Window",
+                        minSize=(800, 400))
+
+        if not AllFonts():
+            self.showMessage('No fonts, no party!', 'Please, open some fonts before starting the mighty MultiFont Metrics Controller')
+            return None
 
         self.w.switchButton = PopUpButton((MARGIN_LFT, jumpingY, netWidth*.2, vanillaControlsSize['PopUpButtonRegularHeight']),
                                             self.textModeOptions,
@@ -240,29 +245,28 @@ class MultiFontMetricsWindow(BaseWindowController):
         for eachI in range(ctrlsToInit):
             jumpingY += vanillaControlsSize['PopUpButtonRegularHeight'] + int(MARGIN_HALFROW)
             fontCtrl = PopUpWithCaption((-(self.optionsColWidth+MARGIN_RGT), jumpingY+2, self.optionsColWidth, vanillaControlsSize['PopUpButtonRegularHeight']+1),
-                                                    eachI,
-                                                    self.fontsDB,
-                                                    self.ctrlFontsList,
-                                                    callback=self.fontCtrlCallback)
+                                        eachI,
+                                        self.fontsDB,
+                                        self.ctrlFontsList,
+                                        callback=self.fontCtrlCallback)
             fontCtrl.set(eachI)
             setattr(self.w, '%#02d' % eachI, fontCtrl)
 
         self.PopUpWithCaptionY = jumpingY
 
         # edit metrics
-        spacingMatrixWidth = SPACING_COL_WIDTH*len(self.glyphNamesToDisplay)
+        spacingMatrixWidth = (SPACING_COL_WIDTH+2)*len(self.glyphNamesToDisplay)
         self.spacingMatrix = SpacingMatrix((0, 0, spacingMatrixWidth, self.spacingMatrixHeight),
                                            self.glyphNamesToDisplay,
                                            self.fontOrder,
                                            callback=self.spacingMatrixCallback)
 
-        view = DefconAppKitTopAnchoredNSView.alloc().init()
-        view.addSubview_(self.spacingMatrix.getNSView())
-        view.setFrame_(((0, 0), (spacingMatrixWidth+50, self.spacingMatrixHeight)))
-        self.spacingMatrix.setPosSize((0, 0, spacingMatrixWidth+50, self.spacingMatrixHeight))
+        self.spacingMatrixView = DefconAppKitTopAnchoredNSView.alloc().init()
+        self.spacingMatrixView.addSubview_(self.spacingMatrix.getNSView())
+        self.spacingMatrixView.setFrame_(((0, 0), (spacingMatrixWidth+30, self.spacingMatrixHeight)))
 
-        self.w.spacingMatrixView = ScrollView((MARGIN_RGT, -(MARGIN_HALFROW+self.spacingMatrixHeight), -MARGIN_RGT, self.spacingMatrixHeight),
-                                              view,
+        self.w.spacingMatrixScrollView = ScrollView((MARGIN_RGT, -(MARGIN_HALFROW+self.spacingMatrixHeight), -MARGIN_RGT, self.spacingMatrixHeight),
+                                              self.spacingMatrixView,
                                               drawsBackground=False,
                                               autohidesScrollers=False,
                                               hasHorizontalScroller=True,
@@ -347,25 +351,24 @@ class MultiFontMetricsWindow(BaseWindowController):
         self.spacingMatrixHeight = vanillaControlsSize['EditTextSmallHeight']+2+len(self.fontOrder)*vanillaControlsSize['EditTextSmallHeight']*2 + SCROLLBAR_THICKNESS
 
         # that's brutal, but it works
-        del self.spacingMatrix
-        del self.w.spacingMatrixView
+        delattr(self, 'spacingMatrix')
+        delattr(self.w, 'spacingMatrixScrollView')
 
         lineViewPosSize = self.w.lineView.getPosSize()
         self.w.lineView.setPosSize((lineViewPosSize[0], lineViewPosSize[1], lineViewPosSize[2], -MARGIN_BTM-MARGIN_HALFROW-self.spacingMatrixHeight))
 
-        spacingMatrixWidth = SPACING_COL_WIDTH*len(self.glyphNamesToDisplay)
+        spacingMatrixWidth = (SPACING_COL_WIDTH+2)*len(self.glyphNamesToDisplay)
         self.spacingMatrix = SpacingMatrix((0, 0, spacingMatrixWidth, self.spacingMatrixHeight),
                                            self.glyphNamesToDisplay,
                                            self.fontOrder,
                                            callback=self.spacingMatrixCallback)
 
-        view = DefconAppKitTopAnchoredNSView.alloc().init()
-        view.addSubview_(self.spacingMatrix.getNSView())
-        view.setFrame_(((0, 0), (spacingMatrixWidth+50, self.spacingMatrixHeight)))
-        self.spacingMatrix.setPosSize((0, 0, spacingMatrixWidth+50, self.spacingMatrixHeight))
+        self.spacingMatrixView = DefconAppKitTopAnchoredNSView.alloc().init()
+        self.spacingMatrixView.addSubview_(self.spacingMatrix.getNSView())
+        self.spacingMatrixView.setFrame_(((0, 0), (spacingMatrixWidth+30, self.spacingMatrixHeight)))
 
-        self.w.spacingMatrixView = ScrollView((MARGIN_RGT, -(MARGIN_HALFROW+self.spacingMatrixHeight), -MARGIN_RGT, self.spacingMatrixHeight),
-                                              view,
+        self.w.spacingMatrixScrollView = ScrollView((MARGIN_RGT, -(MARGIN_HALFROW+self.spacingMatrixHeight), -MARGIN_RGT, self.spacingMatrixHeight),
+                                              self.spacingMatrixView,
                                               drawsBackground=False,
                                               autohidesScrollers=False,
                                               hasHorizontalScroller=True,
@@ -484,6 +487,10 @@ class MultiFontMetricsWindow(BaseWindowController):
 
             # update spacing matrix
             self.spacingMatrix.update(self.glyphNamesToDisplay, self.fontOrder)
+            spacingMatrixWidth = (SPACING_COL_WIDTH+2)*len(self.glyphNamesToDisplay)
+            previousPosSize = self.spacingMatrix.getPosSize()
+            self.spacingMatrix.setPosSize((previousPosSize[0], previousPosSize[1], spacingMatrixWidth, previousPosSize[3]))
+            self.spacingMatrixView.setFrame_(((0,0), (spacingMatrixWidth+30, self.spacingMatrixHeight)))
 
         except Exception, error:
             print traceback.format_exc()
@@ -884,6 +891,11 @@ class SpacingMatrix(Group):
         self.glyphNamesToDisplay = glyphNamesToDisplay
         self.fontOrder = fontOrder
         self._addCtrls()
+
+        spacingMatrixWidth = SPACING_COL_WIDTH*len(self.glyphNamesToDisplay)+2
+        previousPosSize = self.getPosSize()
+        self.setPosSize((previousPosSize[0], previousPosSize[1], spacingMatrixWidth, previousPosSize[3]))
+        self.width = spacingMatrixWidth
 
 
 class MultiGlyphMetricsEditor(Group):
