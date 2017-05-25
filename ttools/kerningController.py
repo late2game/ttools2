@@ -62,7 +62,7 @@ PLUGIN_HEIGHT = 800
 TEXT_MARGIN = 200 #upm
 CANVAS_UPM_HEIGHT = 1600.
 
-SYSTEM_FONT_NAME = '.HelveticaNeueDeskInterface-Regular'
+SYSTEM_FONT_NAME = '.SFNSText'
 BODY_SIZE = 14
 
 """
@@ -813,9 +813,9 @@ class WordDisplay(Group):
         font(SYSTEM_FONT_NAME)
         fontSize(BODY_SIZE)
         textWidth, textHeight = textSize(u'%s' % glyphToDisplay.width)
-        textBox(u'%s' % glyphToDisplay.width, (0, 11, glyphToDisplay.width*reverseScalingFactor, textHeight), align='center')
-        textBox(u'%s' % glyphToDisplay.leftMargin, (0, 0, glyphToDisplay.width/2.*reverseScalingFactor, textHeight), align='center')
-        textBox(u'%s' % glyphToDisplay.rightMargin, (glyphToDisplay.width/2.*reverseScalingFactor, 0, glyphToDisplay.width/2.*reverseScalingFactor, textHeight), align='center')
+        textBox(u'%d' % glyphToDisplay.width, (0, 11, glyphToDisplay.width*reverseScalingFactor, textHeight), align='center')
+        textBox(u'%d' % glyphToDisplay.leftMargin, (0, 0, glyphToDisplay.width/2.*reverseScalingFactor, textHeight), align='center')
+        textBox(u'%d' % glyphToDisplay.rightMargin, (glyphToDisplay.width/2.*reverseScalingFactor, 0, glyphToDisplay.width/2.*reverseScalingFactor, textHeight), align='center')
         restore()
 
     def _drawBaseline(self, glyphToDisplay):
