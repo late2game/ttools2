@@ -49,8 +49,13 @@ SQR_CAPTION_OFFSET = 4
 BCP_RADIUS = 4
 OFFGRID_RADIUS = 20
 
-SYSTEM_FONT_NAME = '.SFNSText'
-SYSTEM_FONT_NAME_BOLD = '.SFNSText-Bold'
+try:
+    font('.SFNSText')
+    SYSTEM_FONT_NAME = '.SFNSText'
+    SYSTEM_FONT_NAME_BOLD = '.SFNSText-Bold'
+except:
+    SYSTEM_FONT_NAME = '.HelveticaNeueDeskInterface-Regular'
+    SYSTEM_FONT_NAME_BOLD = '.HelveticaNeueDeskInterface-Bold'
 
 BLACK_COLOR = (0, 0, 0)
 LIGHT_GRAY_COLOR = (.6, .6, .6)

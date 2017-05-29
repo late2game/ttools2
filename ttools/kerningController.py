@@ -68,7 +68,12 @@ PLUGIN_HEIGHT = 800
 TEXT_MARGIN = 200 #upm
 CANVAS_UPM_HEIGHT = 1600.
 
-SYSTEM_FONT_NAME = '.SFNSText'
+try:
+    font('.SFNSText')
+    SYSTEM_FONT_NAME = '.SFNSText'
+except:
+    SYSTEM_FONT_NAME = '.HelveticaNeueDeskInterface-Regular'
+
 BODY_SIZE = 14
 
 """
