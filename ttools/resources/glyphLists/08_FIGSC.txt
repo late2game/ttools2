@@ -16,6 +16,8 @@ yen.sc
 sterling.sc
 florin.sc
 cent.sc
+uni20BA.sc
+uni20A9.sc
 zero.lf.sc
 one.lf.sc
 two.lf.sc
@@ -34,3 +36,5 @@ yen.lf.sc
 sterling.lf.sc
 florin.lf.sc
 cent.lf.sc
+uni20BA.sc.lf
+uni20A9.sc.lf
