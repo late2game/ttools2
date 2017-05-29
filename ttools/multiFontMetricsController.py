@@ -315,7 +315,10 @@ class MultiFontMetricsWindow(BaseWindowController):
 
             doodleGlyph = self.w.lineView.getSelectedGlyph()
             doodleFont = doodleGlyph.getParent()
-            self.selectedGlyph = self.fontsDB['%s' % doodleFont.path][doodleGlyph.name]
+            for indexFont, eachFont in enumerate(self.fontsOrder):
+                if eachFont.path == doodleFont.path:
+                    self.selectedGlyph = self.fontsOrder[indexFont][doodleGlyph.name]
+                    break
             self.colorSelectedGlyph(NSColor.redColor())
         else:
             if self.selectedGlyph is not None:
@@ -488,7 +491,10 @@ class MultiFontMetricsWindow(BaseWindowController):
 
             doodleGlyph = sender.getSelectedGlyph()
             doodleFont = doodleGlyph.getParent()
-            self.selectedGlyph = self.fontsDB['%s' % doodleFont.path][doodleGlyph.name]
+            for indexFont, eachFont in enumerate(self.fontsOrder):
+                if eachFont.path == doodleFont.path:
+                    self.selectedGlyph = self.fontsOrder[indexFont][doodleGlyph.name]
+                    break
             self.colorSelectedGlyph(NSColor.redColor())
         else:
             if self.selectedGlyph is not None:
@@ -509,7 +515,11 @@ class MultiFontMetricsWindow(BaseWindowController):
     def lineViewDoubleClickCallback(self, sender):
         doodleGlyph = sender.getSelectedGlyph()
         doodleFont = doodleGlyph.getParent()
-        roboGlyph = self.fontsDB['%s' % doodleFont.path][doodleGlyph.name]
+        for indexFont, eachFont in enumerate(self.fontsOrder):
+            if eachFont.path == doodleFont.path:
+                roboGlyph = self.fontsOrder[indexFont][doodleGlyph.name]
+                break
+
         if roboGlyph is not None:
             OpenGlyphWindow(glyph=roboGlyph, newWindow=False)
 
@@ -562,43 +572,6 @@ class ComboBoxWithCaption(Group):
 
     def comboCallback(self, sender):
         self.choice = str(sender.get())
-        self.callback(self)
-
-
-class PopUpWithCaption(Group):
-
-    def __init__(self, posSize, index, fontsDB, ctrlFontsList, callback):
-        Group.__init__(self, posSize)
-        width = posSize[2]
-        height = posSize[3]
-        self.callback = callback
-        self.fontsDB = fontsDB
-        self.ctrlFontsList = ctrlFontsList
-        self.chosenFont = self.fontsDB[self.fontsDB.keys()[0]]
-
-        self.caption = TextBox((0, 1, width*.15, height),
-                               '%s:' % (index+1))
-
-        jumpingX = width*.15
-        self.popUp = PopUpButton((jumpingX, 0, width*.85, height),
-                                 self.ctrlFontsList,
-                                 callback=self.popUpButtonCallback)
-
-
-    def get(self):
-        index = int(self.caption.get().replace(':', ''))-1
-        return index, self.chosenFont
-
-    def set(self, index):
-        self.popUp.set(index)
-        self.chosenFont = self.fontsDB[self.fontsDB.keys()[index]]
-
-    def updateFontsNames(self, ctrlFontsList):
-        self.ctrlFontsList = ctrlFontsList
-        self.popUp.setItems(self.ctrlFontsList)
-
-    def popUpButtonCallback(self, sender):
-        self.chosenFont = self.fontsDB[self.fontsDB.keys()[sender.get()]]
         self.callback(self)
 
 
