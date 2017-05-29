@@ -37,8 +37,6 @@ nine.numr
 dollar.numr
 cent.numr
 Euro.numr
-uni20BA.numr
-uni20A9.numr
 plus.numr
 minus.numr
 equal.numr

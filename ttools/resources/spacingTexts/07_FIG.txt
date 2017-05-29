@@ -6,15 +6,15 @@ zero uni2007 zero zero zero one zero two zero three zero four zero zero five zer
 H uni2007 H zero H one H two H three H four H H five H six H seven H eight H nine H zero.zero H zero uni2007 zero zero zero one zero two zero three zero four zero zero five zero six zero seven zero eight zero nine zero zero.zero zero
 H uni2007 H zero H one H two H three H four H H five H six H seven H eight H nine H zero.zero H zero
 zero zero one zero two zero three zero four zero zero five zero six zero seven zero eight zero nine zero zero.zero zero
-currency dollar cent Euro yen sterling florin S C Y L c
-H currency H dollar H cent H Euro H yen H sterling H florin H
-zero currency zero dollar zero cent zero Euro zero yen zero sterling zero florin zero
+currency dollar cent Euro yen sterling florin uni20A9 uni20BA S C Y L c
+H currency H dollar H cent H Euro H yen H sterling H florin H uni20A9 H uni20BA H
+zero currency zero dollar zero cent zero Euro zero yen zero sterling zero florin zero uni20A9 zero uni20BA zero
 H currency H dollar H cent H Euro H yen H sterling H H
 H florin H zero currency zero dollar zero cent zero Euro zero yen zero sterling zero florin zero
 hyphen hyphen hyphen P r o p o r t i o n a l space L i n i n g hyphen hyphen hyphen
-zero one two three four five six seven eight nine zero.zero currency dollar cent Euro yen sterling florin zero.lf one.lf two.lf three.lf four.lf five.lf six.lf seven.lf eight.lf nine.lf zero.lf.zero currency.lf dollar.lf cent.lf Euro.lf yen.lf sterling.lf florin.lf
-zero one two three four five six seven eight nine zero.zero currency dollar cent Euro yen sterling florin
-zero.lf one.lf two.lf three.lf four.lf five.lf six.lf seven.lf eight.lf nine.lf zero.lf.zero currency.lf dollar.lf cent.lf Euro.lf yen.lf sterling.lf florin.lf
+zero one two three four five six seven eight nine zero.zero currency dollar cent Euro yen sterling florin uni20A9 uni20BA zero.lf one.lf two.lf three.lf four.lf five.lf six.lf seven.lf eight.lf nine.lf zero.lf.zero currency.lf dollar.lf cent.lf Euro.lf yen.lf sterling.lf florin.lf uni20A9.lf uni20BA.lf
+zero one two three four five six seven eight nine zero.zero currency dollar cent Euro yen sterling florin uni20A9 uni20BA
+zero.lf one.lf two.lf three.lf four.lf five.lf six.lf seven.lf eight.lf nine.lf zero.lf.zero currency.lf dollar.lf cent.lf Euro.lf yen.lf sterling.lf florin.lf uni20A9.lf uni20BA.lf
 hyphen hyphen hyphen T a b u l a r space M e d i e v a l hyphen hyphen hyphen
 zero one two three four five six seven eight nine zero.zero zero.tosf one.tosf two.tosf three.tosf four.tosf five.tosf six.tosf seven.tosf eight.tosf nine.tosf zero.tosf.zero
 hyphen hyphen hyphen P r o p o r t i o n a l space M e d i e v a l hyphen hyphen hyphen

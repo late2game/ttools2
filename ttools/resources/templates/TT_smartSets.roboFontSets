@@ -66,15 +66,13 @@
 			<string>ae</string>
 			<string>oe</string>
 			<string>uniFB00</string>
-			<string>fi</string>
-			<string>fl</string>
+			<string>uniFB01</string>
+			<string>uniFB02</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {"space", "at", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "ampersand", "AE", "OE", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "germandbls", "ae", "oe", "uniFB00", "fi", "fl"}</string>
+		<string>Name IN {'space', 'at', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'ampersand', 'AE', 'OE', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'germandbls', 'ae', 'oe', 'uniFB00', 'uniFB01', 'uniFB02'}</string>
 		<key>smartSetName</key>
-		<string>LC UC</string>
-		<key>uniqueKey</key>
-		<string>381758655785382</string>
+		<string>LCUC</string>
 	</dict>
 	<dict>
 		<key>glyphNames</key>
@@ -122,12 +120,12 @@
 			<string>degree</string>
 			<string>paragraph</string>
 			<string>section</string>
-			<string>exclamdown.case</string>
-			<string>questiondown.case</string>
 			<string>hyphen.case</string>
 			<string>endash.case</string>
 			<string>emdash.case</string>
 			<string>bullet.case</string>
+			<string>exclamdown.case</string>
+			<string>questiondown.case</string>
 			<string>periodcentered.case</string>
 			<string>guilsinglleft.case</string>
 			<string>guilsinglright.case</string>
@@ -141,16 +139,14 @@
 			<string>braceright.case</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {"comma", "period", "colon", "semicolon", "ellipsis", "underscore", "hyphen", "endash", "emdash", "bullet", "periodcentered", "guilsinglleft", "guilsinglright", "guillemotleft", "guillemotright", "exclam", "question", "exclamdown", "questiondown", "bar", "brokenbar", "dagger", "daggerdbl", "parenleft", "parenright", "bracketleft", "bracketright", "braceleft", "braceright", "slash", "backslash", "quotesinglbase", "quotedblbase", "quoteleft", "quotedblleft", "quoteright", "quotedblright", "quotesingle", "quotedbl", "asterisk", "degree", "paragraph", "section", "exclamdown.case", "questiondown.case", "hyphen.case", "endash.case", "emdash.case", "bullet.case", "periodcentered.case", "guilsinglleft.case", "guilsinglright.case", "guillemotleft.case", "guillemotright.case", "parenleft.case", "parenright.case", "bracketleft.case", "bracketright.case", "braceleft.case", "braceright.case"}</string>
+		<string>Name IN {'comma', 'period', 'colon', 'semicolon', 'ellipsis', 'underscore', 'hyphen', 'endash', 'emdash', 'bullet', 'periodcentered', 'guilsinglleft', 'guilsinglright', 'guillemotleft', 'guillemotright', 'exclam', 'question', 'exclamdown', 'questiondown', 'bar', 'brokenbar', 'dagger', 'daggerdbl', 'parenleft', 'parenright', 'bracketleft', 'bracketright', 'braceleft', 'braceright', 'slash', 'backslash', 'quotesinglbase', 'quotedblbase', 'quoteleft', 'quotedblleft', 'quoteright', 'quotedblright', 'quotesingle', 'quotedbl', 'asterisk', 'degree', 'paragraph', 'section', 'hyphen.case', 'endash.case', 'emdash.case', 'bullet.case', 'exclamdown.case', 'questiondown.case', 'periodcentered.case', 'guilsinglleft.case', 'guilsinglright.case', 'guillemotleft.case', 'guillemotright.case', 'parenleft.case', 'parenright.case', 'bracketleft.case', 'bracketright.case', 'braceleft.case', 'braceright.case'}</string>
 		<key>smartSetName</key>
-		<string>UC LC INT</string>
-		<key>uniqueKey</key>
-		<string>295819313749028</string>
+		<string>UCLC_INT</string>
 	</dict>
 	<dict>
 		<key>glyphNames</key>
 		<array>
-			<string>figurespace</string>
+			<string>uni2007</string>
 			<string>zero</string>
 			<string>one</string>
 			<string>two</string>
@@ -169,6 +165,8 @@
 			<string>sterling</string>
 			<string>florin</string>
 			<string>cent</string>
+			<string>uni20BA</string>
+			<string>uni20A9</string>
 			<string>zero.lf</string>
 			<string>one.lf</string>
 			<string>two.lf</string>
@@ -187,21 +185,13 @@
 			<string>sterling.lf</string>
 			<string>florin.lf</string>
 			<string>cent.lf</string>
-			<string>H</string>
-			<string>C</string>
-			<string>Y</string>
-			<string>L</string>
-			<string>O</string>
-			<string>S</string>
-			<string>B</string>
-			<string>c</string>
+			<string>uni20BA.lf</string>
+			<string>uni20A9.lf</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {"figurespace", "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "zero.zero", "currency", "dollar", "Euro", "yen", "sterling", "florin", "cent", "zero.lf", "one.lf", "two.lf", "three.lf", "four.lf", "five.lf", "six.lf", "seven.lf", "eight.lf", "nine.lf", "zero.lf.zero", "currency.lf", "dollar.lf", "Euro.lf", "yen.lf", "sterling.lf", "florin.lf", "cent.lf", "H", "C", "Y", "L", "O", "S", "B", "c"}</string>
+		<string>Name IN {'uni2007', 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'zero.zero', 'currency', 'dollar', 'Euro', 'yen', 'sterling', 'florin', 'cent', 'uni20BA', 'uni20A9', 'zero.lf', 'one.lf', 'two.lf', 'three.lf', 'four.lf', 'five.lf', 'six.lf', 'seven.lf', 'eight.lf', 'nine.lf', 'zero.lf.zero', 'currency.lf', 'dollar.lf', 'Euro.lf', 'yen.lf', 'sterling.lf', 'florin.lf', 'cent.lf', 'uni20BA.lf', 'uni20A9.lf'}</string>
 		<key>smartSetName</key>
 		<string>FIG</string>
-		<key>uniqueKey</key>
-		<string>933004887770957</string>
 	</dict>
 	<dict>
 		<key>glyphNames</key>
@@ -233,24 +223,11 @@
 			<string>product</string>
 			<string>pi</string>
 			<string>mu</string>
-			<string>H</string>
-			<string>A</string>
-			<string>O</string>
-			<string>Z</string>
-			<string>u</string>
-			<string>n</string>
-			<string>i</string>
-			<string>colon</string>
-			<string>hyphen</string>
-			<string>slash</string>
-			<string>bar</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {"plus", "minus", "multiply", "divide", "equal", "less", "greater", "plusminus", "lessequal", "greaterequal", "notequal", "logicalnot", "asciicircum", "asciitilde", "approxequal", "infinity", "numbersign", "radical", "lozenge", "Delta", "Omega", "summation", "partialdiff", "integral", "product", "pi", "mu", "H", "A", "O", "Z", "u", "n", "i", "colon", "hyphen", "slash", "bar"}</string>
+		<string>Name IN {'plus', 'minus', 'multiply', 'divide', 'equal', 'less', 'greater', 'plusminus', 'lessequal', 'greaterequal', 'notequal', 'logicalnot', 'asciicircum', 'asciitilde', 'approxequal', 'infinity', 'numbersign', 'radical', 'lozenge', 'Delta', 'Omega', 'summation', 'partialdiff', 'integral', 'product', 'pi', 'mu'}</string>
 		<key>smartSetName</key>
-		<string>Math</string>
-		<key>uniqueKey</key>
-		<string>253927496686673</string>
+		<string>MATH</string>
 	</dict>
 	<dict>
 		<key>glyphNames</key>
@@ -266,10 +243,11 @@
 			<string>tilde</string>
 			<string>breve</string>
 			<string>ring</string>
-			<string>caronquoteleft</string>
-			<string>caronquoteright</string>
 			<string>cedilla</string>
 			<string>ogonek</string>
+			<string>uni0312</string>
+			<string>uni0313</string>
+			<string>uni0326</string>
 			<string>grave.case</string>
 			<string>acute.case</string>
 			<string>hungarumlaut.case</string>
@@ -281,23 +259,14 @@
 			<string>tilde.case</string>
 			<string>breve.case</string>
 			<string>ring.case</string>
-			<string>caronquoteleft.case</string>
-			<string>caronquoteright.case</string>
 			<string>cedilla.case</string>
 			<string>ogonek.case</string>
-			<string>H</string>
-			<string>O</string>
-			<string>I</string>
-			<string>n</string>
-			<string>o</string>
-			<string>i</string>
+			<string>uni0326.case</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {"grave", "acute", "hungarumlaut", "dotaccent", "dieresis", "circumflex", "caron", "macron", "tilde", "breve", "ring", "caronquoteleft", "caronquoteright", "cedilla", "ogonek", "grave.case", "acute.case", "hungarumlaut.case", "dotaccent.case", "dieresis.case", "circumflex.case", "caron.case", "macron.case", "tilde.case", "breve.case", "ring.case", "caronquoteleft.case", "caronquoteright.case", "cedilla.case", "ogonek.case", "H", "O", "I", "n", "o", "i"}</string>
+		<string>Name IN {'grave', 'acute', 'hungarumlaut', 'dotaccent', 'dieresis', 'circumflex', 'caron', 'macron', 'tilde', 'breve', 'ring', 'cedilla', 'ogonek', 'uni0312', 'uni0313', 'uni0326', 'grave.case', 'acute.case', 'hungarumlaut.case', 'dotaccent.case', 'dieresis.case', 'circumflex.case', 'caron.case', 'macron.case', 'tilde.case', 'breve.case', 'ring.case', 'cedilla.case', 'ogonek.case', 'uni0326.case'}</string>
 		<key>smartSetName</key>
 		<string>ACC</string>
-		<key>uniqueKey</key>
-		<string>065360299197545</string>
 	</dict>
 	<dict>
 		<key>glyphNames</key>
@@ -324,28 +293,11 @@
 			<string>eight.tosf</string>
 			<string>nine.tosf</string>
 			<string>zero.tosf.zero</string>
-			<string>H</string>
-			<string>O</string>
-			<string>n</string>
-			<string>o</string>
-			<string>zero</string>
-			<string>one</string>
-			<string>two</string>
-			<string>three</string>
-			<string>four</string>
-			<string>five</string>
-			<string>six</string>
-			<string>seven</string>
-			<string>eight</string>
-			<string>nine</string>
-			<string>zero.zero</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {"zero.osf", "one.osf", "two.osf", "three.osf", "four.osf", "five.osf", "six.osf", "seven.osf", "eight.osf", "nine.osf", "zero.osf.zero", "zero.tosf", "one.tosf", "two.tosf", "three.tosf", "four.tosf", "five.tosf", "six.tosf", "seven.tosf", "eight.tosf", "nine.tosf", "zero.tosf.zero", "H", "O", "n", "o", "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "zero.zero"}</string>
+		<string>Name IN {'zero.osf', 'one.osf', 'two.osf', 'three.osf', 'four.osf', 'five.osf', 'six.osf', 'seven.osf', 'eight.osf', 'nine.osf', 'zero.osf.zero', 'zero.tosf', 'one.tosf', 'two.tosf', 'three.tosf', 'four.tosf', 'five.tosf', 'six.tosf', 'seven.tosf', 'eight.tosf', 'nine.tosf', 'zero.tosf.zero'}</string>
 		<key>smartSetName</key>
-		<string>FIG OS</string>
-		<key>uniqueKey</key>
-		<string>466745335218295</string>
+		<string>FIG_OS</string>
 	</dict>
 	<dict>
 		<key>glyphNames</key>
@@ -382,45 +334,11 @@
 			<string>ae.sc</string>
 			<string>oe.sc</string>
 			<string>germandbls.sc</string>
-			<string>at</string>
-			<string>A</string>
-			<string>B</string>
-			<string>C</string>
-			<string>D</string>
-			<string>E</string>
-			<string>F</string>
-			<string>G</string>
-			<string>H</string>
-			<string>I</string>
-			<string>J</string>
-			<string>K</string>
-			<string>L</string>
-			<string>M</string>
-			<string>N</string>
-			<string>O</string>
-			<string>P</string>
-			<string>Q</string>
-			<string>R</string>
-			<string>S</string>
-			<string>T</string>
-			<string>U</string>
-			<string>V</string>
-			<string>W</string>
-			<string>X</string>
-			<string>Y</string>
-			<string>Z</string>
-			<string>ampersand</string>
-			<string>AE</string>
-			<string>OE</string>
-			<string>o</string>
-			<string>n</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {'at.sc', 'a.sc', 'b.sc', 'c.sc', 'd.sc', 'e.sc', 'f.sc', 'g.sc', 'h.sc', 'i.sc', 'dotlessi.sc', 'j.sc', 'k.sc', 'l.sc', 'm.sc', 'n.sc', 'o.sc', 'p.sc', 'q.sc', 'r.sc', 's.sc', 't.sc', 'u.sc', 'v.sc', 'w.sc', 'x.sc', 'y.sc', 'z.sc', 'ampersand.sc', 'ae.sc', 'oe.sc', 'germandbls.sc', 'at', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'ampersand', 'AE', 'OE', 'o', 'n'}</string>
+		<string>Name IN {'at.sc', 'a.sc', 'b.sc', 'c.sc', 'd.sc', 'e.sc', 'f.sc', 'g.sc', 'h.sc', 'i.sc', 'dotlessi.sc', 'j.sc', 'k.sc', 'l.sc', 'm.sc', 'n.sc', 'o.sc', 'p.sc', 'q.sc', 'r.sc', 's.sc', 't.sc', 'u.sc', 'v.sc', 'w.sc', 'x.sc', 'y.sc', 'z.sc', 'ampersand.sc', 'ae.sc', 'oe.sc', 'germandbls.sc'}</string>
 		<key>smartSetName</key>
 		<string>SC</string>
-		<key>uniqueKey</key>
-		<string>247137072582233</string>
 	</dict>
 	<dict>
 		<key>glyphNames</key>
@@ -443,6 +361,8 @@
 			<string>sterling.sc</string>
 			<string>florin.sc</string>
 			<string>cent.sc</string>
+			<string>uni20BA.sc</string>
+			<string>uni20A9.sc</string>
 			<string>zero.lf.sc</string>
 			<string>one.lf.sc</string>
 			<string>two.lf.sc</string>
@@ -461,24 +381,13 @@
 			<string>sterling.lf.sc</string>
 			<string>florin.lf.sc</string>
 			<string>cent.lf.sc</string>
-			<string>zero</string>
-			<string>one</string>
-			<string>two</string>
-			<string>three</string>
-			<string>four</string>
-			<string>five</string>
-			<string>six</string>
-			<string>seven</string>
-			<string>eight</string>
-			<string>nine</string>
-			<string>zero.zero</string>
+			<string>uni20BA.lf.sc</string>
+			<string>uni20A9.lf.sc</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {"zero.sc", "one.sc", "two.sc", "three.sc", "four.sc", "five.sc", "six.sc", "seven.sc", "eight.sc", "nine.sc", "zero.sc.zero", "currency.sc", "dollar.sc", "Euro.sc", "yen.sc", "sterling.sc", "florin.sc", "cent.sc", "zero.lf.sc", "one.lf.sc", "two.lf.sc", "three.lf.sc", "four.lf.sc", "five.lf.sc", "six.lf.sc", "seven.lf.sc", "eight.lf.sc", "nine.lf.sc", "zero.lf.sc.zero", "currency.lf.sc", "dollar.lf.sc", "Euro.lf.sc", "yen.lf.sc", "sterling.lf.sc", "florin.lf.sc", "cent.lf.sc", "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "zero.zero"}</string>
+		<string>Name IN {'zero.sc', 'one.sc', 'two.sc', 'three.sc', 'four.sc', 'five.sc', 'six.sc', 'seven.sc', 'eight.sc', 'nine.sc', 'zero.sc.zero', 'currency.sc', 'dollar.sc', 'Euro.sc', 'yen.sc', 'sterling.sc', 'florin.sc', 'cent.sc', 'uni20BA.sc', 'uni20A9.sc', 'zero.lf.sc', 'one.lf.sc', 'two.lf.sc', 'three.lf.sc', 'four.lf.sc', 'five.lf.sc', 'six.lf.sc', 'seven.lf.sc', 'eight.lf.sc', 'nine.lf.sc', 'zero.lf.sc.zero', 'currency.lf.sc', 'dollar.lf.sc', 'Euro.lf.sc', 'yen.lf.sc', 'sterling.lf.sc', 'florin.lf.sc', 'cent.lf.sc', 'uni20BA.lf.sc', 'uni20A9.lf.sc'}</string>
 		<key>smartSetName</key>
-		<string>FIG SC</string>
-		<key>uniqueKey</key>
-		<string>616493458632560</string>
+		<string>FIGSC</string>
 	</dict>
 	<dict>
 		<key>glyphNames</key>
@@ -516,63 +425,11 @@
 			<string>degree.sc</string>
 			<string>paragraph.sc</string>
 			<string>section.sc</string>
-			<string>exclam</string>
-			<string>question</string>
-			<string>exclamdown</string>
-			<string>questiondown</string>
-			<string>hyphen</string>
-			<string>endash</string>
-			<string>emdash</string>
-			<string>bullet</string>
-			<string>periodcentered</string>
-			<string>quotedblright</string>
-			<string>guilsinglleft</string>
-			<string>guilsinglright</string>
-			<string>guillemotleft</string>
-			<string>guillemotright</string>
-			<string>dagger</string>
-			<string>daggerdbl</string>
-			<string>parenleft</string>
-			<string>parenright</string>
-			<string>bracketleft</string>
-			<string>bracketright</string>
-			<string>braceleft</string>
-			<string>braceright</string>
-			<string>slash</string>
-			<string>backslash</string>
-			<string>quoteleft</string>
-			<string>quotedblleft</string>
-			<string>quoteright</string>
-			<string>quotesingle</string>
-			<string>quotedbl</string>
-			<string>asterisk</string>
-			<string>degree</string>
-			<string>paragraph</string>
-			<string>section</string>
-			<string>exclamdown.case</string>
-			<string>questiondown.case</string>
-			<string>hyphen.case</string>
-			<string>endash.case</string>
-			<string>emdash.case</string>
-			<string>bullet.case</string>
-			<string>periodcentered.case</string>
-			<string>guilsinglleft.case</string>
-			<string>guilsinglright.case</string>
-			<string>guillemotleft.case</string>
-			<string>guillemotright.case</string>
-			<string>parenleft.case</string>
-			<string>parenright.case</string>
-			<string>bracketleft.case</string>
-			<string>bracketright.case</string>
-			<string>braceleft.case</string>
-			<string>braceright.case</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {"exclam.sc", "question.sc", "exclamdown.sc", "questiondown.sc", "hyphen.sc", "endash.sc", "emdash.sc", "bullet.sc", "periodcentered.sc", "quotedblright.sc", "guilsinglleft.sc", "guilsinglright.sc", "guillemotleft.sc", "guillemotright.sc", "dagger.sc", "daggerdbl.sc", "parenleft.sc", "parenright.sc", "bracketleft.sc", "bracketright.sc", "braceleft.sc", "braceright.sc", "slash.sc", "backslash.sc", "quoteleft.sc", "quotedblleft.sc", "quoteright.sc", "quotesingle.sc", "quotedbl.sc", "asterisk.sc", "degree.sc", "paragraph.sc", "section.sc", "exclam", "question", "exclamdown", "questiondown", "hyphen", "endash", "emdash", "bullet", "periodcentered", "quotedblright", "guilsinglleft", "guilsinglright", "guillemotleft", "guillemotright", "dagger", "daggerdbl", "parenleft", "parenright", "bracketleft", "bracketright", "braceleft", "braceright", "slash", "backslash", "quoteleft", "quotedblleft", "quoteright", "quotesingle", "quotedbl", "asterisk", "degree", "paragraph", "section", "exclamdown.case", "questiondown.case", "hyphen.case", "endash.case", "emdash.case", "bullet.case", "periodcentered.case", "guilsinglleft.case", "guilsinglright.case", "guillemotleft.case", "guillemotright.case", "parenleft.case", "parenright.case", "bracketleft.case", "bracketright.case", "braceleft.case", "braceright.case"}</string>
+		<string>Name IN {'exclam.sc', 'question.sc', 'exclamdown.sc', 'questiondown.sc', 'hyphen.sc', 'endash.sc', 'emdash.sc', 'bullet.sc', 'periodcentered.sc', 'quotedblright.sc', 'guilsinglleft.sc', 'guilsinglright.sc', 'guillemotleft.sc', 'guillemotright.sc', 'dagger.sc', 'daggerdbl.sc', 'parenleft.sc', 'parenright.sc', 'bracketleft.sc', 'bracketright.sc', 'braceleft.sc', 'braceright.sc', 'slash.sc', 'backslash.sc', 'quoteleft.sc', 'quotedblleft.sc', 'quoteright.sc', 'quotesingle.sc', 'quotedbl.sc', 'asterisk.sc', 'degree.sc', 'paragraph.sc', 'section.sc'}</string>
 		<key>smartSetName</key>
-		<string>SC INT</string>
-		<key>uniqueKey</key>
-		<string>882772651330184</string>
+		<string>SC_INT</string>
 	</dict>
 	<dict>
 		<key>glyphNames</key>
@@ -593,25 +450,11 @@
 			<string>thorn</string>
 			<string>tcaron</string>
 			<string>tbar</string>
-			<string>j</string>
-			<string>i</string>
-			<string>d</string>
-			<string>o</string>
-			<string>h</string>
-			<string>l</string>
-			<string>n</string>
-			<string>f</string>
-			<string>p</string>
-			<string>t</string>
-			<string>comma</string>
-			<string>period</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {"uni0237", "dotlessi", "eth", "dcroat", "dcaron", "hbar", "ij", "lslash", "ldot", "lcaron", "eng", "oslash", "longs", "thorn", "tcaron", "tbar", "j", "i", "d", "o", "h", "l", "n", "f", "p", "t", "comma", "period"}</string>
+		<string>Name IN {'uni0237', 'dotlessi', 'eth', 'dcroat', 'dcaron', 'hbar', 'ij', 'lslash', 'ldot', 'lcaron', 'eng', 'oslash', 'longs', 'thorn', 'tcaron', 'tbar'}</string>
 		<key>smartSetName</key>
-		<string>LC Extra</string>
-		<key>uniqueKey</key>
-		<string>904317772802452</string>
+		<string>LC_Extra</string>
 	</dict>
 	<dict>
 		<key>glyphNames</key>
@@ -640,32 +483,11 @@
 			<string>thorn.sc</string>
 			<string>fi.sc</string>
 			<string>fl.sc</string>
-			<string>D</string>
-			<string>H</string>
-			<string>I</string>
-			<string>J</string>
-			<string>L</string>
-			<string>N</string>
-			<string>O</string>
-			<string>T</string>
-			<string>P</string>
-			<string>d.sc</string>
-			<string>h.sc</string>
-			<string>i.sc</string>
-			<string>j.sc</string>
-			<string>l.sc</string>
-			<string>n.sc</string>
-			<string>o.sc</string>
-			<string>t.sc</string>
-			<string>p.sc</string>
-			<string>f.sc</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {'Eth', 'Dcroat', 'Hbar', 'IJ', 'Lslash', 'Ldot', 'Lcaron', 'Eng', 'Oslash', 'Tbar', 'Thorn', 'eth.sc', 'dcroat.sc', 'hbar.sc', 'ij.sc', 'lslash.sc', 'ldot.sc', 'lcaron.sc', 'eng.sc', 'oslash.sc', 'tbar.sc', 'thorn.sc', 'fi.sc', 'fl.sc', 'D', 'H', 'I', 'J', 'L', 'N', 'O', 'T', 'P', 'd.sc', 'h.sc', 'i.sc', 'j.sc', 'l.sc', 'n.sc', 'o.sc', 't.sc', 'p.sc', 'f.sc'}</string>
+		<string>Name IN {'Eth', 'Dcroat', 'Hbar', 'IJ', 'Lslash', 'Ldot', 'Lcaron', 'Eng', 'Oslash', 'Tbar', 'Thorn', 'eth.sc', 'dcroat.sc', 'hbar.sc', 'ij.sc', 'lslash.sc', 'ldot.sc', 'lcaron.sc', 'eng.sc', 'oslash.sc', 'tbar.sc', 'thorn.sc', 'fi.sc', 'fl.sc'}</string>
 		<key>smartSetName</key>
-		<string>UC SC Extra</string>
-		<key>uniqueKey</key>
-		<string>275019921748710</string>
+		<string>UCSC_Extra</string>
 	</dict>
 	<dict>
 		<key>glyphNames</key>
@@ -684,22 +506,11 @@
 			<string>f_f_h</string>
 			<string>f_f_k</string>
 			<string>f_f_t</string>
-			<string>f</string>
-			<string>b</string>
-			<string>j</string>
-			<string>h</string>
-			<string>k</string>
-			<string>t</string>
-			<string>i</string>
-			<string>l</string>
-			<string>n</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {"f_j", "f_b", "f_h", "f_k", "f_t", "t_t", "t_f", "uniFB03", "f_f_j", "uniFB04", "f_f_b", "f_f_h", "f_f_k", "f_f_t", "f", "b", "j", "h", "k", "t", "i", "l", "n"}</string>
+		<string>Name IN {'f_j', 'f_b', 'f_h', 'f_k', 'f_t', 't_t', 't_f', 'uniFB03', 'f_f_j', 'uniFB04', 'f_f_b', 'f_f_h', 'f_f_k', 'f_f_t'}</string>
 		<key>smartSetName</key>
-		<string>LC Ligatures</string>
-		<key>uniqueKey</key>
-		<string>901239409522729</string>
+		<string>LC_Ligatures</string>
 	</dict>
 	<dict>
 		<key>glyphNames</key>
@@ -756,8 +567,6 @@
 		<string>Name IN {'a.dnom', 'b.dnom', 'c.dnom', 'd.dnom', 'e.dnom', 'f.dnom', 'g.dnom', 'h.dnom', 'i.dnom', 'j.dnom', 'k.dnom', 'l.dnom', 'm.dnom', 'n.dnom', 'o.dnom', 'p.dnom', 'q.dnom', 'r.dnom', 's.dnom', 't.dnom', 'u.dnom', 'v.dnom', 'w.dnom', 'x.dnom', 'y.dnom', 'z.dnom', 'zero.dnom', 'one.dnom', 'two.dnom', 'three.dnom', 'four.dnom', 'five.dnom', 'six.dnom', 'seven.dnom', 'eight.dnom', 'nine.dnom', 'dollar.dnom', 'cent.dnom', 'Euro.dnom', 'plus.dnom', 'minus.dnom', 'equal.dnom', 'period.dnom', 'comma.dnom', 'hyphen.dnom', 'parenleft.dnom', 'parenright.dnom'}</string>
 		<key>smartSetName</key>
 		<string>DNOM</string>
-		<key>uniqueKey</key>
-		<string>378423162209990</string>
 	</dict>
 	<dict>
 		<key>glyphNames</key>
@@ -781,6 +590,8 @@
 			<string>uni25C0</string>
 			<string>circle</string>
 			<string>H18533</string>
+			<string>H18543</string>
+			<string>H18551</string>
 			<string>arrowleft</string>
 			<string>arrowright</string>
 			<string>arrowdown</string>
@@ -793,22 +604,11 @@
 			<string>uni2113</string>
 			<string>uni2116</string>
 			<string>estimated</string>
-			<string>a.dnom</string>
-			<string>o.dnom</string>
-			<string>a</string>
-			<string>o</string>
-			<string>T</string>
-			<string>M</string>
-			<string>R</string>
-			<string>C</string>
-			<string>N</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {".notdef", "copyright", "registered", "trademark", "ordfeminine", "ordmasculine", "copyright.sc", "registered.sc", "trademark.sc", "ordfeminine.sc", "ordmasculine.sc", "filledbox", "H22073", "uni25B6", "uni25B7", "uni25C1", "uni25C0", "circle", "H18533", "arrowleft", "arrowright", "arrowdown", "arrowup", "uni2196", "uni2197", "uni2198", "uni2199", "uni2605", "uni2113", "uni2116", "estimated", "a.dnom", "o.dnom", "a", "o", "T", "M", "R", "C", "N"}</string>
+		<string>Name IN {'.notdef', 'copyright', 'registered', 'trademark', 'ordfeminine', 'ordmasculine', 'copyright.sc', 'registered.sc', 'trademark.sc', 'ordfeminine.sc', 'ordmasculine.sc', 'filledbox', 'H22073', 'uni25B6', 'uni25B7', 'uni25C1', 'uni25C0', 'circle', 'H18533', 'H18543', 'H18551', 'arrowleft', 'arrowright', 'arrowdown', 'arrowup', 'uni2196', 'uni2197', 'uni2198', 'uni2199', 'uni2605', 'uni2113', 'uni2116', 'estimated'}</string>
 		<key>smartSetName</key>
 		<string>SYMBOLS</string>
-		<key>uniqueKey</key>
-		<string>6788799296</string>
 	</dict>
 	<dict>
 		<key>glyphNames</key>
@@ -887,9 +687,9 @@
 			<string>y.sups</string>
 			<string>z.sups</string>
 			<string>uni2070</string>
-			<string>onesuperior</string>
-			<string>twosuperior</string>
-			<string>threesuperior</string>
+			<string>uni00B9</string>
+			<string>uni00B2</string>
+			<string>uni00B3</string>
 			<string>uni2074</string>
 			<string>uni2075</string>
 			<string>uni2076</string>
@@ -956,11 +756,9 @@
 			<string>uni208E</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {"a.numr", "b.numr", "c.numr", "d.numr", "e.numr", "f.numr", "g.numr", "h.numr", "i.numr", "j.numr", "k.numr", "l.numr", "m.numr", "n.numr", "o.numr", "p.numr", "q.numr", "r.numr", "s.numr", "t.numr", "u.numr", "v.numr", "w.numr", "x.numr", "y.numr", "z.numr", "zero.numr", "one.numr", "two.numr", "three.numr", "four.numr", "five.numr", "six.numr", "seven.numr", "eight.numr", "nine.numr", "dollar.numr", "cent.numr", "Euro.numr", "plus.numr", "minus.numr", "equal.numr", "period.numr", "comma.numr", "hyphen.numr", "parenleft.numr", "parenright.numr", "a.sups", "b.sups", "c.sups", "d.sups", "e.sups", "f.sups", "g.sups", "h.sups", "uni2071", "j.sups", "k.sups", "l.sups", "m.sups", "uni207F", "o.sups", "p.sups", "q.sups", "r.sups", "s.sups", "t.sups", "u.sups", "v.sups", "w.sups", "x.sups", "y.sups", "z.sups", "uni2070", "onesuperior", "twosuperior", "threesuperior", "uni2074", "uni2075", "uni2076", "uni2077", "uni2078", "uni2079", "dollar.sups", "cent.sups", "Euro.sups", "uni207A", "uni207B", "uni207C", "period.sups", "comma.sups", "hyphen.sups", "uni207D", "uni207E", "uni2090", "b.subs", "c.subs", "d.subs", "uni2091", "f.subs", "g.subs", "uni2095", "i.subs", "j.subs", "uni2096", "uni2097", "uni2098", "uni2099", "uni2092", "uni209A", "q.subs", "r.subs", "uni209B", "uni209C", "u.subs", "v.subs", "w.subs", "uni2093", "y.subs", "z.subs", "uni2080", "uni2081", "uni2082", "uni2083", "uni2084", "uni2085", "uni2086", "uni2087", "uni2088", "uni2089", "dollar.subs", "cent.subs", "Euro.subs", "uni208A", "uni208B", "uni208C", "period.subs", "comma.subs", "hyphen.subs", "uni208D", "uni208E"}</string>
+		<string>Name IN {'a.numr', 'b.numr', 'c.numr', 'd.numr', 'e.numr', 'f.numr', 'g.numr', 'h.numr', 'i.numr', 'j.numr', 'k.numr', 'l.numr', 'm.numr', 'n.numr', 'o.numr', 'p.numr', 'q.numr', 'r.numr', 's.numr', 't.numr', 'u.numr', 'v.numr', 'w.numr', 'x.numr', 'y.numr', 'z.numr', 'zero.numr', 'one.numr', 'two.numr', 'three.numr', 'four.numr', 'five.numr', 'six.numr', 'seven.numr', 'eight.numr', 'nine.numr', 'dollar.numr', 'cent.numr', 'Euro.numr', 'plus.numr', 'minus.numr', 'equal.numr', 'period.numr', 'comma.numr', 'hyphen.numr', 'parenleft.numr', 'parenright.numr', 'a.sups', 'b.sups', 'c.sups', 'd.sups', 'e.sups', 'f.sups', 'g.sups', 'h.sups', 'uni2071', 'j.sups', 'k.sups', 'l.sups', 'm.sups', 'uni207F', 'o.sups', 'p.sups', 'q.sups', 'r.sups', 's.sups', 't.sups', 'u.sups', 'v.sups', 'w.sups', 'x.sups', 'y.sups', 'z.sups', 'uni2070', 'uni00B9', 'uni00B2', 'uni00B3', 'uni2074', 'uni2075', 'uni2076', 'uni2077', 'uni2078', 'uni2079', 'dollar.sups', 'cent.sups', 'Euro.sups', 'uni207A', 'uni207B', 'uni207C', 'period.sups', 'comma.sups', 'hyphen.sups', 'uni207D', 'uni207E', 'uni2090', 'b.subs', 'c.subs', 'd.subs', 'uni2091', 'f.subs', 'g.subs', 'uni2095', 'i.subs', 'j.subs', 'uni2096', 'uni2097', 'uni2098', 'uni2099', 'uni2092', 'uni209A', 'q.subs', 'r.subs', 'uni209B', 'uni209C', 'u.subs', 'v.subs', 'w.subs', 'uni2093', 'y.subs', 'z.subs', 'uni2080', 'uni2081', 'uni2082', 'uni2083', 'uni2084', 'uni2085', 'uni2086', 'uni2087', 'uni2088', 'uni2089', 'dollar.subs', 'cent.subs', 'Euro.subs', 'uni208A', 'uni208B', 'uni208C', 'period.subs', 'comma.subs', 'hyphen.subs', 'uni208D', 'uni208E'}</string>
 		<key>smartSetName</key>
-		<string>NUM INF SUP</string>
-		<key>uniqueKey</key>
-		<string>833786483930325</string>
+		<string>NUMR_SUBS_SUPS</string>
 	</dict>
 	<dict>
 		<key>glyphNames</key>
@@ -998,11 +796,9 @@
 			<string>infinity.sc</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {"plus.case", "minus.case", "multiply.case", "divide.case", "equal.case", "less.case", "greater.case", "plusminus.case", "lessequal.case", "greaterequal.case", "notequal.case", "logicalnot.case", "asciitilde.case", "approxequal.case", "infinity.case", "plus.sc", "minus.sc", "multiply.sc", "divide.sc", "equal.sc", "less.sc", "greater.sc", "plusminus.sc", "lessequal.sc", "greaterequal.sc", "notequal.sc", "logicalnot.sc", "asciitilde.sc", "approxequal.sc", "numbersign.sc", "infinity.sc"}</string>
+		<string>Name IN {'plus.case', 'minus.case', 'multiply.case', 'divide.case', 'equal.case', 'less.case', 'greater.case', 'plusminus.case', 'lessequal.case', 'greaterequal.case', 'notequal.case', 'logicalnot.case', 'asciitilde.case', 'approxequal.case', 'infinity.case', 'plus.sc', 'minus.sc', 'multiply.sc', 'divide.sc', 'equal.sc', 'less.sc', 'greater.sc', 'plusminus.sc', 'lessequal.sc', 'greaterequal.sc', 'notequal.sc', 'logicalnot.sc', 'asciitilde.sc', 'approxequal.sc', 'numbersign.sc', 'infinity.sc'}</string>
 		<key>smartSetName</key>
-		<string>MATH Extra</string>
-		<key>uniqueKey</key>
-		<string>184822302895340</string>
+		<string>MATH_CASE</string>
 	</dict>
 	<dict>
 		<key>glyphNames</key>
@@ -1029,11 +825,9 @@
 			<string>perthousand.sc</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {"percent", "perthousand", "onehalf", "onethird", "twothirds", "onequarter", "threequarters", "uni2155", "uni2156", "uni2157", "uni2158", "uni2159", "uni215A", "oneeighth", "threeeighths", "fiveeighths", "seveneighths", "fraction", "percent.sc", "perthousand.sc"}</string>
+		<string>Name IN {'percent', 'perthousand', 'onehalf', 'onethird', 'twothirds', 'onequarter', 'threequarters', 'uni2155', 'uni2156', 'uni2157', 'uni2158', 'uni2159', 'uni215A', 'oneeighth', 'threeeighths', 'fiveeighths', 'seveneighths', 'fraction', 'percent.sc', 'perthousand.sc'}</string>
 		<key>smartSetName</key>
 		<string>FRACTIONS</string>
-		<key>uniqueKey</key>
-		<string>844853850114075</string>
 	</dict>
 	<dict>
 		<key>glyphNames</key>
@@ -1064,9 +858,8 @@
 			<string>Emacron</string>
 			<string>Eogonek</string>
 			<string>Gbreve</string>
-			<string>Gcedilla</string>
-			<string>Gcircumflex</string>
 			<string>uni0122</string>
+			<string>Gcircumflex</string>
 			<string>Gdotaccent</string>
 			<string>Hcircumflex</string>
 			<string>Iacute</string>
@@ -1079,14 +872,11 @@
 			<string>Iogonek</string>
 			<string>Itilde</string>
 			<string>Jcircumflex</string>
-			<string>Kcedilla</string>
 			<string>uni0136</string>
 			<string>Lacute</string>
-			<string>Lcedilla</string>
 			<string>uni013B</string>
 			<string>Nacute</string>
 			<string>Ncaron</string>
-			<string>Ncedilla</string>
 			<string>uni0145</string>
 			<string>Ntilde</string>
 			<string>Oacute</string>
@@ -1100,7 +890,6 @@
 			<string>Otilde</string>
 			<string>Racute</string>
 			<string>Rcaron</string>
-			<string>Rcedilla</string>
 			<string>uni0156</string>
 			<string>Sacute</string>
 			<string>Scaron</string>
@@ -1133,11 +922,9 @@
 			<string>Zdotaccent</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {"Aacute", "Abreve", "Acircumflex", "Adieresis", "AEacute", "Agrave", "Amacron", "Aogonek", "Aring", "Atilde", "Cacute", "Ccaron", "Ccedilla", "Ccircumflex", "Cdotaccent", "Dcaron", "Eacute", "Ebreve", "Ecaron", "Ecircumflex", "Edieresis", "Edotaccent", "Egrave", "Emacron", "Eogonek", "Gbreve", "Gcedilla", "Gcircumflex", "uni0122", "Gdotaccent", "Hcircumflex", "Iacute", "Ibreve", "Icircumflex", "Idieresis", "Idotaccent", "Igrave", "Imacron", "Iogonek", "Itilde", "Jcircumflex", "Kcedilla", "uni0136", "Lacute", "Lcedilla", "uni013B", "Nacute", "Ncaron", "Ncedilla", "uni0145", "Ntilde", "Oacute", "Obreve", "Ocircumflex", "Odieresis", "Ograve", "Ohungarumlaut", "Omacron", "Oslashacute", "Otilde", "Racute", "Rcaron", "Rcedilla", "uni0156", "Sacute", "Scaron", "Scedilla", "Scircumflex", "uni0218", "Tcaron", "uni0162", "uni021A", "Uacute", "Ubreve", "Ucircumflex", "Udieresis", "Ugrave", "Uhungarumlaut", "Umacron", "Uogonek", "Uring", "Utilde", "Wacute", "Wcircumflex", "Wdieresis", "Wgrave", "Yacute", "Ycircumflex", "Ydieresis", "Ygrave", "Zacute", "Zcaron", "Zdotaccent"}</string>
+		<string>Name IN {'Aacute', 'Abreve', 'Acircumflex', 'Adieresis', 'AEacute', 'Agrave', 'Amacron', 'Aogonek', 'Aring', 'Atilde', 'Cacute', 'Ccaron', 'Ccedilla', 'Ccircumflex', 'Cdotaccent', 'Dcaron', 'Eacute', 'Ebreve', 'Ecaron', 'Ecircumflex', 'Edieresis', 'Edotaccent', 'Egrave', 'Emacron', 'Eogonek', 'Gbreve', 'uni0122', 'Gcircumflex', 'Gdotaccent', 'Hcircumflex', 'Iacute', 'Ibreve', 'Icircumflex', 'Idieresis', 'Idotaccent', 'Igrave', 'Imacron', 'Iogonek', 'Itilde', 'Jcircumflex', 'uni0136', 'Lacute', 'uni013B', 'Nacute', 'Ncaron', 'uni0145', 'Ntilde', 'Oacute', 'Obreve', 'Ocircumflex', 'Odieresis', 'Ograve', 'Ohungarumlaut', 'Omacron', 'Oslashacute', 'Otilde', 'Racute', 'Rcaron', 'uni0156', 'Sacute', 'Scaron', 'Scedilla', 'Scircumflex', 'uni0218', 'Tcaron', 'uni0162', 'uni021A', 'Uacute', 'Ubreve', 'Ucircumflex', 'Udieresis', 'Ugrave', 'Uhungarumlaut', 'Umacron', 'Uogonek', 'Uring', 'Utilde', 'Wacute', 'Wcircumflex', 'Wdieresis', 'Wgrave', 'Yacute', 'Ycircumflex', 'Ydieresis', 'Ygrave', 'Zacute', 'Zcaron', 'Zdotaccent'}</string>
 		<key>smartSetName</key>
-		<string>UC ACC</string>
-		<key>uniqueKey</key>
-		<string>367221629813177</string>
+		<string>UC_ACC</string>
 	</dict>
 	<dict>
 		<key>glyphNames</key>
@@ -1167,9 +954,8 @@
 			<string>emacron</string>
 			<string>eogonek</string>
 			<string>gbreve</string>
-			<string>gcedilla</string>
-			<string>gcircumflex</string>
 			<string>uni0123</string>
+			<string>gcircumflex</string>
 			<string>gdotaccent</string>
 			<string>hcircumflex</string>
 			<string>iacute</string>
@@ -1181,14 +967,12 @@
 			<string>iogonek</string>
 			<string>itilde</string>
 			<string>jcircumflex</string>
-			<string>kcedilla</string>
 			<string>uni0137</string>
 			<string>lacute</string>
-			<string>lcedilla</string>
 			<string>uni013C</string>
 			<string>nacute</string>
+			<string>napostrophe</string>
 			<string>ncaron</string>
-			<string>ncedilla</string>
 			<string>uni0146</string>
 			<string>ntilde</string>
 			<string>oacute</string>
@@ -1202,14 +986,12 @@
 			<string>otilde</string>
 			<string>racute</string>
 			<string>rcaron</string>
-			<string>rcedilla</string>
 			<string>uni0157</string>
 			<string>sacute</string>
 			<string>scaron</string>
 			<string>scedilla</string>
 			<string>scircumflex</string>
 			<string>uni0219</string>
-			<string>tcaron</string>
 			<string>uni0163</string>
 			<string>uni021B</string>
 			<string>uacute</string>
@@ -1235,11 +1017,9 @@
 			<string>zdotaccent</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {"aacute", "abreve", "acircumflex", "adieresis", "aeacute", "agrave", "amacron", "aogonek", "aring", "atilde", "cacute", "ccaron", "ccedilla", "ccircumflex", "cdotaccent", "eacute", "ebreve", "ecaron", "ecircumflex", "edieresis", "edotaccent", "egrave", "emacron", "eogonek", "gbreve", "gcedilla", "gcircumflex", "uni0123", "gdotaccent", "hcircumflex", "iacute", "ibreve", "icircumflex", "idieresis", "igrave", "imacron", "iogonek", "itilde", "jcircumflex", "kcedilla", "uni0137", "lacute", "lcedilla", "uni013C", "nacute", "ncaron", "ncedilla", "uni0146", "ntilde", "oacute", "obreve", "ocircumflex", "odieresis", "ograve", "ohungarumlaut", "omacron", "oslashacute", "otilde", "racute", "rcaron", "rcedilla", "uni0157", "sacute", "scaron", "scedilla", "scircumflex", "uni0219", "tcaron", "uni0163", "uni021B", "uacute", "ubreve", "ucircumflex", "udieresis", "ugrave", "uhungarumlaut", "umacron", "uogonek", "uring", "utilde", "wacute", "wcircumflex", "wdieresis", "wgrave", "yacute", "ycircumflex", "ydieresis", "ygrave", "zacute", "zcaron", "zdotaccent"}</string>
+		<string>Name IN {'aacute', 'abreve', 'acircumflex', 'adieresis', 'aeacute', 'agrave', 'amacron', 'aogonek', 'aring', 'atilde', 'cacute', 'ccaron', 'ccedilla', 'ccircumflex', 'cdotaccent', 'eacute', 'ebreve', 'ecaron', 'ecircumflex', 'edieresis', 'edotaccent', 'egrave', 'emacron', 'eogonek', 'gbreve', 'uni0123', 'gcircumflex', 'gdotaccent', 'hcircumflex', 'iacute', 'ibreve', 'icircumflex', 'idieresis', 'igrave', 'imacron', 'iogonek', 'itilde', 'jcircumflex', 'uni0137', 'lacute', 'uni013C', 'nacute', 'napostrophe', 'ncaron', 'uni0146', 'ntilde', 'oacute', 'obreve', 'ocircumflex', 'odieresis', 'ograve', 'ohungarumlaut', 'omacron', 'oslashacute', 'otilde', 'racute', 'rcaron', 'uni0157', 'sacute', 'scaron', 'scedilla', 'scircumflex', 'uni0219', 'uni0163', 'uni021B', 'uacute', 'ubreve', 'ucircumflex', 'udieresis', 'ugrave', 'uhungarumlaut', 'umacron', 'uogonek', 'uring', 'utilde', 'wacute', 'wcircumflex', 'wdieresis', 'wgrave', 'yacute', 'ycircumflex', 'ydieresis', 'ygrave', 'zacute', 'zcaron', 'zdotaccent'}</string>
 		<key>smartSetName</key>
-		<string>LC ACC</string>
-		<key>uniqueKey</key>
-		<string>4829809472</string>
+		<string>LC_ACC</string>
 	</dict>
 	<dict>
 		<key>glyphNames</key>
@@ -1259,7 +1039,6 @@
 			<string>ccedilla.sc</string>
 			<string>ccircumflex.sc</string>
 			<string>cdotaccent.sc</string>
-			<string>dcaron.sc</string>
 			<string>eacute.sc</string>
 			<string>ebreve.sc</string>
 			<string>ecaron.sc</string>
@@ -1269,31 +1048,29 @@
 			<string>egrave.sc</string>
 			<string>emacron.sc</string>
 			<string>eogonek.sc</string>
+			<string>dcaron.sc</string>
+			<string>idotaccent.sc</string>
 			<string>gbreve.sc</string>
 			<string>uni0123.sc</string>
 			<string>gcircumflex.sc</string>
-			<string>gcedilla.sc</string>
 			<string>gdotaccent.sc</string>
 			<string>hcircumflex.sc</string>
 			<string>iacute.sc</string>
 			<string>ibreve.sc</string>
 			<string>icircumflex.sc</string>
 			<string>idieresis.sc</string>
-			<string>idotaccent.sc</string>
 			<string>igrave.sc</string>
 			<string>imacron.sc</string>
 			<string>iogonek.sc</string>
 			<string>itilde.sc</string>
 			<string>jcircumflex.sc</string>
-			<string>kcedilla.sc</string>
-			<string>kcommaaccent.sc</string>
+			<string>uni0137.sc</string>
 			<string>lacute.sc</string>
-			<string>lcedilla.sc</string>
+			<string>uni013C.sc</string>
 			<string>lcommaaccent.sc</string>
 			<string>nacute.sc</string>
 			<string>ncaron.sc</string>
-			<string>ncedilla.sc</string>
-			<string>ncommaaccent.sc</string>
+			<string>uni0146.sc</string>
 			<string>ntilde.sc</string>
 			<string>oacute.sc</string>
 			<string>obreve.sc</string>
@@ -1306,15 +1083,14 @@
 			<string>otilde.sc</string>
 			<string>racute.sc</string>
 			<string>rcaron.sc</string>
-			<string>rcedilla.sc</string>
-			<string>rcommaaccent.sc</string>
+			<string>uni0157.sc</string>
 			<string>sacute.sc</string>
 			<string>scaron.sc</string>
 			<string>scedilla.sc</string>
 			<string>scircumflex.sc</string>
-			<string>scommaaccent.sc</string>
 			<string>tcaron.sc</string>
-			<string>tcommaaccent.sc</string>
+			<string>uni0219.sc</string>
+			<string>uni0163.sc</string>
 			<string>uni021B.sc</string>
 			<string>uacute.sc</string>
 			<string>ubreve.sc</string>
@@ -1339,11 +1115,9 @@
 			<string>zdotaccent.sc</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {"aacute.sc", "abreve.sc", "acircumflex.sc", "adieresis.sc", "aeacute.sc", "agrave.sc", "amacron.sc", "aogonek.sc", "aring.sc", "atilde.sc", "cacute.sc", "ccaron.sc", "ccedilla.sc", "ccircumflex.sc", "cdotaccent.sc", "dcaron.sc", "eacute.sc", "ebreve.sc", "ecaron.sc", "ecircumflex.sc", "edieresis.sc", "edotaccent.sc", "egrave.sc", "emacron.sc", "eogonek.sc", "gbreve.sc", "uni0123.sc", "gcircumflex.sc", "gcedilla.sc", "gdotaccent.sc", "hcircumflex.sc", "iacute.sc", "ibreve.sc", "icircumflex.sc", "idieresis.sc", "idotaccent.sc", "igrave.sc", "imacron.sc", "iogonek.sc", "itilde.sc", "jcircumflex.sc", "kcedilla.sc", "kcommaaccent.sc", "lacute.sc", "lcedilla.sc", "lcommaaccent.sc", "nacute.sc", "ncaron.sc", "ncedilla.sc", "ncommaaccent.sc", "ntilde.sc", "oacute.sc", "obreve.sc", "ocircumflex.sc", "odieresis.sc", "ograve.sc", "ohungarumlaut.sc", "omacron.sc", "oslashacute.sc", "otilde.sc", "racute.sc", "rcaron.sc", "rcedilla.sc", "rcommaaccent.sc", "sacute.sc", "scaron.sc", "scedilla.sc", "scircumflex.sc", "scommaaccent.sc", "tcaron.sc", "tcommaaccent.sc", "uni021B.sc", "uacute.sc", "ubreve.sc", "ucircumflex.sc", "udieresis.sc", "ugrave.sc", "uhungarumlaut.sc", "umacron.sc", "uogonek.sc", "uring.sc", "utilde.sc", "wacute.sc", "wcircumflex.sc", "wdieresis.sc", "wgrave.sc", "yacute.sc", "ycircumflex.sc", "ydieresis.sc", "ygrave.sc", "zacute.sc", "zcaron.sc", "zdotaccent.sc"}</string>
+		<string>Name IN {'aacute.sc', 'abreve.sc', 'acircumflex.sc', 'adieresis.sc', 'aeacute.sc', 'agrave.sc', 'amacron.sc', 'aogonek.sc', 'aring.sc', 'atilde.sc', 'cacute.sc', 'ccaron.sc', 'ccedilla.sc', 'ccircumflex.sc', 'cdotaccent.sc', 'eacute.sc', 'ebreve.sc', 'ecaron.sc', 'ecircumflex.sc', 'edieresis.sc', 'edotaccent.sc', 'egrave.sc', 'emacron.sc', 'eogonek.sc', 'dcaron.sc', 'idotaccent.sc', 'gbreve.sc', 'uni0123.sc', 'gcircumflex.sc', 'gdotaccent.sc', 'hcircumflex.sc', 'iacute.sc', 'ibreve.sc', 'icircumflex.sc', 'idieresis.sc', 'igrave.sc', 'imacron.sc', 'iogonek.sc', 'itilde.sc', 'jcircumflex.sc', 'uni0137.sc', 'lacute.sc', 'uni013C.sc', 'lcommaaccent.sc', 'nacute.sc', 'ncaron.sc', 'uni0146.sc', 'ntilde.sc', 'oacute.sc', 'obreve.sc', 'ocircumflex.sc', 'odieresis.sc', 'ograve.sc', 'ohungarumlaut.sc', 'omacron.sc', 'oslashacute.sc', 'otilde.sc', 'racute.sc', 'rcaron.sc', 'uni0157.sc', 'sacute.sc', 'scaron.sc', 'scedilla.sc', 'scircumflex.sc', 'tcaron.sc', 'uni0219.sc', 'uni0163.sc', 'uni021B.sc', 'uacute.sc', 'ubreve.sc', 'ucircumflex.sc', 'udieresis.sc', 'ugrave.sc', 'uhungarumlaut.sc', 'umacron.sc', 'uogonek.sc', 'uring.sc', 'utilde.sc', 'wacute.sc', 'wcircumflex.sc', 'wdieresis.sc', 'wgrave.sc', 'yacute.sc', 'ycircumflex.sc', 'ydieresis.sc', 'ygrave.sc', 'zacute.sc', 'zcaron.sc', 'zdotaccent.sc'}</string>
 		<key>smartSetName</key>
-		<string>SC ACC</string>
-		<key>uniqueKey</key>
-		<string>786802374383913</string>
+		<string>SC_ACC</string>
 	</dict>
 </array>
 </plist>

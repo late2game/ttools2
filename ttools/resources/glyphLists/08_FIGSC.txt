@@ -36,5 +36,5 @@ yen.lf.sc
 sterling.lf.sc
 florin.lf.sc
 cent.lf.sc
-uni20BA.sc.lf
-uni20A9.sc.lf
+uni20BA.lf.sc
+uni20A9.lf.sc

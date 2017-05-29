@@ -177,6 +177,8 @@
 				<string>sterling</string>
 				<string>florin</string>
 				<string>cent</string>
+				<string>uni20BA</string>
+				<string>uni20A9</string>
 				<string>zero.lf</string>
 				<string>one.lf</string>
 				<string>two.lf</string>
@@ -195,6 +197,8 @@
 				<string>sterling.lf</string>
 				<string>florin.lf</string>
 				<string>cent.lf</string>
+				<string>uni20BA.lf</string>
+				<string>uni20A9.lf</string>
 				<string>plus</string>
 				<string>minus</string>
 				<string>multiply</string>
@@ -324,6 +328,8 @@
 				<string>sterling.sc</string>
 				<string>florin.sc</string>
 				<string>cent.sc</string>
+				<string>uni20BA.sc</string>
+				<string>uni20A9.sc</string>
 				<string>zero.lf.sc</string>
 				<string>one.lf.sc</string>
 				<string>two.lf.sc</string>
@@ -342,6 +348,8 @@
 				<string>sterling.lf.sc</string>
 				<string>florin.lf.sc</string>
 				<string>cent.lf.sc</string>
+				<string>uni20BA.sc.lf</string>
+				<string>uni20A9.sc.lf</string>
 				<string>exclam.sc</string>
 				<string>question.sc</string>
 				<string>exclamdown.sc</string>
@@ -495,6 +503,8 @@
 				<string>uni25C0</string>
 				<string>circle</string>
 				<string>H18533</string>
+				<string>H18543</string>
+				<string>H18551</string>
 				<string>arrowleft</string>
 				<string>arrowright</string>
 				<string>arrowdown</string>
@@ -507,8 +517,6 @@
 				<string>uni2113</string>
 				<string>uni2116</string>
 				<string>estimated</string>
-				<string>H18551</string>
-				<string>H18543</string>
 				<string>a.numr</string>
 				<string>b.numr</string>
 				<string>c.numr</string>
@@ -816,7 +824,6 @@
 				<string>gbreve</string>
 				<string>uni0123</string>
 				<string>gcircumflex</string>
-				<string>gcommaaccent</string>
 				<string>gdotaccent</string>
 				<string>hcircumflex</string>
 				<string>iacute</string>
@@ -831,7 +838,6 @@
 				<string>uni0137</string>
 				<string>lacute</string>
 				<string>uni013C</string>
-				<string>lcommaaccent</string>
 				<string>nacute</string>
 				<string>napostrophe</string>
 				<string>ncaron</string>
@@ -892,7 +898,6 @@
 				<string>ccedilla.sc</string>
 				<string>ccircumflex.sc</string>
 				<string>cdotaccent.sc</string>
-				<string>dcaron.sc</string>
 				<string>eacute.sc</string>
 				<string>ebreve.sc</string>
 				<string>ecaron.sc</string>
@@ -902,31 +907,29 @@
 				<string>egrave.sc</string>
 				<string>emacron.sc</string>
 				<string>eogonek.sc</string>
+				<string>dcaron.sc</string>
+				<string>idotaccent.sc</string>
 				<string>gbreve.sc</string>
-				<string>gcommaaccent.sc</string>
+				<string>uni0123.sc</string>
 				<string>gcircumflex.sc</string>
-				<string>gcedilla.sc</string>
 				<string>gdotaccent.sc</string>
 				<string>hcircumflex.sc</string>
 				<string>iacute.sc</string>
 				<string>ibreve.sc</string>
 				<string>icircumflex.sc</string>
 				<string>idieresis.sc</string>
-				<string>idotaccent.sc</string>
 				<string>igrave.sc</string>
 				<string>imacron.sc</string>
 				<string>iogonek.sc</string>
 				<string>itilde.sc</string>
 				<string>jcircumflex.sc</string>
-				<string>kcedilla.sc</string>
-				<string>kcommaaccent.sc</string>
+				<string>uni0137.sc</string>
 				<string>lacute.sc</string>
-				<string>lcedilla.sc</string>
+				<string>uni013C.sc</string>
 				<string>lcommaaccent.sc</string>
 				<string>nacute.sc</string>
 				<string>ncaron.sc</string>
-				<string>ncedilla.sc</string>
-				<string>ncommaaccent.sc</string>
+				<string>uni0146.sc</string>
 				<string>ntilde.sc</string>
 				<string>oacute.sc</string>
 				<string>obreve.sc</string>
@@ -939,15 +942,14 @@
 				<string>otilde.sc</string>
 				<string>racute.sc</string>
 				<string>rcaron.sc</string>
-				<string>rcedilla.sc</string>
-				<string>rcommaaccent.sc</string>
+				<string>uni0157.sc</string>
 				<string>sacute.sc</string>
 				<string>scaron.sc</string>
 				<string>scedilla.sc</string>
 				<string>scircumflex.sc</string>
-				<string>scommaaccent.sc</string>
 				<string>tcaron.sc</string>
-				<string>tcommaaccent.sc</string>
+				<string>uni0219.sc</string>
+				<string>uni0163.sc</string>
 				<string>uni021B.sc</string>
 				<string>uacute.sc</string>
 				<string>ubreve.sc</string>
@@ -970,7 +972,10 @@
 				<string>zacute.sc</string>
 				<string>zcaron.sc</string>
 				<string>zdotaccent.sc</string>
-				<string>Gcedilla</string>
+				<string>lcommaaccent</string>
+				<string>tcommaaccent.sc</string>
+				<string>uni0122.sc</string>
+				<string>uni0145.sc</string>
 			</array>
 			<key>type</key>
 			<string>glyphList</string>
@@ -1120,6 +1125,8 @@
 		<string>sterling</string>
 		<string>florin</string>
 		<string>cent</string>
+		<string>uni20BA</string>
+		<string>uni20A9</string>
 		<string>zero.lf</string>
 		<string>one.lf</string>
 		<string>two.lf</string>
@@ -1138,6 +1145,8 @@
 		<string>sterling.lf</string>
 		<string>florin.lf</string>
 		<string>cent.lf</string>
+		<string>uni20BA.lf</string>
+		<string>uni20A9.lf</string>
 		<string>plus</string>
 		<string>minus</string>
 		<string>multiply</string>
@@ -1267,6 +1276,8 @@
 		<string>sterling.sc</string>
 		<string>florin.sc</string>
 		<string>cent.sc</string>
+		<string>uni20BA.sc</string>
+		<string>uni20A9.sc</string>
 		<string>zero.lf.sc</string>
 		<string>one.lf.sc</string>
 		<string>two.lf.sc</string>
@@ -1285,6 +1296,8 @@
 		<string>sterling.lf.sc</string>
 		<string>florin.lf.sc</string>
 		<string>cent.lf.sc</string>
+		<string>uni20BA.lf.sc</string>
+		<string>uni20A9.lf.sc</string>
 		<string>exclam.sc</string>
 		<string>question.sc</string>
 		<string>exclamdown.sc</string>
@@ -1438,6 +1451,8 @@
 		<string>uni25C0</string>
 		<string>circle</string>
 		<string>H18533</string>
+		<string>H18543</string>
+		<string>H18551</string>
 		<string>arrowleft</string>
 		<string>arrowright</string>
 		<string>arrowdown</string>
@@ -1450,8 +1465,6 @@
 		<string>uni2113</string>
 		<string>uni2116</string>
 		<string>estimated</string>
-		<string>H18551</string>
-		<string>H18543</string>
 		<string>a.numr</string>
 		<string>b.numr</string>
 		<string>c.numr</string>
@@ -1773,7 +1786,6 @@
 		<string>uni0137</string>
 		<string>lacute</string>
 		<string>uni013C</string>
-		<string>lcommaaccent</string>
 		<string>nacute</string>
 		<string>napostrophe</string>
 		<string>ncaron</string>
@@ -1834,7 +1846,6 @@
 		<string>ccedilla.sc</string>
 		<string>ccircumflex.sc</string>
 		<string>cdotaccent.sc</string>
-		<string>dcaron.sc</string>
 		<string>eacute.sc</string>
 		<string>ebreve.sc</string>
 		<string>ecaron.sc</string>
@@ -1844,7 +1855,10 @@
 		<string>egrave.sc</string>
 		<string>emacron.sc</string>
 		<string>eogonek.sc</string>
+		<string>dcaron.sc</string>
+		<string>idotaccent.sc</string>
 		<string>gbreve.sc</string>
+		<string>uni0123.sc</string>
 		<string>gcircumflex.sc</string>
 		<string>gdotaccent.sc</string>
 		<string>hcircumflex.sc</string>
@@ -1852,16 +1866,18 @@
 		<string>ibreve.sc</string>
 		<string>icircumflex.sc</string>
 		<string>idieresis.sc</string>
-		<string>idotaccent.sc</string>
 		<string>igrave.sc</string>
 		<string>imacron.sc</string>
 		<string>iogonek.sc</string>
 		<string>itilde.sc</string>
 		<string>jcircumflex.sc</string>
+		<string>uni0137.sc</string>
 		<string>lacute.sc</string>
+		<string>uni013C.sc</string>
 		<string>lcommaaccent.sc</string>
 		<string>nacute.sc</string>
 		<string>ncaron.sc</string>
+		<string>uni0146.sc</string>
 		<string>ntilde.sc</string>
 		<string>oacute.sc</string>
 		<string>obreve.sc</string>
@@ -1874,12 +1890,14 @@
 		<string>otilde.sc</string>
 		<string>racute.sc</string>
 		<string>rcaron.sc</string>
+		<string>uni0157.sc</string>
 		<string>sacute.sc</string>
 		<string>scaron.sc</string>
 		<string>scedilla.sc</string>
 		<string>scircumflex.sc</string>
 		<string>tcaron.sc</string>
-		<string>tcommaaccent.sc</string>
+		<string>uni0219.sc</string>
+		<string>uni0163.sc</string>
 		<string>uni021B.sc</string>
 		<string>uacute.sc</string>
 		<string>ubreve.sc</string>
@@ -1902,15 +1920,10 @@
 		<string>zacute.sc</string>
 		<string>zcaron.sc</string>
 		<string>zdotaccent.sc</string>
-		<string>uni0219.sc</string>
-		<string>uni0123.sc</string>
-		<string>uni0137.sc</string>
-		<string>uni0157.sc</string>
-		<string>uni0163.sc</string>
+		<string>lcommaaccent</string>
+		<string>tcommaaccent.sc</string>
 		<string>uni0122.sc</string>
-		<string>uni013C.sc</string>
 		<string>uni0145.sc</string>
-		<string>uni0146.sc</string>
 	</array>
 </dict>
 </plist>
