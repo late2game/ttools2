@@ -15,6 +15,10 @@ import userInterfaceValues
 reload(userInterfaceValues)
 from userInterfaceValues import vanillaControlsSize
 
+import uiControllers
+reload(uiControllers)
+from uiControllers import FontsOrderController, FONT_ROW_HEIGHT
+
 # standard
 import os
 import sys
@@ -23,10 +27,12 @@ import types
 from mojo.drawingTools import *
 from mojo.roboFont import AllFonts
 from mojo.canvas import CanvasGroup
+from mojo.events import addObserver, removeObserver
 from defconAppKit.windows.baseWindow import BaseWindowController
 from vanilla import Window, Group, PopUpButton, List, EditText
 from vanilla import CheckBoxListCell, TextBox, SquareButton, HorizontalLine
 from vanilla import VerticalLine, CheckBox, Button
+from vanilla.dialogs import message
 
 
 ### Constants
@@ -99,7 +105,7 @@ class KerningController(BaseWindowController):
     displayedPairs = []
     activePair = None
 
-    openedFonts = None
+    fontsOrder = None
     navCursor_X = 0    # related to pairs
     navCursor_Y = 0    # related to active fonts
 
@@ -113,14 +119,18 @@ class KerningController(BaseWindowController):
     def __init__(self):
         super(KerningController, self).__init__()
 
-        # load opened fonts
-        self.updateOpenedFonts()
+        if AllFonts() == []:
+            message('No fonts, no party!', 'Please, open some fonts before starting the mighty MultiFont Kerning Controller')
+            return None
 
-        # ui
         self.w = Window((0, 0, PLUGIN_WIDTH, PLUGIN_HEIGHT),
                         PLUGIN_TITLE,
                         minSize=(PLUGIN_WIDTH, PLUGIN_HEIGHT))
         self.w.bind('resize', self.mainWindowResize)
+
+
+        # load opened fonts
+        self.initFontsOrder()
 
         self.jumping_Y = MARGIN_VER
         self.jumping_X = MARGIN_HOR
@@ -135,17 +145,16 @@ class KerningController(BaseWindowController):
         self.w.word_font_separationLine = HorizontalLine((self.jumping_X, self.jumping_Y, LEFT_COLUMN, vanillaControlsSize['HorizontalLineThickness']))
 
         self.jumping_Y += MARGIN_VER
-        self.w.fontController = FontsController((self.jumping_X, self.jumping_Y, LEFT_COLUMN, 118),
-                                                self.openedFonts,
-                                                callback=self.fontControllerCallback)
-        self.activeFonts = self.w.fontController.get()
-
-        self.jumping_Y += self.w.fontController.getPosSize()[3]+MARGIN_VER
+        fontsOrderControllerHeight = FONT_ROW_HEIGHT*len(self.fontsOrder)+MARGIN_HOR
+        self.w.fontsOrderController = FontsOrderController((self.jumping_X, self.jumping_Y, LEFT_COLUMN, fontsOrderControllerHeight),
+                                                           self.fontsOrder,
+                                                           callback=self.fontsOrderControllerCallback)
+        self.jumping_Y += fontsOrderControllerHeight
         self.w.fonts_controller_separationLine = HorizontalLine((self.jumping_X, self.jumping_Y, LEFT_COLUMN, vanillaControlsSize['HorizontalLineThickness']))
         
         self.jumping_Y += MARGIN_VER
         self.w.joystick = JoystickGroup((self.jumping_X, self.jumping_Y, LEFT_COLUMN, 240),
-                                        self.activeFonts[self.navCursor_Y],
+                                        self.fontsOrder[self.navCursor_Y],
                                         self.activePair,
                                         self.isSymmetricalEditingOn,
                                         callback=self.joystickCallback)
@@ -166,25 +175,63 @@ class KerningController(BaseWindowController):
         self.jumping_Y += self.w.displayedWordCaption.getPosSize()[3]+MARGIN_COL
         self.initWordDisplays()
 
+        # observers!
+        addObserver(self, 'openCloseFontCallback', "fontDidOpen")
+        addObserver(self, 'openCloseFontCallback', "fontDidClose")
+        self.w.bind("close", self.closingPlugin)
         self.w.open()
 
-    def updateOpenedFonts(self):
-        openedFonts = [f for f in AllFonts() if f.path is not None]
-        self.openedFonts = sorted(openedFonts, key=lambda f:os.path.basename(f.path))
+    def closingPlugin(self, sender):
+        removeObserver(self, "fontDidOpen")
+        removeObserver(self, "fontWillClose")
+
+    def openCloseFontCallback(self, sender):
+        if AllFonts() == []:
+            message('No fonts, no party!', 'Please, open some fonts before starting the mighty MultiFont Kerning Controller')
+            self.w.close()
+
+        self.deleteWordDisplays()
+        self.initFontsOrder()
+        self.w.fontsOrderController.setFontsOrder(self.fontsOrder)
+        self.initWordDisplays()
+
+        prevFontsOrderPos = self.w.fontsOrderController.getPosSize()
+        fontsOrderControllerHeight = FONT_ROW_HEIGHT*len(self.fontsOrder)+MARGIN_HOR
+        self.w.fontsOrderController.setPosSize((prevFontsOrderPos[0], prevFontsOrderPos[1], prevFontsOrderPos[2], fontsOrderControllerHeight))
+
+        prevSepLinePos = self.w.fonts_controller_separationLine.getPosSize()
+        self.w.fonts_controller_separationLine.setPosSize((prevSepLinePos[0], prevFontsOrderPos[1] + fontsOrderControllerHeight, prevSepLinePos[2], prevSepLinePos[3]))
+
+        prevJoystickPos = self.w.joystick.getPosSize()
+        self.w.joystick.setPosSize((prevJoystickPos[0], prevFontsOrderPos[1] + fontsOrderControllerHeight + MARGIN_VER, prevJoystickPos[2], prevJoystickPos[3]))
+
+    def initFontsOrder(self):
+        if self.fontsOrder is None:
+            fontsOrder = [f for f in AllFonts() if f.path is not None]
+            self.fontsOrder = sorted(fontsOrder, key=lambda f:os.path.basename(f.path))
+        else:
+            newFontsOrder = [f for f in AllFonts() if f in self.fontsOrder] + [f for f in AllFonts() if f not in self.fontsOrder]
+            self.fontsOrder = newFontsOrder
 
     def deleteWordDisplays(self):
-        for eachI in range(len(self.activeFonts)):
-            delattr(self.w, 'wordCtrl_%#02d' % (eachI+1))
+        for eachI in range(len(self.fontsOrder)):
+            print eachI
+
+            if hasattr(self.w, 'wordCtrl_%#02d' % (eachI+1)) is True:
+                delattr(self.w, 'wordCtrl_%#02d' % (eachI+1))
+            else:
+                print 'wordCtrl_%#02d' % (eachI+1)
+
         self.jumping_Y = MARGIN_VER+vanillaControlsSize['TextBoxRegularHeight']
 
     def initWordDisplays(self):
         windowWidth, windowHeight = self.w.getPosSize()[2], self.w.getPosSize()[3]
-        netTotalWindowHeight = windowHeight-MARGIN_COL-MARGIN_VER*2-vanillaControlsSize['TextBoxRegularHeight']-MARGIN_HOR*(len(self.activeFonts)-1)
-        singleWindowHeight = netTotalWindowHeight/len(self.activeFonts)
+        netTotalWindowHeight = windowHeight-MARGIN_COL-MARGIN_VER*2-vanillaControlsSize['TextBoxRegularHeight']-MARGIN_HOR*(len(self.fontsOrder)-1)
+        singleWindowHeight = netTotalWindowHeight/len(self.fontsOrder)
         rightColumnWidth = windowWidth-LEFT_COLUMN-MARGIN_COL
 
         self.jumping_Y = MARGIN_VER+vanillaControlsSize['TextBoxRegularHeight']+MARGIN_COL
-        for eachI in range(len(self.activeFonts)):
+        for eachI in range(len(self.fontsOrder)):
 
             if eachI == self.navCursor_Y:
                 initActivePair = self.displayedPairs[self.navCursor_X]
@@ -196,7 +243,7 @@ class KerningController(BaseWindowController):
             wordCtrl = WordDisplay((self.jumping_X, self.jumping_Y, rightColumnWidth, singleWindowHeight),
                                     self.displayedWord,
                                     self.displayedPairs,
-                                    self.activeFonts[eachI],
+                                    self.fontsOrder[eachI],
                                     self.isKerningDisplayActive,
                                     self.isSidebearingsActive,
                                     self.isMetricsActive,
@@ -210,7 +257,7 @@ class KerningController(BaseWindowController):
             setattr(self.w, 'wordCtrl_%#02d' % (eachI+1), wordCtrl)
 
     def updateWordDisplays(self):
-        for eachI in range(len(self.activeFonts)):
+        for eachI in range(len(self.fontsOrder)):
             eachDisplay = getattr(self.w, 'wordCtrl_%#02d' % (eachI+1))
             eachDisplay.setDisplayedWord(self.displayedWord)
             eachDisplay.setDisplayedPairs(self.displayedPairs)
@@ -250,7 +297,7 @@ class KerningController(BaseWindowController):
 
     # manipulate data
     def setPairCorrection(self, amount):
-        selectedFont = self.activeFonts[self.navCursor_Y]
+        selectedFont = self.fontsOrder[self.navCursor_Y]
         selectedPair = tuple(self.displayedPairs[self.navCursor_X])
         selectedFont.naked().flatKerning[selectedPair] = amount
 
@@ -260,7 +307,7 @@ class KerningController(BaseWindowController):
         self.updateWordDisplays()
 
     def modifyPairCorrection(self, amount):
-        selectedFont = self.activeFonts[self.navCursor_Y]
+        selectedFont = self.fontsOrder[self.navCursor_Y]
         selectedPair = tuple(self.displayedPairs[self.navCursor_X])
 
         if selectedPair in selectedFont.naked().flatKerning:
@@ -292,16 +339,16 @@ class KerningController(BaseWindowController):
 
     def cursorUp(self):
         getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(None)   # old
-        self.navCursor_Y = (self.navCursor_Y-1)%len(self.activeFonts)
+        self.navCursor_Y = (self.navCursor_Y-1)%len(self.fontsOrder)
         getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(self.navCursor_X)   # new
-        self.w.joystick.setFontObj(self.activeFonts[self.navCursor_Y])
+        self.w.joystick.setFontObj(self.fontsOrder[self.navCursor_Y])
         self.updateWordDisplays()
 
     def cursorDown(self):
         getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(None)   # old
-        self.navCursor_Y = (self.navCursor_Y+1)%len(self.activeFonts)
+        self.navCursor_Y = (self.navCursor_Y+1)%len(self.fontsOrder)
         getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(self.navCursor_X)   # new
-        self.w.joystick.setFontObj(self.activeFonts[self.navCursor_Y])
+        self.w.joystick.setFontObj(self.fontsOrder[self.navCursor_Y])
         self.updateWordDisplays()
 
     ### callbacks
@@ -315,11 +362,11 @@ class KerningController(BaseWindowController):
 
         # displayers
         initY = MARGIN_VER+vanillaControlsSize['TextBoxRegularHeight']+MARGIN_COL
-        netTotalWindowHeight = windowHeight-initY-MARGIN_VER-MARGIN_HOR*(len(self.activeFonts)-1)
-        singleWordDisplayHeight = netTotalWindowHeight/len(self.activeFonts)
+        netTotalWindowHeight = windowHeight-initY-MARGIN_VER-MARGIN_HOR*(len(self.fontsOrder)-1)
+        singleWordDisplayHeight = netTotalWindowHeight/len(self.fontsOrder)
 
         y = initY
-        for eachI in range(len(self.activeFonts)):
+        for eachI in range(len(self.fontsOrder)):
             getattr(self.w, 'wordCtrl_%#02d' % (eachI+1)).adjustSize((self.jumping_X, y, rightColumnWidth, singleWordDisplayHeight))
             y += singleWordDisplayHeight+MARGIN_HOR
 
@@ -327,9 +374,9 @@ class KerningController(BaseWindowController):
         self.displayedWord = sender.get()
         self.updateEditorAccordingToDiplayedWord()
 
-    def fontControllerCallback(self, sender):
+    def fontsOrderControllerCallback(self, sender):
         self.deleteWordDisplays()
-        self.activeFonts = sender.get()
+        self.fontsOrder = sender.getFontsOrder()
         self.initWordDisplays()
 
     def graphicsManagerCallback(self, sender):
@@ -783,7 +830,7 @@ class WordDisplay(Group):
         font(SYSTEM_FONT_NAME)
         fontSize(BODY_SIZE)
         textWidth, textHeight = textSize('%s' % correction)
-        textBox('%s' % correction, (-textWidth/2., -textHeight, textWidth, textHeight), align='center')
+        textBox('%s' % correction, (-textWidth/2., -textHeight/2., textWidth, textHeight), align='center')
 
         restore()
 
@@ -925,84 +972,6 @@ class WordDisplay(Group):
             print traceback.format_exc()
 
 
-class FontsController(Group):
-
-    activeFontsAmount = 1
-    activeFonts = []
-    maxFontsAmount = 4
-
-    def __init__(self, posSize, openedFonts, callback):
-        super(FontsController, self).__init__(posSize)
-        self.callback = callback
-        x, y, self.ctrlWidth, self.ctrlHeight = posSize
-
-        self.openedFonts = openedFonts
-        self.displayedFontNames = [os.path.basename(f.path) for f in self.openedFonts]
-
-        self.jumping_Y = 0
-        self.activeFontsCaption = TextBox((0, self.jumping_Y, 130, vanillaControlsSize['TextBoxRegularHeight']),
-                                          'how many fonts?')
-
-        activeFontsCaptionWidth = self.activeFontsCaption.getPosSize()[2]
-        self.activeFontsAmountPopUp = PopUpButton((-(self.ctrlWidth-activeFontsCaptionWidth), self.jumping_Y, self.ctrlWidth-activeFontsCaptionWidth, vanillaControlsSize['PopUpButtonRegularHeight']),
-                                                  ['%s' % i for i in range(1, self.maxFontsAmount+1)],
-                                                  callback=self.activeFontsAmountPopUpCallback)
-        if len(self.openedFonts) < self.maxFontsAmount:
-            self.activeFontsAmountPopUp.set(len(self.openedFonts)-1)
-        else:
-            self.activeFontsAmountPopUp.set(self.maxFontsAmount-1)
-
-        for eachI in range(self.maxFontsAmount):
-            self.jumping_Y += vanillaControlsSize['PopUpButtonRegularHeight']+MARGIN_HOR/2.
-            singleFontCtrl = PopUpButton((1, self.jumping_Y, self.ctrlWidth-1, vanillaControlsSize['PopUpButtonRegularHeight']),
-                                         self.displayedFontNames,
-                                         callback=self.singleFontCtrlCallback)
-
-            if (eachI+1) <= len(self.openedFonts):
-                singleFontCtrl.enable(True)
-                singleFontCtrl.set(eachI)
-                self.activeFonts.append(self.openedFonts[eachI])
-            else:
-                singleFontCtrl.enable(False)
-
-            setattr(self, 'singleFontCtrl_%#02d' % (eachI+1), singleFontCtrl)
-
-    def get(self):
-        return list(self.activeFonts)
-
-    def setOpenedFonts(self, openedFonts):
-        self.openedFonts = openedFonts
-        self.displayedFontNames = [os.path.basename(f.path) for f in self.openedFonts]
-        for eachI in range(0, self.activeFontsAmount):
-            getattr(self, 'singleFontCtrl_%#02d' % (eachI+1)).setItems(self.displayedFontNames)
-
-    def activeFontsAmountPopUpCallback(self, sender):
-        gonnaBeActiveFontsAmount = sender.get()+1
-        if gonnaBeActiveFontsAmount == self.activeFontsAmount:  # do nothing
-            return None
-
-        elif gonnaBeActiveFontsAmount > self.activeFontsAmount: # add ctrls
-            for eachI in range(self.activeFontsAmount, gonnaBeActiveFontsAmount):
-                getattr(self, 'singleFontCtrl_%#02d' % (eachI+1)).enable(True)
-                self.activeFonts.append(self.openedFonts[0])
-
-        else:                                                   # delete ctrls
-            for eachI in range(gonnaBeActiveFontsAmount, self.activeFontsAmount):
-                getattr(self, 'singleFontCtrl_%#02d' % (eachI+1)).enable(False)
-                self.activeFonts.pop()
-
-        self.activeFontsAmount = gonnaBeActiveFontsAmount
-        self.callback(self)
-
-    def singleFontCtrlCallback(self, sender):
-        for eachI in range(self.activeFontsAmount):
-            if hasattr(self, 'singleFontCtrl_%#02d' % (eachI+1)) is True:
-                if getattr(self, 'singleFontCtrl_%#02d' % (eachI+1)) is sender:
-                    self.activeFonts[eachI] = self.openedFonts[sender.get()]
-                    break
-        self.callback(self)
-
-
 class WordListController(Group):
     """this controller takes good care of word list flow"""
 
@@ -1121,7 +1090,7 @@ class WordListController(Group):
 
     def loadStatusCallback(self, sender):
         if os.path.exists(KERNING_STATUS_PATH) is True:
-            jsonFile = open(KERNING_STATUS_PATH, 'w')
+            jsonFile = open(KERNING_STATUS_PATH, 'r')
             statusDictionary = json.load(jsonFile)
             jsonFile.close()
 
@@ -1136,7 +1105,9 @@ class WordListController(Group):
 
             # adjust controllers
             self.kerningVocabularyPopUp.setItems(self.kerningTextBaseNames)
-            self.kerningVocabularyPopUp.set(self.kerningTextBaseNames[self.kerningTextBaseNames.index(self.activeKerningTextBaseName)])
+
+            # print 
+            self.kerningVocabularyPopUp.set(self.kerningTextBaseNames.index(self.activeKerningTextBaseName))
             self.wordsListCtrl.set(self.wordsDisplayList)
             self.wordsListCtrl.setSelection([self.wordsDisplayList.index(self.activeWord)])
             self.updateInfoCaption()

@@ -1,39 +1,27 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from defconAppKit.windows.baseWindow import BaseWindowController
-from vanilla import *
+##################################################
+# some ui controllers shared among various tools #
+##################################################
+
+### Modules
+# custom
+import userInterfaceValues
+reload(userInterfaceValues)
+from userInterfaceValues import vanillaControlsSize
+
+# standard
 import os
+from vanilla import Group, TextBox, SquareButton
 
-vanillaControlsSize = {}
-vanillaControlsSize['TextBoxRegularHeight'] = 17
 
-FONT_ROW_HEIGHT = 30
+### Constants
+FONT_ROW_HEIGHT = 28
 MARGIN_COL = 4
-LEFT_COLUMN = 200
-
-class KerningController(BaseWindowController):
-
-    fontsOrder = None
-
-    def __init__(self):
-        super(KerningController, self).__init__()
-
-        self.fontsOrder = AllFonts()
-
-        self.w = Window((0,0,500,400),
-                        'my window')
-
-        fontsOrderControllerHeight = FONT_ROW_HEIGHT*len(self.fontsOrder)
-        self.w.myOrder = FontsOrderController((0, 0, LEFT_COLUMN, 200),
-                                              self.fontsOrder,
-                                              callback=self.myOrderCallback)
-        self.w.open()
-
-    def myOrderCallback(self, sender):
-        self.fontsOrder = sender.getFontsOrder()
 
 
+### Classes
 class FontsOrderController(Group):
 
     fontsOrder = None
@@ -108,7 +96,7 @@ class FontRow(Group):
 
         squareButtonSide = FONT_ROW_HEIGHT-3
 
-        self.caption = TextBox((0, 6, 140, vanillaControlsSize['TextBoxRegularHeight']),
+        self.caption = TextBox((0, 4, 140, vanillaControlsSize['TextBoxRegularHeight']),
                                '%s' % os.path.basename(self.ctrlFont.path))
 
         self.buttonUp = SquareButton((-(squareButtonSide*2+MARGIN_COL), 0, squareButtonSide, squareButtonSide),
@@ -140,5 +128,3 @@ class FontRow(Group):
     def buttonDwCallback(self, sender):
         self.lastDirection = 'down'
         self.callback(self)
-
-mk = KerningController()
