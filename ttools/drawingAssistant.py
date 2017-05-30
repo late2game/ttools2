@@ -30,7 +30,7 @@ from mojo.UI import UpdateCurrentGlyphView, AccordionView, CurrentGlyphWindow
 from vanilla import FloatingWindow, CheckBox, Group
 from vanilla import TextBox, EditText, ColorWell, SquareButton
 from vanilla import PopUpButton, ComboBox
-from mojo.drawingTools import *
+import mojo.drawingTools as dt
 from mojo.UI import OpenGlyphWindow
 from defconAppKit.windows.baseWindow import BaseWindowController
 from AppKit import NSColor
@@ -49,11 +49,10 @@ SQR_CAPTION_OFFSET = 4
 BCP_RADIUS = 4
 OFFGRID_RADIUS = 20
 
-try:
-    font('.SFNSText')
+if '.SFNSText' in dt.installedFonts():
     SYSTEM_FONT_NAME = '.SFNSText'
     SYSTEM_FONT_NAME_BOLD = '.SFNSText-Bold'
-except:
+else:
     SYSTEM_FONT_NAME = '.HelveticaNeueDeskInterface-Regular'
     SYSTEM_FONT_NAME_BOLD = '.HelveticaNeueDeskInterface-Bold'
 
@@ -82,13 +81,13 @@ NET_WIDTH = PLUGIN_WIDTH - MARGIN_HOR*2
 
 
 def textQualities(scaledFontSize, weight='regular', color=BLACK_COLOR):
-    stroke(None)
-    fill(*color)
+    dt.stroke(None)
+    dt.fill(*color)
     if weight == 'bold':
-        font(SYSTEM_FONT_NAME_BOLD)
+        dt.font(SYSTEM_FONT_NAME_BOLD)
     else:
-        font(SYSTEM_FONT_NAME)
-    fontSize(scaledFontSize)
+        dt.font(SYSTEM_FONT_NAME)
+    dt.fontSize(scaledFontSize)
 
 
 class MultipleGridController(Group):
@@ -738,32 +737,32 @@ class DrawingAssistant(BaseWindowController):
             print traceback.format_exc()
 
     def _drawOffgridPoints(self, glyph, scalingFactor):
-        save()
-        fill(*RED_COLOR)
-        stroke(None)
+        dt.save()
+        dt.fill(*RED_COLOR)
+        dt.stroke(None)
 
         scaledRadius = OFFGRID_RADIUS*scalingFactor
         for eachContour in glyph:
             for eachPt in eachContour.bPoints:
                 if eachPt.anchor[0] % 4 != 0 or eachPt.anchor[1] % 4 != 0:
-                    oval(eachPt.anchor[0]-scaledRadius/2., eachPt.anchor[1]-scaledRadius/2., scaledRadius, scaledRadius)
+                    dt.oval(eachPt.anchor[0]-scaledRadius/2., eachPt.anchor[1]-scaledRadius/2., scaledRadius, scaledRadius)
 
                 if eachPt.bcpIn != (0,0):
                     bcpInAbs = eachPt.anchor[0]+eachPt.bcpIn[0], eachPt.anchor[1]+eachPt.bcpIn[1]
                     if bcpInAbs[0] % 4 != 0 or bcpInAbs[1] % 4 != 0:
-                        oval(bcpInAbs[0]-scaledRadius/2., bcpInAbs[1]-scaledRadius/2., scaledRadius, scaledRadius)
+                        dt.oval(bcpInAbs[0]-scaledRadius/2., bcpInAbs[1]-scaledRadius/2., scaledRadius, scaledRadius)
 
                 if eachPt.bcpOut != (0,0):
                     bcpOutAbs = eachPt.anchor[0]+eachPt.bcpOut[0], eachPt.anchor[1]+eachPt.bcpOut[1]
                     if bcpOutAbs[0] % 4 != 0 or bcpOutAbs[1] % 4 != 0:
-                        oval(bcpOutAbs[0]-scaledRadius/2., bcpOutAbs[1]-scaledRadius/2., scaledRadius, scaledRadius)
-        restore()
+                        dt.oval(bcpOutAbs[0]-scaledRadius/2., bcpOutAbs[1]-scaledRadius/2., scaledRadius, scaledRadius)
+        dt.restore()
 
     def _drawCentralBackgroundGlyph(self, glyph):
-        save()
-        fill(*LIGHT_GRAY_COLOR)
-        drawGlyph(glyph)
-        restore()
+        dt.save()
+        dt.fill(*LIGHT_GRAY_COLOR)
+        dt.drawGlyph(glyph)
+        dt.restore()
 
     def _drawGrids(self, frameOrigin, frameSize, italicAngle, scalingFactor):
         for eachGridDescription in reversed(self.gridsDB):
@@ -777,33 +776,33 @@ class DrawingAssistant(BaseWindowController):
             if not gridStep:
                 continue
 
-            save()
-            skew(-italicAngle, 0)
-            stroke(*gridColor)
-            strokeWidth(.5*scalingFactor)
-            fill(None)
+            dt.save()
+            dt.skew(-italicAngle, 0)
+            dt.stroke(*gridColor)
+            dt.strokeWidth(.5*scalingFactor)
+            dt.fill(None)
 
             if isVertical is True:
                 # to the right (from 0)
                 extraSlant = int(ceil(tan(radians(italicAngle))*frameOrigin[1]))
                 for eachX in range(0, frameOrigin[0]+frameSize[0]+extraSlant, gridStep):
-                    line((eachX, frameOrigin[1]-GRID_TOLERANCE), (eachX, frameOrigin[1]+frameSize[1]+GRID_TOLERANCE))
+                    dt.line((eachX, frameOrigin[1]-GRID_TOLERANCE), (eachX, frameOrigin[1]+frameSize[1]+GRID_TOLERANCE))
 
                 # to the left (from 0)
                 extraSlant = int(ceil(tan(radians(italicAngle))*(frameSize[1]+frameOrigin[1])))
                 for eachX in [i for i in range(frameOrigin[0]+extraSlant, 0) if i % gridStep == 0]:
-                    line((eachX, frameOrigin[1]-GRID_TOLERANCE), (eachX, frameOrigin[1]+frameSize[1]+GRID_TOLERANCE))
+                    dt.line((eachX, frameOrigin[1]-GRID_TOLERANCE), (eachX, frameOrigin[1]+frameSize[1]+GRID_TOLERANCE))
 
             if isHorizontal is True:
                 # to the top (from baseline)
                 for eachY in range(0, frameOrigin[1]+frameSize[1], gridStep):
-                    line((frameOrigin[0]-GRID_TOLERANCE, eachY), (frameOrigin[0]+frameSize[0]+GRID_TOLERANCE, eachY))
+                    dt.line((frameOrigin[0]-GRID_TOLERANCE, eachY), (frameOrigin[0]+frameSize[0]+GRID_TOLERANCE, eachY))
 
                 # to the bottom (from baseline)
                 for eachY in [i for i in range(frameOrigin[1], 0) if i % gridStep == 0]:
-                    line((frameOrigin[0]-GRID_TOLERANCE, eachY), (frameOrigin[0]+frameSize[0]+GRID_TOLERANCE, eachY))
+                    dt.line((frameOrigin[0]-GRID_TOLERANCE, eachY), (frameOrigin[0]+frameSize[0]+GRID_TOLERANCE, eachY))
 
-            restore()
+            dt.restore()
 
     def _drawBcpLenght(self, glyph, scalingFactor, offset_X=0):
         for eachContour in glyph:
@@ -817,19 +816,19 @@ class DrawingAssistant(BaseWindowController):
                     projOut_Y = eachBcp.anchor[1]+sin(radians(bcpOutAngle))*bcpOutLenght/2.
 
                     textQualities(BODYSIZE_CAPTION*scalingFactor)
-                    textWidth, textHeight = textSize(captionBcpOut)
+                    textWidth, textHeight = dt.textSize(captionBcpOut)
 
-                    save()
-                    translate(projOut_X+offset_X, projOut_Y)
-                    rotate(bcpOutAngle % 90)
+                    dt.save()
+                    dt.translate(projOut_X+offset_X, projOut_Y)
+                    dt.rotate(bcpOutAngle % 90)
                     belowRect = (-textWidth/2.-1, -textHeight/2.-1, textWidth+2, textHeight+2, 1)
-                    fill(0, 0, 0, .7)
-                    roundedRect(*belowRect)
+                    dt.fill(0, 0, 0, .7)
+                    dt.roundedRect(*belowRect)
 
                     textRect = (-textWidth/2., -textHeight/2., textWidth, textHeight)
                     textQualities(BODYSIZE_CAPTION*scalingFactor, weight='bold', color=WHITE_COLOR)
-                    textBox(captionBcpOut, textRect, align='center')
-                    restore()
+                    dt.textBox(captionBcpOut, textRect, align='center')
+                    dt.restore()
 
                 if eachBcp.bcpIn != (0, 0):
                     absBcpIn = eachBcp.anchor[0] + eachBcp.bcpIn[0], eachBcp.anchor[1] + eachBcp.bcpIn[1]
@@ -841,20 +840,20 @@ class DrawingAssistant(BaseWindowController):
                     projIn_Y = eachBcp.anchor[1]+sin(radians(bcpInAngle))*bcpInLenght/2.
 
                     textQualities(BODYSIZE_CAPTION*scalingFactor)
-                    textWidth, textHeight = textSize(captionBcpIn)
+                    textWidth, textHeight = dt.textSize(captionBcpIn)
 
-                    save()
-                    translate(projIn_X+offset_X, projIn_Y)
-                    rotate(bcpInAngle % 90)
+                    dt.save()
+                    dt.translate(projIn_X+offset_X, projIn_Y)
+                    dt.rotate(bcpInAngle % 90)
 
                     belowRect = (-textWidth/2.-1, -textHeight/2.-1, textWidth+2, textHeight+2, 1)
-                    fill(0, 0, 0, .7)
-                    roundedRect(*belowRect)
+                    dt.fill(0, 0, 0, .7)
+                    dt.roundedRect(*belowRect)
 
                     textQualities(BODYSIZE_CAPTION*scalingFactor, weight='bold', color=WHITE_COLOR)
                     textRect = (-textWidth/2., -textHeight/2., textWidth, textHeight)
-                    textBox(captionBcpIn, textRect, align='center')
-                    restore()
+                    dt.textBox(captionBcpIn, textRect, align='center')
+                    dt.restore()
 
     def _drawSquarings(self, glyph, scalingFactor, offset_X=0):
         for eachContour in glyph:
@@ -891,10 +890,10 @@ class DrawingAssistant(BaseWindowController):
                             captionSqrOut = '%.2f%%' % sqrOut
                         captionSqrOut = captionSqrOut.replace('0.', '')
 
-                        save()
-                        translate(projOut_X+offset_X, projOut_Y)
+                        dt.save()
+                        dt.translate(projOut_X+offset_X, projOut_Y)
                         textQualities(BODYSIZE_CAPTION*scalingFactor)
-                        textWidth, textHeight = textSize(captionSqrOut)
+                        textWidth, textHeight = dt.textSize(captionSqrOut)
                         if angleOut == 90:          # text above
                             textRect = (-textWidth/2., SQR_CAPTION_OFFSET*scalingFactor, textWidth, textHeight)
                         elif angleOut == -90:       # text below
@@ -903,8 +902,8 @@ class DrawingAssistant(BaseWindowController):
                             textRect = (SQR_CAPTION_OFFSET*scalingFactor, -textHeight/2., textWidth, textHeight)
                         else:                       # text on the left
                             textRect = (-textWidth-SQR_CAPTION_OFFSET*scalingFactor, -textHeight/2., textWidth, textHeight)
-                        textBox(captionSqrOut, textRect, align='center')
-                        restore()
+                        dt.textBox(captionSqrOut, textRect, align='center')
+                        dt.restore()
 
                         projIn_X = nextBcp.anchor[0]+cos(radians(angleIn))*nextHandleInLen
                         projIn_Y = nextBcp.anchor[1]+sin(radians(angleIn))*nextHandleInLen
@@ -914,10 +913,10 @@ class DrawingAssistant(BaseWindowController):
                             captionSqrIn = '%.2f%%' % sqrIn
                         captionSqrIn = captionSqrIn.replace('0.', '')
 
-                        save()
-                        translate(projIn_X+offset_X, projIn_Y)
+                        dt.save()
+                        dt.translate(projIn_X+offset_X, projIn_Y)
                         textQualities(BODYSIZE_CAPTION*scalingFactor)
-                        textWidth, textHeight = textSize(captionSqrIn)
+                        textWidth, textHeight = dt.textSize(captionSqrIn)
                         if angleIn == 90:          # text above
                             textRect = (-textWidth/2., SQR_CAPTION_OFFSET*scalingFactor, textWidth, textHeight)
                         elif angleIn == -90:       # text below
@@ -926,63 +925,63 @@ class DrawingAssistant(BaseWindowController):
                             textRect = (SQR_CAPTION_OFFSET*scalingFactor, -textHeight/2., textWidth, textHeight)
                         else:                      # text on the left
                             textRect = (-textWidth-SQR_CAPTION_OFFSET*scalingFactor, -textHeight/2., textWidth, textHeight)
-                        textBox(captionSqrIn, textRect, align='center')
-                        restore()
+                        dt.textBox(captionSqrIn, textRect, align='center')
+                        dt.restore()
 
     def _drawGlyphOutline(self, glyph, scalingFactor, offset_X=0):
-        save()
-        translate(offset_X, 0)
+        dt.save()
+        dt.translate(offset_X, 0)
 
-        fill(None)
-        strokeWidth(1*scalingFactor)
-        stroke(*LIGHT_GRAY_COLOR)
-        drawGlyph(glyph)
+        dt.fill(None)
+        dt.strokeWidth(1*scalingFactor)
+        dt.stroke(*LIGHT_GRAY_COLOR)
+        dt.drawGlyph(glyph)
 
         scaledRadius = BCP_RADIUS*scalingFactor
 
         for eachContour in glyph:
             for eachPt in eachContour.bPoints:
-                stroke(None)
-                fill(*LIGHT_GRAY_COLOR)
-                rect(eachPt.anchor[0]-scaledRadius/2., eachPt.anchor[1]-scaledRadius/2., scaledRadius, scaledRadius)
+                dt.stroke(None)
+                dt.fill(*LIGHT_GRAY_COLOR)
+                dt.rect(eachPt.anchor[0]-scaledRadius/2., eachPt.anchor[1]-scaledRadius/2., scaledRadius, scaledRadius)
 
                 if eachPt.bcpIn != (0, 0):
-                    stroke(None)
-                    fill(*LIGHT_GRAY_COLOR)
-                    oval(eachPt.anchor[0]+eachPt.bcpIn[0]-scaledRadius/2.,
+                    dt.stroke(None)
+                    dt.fill(*LIGHT_GRAY_COLOR)
+                    dt.oval(eachPt.anchor[0]+eachPt.bcpIn[0]-scaledRadius/2.,
                          eachPt.anchor[1]+eachPt.bcpIn[1]-scaledRadius/2.,
                          scaledRadius,
                          scaledRadius)
 
-                    stroke(*LIGHT_GRAY_COLOR)
-                    fill(None)
-                    line((eachPt.anchor[0], eachPt.anchor[1]),
+                    dt.stroke(*LIGHT_GRAY_COLOR)
+                    dt.fill(None)
+                    dt.line((eachPt.anchor[0], eachPt.anchor[1]),
                          (eachPt.anchor[0]+eachPt.bcpIn[0], eachPt.anchor[1]+eachPt.bcpIn[1]))
 
                 if eachPt.bcpOut != (0, 0):
-                    stroke(None)
-                    fill(*LIGHT_GRAY_COLOR)
-                    oval(eachPt.anchor[0]+eachPt.bcpOut[0]-scaledRadius/2.,
+                    dt.stroke(None)
+                    dt.fill(*LIGHT_GRAY_COLOR)
+                    dt.oval(eachPt.anchor[0]+eachPt.bcpOut[0]-scaledRadius/2.,
                          eachPt.anchor[1]+eachPt.bcpOut[1]-scaledRadius/2.,
                          scaledRadius,
                          scaledRadius)
 
-                    stroke(*LIGHT_GRAY_COLOR)
-                    fill(None)
-                    line((eachPt.anchor[0], eachPt.anchor[1]),
+                    dt.stroke(*LIGHT_GRAY_COLOR)
+                    dt.fill(None)
+                    dt.line((eachPt.anchor[0], eachPt.anchor[1]),
                          (eachPt.anchor[0]+eachPt.bcpOut[0], eachPt.anchor[1]+eachPt.bcpOut[1]))
 
-        restore()
+        dt.restore()
 
     def _drawGlyphBlack(self, glyph, scalingFactor, offset_X=0):
-        save()
-        translate(offset_X, 0)
+        dt.save()
+        dt.translate(offset_X, 0)
 
-        fill(*BLACK_COLOR)
-        stroke(None)
-        drawGlyph(glyph)
+        dt.fill(*BLACK_COLOR)
+        dt.stroke(None)
+        dt.drawGlyph(glyph)
 
-        restore()
+        dt.restore()
 
     def _drawStems(self, currentGlyph, scalingFactor, offset_X=0):
         if STEM_KEY not in currentGlyph.lib:
@@ -993,37 +992,37 @@ class DrawingAssistant(BaseWindowController):
             pt1, pt2 = PTs
             horDiff, verDiff = DIFFs
 
-            save()
-            translate(offset_X, 0)
-            stroke(*self.stemColor)
-            fill(None)
-            strokeWidth(1*scalingFactor)
+            dt.save()
+            dt.translate(offset_X, 0)
+            dt.stroke(*self.stemColor)
+            dt.fill(None)
+            dt.strokeWidth(1*scalingFactor)
 
-            newPath()
+            dt.newPath()
             if horDiff > verDiff:  # ver
                 rightPt, leftPt = PTs
                 if pt1.x > pt2.x:
                     rightPt, leftPt = leftPt, rightPt
-                moveTo((leftPt.x, leftPt.y))
-                curveTo((leftPt.x-horDiff/2, leftPt.y), (rightPt.x+horDiff/2, rightPt.y), (rightPt.x, rightPt.y))
+                dt.moveTo((leftPt.x, leftPt.y))
+                dt.curveTo((leftPt.x-horDiff/2, leftPt.y), (rightPt.x+horDiff/2, rightPt.y), (rightPt.x, rightPt.y))
 
             else:                  # hor
                 topPt, btmPt = PTs
                 if pt2.y > pt1.y:
                     btmPt, topPt = topPt, btmPt
-                moveTo((btmPt.x, btmPt.y))
-                curveTo((btmPt.x, btmPt.y+verDiff/2), (topPt.x, topPt.y-verDiff/2), (topPt.x, topPt.y))
-            drawPath()
-            restore()
+                dt.moveTo((btmPt.x, btmPt.y))
+                dt.curveTo((btmPt.x, btmPt.y+verDiff/2), (topPt.x, topPt.y-verDiff/2), (topPt.x, topPt.y))
+            dt.drawPath()
+            dt.restore()
 
-            save()
-            translate(offset_X, 0)
+            dt.save()
+            dt.translate(offset_X, 0)
             textQualities(BODYSIZE_CAPTION*scalingFactor)
             dataToPlot = u'↑%d\n→%d' % (verDiff, horDiff)
-            textWidth, textHeight = textSize(dataToPlot)
+            textWidth, textHeight = dt.textSize(dataToPlot)
             textRect = (middlePoint[0]-textWidth/2., middlePoint[1]-textHeight/2., textWidth, textHeight)
-            textBox(dataToPlot, textRect, align='center')
-            restore()
+            dt.textBox(dataToPlot, textRect, align='center')
+            dt.restore()
 
     def _drawDiagonals(self, currentGlyph, scalingFactor, offset_X=0):
         if DIAGONALS_KEY not in currentGlyph.lib:
@@ -1033,10 +1032,10 @@ class DrawingAssistant(BaseWindowController):
         for ptsToDisplay, angle, distance in diagonalsData:
             pt1, pt2 = ptsToDisplay
 
-            save()
-            stroke(*self.diagonalColor)
-            fill(None)
-            strokeWidth(1*scalingFactor)
+            dt.save()
+            dt.stroke(*self.diagonalColor)
+            dt.fill(None)
+            dt.strokeWidth(1*scalingFactor)
 
             if 90 < angle <= 180 or -180 < angle < -90:
                 direction = -1
@@ -1050,27 +1049,27 @@ class DrawingAssistant(BaseWindowController):
             offsetPt1 = pt1[0]+cos(radians(adjustedAngle))*DIAGONAL_OFFSET*direction, pt1[1]+sin(radians(adjustedAngle))*DIAGONAL_OFFSET*direction
             offsetPt2 = pt2[0]+cos(radians(adjustedAngle))*DIAGONAL_OFFSET*direction, pt2[1]+sin(radians(adjustedAngle))*DIAGONAL_OFFSET*direction
 
-            line((pt1), (offsetPt1))
-            line((pt2), (offsetPt2))
-            line((diagonalPt1), (diagonalPt2))
-            restore()
+            dt.line((pt1), (offsetPt1))
+            dt.line((pt2), (offsetPt2))
+            dt.line((diagonalPt1), (diagonalPt2))
+            dt.restore()
 
-            save()
+            dt.save()
             textQualities(BODYSIZE_CAPTION*scalingFactor)
             offsetMidPoint = calcMidPoint(offsetPt1, offsetPt2)
-            translate(offsetMidPoint[0], offsetMidPoint[1])
+            dt.translate(offsetMidPoint[0], offsetMidPoint[1])
 
             if 90 < angle <= 180 or -180 < angle < -90:
-                rotate(angle+180)
+                dt.rotate(angle+180)
                 textBoxY = -BODYSIZE_CAPTION*1.2*scalingFactor
             else:
-                rotate(angle)
+                dt.rotate(angle)
                 textBoxY = 0
 
             dataToPlot = u'∡%.1f ↗%d' % (angle%180, distance)
-            textWidth, textHeight = textSize(dataToPlot)
-            textBox(dataToPlot, (-textWidth/2., textBoxY, textWidth, BODYSIZE_CAPTION*1.2*scalingFactor), align='center')
-            restore()
+            textWidth, textHeight = dt.textSize(dataToPlot)
+            dt.textBox(dataToPlot, (-textWidth/2., textBoxY, textWidth, BODYSIZE_CAPTION*1.2*scalingFactor), align='center')
+            dt.restore()
 
     # ui callback
     def collectOpenedFonts(self):
