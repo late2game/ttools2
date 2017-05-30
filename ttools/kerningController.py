@@ -24,11 +24,13 @@ import os
 import sys
 import json
 import types
+import traceback
 import mojo.drawingTools as dt
 from mojo.roboFont import AllFonts
 from mojo.canvas import CanvasGroup
 from mojo.events import addObserver, removeObserver
 from defconAppKit.windows.baseWindow import BaseWindowController
+from defconAppKit.tools.textSplitter import splitText
 from vanilla import Window, Group, PopUpButton, List, EditText
 from vanilla import CheckBoxListCell, TextBox, SquareButton, HorizontalLine
 from vanilla import VerticalLine, CheckBox, Button
@@ -101,7 +103,7 @@ def checkPairFormat(value):
     assert isinstance(value[0], types.UnicodeType), 'wrong pair format'
     assert isinstance(value[1], types.UnicodeType), 'wrong pair format'
 
-class KerningController(BaseWindowController):
+class KerningController(object):
     """this is the main controller of TT kerning editor, it handles different controllers and dialogues with font data"""
 
     displayedWord = ''
@@ -172,6 +174,7 @@ class KerningController(BaseWindowController):
 
         self.jumping_X += LEFT_COLUMN+MARGIN_COL*2
         self.jumping_Y = MARGIN_VER
+
         self.w.displayedWordCaption = TextBox((self.jumping_X, self.jumping_Y, -1, vanillaControlsSize['TextBoxRegularHeight']),
                                               self.displayedWord)
 
@@ -193,13 +196,14 @@ class KerningController(BaseWindowController):
             message('No fonts, no party!', 'Please, open some fonts before starting the mighty MultiFont Kerning Controller')
             self.w.close()
 
+
         self.deleteWordDisplays()
         self.initFontsOrder()
         self.w.fontsOrderController.setFontsOrder(self.fontsOrder)
         self.initWordDisplays()
 
-        prevFontsOrderPos = self.w.fontsOrderController.getPosSize()
         fontsOrderControllerHeight = FONT_ROW_HEIGHT*len(self.fontsOrder)+MARGIN_HOR
+        prevFontsOrderPos = self.w.fontsOrderController.getPosSize()
         self.w.fontsOrderController.setPosSize((prevFontsOrderPos[0], prevFontsOrderPos[1], prevFontsOrderPos[2], fontsOrderControllerHeight))
 
         prevSepLinePos = self.w.fonts_controller_separationLine.getPosSize()
@@ -240,18 +244,21 @@ class KerningController(BaseWindowController):
                 initActivePair = None
                 initPairIndex = None
 
-            wordCtrl = WordDisplay((self.jumping_X, self.jumping_Y, rightColumnWidth, singleWindowHeight),
-                                    self.displayedWord,
-                                    self.displayedPairs,
-                                    self.fontsOrder[eachI],
-                                    self.isKerningDisplayActive,
-                                    self.isSidebearingsActive,
-                                    self.isMetricsActive,
-                                    self.isColorsActive,
-                                    self.isPreviewOn,
-                                    self.isSymmetricalEditingOn,
-                                    activePair=initActivePair,
-                                    pairIndex=initPairIndex)
+            try:
+                wordCtrl = WordDisplay((self.jumping_X, self.jumping_Y, rightColumnWidth, singleWindowHeight),
+                                        self.displayedWord,
+                                        self.displayedPairs,
+                                        self.fontsOrder[eachI],
+                                        self.isKerningDisplayActive,
+                                        self.isSidebearingsActive,
+                                        self.isMetricsActive,
+                                        self.isColorsActive,
+                                        self.isPreviewOn,
+                                        self.isSymmetricalEditingOn,
+                                        activePair=initActivePair,
+                                        pairIndex=initPairIndex)
+            except Exception:
+                print traceback.format_exc()
 
             self.jumping_Y += singleWindowHeight + MARGIN_HOR
             setattr(self.w, 'wordCtrl_%#02d' % (eachI+1), wordCtrl)
@@ -308,7 +315,7 @@ class KerningController(BaseWindowController):
 
     def modifyPairCorrection(self, amount):
         selectedFont = self.fontsOrder[self.navCursor_Y]
-        selectedPair = tuple(self.displayedPairs[self.navCursor_X])
+        selectedPair = tuple(splitText(''.join(self.displayedPairs[self.navCursor_X]), selectedFont.naked().unicodeData))
 
         if selectedPair in selectedFont.naked().flatKerning:
             selectedFont.naked().flatKerning[selectedPair] += amount
@@ -391,25 +398,25 @@ class KerningController(BaseWindowController):
             if self.isKerningDisplayActive is True:
                 self.modifyPairCorrection(-MAJOR_STEP)
             else:
-                self.showMessage('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
+                message('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
 
         elif joystickEvent == 'minusMinor':
             if self.isKerningDisplayActive is True:
                 self.modifyPairCorrection(-MINOR_STEP)
             else:
-                self.showMessage('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
+                message('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
 
         elif joystickEvent == 'plusMinor':
             if self.isKerningDisplayActive is True:
                 self.modifyPairCorrection(MINOR_STEP)
             else:
-                self.showMessage('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
+                message('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
 
         elif joystickEvent == 'plusMajor':
             if self.isKerningDisplayActive is True:
                 self.modifyPairCorrection(MAJOR_STEP)
             else:
-                self.showMessage('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
+                message('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
 
         elif joystickEvent == 'preview':
             if self.isPreviewOn is True:
@@ -450,7 +457,7 @@ class KerningController(BaseWindowController):
                 self.setPairCorrection(self.w.joystick.getKeyboardCorrection())
                 self.updateWordDisplays()
             else:
-                self.showMessage('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
+                message('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
                 self.w.joystick.updateCorrectionValue()
 
 
@@ -777,6 +784,7 @@ class WordDisplay(Group):
         self.isSymmetricalEditingOn = isSymmetricalEditingOn
 
         self.ctrlWidth, self.ctrlHeight = posSize[2], posSize[3]
+
         self.wordCanvasGroup = CanvasGroup((0, 0, 0, 0),
                                            delegate=self)
 
@@ -829,7 +837,7 @@ class WordDisplay(Group):
         dt.scale(1/(self.getPosSize()[3]/CANVAS_UPM_HEIGHT))
         dt.font(SYSTEM_FONT_NAME)
         dt.fontSize(BODY_SIZE)
-        textWidth, textHeight = textSize('%s' % correction)
+        textWidth, textHeight = dt.textSize('%s' % correction)
         dt.textBox('%s' % correction, (-textWidth/2., -textHeight/2., textWidth, textHeight), align='center')
 
         dt.restore()
@@ -859,7 +867,7 @@ class WordDisplay(Group):
         dt.stroke(None)
         dt.font(SYSTEM_FONT_NAME)
         dt.fontSize(BODY_SIZE)
-        textWidth, textHeight = textSize(u'%s' % glyphToDisplay.width)
+        textWidth, textHeight = dt.textSize(u'%s' % glyphToDisplay.width)
         dt.textBox(u'%d' % glyphToDisplay.width, (0, 11, glyphToDisplay.width*reverseScalingFactor, textHeight), align='center')
         dt.textBox(u'%d' % glyphToDisplay.leftMargin, (0, 0, glyphToDisplay.width/2.*reverseScalingFactor, textHeight), align='center')
         dt.textBox(u'%d' % glyphToDisplay.rightMargin, (glyphToDisplay.width/2.*reverseScalingFactor, 0, glyphToDisplay.width/2.*reverseScalingFactor, textHeight), align='center')
@@ -886,8 +894,8 @@ class WordDisplay(Group):
 
     def _drawCursor(self, correction):
         dt.save()
-        lftGlyphName, rgtGlyphName = self.activePair
         dt.fill(*LIGHT_BLUE)
+        lftGlyphName, rgtGlyphName = splitText(''.join(self.activePair), self.fontObj.naked().unicodeData)
         lftGlyph = self.fontObj[lftGlyphName]
         rgtGlyph = self.fontObj[rgtGlyphName]
         cursorWidth = lftGlyph.width/2. + rgtGlyph.width/2. + correction
@@ -896,6 +904,7 @@ class WordDisplay(Group):
         dt.restore()
 
     def draw(self):
+
         try:
             dt.save()
 
@@ -915,11 +924,14 @@ class WordDisplay(Group):
             dt.translate(0, 600)
             dt.save()
             prevGlyphName = None
-            for indexChar, eachGlyphName in enumerate(self.displayedWord):
-                glyphToDisplay = self.fontObj[eachGlyphName]
+            glyphsToDisplay = splitText(self.displayedWord, self.fontObj.naked().unicodeData)
+            for indexChar, eachGlyphName in enumerate(glyphsToDisplay):
+                eachGlyph = self.fontObj[eachGlyphName]
+
 
                 # this is for kerning
                 if indexChar > 0:
+                
                     if (prevGlyphName, eachGlyphName) in flatKerning and self.isKerningDisplayActive is True:
                         correction = flatKerning[(prevGlyphName, eachGlyphName)]
                         if correction != 0:
@@ -933,26 +945,28 @@ class WordDisplay(Group):
                     else:
                         correction = 0
 
+
                     if (indexChar-1) == self.pairIndex:
                         self._drawCursor(correction)
 
                 # # draw metrics info
                 if self.isMetricsActive is True and self.isPreviewOn is False:
-                    self._drawMetricsData(glyphToDisplay, 33)
+                    self._drawMetricsData(eachGlyph, 33)
 
                 if self.isSidebearingsActive is True and self.isPreviewOn is False:
-                    self._drawBaseline(glyphToDisplay)
-                    self._drawSidebearings(glyphToDisplay)
+                    self._drawBaseline(eachGlyph)
+                    self._drawSidebearings(eachGlyph)
 
-                dt.translate(glyphToDisplay.width, 0)
+                dt.translate(eachGlyph.width, 0)
                 prevGlyphName = eachGlyphName
             dt.restore()
 
             # foreground loop
             dt.save()
             prevGlyphName = None
-            for indexChar, eachGlyphName in enumerate(self.displayedWord):
-                glyphToDisplay = self.fontObj[eachGlyphName]
+            glyphsToDisplay = splitText(self.displayedWord, self.fontObj.naked().unicodeData)
+            for indexChar, eachGlyphName in enumerate(glyphsToDisplay):
+                eachGlyph = self.fontObj[eachGlyphName]
 
                 # this is for kerning
                 if indexChar > 0:
@@ -961,8 +975,8 @@ class WordDisplay(Group):
                         if correction != 0:
                             dt.translate(correction, 0)
 
-                self._drawGlyphOutlines(glyphToDisplay)
-                dt.translate(glyphToDisplay.width, 0)
+                self._drawGlyphOutlines(eachGlyph)
+                dt.translate(eachGlyph.width, 0)
                 prevGlyphName = eachGlyphName
             dt.restore()
 

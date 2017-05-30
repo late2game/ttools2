@@ -10,7 +10,9 @@ reload(calcFunctions)
 from calcFunctions import isBlackInBetween, calcDistanceBetweenPTs
 
 # standard
-import os, sys
+import os
+import sys
+import codecs
 import types
 from collections import OrderedDict
 
@@ -20,11 +22,13 @@ def catchFilesAndFolders(path, extension):
     items = [os.path.join(path, item) for item in os.listdir(path) if item.endswith(extension)]
     return items
 
-def buildPairsFromString(word):
-    assert isinstance(word, types.UnicodeType) is True
+def buildPairsFromString(uniString):
+    assert isinstance(uniString, types.UnicodeType) is True
+
     pairs = []
-    for eachI in range(1, len(word)):
-        pairs.append(tuple(word[eachI-1 : eachI+1]))
+    for eachI in range(1, len(uniString)):
+        myPair = (u'%s' % uniString[eachI-1], u'%s' % uniString[eachI])
+        pairs.append(myPair)
     return pairs
 
 def loadKerningTexts(kerningTextFolder):
@@ -32,7 +36,7 @@ def loadKerningTexts(kerningTextFolder):
     kerningTextBaseNames = [pth for pth in os.listdir(kerningTextFolder) if pth.endswith('.txt')]
     kerningTextBaseNames.sort()
     for eachKerningTextBaseName in kerningTextBaseNames:
-        kerningWords = [unicode(word.strip()) for word in open(os.path.join(kerningTextFolder, eachKerningTextBaseName), 'r').readlines()]
+        kerningWords = [u'%s' % word.strip() for word in codecs.open(os.path.join(kerningTextFolder, eachKerningTextBaseName), 'r', 'utf-8').readlines()]
         uniqueKerningWords = []
         _ = [uniqueKerningWords.append(word) for word in kerningWords if word not in uniqueKerningWords]
         kerningWordDB[eachKerningTextBaseName[3:]] = [{'word': word, 'done?': 0} for word in uniqueKerningWords]
