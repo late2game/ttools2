@@ -117,6 +117,7 @@ class MultiFontMetricsWindow(BaseWindowController):
 
         # let's see if there are opened fonts (fontDB, ctrlFontsList, fontsOrder)
         self.loadFontsOrder()
+        self.updateUnicodeMinimum()
 
         # defining plugin window
         self.w = Window((originLeft, originRight, width, height),
@@ -460,7 +461,6 @@ class MultiFontMetricsWindow(BaseWindowController):
         else:
             self.w.textStringsControls.show(True)
             self.stringDisplayMode, self.glyphNamesToDisplay = self.w.textStringsControls.get()
-            print self.stringDisplayMode, self.glyphNamesToDisplay
             self.w.typewriterCtrl.show(False)
 
         self.updateLineView()
