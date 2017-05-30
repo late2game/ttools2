@@ -24,7 +24,7 @@ import os
 import sys
 import json
 import types
-from mojo.drawingTools import *
+import mojo.drawingTools as dt
 from mojo.roboFont import AllFonts
 from mojo.canvas import CanvasGroup
 from mojo.events import addObserver, removeObserver
@@ -32,7 +32,7 @@ from defconAppKit.windows.baseWindow import BaseWindowController
 from vanilla import Window, Group, PopUpButton, List, EditText
 from vanilla import CheckBoxListCell, TextBox, SquareButton, HorizontalLine
 from vanilla import VerticalLine, CheckBox, Button
-from vanilla.dialogs import message
+from vanilla.dialogs import message, getFile, putFile
 
 
 ### Constants
@@ -40,7 +40,6 @@ PLUGIN_TITLE = 'TT Kerning editor'
 
 # func
 KERNING_TEXT_FOLDER = os.path.join(os.path.dirname(__file__), 'resources', 'kerningTexts')
-KERNING_STATUS_PATH = 'lastKerningStatus.json'
 JOYSTICK_EVENTS = ['minusMajor', 'minusMinor', 'plusMinor', 'plusMajor', 'preview', 'solved', 'symmetricalEditing', 'keyboardEdit', 'previousWord', 'cursorUp', 'cursorLeft', 'cursorRight', 'cursorDown', 'nextWord']
 
 MAJOR_STEP = 20
@@ -68,10 +67,9 @@ PLUGIN_HEIGHT = 800
 TEXT_MARGIN = 200 #upm
 CANVAS_UPM_HEIGHT = 1600.
 
-try:
-    font('.SFNSText')
+if '.SFNSText' in dt.installedFonts():
     SYSTEM_FONT_NAME = '.SFNSText'
-except:
+else:
     SYSTEM_FONT_NAME = '.HelveticaNeueDeskInterface-Regular'
 
 BODY_SIZE = 14
@@ -100,8 +98,8 @@ return: mark the word as "done"
 def checkPairFormat(value):
     assert isinstance(value, types.TupleType), 'wrong pair format'
     assert len(value) == 2, 'wrong pair format'
-    assert isinstance(value[0], types.StringType), 'wrong pair format'
-    assert isinstance(value[1], types.StringType), 'wrong pair format'
+    assert isinstance(value[0], types.UnicodeType), 'wrong pair format'
+    assert isinstance(value[1], types.UnicodeType), 'wrong pair format'
 
 class KerningController(BaseWindowController):
     """this is the main controller of TT kerning editor, it handles different controllers and dialogues with font data"""
@@ -220,14 +218,11 @@ class KerningController(BaseWindowController):
 
     def deleteWordDisplays(self):
         for eachI in range(len(self.fontsOrder)):
-            print eachI
-
-            if hasattr(self.w, 'wordCtrl_%#02d' % (eachI+1)) is True:
+            try:
                 delattr(self.w, 'wordCtrl_%#02d' % (eachI+1))
-            else:
-                print 'wordCtrl_%#02d' % (eachI+1)
-
-        self.jumping_Y = MARGIN_VER+vanillaControlsSize['TextBoxRegularHeight']
+                self.jumping_Y = MARGIN_VER+vanillaControlsSize['TextBoxRegularHeight']
+            except Exception as e:
+                print traceback.format_exc()
 
     def initWordDisplays(self):
         windowWidth, windowHeight = self.w.getPosSize()[2], self.w.getPosSize()[3]
@@ -818,107 +813,107 @@ class WordDisplay(Group):
             self.activePair = None
 
     def _drawColoredCorrection(self, correction):
-        save()
+        dt.save()
         if correction > 0:
-            fill(*LIGHT_GREEN)
+            dt.fill(*LIGHT_GREEN)
         else:
-            fill(*LIGHT_RED)
-        rect(0, self.fontObj.info.descender, correction, self.fontObj.info.unitsPerEm)
-        restore()
+            dt.fill(*LIGHT_RED)
+        dt.rect(0, self.fontObj.info.descender, correction, self.fontObj.info.unitsPerEm)
+        dt.restore()
 
     def _drawMetricsCorrection(self, correction):
-        save()
-        fill(*BLACK)
-        stroke(None)
-        translate(0, self.fontObj.info.unitsPerEm+self.fontObj.info.descender+100)
-        scale(1/(self.getPosSize()[3]/CANVAS_UPM_HEIGHT))
-        font(SYSTEM_FONT_NAME)
-        fontSize(BODY_SIZE)
+        dt.save()
+        dt.fill(*BLACK)
+        dt.stroke(None)
+        dt.translate(0, self.fontObj.info.unitsPerEm+self.fontObj.info.descender+100)
+        dt.scale(1/(self.getPosSize()[3]/CANVAS_UPM_HEIGHT))
+        dt.font(SYSTEM_FONT_NAME)
+        dt.fontSize(BODY_SIZE)
         textWidth, textHeight = textSize('%s' % correction)
-        textBox('%s' % correction, (-textWidth/2., -textHeight/2., textWidth, textHeight), align='center')
+        dt.textBox('%s' % correction, (-textWidth/2., -textHeight/2., textWidth, textHeight), align='center')
 
-        restore()
+        dt.restore()
 
     def _drawGlyphOutlines(self, glyphToDisplay):
-        save()
-        fill(*BLACK)
-        stroke(None)
-        drawGlyph(glyphToDisplay)
-        restore()
+        dt.save()
+        dt.fill(*BLACK)
+        dt.stroke(None)
+        dt.drawGlyph(glyphToDisplay)
+        dt.restore()
 
     def _drawMetricsData(self, glyphToDisplay, offset):
-        save()
-        translate(0, self.fontObj.info.descender)
+        dt.save()
+        dt.translate(0, self.fontObj.info.descender)
         reverseScalingFactor = self.getPosSize()[3]/CANVAS_UPM_HEIGHT
 
         if self.isSidebearingsActive is True:
-            fill(None)
-            stroke(*LIGHT_GRAY)
-            strokeWidth(1/reverseScalingFactor)
-            line((0, 0), (0, -offset*1/reverseScalingFactor))
-            line((glyphToDisplay.width, 0), (glyphToDisplay.width, -offset*1/reverseScalingFactor))
+            dt.fill(None)
+            dt.stroke(*LIGHT_GRAY)
+            dt.strokeWidth(1/reverseScalingFactor)
+            dt.line((0, 0), (0, -offset*1/reverseScalingFactor))
+            dt.line((glyphToDisplay.width, 0), (glyphToDisplay.width, -offset*1/reverseScalingFactor))
 
-        scale(1/reverseScalingFactor)
-        translate(0, -offset)
-        fill(*BLACK)
-        stroke(None)
-        font(SYSTEM_FONT_NAME)
-        fontSize(BODY_SIZE)
+        dt.scale(1/reverseScalingFactor)
+        dt.translate(0, -offset)
+        dt.fill(*BLACK)
+        dt.stroke(None)
+        dt.font(SYSTEM_FONT_NAME)
+        dt.fontSize(BODY_SIZE)
         textWidth, textHeight = textSize(u'%s' % glyphToDisplay.width)
-        textBox(u'%d' % glyphToDisplay.width, (0, 11, glyphToDisplay.width*reverseScalingFactor, textHeight), align='center')
-        textBox(u'%d' % glyphToDisplay.leftMargin, (0, 0, glyphToDisplay.width/2.*reverseScalingFactor, textHeight), align='center')
-        textBox(u'%d' % glyphToDisplay.rightMargin, (glyphToDisplay.width/2.*reverseScalingFactor, 0, glyphToDisplay.width/2.*reverseScalingFactor, textHeight), align='center')
-        restore()
+        dt.textBox(u'%d' % glyphToDisplay.width, (0, 11, glyphToDisplay.width*reverseScalingFactor, textHeight), align='center')
+        dt.textBox(u'%d' % glyphToDisplay.leftMargin, (0, 0, glyphToDisplay.width/2.*reverseScalingFactor, textHeight), align='center')
+        dt.textBox(u'%d' % glyphToDisplay.rightMargin, (glyphToDisplay.width/2.*reverseScalingFactor, 0, glyphToDisplay.width/2.*reverseScalingFactor, textHeight), align='center')
+        dt.restore()
 
     def _drawBaseline(self, glyphToDisplay):
-        save()
-        stroke(*LIGHT_GRAY)
-        fill(None)
-        strokeWidth(1/(self.getPosSize()[3]/CANVAS_UPM_HEIGHT))
-        line((0, 0), (glyphToDisplay.width, 0))
-        restore()
+        dt.save()
+        dt.stroke(*LIGHT_GRAY)
+        dt.fill(None)
+        dt.strokeWidth(1/(self.getPosSize()[3]/CANVAS_UPM_HEIGHT))
+        dt.line((0, 0), (glyphToDisplay.width, 0))
+        dt.restore()
 
     def _drawSidebearings(self, glyphToDisplay):
-        save()
-        stroke(*LIGHT_GRAY)
-        fill(None)
-        strokeWidth(1/(self.getPosSize()[3]/CANVAS_UPM_HEIGHT))
+        dt.save()
+        dt.stroke(*LIGHT_GRAY)
+        dt.fill(None)
+        dt.strokeWidth(1/(self.getPosSize()[3]/CANVAS_UPM_HEIGHT))
 
-        line((0, self.fontObj.info.descender), (0, self.fontObj.info.descender+self.fontObj.info.unitsPerEm))
-        line((glyphToDisplay.width, self.fontObj.info.descender), (glyphToDisplay.width, self.fontObj.info.descender+self.fontObj.info.unitsPerEm))
+        dt.line((0, self.fontObj.info.descender), (0, self.fontObj.info.descender+self.fontObj.info.unitsPerEm))
+        dt.line((glyphToDisplay.width, self.fontObj.info.descender), (glyphToDisplay.width, self.fontObj.info.descender+self.fontObj.info.unitsPerEm))
 
-        restore()
+        dt.restore()
 
     def _drawCursor(self, correction):
-        save()
+        dt.save()
         lftGlyphName, rgtGlyphName = self.activePair
-        fill(*LIGHT_BLUE)
+        dt.fill(*LIGHT_BLUE)
         lftGlyph = self.fontObj[lftGlyphName]
         rgtGlyph = self.fontObj[rgtGlyphName]
         cursorWidth = lftGlyph.width/2. + rgtGlyph.width/2. + correction
         cursorHeight = 50   # upm
-        rect(-lftGlyph.width/2.-correction, self.fontObj.info.descender-cursorHeight+cursorHeight/2., cursorWidth, cursorHeight)
-        restore()
+        dt.rect(-lftGlyph.width/2.-correction, self.fontObj.info.descender-cursorHeight+cursorHeight/2., cursorWidth, cursorHeight)
+        dt.restore()
 
     def draw(self):
         try:
-            save()
+            dt.save()
 
             # this is for safety reason, user should be notified about possible unwanted kerning corrections
             if self.isSymmetricalEditingOn is True:
-                save()
-                fill(*SYMMETRICAL_BACKGROUND_COLOR)
-                rect(0, 0, self.getPosSize()[2], self.getPosSize()[3])
-                restore()
+                dt.save()
+                dt.fill(*SYMMETRICAL_BACKGROUND_COLOR)
+                dt.rect(0, 0, self.getPosSize()[2], self.getPosSize()[3])
+                dt.restore()
 
-            scale(self.getPosSize()[3]/CANVAS_UPM_HEIGHT)   # the canvas is virtually scaled according to CANVAS_UPM_HEIGHT value and canvasSize
-            translate(TEXT_MARGIN, 0)
+            dt.scale(self.getPosSize()[3]/CANVAS_UPM_HEIGHT)   # the canvas is virtually scaled according to CANVAS_UPM_HEIGHT value and canvasSize
+            dt.translate(TEXT_MARGIN, 0)
 
             flatKerning = self.fontObj.naked().flatKerning
 
             # background loop
-            translate(0, 600)
-            save()
+            dt.translate(0, 600)
+            dt.save()
             prevGlyphName = None
             for indexChar, eachGlyphName in enumerate(self.displayedWord):
                 glyphToDisplay = self.fontObj[eachGlyphName]
@@ -934,7 +929,7 @@ class WordDisplay(Group):
                             if self.isMetricsActive is True and self.isPreviewOn is False:
                                 self._drawMetricsCorrection(correction)
 
-                            translate(correction, 0)
+                            dt.translate(correction, 0)
                     else:
                         correction = 0
 
@@ -949,12 +944,12 @@ class WordDisplay(Group):
                     self._drawBaseline(glyphToDisplay)
                     self._drawSidebearings(glyphToDisplay)
 
-                translate(glyphToDisplay.width, 0)
+                dt.translate(glyphToDisplay.width, 0)
                 prevGlyphName = eachGlyphName
-            restore()
+            dt.restore()
 
             # foreground loop
-            save()
+            dt.save()
             prevGlyphName = None
             for indexChar, eachGlyphName in enumerate(self.displayedWord):
                 glyphToDisplay = self.fontObj[eachGlyphName]
@@ -964,14 +959,14 @@ class WordDisplay(Group):
                     if (prevGlyphName, eachGlyphName) in flatKerning and self.isKerningDisplayActive is True:
                         correction = flatKerning[(prevGlyphName, eachGlyphName)]
                         if correction != 0:
-                            translate(correction, 0)
+                            dt.translate(correction, 0)
 
                 self._drawGlyphOutlines(glyphToDisplay)
-                translate(glyphToDisplay.width, 0)
+                dt.translate(glyphToDisplay.width, 0)
                 prevGlyphName = eachGlyphName
-            restore()
+            dt.restore()
 
-            restore()
+            dt.restore()
 
         except Exception:
             print traceback.format_exc()
@@ -1094,8 +1089,11 @@ class WordListController(Group):
         self.callback(self)
 
     def loadStatusCallback(self, sender):
-        if os.path.exists(KERNING_STATUS_PATH) is True:
-            jsonFile = open(KERNING_STATUS_PATH, 'r')
+        kerningStatusPath = getFile(title='Load Kerning Status JSON file',
+                                    allowsMultipleSelection=False)[0]
+
+        if os.path.splitext(os.path.basename(kerningStatusPath))[1] == '.json':
+            jsonFile = open(kerningStatusPath, 'r')
             statusDictionary = json.load(jsonFile)
             jsonFile.close()
 
@@ -1110,15 +1108,19 @@ class WordListController(Group):
 
             # adjust controllers
             self.kerningVocabularyPopUp.setItems(self.kerningTextBaseNames)
-
-            # print 
             self.kerningVocabularyPopUp.set(self.kerningTextBaseNames.index(self.activeKerningTextBaseName))
             self.wordsListCtrl.set(self.wordsDisplayList)
-            self.wordsListCtrl.setSelection([self.wordsDisplayList.index(self.activeWord)])
+
+            for indexRow, eachRow in enumerate(self.wordsDisplayList):
+                if eachRow['word'] == self.activeWord:
+                    self.wordsListCtrl.setSelection([indexRow])
+                    break
+
             self.updateInfoCaption()
+            self.callback(self)
 
         else:
-            print 'there is no previous status to load'
+            message('No JSON, no party!', 'Chosen file is not in the right format')
 
     def saveButtonCallback(self, sender):
         statusDict = {
@@ -1129,7 +1131,12 @@ class WordListController(Group):
             'wordsDisplayList': self.wordsDisplayList,
             'activeWord': self.activeWord,
             'wordFilter': self.wordFilter}
-        jsonFile = open(KERNING_STATUS_PATH, 'w')
+
+        kerningStatusPath = putFile(title='Save Kerning Status JSON file',
+                                    fileName='kerningStatus.json',
+                                    canCreateDirectories=True)
+
+        jsonFile = open(kerningStatusPath, 'w')
         json.dump(statusDict, jsonFile, indent=4)
         jsonFile.write('\n')
         jsonFile.close()
