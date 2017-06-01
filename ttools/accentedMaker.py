@@ -118,7 +118,8 @@ class AccentedMaker(BaseWindowController):
         addObserver(self, 'updateFontOptions', "newFontDidOpen")
         addObserver(self, 'updateFontOptions', "fontDidOpen")
         addObserver(self, 'updateFontOptions', "fontWillClose")
-        self.w.bind("close", self.closingPlugin)
+        # self.w.bind("close", self.closingPlugin)
+        self.setUpBaseWindowBehavior()
         self.adjustPluginHeight()
         self.w.open()
 
@@ -392,11 +393,11 @@ class AccentedMaker(BaseWindowController):
     def buildAccentedCallback(self, sender):
         self.buildAccented()
 
-    def closingPlugin(self, sender):
+    def windowCloseCallback(self, sender):
         removeObserver(self, "newFontDidOpen")
         removeObserver(self, "fontDidOpen")
         removeObserver(self, "fontWillClose")
-
+        super(AccentedMaker, self).windowCloseCallback(sender)
 
 class SharedCtrls(Group):
 

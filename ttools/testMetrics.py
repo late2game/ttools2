@@ -157,15 +157,16 @@ class TestMetrics(BaseWindowController):
         addObserver(self, "updateFontList", "fontWillClose")
         addObserver(self, "updateFontList", "fontDidOpen")
         addObserver(self, "updateFontList", "newFontDidOpen")
-        self.w.bind("close", self.closing)
+        self.setUpBaseWindowBehavior()
 
         # open win
         self.w.open()
 
-    def closing(self, sender):
+    def windowCloseCallback(self, sender):
         removeObserver(self, "fontWillClose")
         removeObserver(self, "fontDidOpen")
         removeObserver(self, "newFontDidOpen")
+        super(TestMetrics, self).windowCloseCallback(sender)
 
     def updateFontList(self, sender):
         self.fontOptions = AllFonts()

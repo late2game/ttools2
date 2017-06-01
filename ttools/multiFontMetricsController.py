@@ -250,11 +250,12 @@ class MultiFontMetricsWindow(BaseWindowController):
         addObserver(self, 'newFontOpened', "newFontDidOpen")
         addObserver(self, 'openCloseFontCallback', "fontDidOpen")
         addObserver(self, 'openCloseFontCallback', "fontDidClose")
-        self.w.bind("close", self.closingPlugin)
+        # self.w.bind("close", self.closingPlugin)
 
         # lit up!
         self.updateSubscriptions()
         self.updateLineView()
+        self.setUpBaseWindowBehavior()
         self.w.open()
 
     # defcon observers (glyph obj)
@@ -354,11 +355,12 @@ class MultiFontMetricsWindow(BaseWindowController):
                                               hasHorizontalScroller=True,
                                               hasVerticalScroller=False)
 
-    def closingPlugin(self, sender):
+    def windowCloseCallback(self, sender):
         self.unsubscribeGlyphs()
         removeObserver(self, "newFontDidOpen")
         removeObserver(self, "fontDidOpen")
         removeObserver(self, "fontDidClose")
+        super(MultiFontMetricsWindow, self).windowCloseCallback(sender)
 
     def updateUnicodeMinimum(self):
         # collect everything
