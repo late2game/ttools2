@@ -19,12 +19,17 @@ import uiControllers
 reload(uiControllers)
 from uiControllers import FontsOrderController, FONT_ROW_HEIGHT
 
+import kerningMiscFunctions
+reload(kerningMiscFunctions)
+from kerningMiscFunctions import checkPairFormat, whichGroup, getCorrection
+
 # standard
 import os
 import sys
 import json
 import types
 import traceback
+from extraTools.touche import Touche
 import mojo.drawingTools as dt
 from mojo.roboFont import AllFonts
 from mojo.canvas import CanvasGroup
@@ -51,6 +56,8 @@ KERNING_NOT_DISPLAYED_ERROR = 'Why are you editing kerning if it is not displaye
 
 # colors
 BLACK = (0, 0, 0)
+TRANSPARENT_BLACK = (0, 0, 0, .07)
+WHITE = (1,1,1)
 LIGHT_RED = (1, 0, 0, .4)
 LIGHT_GREEN = (0, 1, 0, .4)
 LIGHT_BLUE = (0, 0, 1, .4)
@@ -61,6 +68,8 @@ SYMMETRICAL_BACKGROUND_COLOR = (1, 0, 1, .2)
 MARGIN_VER = 8
 MARGIN_HOR = 8
 MARGIN_COL = 4
+
+GROUP_NAME_BODY_SIZE = 24
 
 LEFT_COLUMN = 200
 PLUGIN_WIDTH = 1000
@@ -95,15 +104,8 @@ return: mark the word as "done"
 
 """
 
-
 ### Controllers
-def checkPairFormat(value):
-    assert isinstance(value, types.TupleType), 'wrong pair format'
-    assert len(value) == 2, 'wrong pair format'
-    assert isinstance(value[0], types.UnicodeType), 'wrong pair format'
-    assert isinstance(value[1], types.UnicodeType), 'wrong pair format'
-
-class KerningController(object):
+class KerningController(BaseWindowController):
     """this is the main controller of TT kerning editor, it handles different controllers and dialogues with font data"""
 
     displayedWord = ''
@@ -115,6 +117,7 @@ class KerningController(object):
     navCursor_Y = 0    # related to active fonts
 
     isPreviewOn = False
+    areGroupsShown = True
     isKerningDisplayActive = True
     isSidebearingsActive = True
     isMetricsActive = True
@@ -165,8 +168,9 @@ class KerningController(object):
                                         callback=self.joystickCallback)
 
         self.jumping_Y += self.w.joystick.getPosSize()[3] + MARGIN_VER
-        self.w.graphicsManager = GraphicsManager((self.jumping_X, -120, LEFT_COLUMN, 120),
+        self.w.graphicsManager = GraphicsManager((self.jumping_X, -142, LEFT_COLUMN, 142),
                                                  self.isKerningDisplayActive,
+                                                 self.areGroupsShown,
                                                  self.isSidebearingsActive,
                                                  self.isMetricsActive,
                                                  self.isColorsActive,
@@ -184,12 +188,13 @@ class KerningController(object):
         # observers!
         addObserver(self, 'openCloseFontCallback', "fontDidOpen")
         addObserver(self, 'openCloseFontCallback', "fontDidClose")
-        self.w.bind("close", self.closingPlugin)
+        self.setUpBaseWindowBehavior()
         self.w.open()
 
-    def closingPlugin(self, sender):
+    def windowCloseCallback(self, sender):
         removeObserver(self, "fontDidOpen")
         removeObserver(self, "fontWillClose")
+        super(KerningController, self).windowCloseCallback(sender)
 
     def openCloseFontCallback(self, sender):
         if AllFonts() == []:
@@ -250,6 +255,7 @@ class KerningController(object):
                                         self.displayedPairs,
                                         self.fontsOrder[eachI],
                                         self.isKerningDisplayActive,
+                                        self.areGroupsShown,
                                         self.isSidebearingsActive,
                                         self.isMetricsActive,
                                         self.isColorsActive,
@@ -268,7 +274,7 @@ class KerningController(object):
             eachDisplay = getattr(self.w, 'wordCtrl_%#02d' % (eachI+1))
             eachDisplay.setDisplayedWord(self.displayedWord)
             eachDisplay.setDisplayedPairs(self.displayedPairs)
-            eachDisplay.setGraphicsBooleans(self.isKerningDisplayActive, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive)
+            eachDisplay.setGraphicsBooleans(self.isKerningDisplayActive, self.areGroupsShown, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive)
             eachDisplay.setPreviewMode(self.isPreviewOn)
             eachDisplay.setSymmetricalEditingMode(self.isSymmetricalEditingOn)
             eachDisplay.wordCanvasGroup.update()
@@ -306,28 +312,31 @@ class KerningController(object):
     def setPairCorrection(self, amount):
         selectedFont = self.fontsOrder[self.navCursor_Y]
         selectedPair = tuple(self.displayedPairs[self.navCursor_X])
-        selectedFont.naked().flatKerning[selectedPair] = amount
+
+        correction, correctionKey = getCorrection(selectedPair, selectedFont, getKey=True)
+        selectedFont.kerning[correctionKey] = amount
 
         if self.isSymmetricalEditingOn is True:
-            flippedSelectedPair = selectedPair[1], selectedPair[0]
-            selectedFont.naked().flatKerning[flippedSelectedPair] = amount
+            flippedCorrectionKey = correctionKey[1], correctionKey[0]
+            selectedFont.kerning[flippedCorrectionKey] = amount
         self.updateWordDisplays()
 
     def modifyPairCorrection(self, amount):
         selectedFont = self.fontsOrder[self.navCursor_Y]
         selectedPair = tuple(splitText(''.join(self.displayedPairs[self.navCursor_X]), selectedFont.naked().unicodeData))
 
-        if selectedPair in selectedFont.naked().flatKerning:
-            selectedFont.naked().flatKerning[selectedPair] += amount
+        correction, correctionKey = getCorrection(selectedPair, selectedFont, getKey=True)
+        if correctionKey in selectedFont.kerning:
+            selectedFont.kerning[correctionKey] += amount
         else:
-            selectedFont.naked().flatKerning[selectedPair] = amount
+            selectedFont.kerning[correctionKey] = amount
 
         if self.isSymmetricalEditingOn is True:
-            flippedSelectedPair = selectedPair[1], selectedPair[0]
-            if flippedSelectedPair in selectedFont.naked().flatKerning:
-                selectedFont.naked().flatKerning[flippedSelectedPair] += amount
+            flippedCorrectionKey = correctionKey[1], correctionKey[0]
+            if flippedCorrectionKey in selectedFont.kerning:
+                selectedFont.kerning[flippedCorrectionKey] += amount
             else:
-                selectedFont.naked().flatKerning[flippedSelectedPair] = amount
+                selectedFont.kerning[flippedCorrectionKey] = amount
         self.w.joystick.updateCorrectionValue()
         self.updateWordDisplays()
 
@@ -387,7 +396,7 @@ class KerningController(object):
         self.initWordDisplays()
 
     def graphicsManagerCallback(self, sender):
-        self.isKerningDisplayActive, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive = sender.get()
+        self.isKerningDisplayActive, self.areGroupsShown, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive = sender.get()
         self.updateWordDisplays()
 
     def joystickCallback(self, sender):
@@ -479,11 +488,7 @@ class JoystickGroup(Group):
         self.jumping_X = buttonSide/2.
         self.jumping_Y = 0
 
-        if self.activePair in self.fontObj.naked().flatKerning:
-            correction = self.fontObj.naked().flatKerning[self.activePair]
-        else:
-            correction = 0
-
+        correction = getCorrection(self.activePair, self.fontObj, checkWithFlatKerning=True)
         self.minusMajorCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
                                            "-%s" % MAJOR_STEP,
                                            sizeStyle='small',
@@ -605,11 +610,8 @@ class JoystickGroup(Group):
         self.updateCorrectionValue()
 
     def updateCorrectionValue(self):
-        if tuple(self.activePair) in self.fontObj.naked().flatKerning:
-            correction = self.fontObj.naked().flatKerning[tuple(self.activePair)]
-        else:
-            correction = 0
-        self.activePairEditCorrection.set(correction)
+        correction = getCorrection(self.activePair, self.fontObj)
+        self.activePairEditCorrection.set('%s' % correction)
 
     def minusMajorCtrlCallback(self, sender):
         self.lastEvent = 'minusMajor'
@@ -678,10 +680,8 @@ class JoystickGroup(Group):
 
         except ValueError:
             if sender.get() != '-' or sender.get() != '':
-                if self.activePair in self.fontObj.naked().flatKerning:
-                    self.activePairEditCorrection.set('%s' % self.fontObj.naked().flatKerning[self.activePair])
-                else:
-                    self.activePairEditCorrection.set('%s' % 0)
+                correction = getCorrection(self.activePair, self.fontObj)
+                self.activePairEditCorrection.set('%s' % correction)
                 print traceback.format_exc()
 
 
@@ -689,9 +689,10 @@ class GraphicsManager(Group):
 
     previousState = None
 
-    def __init__(self, posSize, isSidebearingsActive, isKerningDisplayActive, isMetricsActive, isColorsActive, callback):
+    def __init__(self, posSize, isSidebearingsActive, areGroupsShown, isKerningDisplayActive, isMetricsActive, isColorsActive, callback):
         super(GraphicsManager, self).__init__(posSize)
         self.isKerningDisplayActive = isKerningDisplayActive
+        self.areGroupsShown = areGroupsShown
         self.isSidebearingsActive = isSidebearingsActive
         self.isMetricsActive = isMetricsActive
         self.isColorsActive = isColorsActive
@@ -717,6 +718,12 @@ class GraphicsManager(Group):
         self.showKerningHiddenButton.bind('k', ['command'])
 
         jumping_Y += vanillaControlsSize['CheckBoxRegularHeight']
+        self.showGroupsCheck = CheckBox((indent, jumping_Y, self.ctrlWidth-indent, vanillaControlsSize['CheckBoxRegularHeight']),
+                                        'show groups',
+                                        value=self.areGroupsShown,
+                                        callback=self.showGroupsCheckCallback)
+
+        jumping_Y += vanillaControlsSize['CheckBoxRegularHeight']
         self.showSidebearingsCheck = CheckBox((indent, jumping_Y, self.ctrlWidth-indent, vanillaControlsSize['CheckBoxRegularHeight']),
                                           'show sidebearings',
                                           value=self.isSidebearingsActive,
@@ -735,16 +742,21 @@ class GraphicsManager(Group):
                                     callback=self.showColorsCheckCallback)
 
     def get(self):
-        return self.isKerningDisplayActive, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive
+        return self.isKerningDisplayActive, self.areGroupsShown, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive
 
     def switchControls(self, value):
         self.showSidebearingsCheck.enable(value)
         self.showMetricsCheck.enable(value)
         self.showColorsCheck.enable(value)
+        self.showGroupsCheck.enable(value)
 
     def showKerningCheckCallback(self, sender):
         self.isKerningDisplayActive = bool(sender.get())
         self.showColorsCheck.enable(bool(sender.get()))
+        self.callback(self)
+
+    def showGroupsCheckCallback(self, sender):
+        self.areGroupsShown = bool(sender.get())
         self.callback(self)
 
     def showKerningHiddenButtonCallback(self, sender):
@@ -767,7 +779,7 @@ class GraphicsManager(Group):
 
 class WordDisplay(Group):
 
-    def __init__(self, posSize, displayedWord, displayedPairs, fontObj, isKerningDisplayActive, isSidebearingsActive, isMetricsActive, isColorsActive, isPreviewOn, isSymmetricalEditingOn, activePair=None, pairIndex=None):
+    def __init__(self, posSize, displayedWord, displayedPairs, fontObj, isKerningDisplayActive, areGroupsShown, isSidebearingsActive, isMetricsActive, isColorsActive, isPreviewOn, isSymmetricalEditingOn, activePair=None, pairIndex=None):
         super(WordDisplay, self).__init__(posSize)
 
         self.displayedWord = displayedWord
@@ -777,6 +789,7 @@ class WordDisplay(Group):
         self.pairIndex = pairIndex
 
         self.isKerningDisplayActive = isKerningDisplayActive
+        self.areGroupsShown = areGroupsShown
         self.isSidebearingsActive = isSidebearingsActive
         self.isMetricsActive = isMetricsActive
         self.isColorsActive = isColorsActive
@@ -794,8 +807,9 @@ class WordDisplay(Group):
     def setPreviewMode(self, value):
         self.isPreviewOn = value
 
-    def setGraphicsBooleans(self, isKerningDisplayActive, isSidebearingsActive, isMetricsActive, isColorsActive):
+    def setGraphicsBooleans(self, isKerningDisplayActive, areGroupsShown, isSidebearingsActive, isMetricsActive, isColorsActive):
         self.isKerningDisplayActive = isKerningDisplayActive
+        self.areGroupsShown = areGroupsShown
         self.isSidebearingsActive = isSidebearingsActive
         self.isMetricsActive = isMetricsActive
         self.isColorsActive = isColorsActive
@@ -822,6 +836,7 @@ class WordDisplay(Group):
 
     def _drawColoredCorrection(self, correction):
         dt.save()
+
         if correction > 0:
             dt.fill(*LIGHT_GREEN)
         else:
@@ -842,15 +857,17 @@ class WordDisplay(Group):
 
         dt.restore()
 
-    def _drawGlyphOutlines(self, glyphToDisplay):
+    def _drawGlyphOutlines(self, glyphName):
         dt.save()
         dt.fill(*BLACK)
         dt.stroke(None)
+        glyphToDisplay = self.fontObj[glyphName]
         dt.drawGlyph(glyphToDisplay)
         dt.restore()
 
-    def _drawMetricsData(self, glyphToDisplay, offset):
+    def _drawMetricsData(self, glyphName, offset):
         dt.save()
+        glyphToDisplay = self.fontObj[glyphName]
         dt.translate(0, self.fontObj.info.descender)
         reverseScalingFactor = self.getPosSize()[3]/CANVAS_UPM_HEIGHT
 
@@ -873,7 +890,9 @@ class WordDisplay(Group):
         dt.textBox(u'%d' % glyphToDisplay.rightMargin, (glyphToDisplay.width/2.*reverseScalingFactor, 0, glyphToDisplay.width/2.*reverseScalingFactor, textHeight), align='center')
         dt.restore()
 
-    def _drawBaseline(self, glyphToDisplay):
+    def _drawBaseline(self, glyphName):
+        glyphToDisplay = self.fontObj[glyphName]
+
         dt.save()
         dt.stroke(*LIGHT_GRAY)
         dt.fill(None)
@@ -881,7 +900,9 @@ class WordDisplay(Group):
         dt.line((0, 0), (glyphToDisplay.width, 0))
         dt.restore()
 
-    def _drawSidebearings(self, glyphToDisplay):
+    def _drawSidebearings(self, glyphName):
+        glyphToDisplay = self.fontObj[glyphName]
+
         dt.save()
         dt.stroke(*LIGHT_GRAY)
         dt.fill(None)
@@ -903,6 +924,82 @@ class WordDisplay(Group):
         dt.rect(-lftGlyph.width/2.-correction, self.fontObj.info.descender-cursorHeight+cursorHeight/2., cursorWidth, cursorHeight)
         dt.restore()
 
+    def _drawGlyphOutlinesFromGroups(self, aPair, correction):
+        prevGlyphName, eachGlyphName = aPair
+        prevGlyph, eachGlyph = self.fontObj[prevGlyphName], self.fontObj[eachGlyphName]
+
+        dt.save()
+
+        # _R__ group
+        dt.fill(*TRANSPARENT_BLACK)
+        groupName = whichGroup(prevGlyphName, 'rgt', self.fontObj)
+        if groupName:
+            groupContent = self.fontObj.groups[groupName]
+            for eachGroupSibling in groupContent:
+                if eachGroupSibling != prevGlyphName:
+                    glyphToDisplay = self.fontObj[eachGroupSibling]
+                    dt.save()
+                    dt.translate(-glyphToDisplay.width, 0) # back, according to his width, otherwise it does not coincide
+                    dt.drawGlyph(glyphToDisplay)
+                    dt.restore()
+
+        dt.save()
+        dt.translate(-prevGlyph.width, 0) # we need a caption in the right place
+        dt.fill(*BLACK)
+        dt.font(SYSTEM_FONT_NAME)
+        dt.fontSize(GROUP_NAME_BODY_SIZE)
+        textWidth, textHeight = dt.textSize(groupName)
+        dt.text(groupName, (glyphToDisplay.width/2.-textWidth/2., -GROUP_NAME_BODY_SIZE*2))
+        dt.restore()
+
+        # _L__ group
+        dt.fill(*TRANSPARENT_BLACK)
+        dt.translate(correction, 0)
+        groupName = whichGroup(eachGlyphName, 'lft', self.fontObj)
+        if groupName:
+            groupContent = self.fontObj.groups[groupName]
+            for eachGroupSibling in groupContent:
+                if eachGroupSibling != eachGlyphName:
+                    glyphToDisplay = self.fontObj[eachGroupSibling]
+                    dt.drawGlyph(glyphToDisplay)
+        dt.fill(*BLACK)    # caption
+        dt.font(SYSTEM_FONT_NAME)
+        dt.fontSize(GROUP_NAME_BODY_SIZE)
+        textWidth, textHeight = dt.textSize(groupName)
+        dt.text(groupName, (glyphToDisplay.width/2.-textWidth/2., -GROUP_NAME_BODY_SIZE*2))
+
+        dt.restore()
+
+    def _drawCollisions(self, aPair):
+        dt.save()
+        touche = Touche(self.fontObj)
+        correction, getKey = getCorrection(aPair, self.fontObj, getKey=True)
+        lftName, rgtName = getKey
+
+        lftGlyphs = []
+        if lftName.startswith('@MMK') is True:
+            lftGlyphs = self.fontObj.groups[lftName]
+        else:
+            lftGlyphs = [lftName]
+
+        rgtGlyphs = []
+        if rgtName.startswith('@MMK') is True:
+            rgtGlyphs = self.fontObj.groups[rgtName]
+        else:
+            rgtGlyphs = [rgtName]
+
+        COLLISION_BODY_SIZE = 48
+        dt.fontSize(COLLISION_BODY_SIZE)
+        for eachLftName in lftGlyphs:
+            for eachRgtName in rgtGlyphs:
+                touchingPairs = touche.findTouchingPairs([self.fontObj[eachLftName], self.fontObj[eachRgtName]])
+                if touchingPairs:
+                    dt.text(u'💥', (0, 0))
+
+        dt.restore()
+
+
+
     def draw(self):
 
         try:
@@ -918,44 +1015,58 @@ class WordDisplay(Group):
             dt.scale(self.getPosSize()[3]/CANVAS_UPM_HEIGHT)   # the canvas is virtually scaled according to CANVAS_UPM_HEIGHT value and canvasSize
             dt.translate(TEXT_MARGIN, 0)
 
-            flatKerning = self.fontObj.naked().flatKerning
+            # group glyphs
+            dt.translate(0, 600)
+
+            if self.areGroupsShown is True:
+                dt.save()
+                prevGlyphName = None
+                glyphsToDisplay = splitText(self.displayedWord, self.fontObj.naked().unicodeData)
+                for indexChar, eachGlyphName in enumerate(glyphsToDisplay):
+                    eachGlyph = self.fontObj[eachGlyphName]
+
+                    # this is for kerning
+                    if indexChar > 0:
+                        correction = getCorrection((prevGlyphName, eachGlyphName), self.fontObj, checkWithFlatKerning=True)
+                        if (indexChar-1) == self.pairIndex:
+                            self._drawGlyphOutlinesFromGroups((prevGlyphName, eachGlyphName), correction)
+
+                        if correction and correction != 0:
+                            dt.translate(correction, 0)
+
+                    dt.translate(eachGlyph.width, 0)
+                    prevGlyphName = eachGlyphName
+                dt.restore()
 
             # background loop
-            dt.translate(0, 600)
             dt.save()
             prevGlyphName = None
             glyphsToDisplay = splitText(self.displayedWord, self.fontObj.naked().unicodeData)
             for indexChar, eachGlyphName in enumerate(glyphsToDisplay):
                 eachGlyph = self.fontObj[eachGlyphName]
 
-
                 # this is for kerning
                 if indexChar > 0:
-                
-                    if (prevGlyphName, eachGlyphName) in flatKerning and self.isKerningDisplayActive is True:
-                        correction = flatKerning[(prevGlyphName, eachGlyphName)]
-                        if correction != 0:
+                    correction = getCorrection((prevGlyphName, eachGlyphName), self.fontObj, checkWithFlatKerning=True)
+                    if correction and correction != 0:
 
-                            if self.isColorsActive is True and self.isPreviewOn is False:
-                                self._drawColoredCorrection(correction)
-                            if self.isMetricsActive is True and self.isPreviewOn is False:
-                                self._drawMetricsCorrection(correction)
-
-                            dt.translate(correction, 0)
-                    else:
-                        correction = 0
-
+                        if self.isColorsActive is True and self.isPreviewOn is False:
+                            self._drawColoredCorrection(correction)
+                        if self.isMetricsActive is True and self.isPreviewOn is False:
+                            self._drawMetricsCorrection(correction)
+                        dt.translate(correction, 0)
 
                     if (indexChar-1) == self.pairIndex:
                         self._drawCursor(correction)
+                        self._drawCollisions((prevGlyphName, eachGlyphName))
 
                 # # draw metrics info
                 if self.isMetricsActive is True and self.isPreviewOn is False:
-                    self._drawMetricsData(eachGlyph, 33)
+                    self._drawMetricsData(eachGlyphName, 33)
 
                 if self.isSidebearingsActive is True and self.isPreviewOn is False:
-                    self._drawBaseline(eachGlyph)
-                    self._drawSidebearings(eachGlyph)
+                    self._drawBaseline(eachGlyphName)
+                    self._drawSidebearings(eachGlyphName)
 
                 dt.translate(eachGlyph.width, 0)
                 prevGlyphName = eachGlyphName
@@ -970,16 +1081,20 @@ class WordDisplay(Group):
 
                 # this is for kerning
                 if indexChar > 0:
-                    if (prevGlyphName, eachGlyphName) in flatKerning and self.isKerningDisplayActive is True:
-                        correction = flatKerning[(prevGlyphName, eachGlyphName)]
-                        if correction != 0:
-                            dt.translate(correction, 0)
+                    correction = getCorrection((prevGlyphName, eachGlyphName), self.fontObj, checkWithFlatKerning=True)
+                    if correction and correction != 0:
+                        dt.translate(correction, 0)
 
-                self._drawGlyphOutlines(eachGlyph)
+                    if (indexChar-1) == self.pairIndex:
+                        self._drawCollisions((prevGlyphName, eachGlyphName))
+
+                self._drawGlyphOutlines(eachGlyphName)
                 dt.translate(eachGlyph.width, 0)
+
                 prevGlyphName = eachGlyphName
             dt.restore()
 
+            # main restore, it wraps the three loops
             dt.restore()
 
         except Exception:
