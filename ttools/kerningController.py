@@ -22,6 +22,7 @@ from uiControllers import FontsOrderController, FONT_ROW_HEIGHT
 import kerningMiscFunctions
 reload(kerningMiscFunctions)
 from kerningMiscFunctions import checkPairFormat, whichGroup, getCorrection
+from kerningMiscFunctions import checkIfPairOverlaps
 
 # standard
 import os
@@ -29,7 +30,6 @@ import sys
 import json
 import types
 import traceback
-from extraTools.touche import Touche
 import mojo.drawingTools as dt
 from mojo.roboFont import AllFonts
 from mojo.canvas import CanvasGroup
@@ -56,7 +56,7 @@ KERNING_NOT_DISPLAYED_ERROR = 'Why are you editing kerning if it is not displaye
 
 # colors
 BLACK = (0, 0, 0)
-TRANSPARENT_BLACK = (0, 0, 0, .07)
+GROUP_GLYPHS_COLOR = (0, 0, 1, .1)
 WHITE = (1,1,1)
 LIGHT_RED = (1, 0, 0, .4)
 LIGHT_GREEN = (0, 1, 0, .4)
@@ -69,14 +69,12 @@ MARGIN_VER = 8
 MARGIN_HOR = 8
 MARGIN_COL = 4
 
-GROUP_NAME_BODY_SIZE = 24
-
 LEFT_COLUMN = 200
 PLUGIN_WIDTH = 1000
 PLUGIN_HEIGHT = 800
 
 TEXT_MARGIN = 200 #upm
-CANVAS_UPM_HEIGHT = 1600.
+CANVAS_SCALING_FACTOR_INIT = 1.6
 
 if '.SFNSText' in dt.installedFonts():
     SYSTEM_FONT_NAME = '.SFNSText'
@@ -84,6 +82,7 @@ else:
     SYSTEM_FONT_NAME = '.HelveticaNeueDeskInterface-Regular'
 
 BODY_SIZE = 14
+GROUP_NAME_BODY_SIZE = 12
 
 """
 Desired keys
@@ -112,12 +111,15 @@ class KerningController(BaseWindowController):
     displayedPairs = []
     activePair = None
 
+    canvasScalingFactor = CANVAS_SCALING_FACTOR_INIT
+
     fontsOrder = None
     navCursor_X = 0    # related to pairs
     navCursor_Y = 0    # related to active fonts
 
     isPreviewOn = False
     areGroupsShown = True
+    areCollisionsShown = False
     isKerningDisplayActive = True
     isSidebearingsActive = True
     isMetricsActive = True
@@ -168,9 +170,10 @@ class KerningController(BaseWindowController):
                                         callback=self.joystickCallback)
 
         self.jumping_Y += self.w.joystick.getPosSize()[3] + MARGIN_VER
-        self.w.graphicsManager = GraphicsManager((self.jumping_X, -142, LEFT_COLUMN, 142),
+        self.w.graphicsManager = GraphicsManager((self.jumping_X, -160, LEFT_COLUMN, 160),
                                                  self.isKerningDisplayActive,
                                                  self.areGroupsShown,
+                                                 self.areCollisionsShown,
                                                  self.isSidebearingsActive,
                                                  self.isMetricsActive,
                                                  self.isColorsActive,
@@ -179,8 +182,12 @@ class KerningController(BaseWindowController):
         self.jumping_X += LEFT_COLUMN+MARGIN_COL*2
         self.jumping_Y = MARGIN_VER
 
-        self.w.displayedWordCaption = TextBox((self.jumping_X, self.jumping_Y, -1, vanillaControlsSize['TextBoxRegularHeight']),
+        self.w.displayedWordCaption = TextBox((self.jumping_X, self.jumping_Y, 200, vanillaControlsSize['TextBoxRegularHeight']),
                                               self.displayedWord)
+
+        self.w.scalingFactorController = FactorController((-MARGIN_HOR-72, self.jumping_Y, 72, vanillaControlsSize['TextBoxRegularHeight']),
+                                                          self.canvasScalingFactor,
+                                                          callback=self.scalingFactorControllerCallback)
 
         self.jumping_Y += self.w.displayedWordCaption.getPosSize()[3]+MARGIN_COL
         self.initWordDisplays()
@@ -252,10 +259,12 @@ class KerningController(BaseWindowController):
             try:
                 wordCtrl = WordDisplay((self.jumping_X, self.jumping_Y, rightColumnWidth, singleWindowHeight),
                                         self.displayedWord,
+                                        self.canvasScalingFactor,
                                         self.displayedPairs,
                                         self.fontsOrder[eachI],
                                         self.isKerningDisplayActive,
                                         self.areGroupsShown,
+                                        self.areCollisionsShown,
                                         self.isSidebearingsActive,
                                         self.isMetricsActive,
                                         self.isColorsActive,
@@ -273,8 +282,9 @@ class KerningController(BaseWindowController):
         for eachI in range(len(self.fontsOrder)):
             eachDisplay = getattr(self.w, 'wordCtrl_%#02d' % (eachI+1))
             eachDisplay.setDisplayedWord(self.displayedWord)
+            eachDisplay.setScalingFactor(self.canvasScalingFactor)
             eachDisplay.setDisplayedPairs(self.displayedPairs)
-            eachDisplay.setGraphicsBooleans(self.isKerningDisplayActive, self.areGroupsShown, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive)
+            eachDisplay.setGraphicsBooleans(self.isKerningDisplayActive, self.areGroupsShown, self.areCollisionsShown, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive)
             eachDisplay.setPreviewMode(self.isPreviewOn)
             eachDisplay.setSymmetricalEditingMode(self.isSymmetricalEditingOn)
             eachDisplay.wordCanvasGroup.update()
@@ -386,6 +396,10 @@ class KerningController(BaseWindowController):
             getattr(self.w, 'wordCtrl_%#02d' % (eachI+1)).adjustSize((self.jumping_X, y, rightColumnWidth, singleWordDisplayHeight))
             y += singleWordDisplayHeight+MARGIN_HOR
 
+    def scalingFactorControllerCallback(self, sender):
+        self.canvasScalingFactor = sender.getScalingFactor()
+        self.updateWordDisplays()
+
     def wordListControllerCallback(self, sender):
         self.displayedWord = sender.get()
         self.updateEditorAccordingToDiplayedWord()
@@ -396,7 +410,7 @@ class KerningController(BaseWindowController):
         self.initWordDisplays()
 
     def graphicsManagerCallback(self, sender):
-        self.isKerningDisplayActive, self.areGroupsShown, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive = sender.get()
+        self.isKerningDisplayActive, self.areGroupsShown, self.areCollisionsShown, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive = sender.get()
         self.updateWordDisplays()
 
     def joystickCallback(self, sender):
@@ -468,6 +482,43 @@ class KerningController(BaseWindowController):
             else:
                 message('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
                 self.w.joystick.updateCorrectionValue()
+
+
+class FactorController(Group):
+
+    def __init__(self, posSize, canvasScalingFactor, callback):
+        super(FactorController, self).__init__(posSize)
+        self.canvasScalingFactor = canvasScalingFactor
+        self.callback = callback
+
+        jumpingX = 0
+        self.caption = TextBox((jumpingX, 0, 30, vanillaControlsSize['TextBoxRegularHeight']),
+                               '%.1f' % self.canvasScalingFactor)
+
+        jumpingX += 30+MARGIN_COL
+        self.upButton = SquareButton((jumpingX, 0, 16, 16),
+                                     '+',
+                                     sizeStyle='small',
+                                     callback=self.upButtonCallback)
+
+        jumpingX += 16+MARGIN_COL
+        self.dwButton = SquareButton((jumpingX, 0, 16, 16),
+                                     '-',
+                                     sizeStyle='small',
+                                     callback=self.dwButtonCallback)
+
+    def getScalingFactor(self):
+        return self.canvasScalingFactor
+
+    def upButtonCallback(self, sender):
+        self.canvasScalingFactor += .1
+        self.caption.set('%.1f' % self.canvasScalingFactor)
+        self.callback(self)
+
+    def dwButtonCallback(self, sender):
+        self.canvasScalingFactor -= .1
+        self.caption.set('%.1f' % self.canvasScalingFactor)
+        self.callback(self)
 
 
 
@@ -689,10 +740,11 @@ class GraphicsManager(Group):
 
     previousState = None
 
-    def __init__(self, posSize, isSidebearingsActive, areGroupsShown, isKerningDisplayActive, isMetricsActive, isColorsActive, callback):
+    def __init__(self, posSize, isSidebearingsActive, areGroupsShown, areCollisionsShown, isKerningDisplayActive, isMetricsActive, isColorsActive, callback):
         super(GraphicsManager, self).__init__(posSize)
         self.isKerningDisplayActive = isKerningDisplayActive
         self.areGroupsShown = areGroupsShown
+        self.areCollisionsShown = areCollisionsShown
         self.isSidebearingsActive = isSidebearingsActive
         self.isMetricsActive = isMetricsActive
         self.isColorsActive = isColorsActive
@@ -724,6 +776,12 @@ class GraphicsManager(Group):
                                         callback=self.showGroupsCheckCallback)
 
         jumping_Y += vanillaControlsSize['CheckBoxRegularHeight']
+        self.showCollisionsCheck = CheckBox((indent, jumping_Y, self.ctrlWidth-indent, vanillaControlsSize['CheckBoxRegularHeight']),
+                                        'show collisions',
+                                        value=self.areCollisionsShown,
+                                        callback=self.showCollisionsCheckCallback)
+
+        jumping_Y += vanillaControlsSize['CheckBoxRegularHeight']
         self.showSidebearingsCheck = CheckBox((indent, jumping_Y, self.ctrlWidth-indent, vanillaControlsSize['CheckBoxRegularHeight']),
                                           'show sidebearings',
                                           value=self.isSidebearingsActive,
@@ -742,13 +800,14 @@ class GraphicsManager(Group):
                                     callback=self.showColorsCheckCallback)
 
     def get(self):
-        return self.isKerningDisplayActive, self.areGroupsShown, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive
+        return self.isKerningDisplayActive, self.areGroupsShown, self.areCollisionsShown, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive
 
     def switchControls(self, value):
         self.showSidebearingsCheck.enable(value)
         self.showMetricsCheck.enable(value)
         self.showColorsCheck.enable(value)
         self.showGroupsCheck.enable(value)
+        self.showCollisionsCheck.enable(value)
 
     def showKerningCheckCallback(self, sender):
         self.isKerningDisplayActive = bool(sender.get())
@@ -757,6 +816,10 @@ class GraphicsManager(Group):
 
     def showGroupsCheckCallback(self, sender):
         self.areGroupsShown = bool(sender.get())
+        self.callback(self)
+
+    def showCollisionsCheckCallback(self, sender):
+        self.areCollisionsShown = bool(sender.get())
         self.callback(self)
 
     def showKerningHiddenButtonCallback(self, sender):
@@ -779,17 +842,19 @@ class GraphicsManager(Group):
 
 class WordDisplay(Group):
 
-    def __init__(self, posSize, displayedWord, displayedPairs, fontObj, isKerningDisplayActive, areGroupsShown, isSidebearingsActive, isMetricsActive, isColorsActive, isPreviewOn, isSymmetricalEditingOn, activePair=None, pairIndex=None):
+    def __init__(self, posSize, displayedWord, canvasScalingFactor, displayedPairs, fontObj, isKerningDisplayActive, areGroupsShown, areCollisionsShown, isSidebearingsActive, isMetricsActive, isColorsActive, isPreviewOn, isSymmetricalEditingOn, activePair=None, pairIndex=None):
         super(WordDisplay, self).__init__(posSize)
 
         self.displayedWord = displayedWord
         self.displayedPairs = displayedPairs
+        self.canvasScalingFactor = canvasScalingFactor
         self.fontObj = fontObj
         self.activePair = activePair
         self.pairIndex = pairIndex
 
         self.isKerningDisplayActive = isKerningDisplayActive
         self.areGroupsShown = areGroupsShown
+        self.areCollisionsShown = areCollisionsShown
         self.isSidebearingsActive = isSidebearingsActive
         self.isMetricsActive = isMetricsActive
         self.isColorsActive = isColorsActive
@@ -807,9 +872,10 @@ class WordDisplay(Group):
     def setPreviewMode(self, value):
         self.isPreviewOn = value
 
-    def setGraphicsBooleans(self, isKerningDisplayActive, areGroupsShown, isSidebearingsActive, isMetricsActive, isColorsActive):
+    def setGraphicsBooleans(self, isKerningDisplayActive, areGroupsShown, areCollisionsShown, isSidebearingsActive, isMetricsActive, isColorsActive):
         self.isKerningDisplayActive = isKerningDisplayActive
         self.areGroupsShown = areGroupsShown
+        self.areCollisionsShown = areCollisionsShown
         self.isSidebearingsActive = isSidebearingsActive
         self.isMetricsActive = isMetricsActive
         self.isColorsActive = isColorsActive
@@ -826,6 +892,9 @@ class WordDisplay(Group):
 
     def setDisplayedPairs(self, displayedPairs):
         self.displayedPairs = displayedPairs
+
+    def setScalingFactor(self, scalingFactor):
+        self.canvasScalingFactor = scalingFactor
 
     def setActivePairIndex(self, pairIndex):
         self.pairIndex = pairIndex
@@ -849,7 +918,7 @@ class WordDisplay(Group):
         dt.fill(*BLACK)
         dt.stroke(None)
         dt.translate(0, self.fontObj.info.unitsPerEm+self.fontObj.info.descender+100)
-        dt.scale(1/(self.getPosSize()[3]/CANVAS_UPM_HEIGHT))
+        dt.scale(1/(self.getPosSize()[3]/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm)))
         dt.font(SYSTEM_FONT_NAME)
         dt.fontSize(BODY_SIZE)
         textWidth, textHeight = dt.textSize('%s' % correction)
@@ -869,34 +938,39 @@ class WordDisplay(Group):
         dt.save()
         glyphToDisplay = self.fontObj[glyphName]
         dt.translate(0, self.fontObj.info.descender)
-        reverseScalingFactor = self.getPosSize()[3]/CANVAS_UPM_HEIGHT
+        reverseScalingFactor = 1/(self.getPosSize()[3]/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm))
 
         if self.isSidebearingsActive is True:
             dt.fill(None)
-            dt.stroke(*LIGHT_GRAY)
-            dt.strokeWidth(1/reverseScalingFactor)
-            dt.line((0, 0), (0, -offset*1/reverseScalingFactor))
-            dt.line((glyphToDisplay.width, 0), (glyphToDisplay.width, -offset*1/reverseScalingFactor))
+            dt.stroke(*BLACK)
+            dt.strokeWidth(reverseScalingFactor)
+            dt.line((0, 0), (0, -offset*reverseScalingFactor))
+            dt.line((glyphToDisplay.width, 0), (glyphToDisplay.width, -offset*reverseScalingFactor))
+        dt.restore()
 
-        dt.scale(1/reverseScalingFactor)
-        dt.translate(0, -offset)
+        dt.save()
+        dt.translate(0, self.fontObj.info.descender)
+        dt.translate(0, -offset*reverseScalingFactor)
         dt.fill(*BLACK)
+
         dt.stroke(None)
         dt.font(SYSTEM_FONT_NAME)
-        dt.fontSize(BODY_SIZE)
+        dt.fontSize(BODY_SIZE*reverseScalingFactor)
+
         textWidth, textHeight = dt.textSize(u'%s' % glyphToDisplay.width)
-        dt.textBox(u'%d' % glyphToDisplay.width, (0, 11, glyphToDisplay.width*reverseScalingFactor, textHeight), align='center')
-        dt.textBox(u'%d' % glyphToDisplay.leftMargin, (0, 0, glyphToDisplay.width/2.*reverseScalingFactor, textHeight), align='center')
-        dt.textBox(u'%d' % glyphToDisplay.rightMargin, (glyphToDisplay.width/2.*reverseScalingFactor, 0, glyphToDisplay.width/2.*reverseScalingFactor, textHeight), align='center')
+        dt.textBox(u'W%d' % glyphToDisplay.width, (0, 11, glyphToDisplay.width, textHeight), align='center')
+        dt.textBox(u'L%d' % glyphToDisplay.leftMargin, (0, 0, glyphToDisplay.width/2., textHeight), align='center')
+        dt.textBox(u'R%d' % glyphToDisplay.rightMargin, (glyphToDisplay.width/2., 0, glyphToDisplay.width/2., textHeight), align='center')
         dt.restore()
 
     def _drawBaseline(self, glyphName):
         glyphToDisplay = self.fontObj[glyphName]
 
         dt.save()
-        dt.stroke(*LIGHT_GRAY)
+        dt.stroke(*BLACK)
         dt.fill(None)
-        dt.strokeWidth(1/(self.getPosSize()[3]/CANVAS_UPM_HEIGHT))
+        # reversed scaling factor
+        dt.strokeWidth(1/(self.getPosSize()[3]/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm)))
         dt.line((0, 0), (glyphToDisplay.width, 0))
         dt.restore()
 
@@ -904,10 +978,13 @@ class WordDisplay(Group):
         glyphToDisplay = self.fontObj[glyphName]
 
         dt.save()
-        dt.stroke(*LIGHT_GRAY)
+        dt.stroke(*BLACK)
         dt.fill(None)
-        dt.strokeWidth(1/(self.getPosSize()[3]/CANVAS_UPM_HEIGHT))
 
+        # reversed scaling factor
+        dt.strokeWidth(1/(self.getPosSize()[3]/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm)))
+
+        dt.fill(*LIGHT_GRAY)
         dt.line((0, self.fontObj.info.descender), (0, self.fontObj.info.descender+self.fontObj.info.unitsPerEm))
         dt.line((glyphToDisplay.width, self.fontObj.info.descender), (glyphToDisplay.width, self.fontObj.info.descender+self.fontObj.info.unitsPerEm))
 
@@ -931,7 +1008,7 @@ class WordDisplay(Group):
         dt.save()
 
         # _R__ group
-        dt.fill(*TRANSPARENT_BLACK)
+        dt.fill(*GROUP_GLYPHS_COLOR)
         groupName = whichGroup(prevGlyphName, 'rgt', self.fontObj)
         if groupName:
             groupContent = self.fontObj.groups[groupName]
@@ -944,16 +1021,17 @@ class WordDisplay(Group):
                     dt.restore()
 
         dt.save()
+        reverseScalingFactor = 1/(self.getPosSize()[3]/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm))
         dt.translate(-prevGlyph.width, 0) # we need a caption in the right place
         dt.fill(*BLACK)
         dt.font(SYSTEM_FONT_NAME)
-        dt.fontSize(GROUP_NAME_BODY_SIZE)
+        dt.fontSize(GROUP_NAME_BODY_SIZE*reverseScalingFactor)
         textWidth, textHeight = dt.textSize(groupName)
-        dt.text(groupName, (glyphToDisplay.width/2.-textWidth/2., -GROUP_NAME_BODY_SIZE*2))
+        dt.text(groupName, (glyphToDisplay.width/2.-textWidth/2., -GROUP_NAME_BODY_SIZE*reverseScalingFactor*2))
         dt.restore()
 
         # _L__ group
-        dt.fill(*TRANSPARENT_BLACK)
+        dt.fill(*GROUP_GLYPHS_COLOR)
         dt.translate(correction, 0)
         groupName = whichGroup(eachGlyphName, 'lft', self.fontObj)
         if groupName:
@@ -964,17 +1042,20 @@ class WordDisplay(Group):
                     dt.drawGlyph(glyphToDisplay)
         dt.fill(*BLACK)    # caption
         dt.font(SYSTEM_FONT_NAME)
-        dt.fontSize(GROUP_NAME_BODY_SIZE)
+        dt.fontSize(GROUP_NAME_BODY_SIZE*reverseScalingFactor)
         textWidth, textHeight = dt.textSize(groupName)
-        dt.text(groupName, (glyphToDisplay.width/2.-textWidth/2., -GROUP_NAME_BODY_SIZE*2))
+        dt.text(groupName, (glyphToDisplay.width/2.-textWidth/2., -GROUP_NAME_BODY_SIZE*reverseScalingFactor*2))
 
         dt.restore()
 
     def _drawCollisions(self, aPair):
         dt.save()
-        touche = Touche(self.fontObj)
-        correction, getKey = getCorrection(aPair, self.fontObj, getKey=True)
-        lftName, rgtName = getKey
+        correction, kerningKey = getCorrection(aPair, self.fontObj, getKey=True)
+
+        if kerningKey is None:
+            lftName, rgtName = aPair
+        else:
+            lftName, rgtName = kerningKey
 
         lftGlyphs = []
         if lftName.startswith('@MMK') is True:
@@ -990,14 +1071,20 @@ class WordDisplay(Group):
 
         COLLISION_BODY_SIZE = 48
         dt.fontSize(COLLISION_BODY_SIZE)
+
+        breakCycle = False
         for eachLftName in lftGlyphs:
             for eachRgtName in rgtGlyphs:
-                touchingPairs = touche.findTouchingPairs([self.fontObj[eachLftName], self.fontObj[eachRgtName]])
-                if touchingPairs:
+                isTouching = checkIfPairOverlaps(self.fontObj[eachLftName], self.fontObj[eachRgtName])
+                if isTouching:
                     dt.text(u'💥', (0, 0))
+                    breakCycle = True
+                    break
+
+            if breakCycle is True:
+                break
 
         dt.restore()
-
 
 
     def draw(self):
@@ -1012,7 +1099,7 @@ class WordDisplay(Group):
                 dt.rect(0, 0, self.getPosSize()[2], self.getPosSize()[3])
                 dt.restore()
 
-            dt.scale(self.getPosSize()[3]/CANVAS_UPM_HEIGHT)   # the canvas is virtually scaled according to CANVAS_UPM_HEIGHT value and canvasSize
+            dt.scale(self.getPosSize()[3]/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm))   # the canvas is virtually scaled according to self.canvasScalingFactor value and canvasSize
             dt.translate(TEXT_MARGIN, 0)
 
             # group glyphs
@@ -1058,11 +1145,10 @@ class WordDisplay(Group):
 
                     if (indexChar-1) == self.pairIndex:
                         self._drawCursor(correction)
-                        self._drawCollisions((prevGlyphName, eachGlyphName))
 
                 # # draw metrics info
                 if self.isMetricsActive is True and self.isPreviewOn is False:
-                    self._drawMetricsData(eachGlyphName, 33)
+                    self._drawMetricsData(eachGlyphName, 48)
 
                 if self.isSidebearingsActive is True and self.isPreviewOn is False:
                     self._drawBaseline(eachGlyphName)
@@ -1085,7 +1171,7 @@ class WordDisplay(Group):
                     if correction and correction != 0:
                         dt.translate(correction, 0)
 
-                    if (indexChar-1) == self.pairIndex:
+                    if (indexChar-1) == self.pairIndex and self.areCollisionsShown is True:
                         self._drawCollisions((prevGlyphName, eachGlyphName))
 
                 self._drawGlyphOutlines(eachGlyphName)
