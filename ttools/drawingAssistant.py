@@ -765,6 +765,9 @@ class DrawingAssistant(BaseWindowController):
         dt.restore()
 
     def _drawGrids(self, frameOrigin, frameSize, italicAngle, scalingFactor):
+        if not italicAngle:
+            italicAngle = 0
+
         for eachGridDescription in reversed(self.gridsDB):
             gridColor = eachGridDescription['color']
             isHorizontal = eachGridDescription['horizontal']
