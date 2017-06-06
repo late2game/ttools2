@@ -958,9 +958,9 @@ class WordDisplay(Group):
         dt.fontSize(BODY_SIZE*reverseScalingFactor)
 
         textWidth, textHeight = dt.textSize(u'%s' % glyphToDisplay.width)
-        dt.textBox(u'W%d' % glyphToDisplay.width, (0, 11, glyphToDisplay.width, textHeight), align='center')
-        dt.textBox(u'L%d' % glyphToDisplay.leftMargin, (0, 0, glyphToDisplay.width/2., textHeight), align='center')
-        dt.textBox(u'R%d' % glyphToDisplay.rightMargin, (glyphToDisplay.width/2., 0, glyphToDisplay.width/2., textHeight), align='center')
+        dt.textBox(u'<%d>' % glyphToDisplay.width, (0, 0, glyphToDisplay.width, textHeight*2), align='center')
+        dt.textBox(u'\nL%d' % glyphToDisplay.leftMargin, (0, 0, glyphToDisplay.width/2., textHeight*2), align='center')
+        dt.textBox(u'\nR%d' % glyphToDisplay.rightMargin, (glyphToDisplay.width/2., 0, glyphToDisplay.width/2., textHeight*2), align='center')
         dt.restore()
 
     def _drawBaseline(self, glyphName):
@@ -1147,7 +1147,7 @@ class WordDisplay(Group):
 
                 # # draw metrics info
                 if self.isMetricsActive is True and self.isPreviewOn is False:
-                    self._drawMetricsData(eachGlyphName, 48)
+                    self._drawMetricsData(eachGlyphName, 52)
 
                 if self.isSidebearingsActive is True and self.isPreviewOn is False:
                     self._drawBaseline(eachGlyphName)
