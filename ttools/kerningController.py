@@ -1004,12 +1004,12 @@ class WordDisplay(Group):
     def _drawGlyphOutlinesFromGroups(self, aPair, correction):
         prevGlyphName, eachGlyphName = aPair
         prevGlyph, eachGlyph = self.fontObj[prevGlyphName], self.fontObj[eachGlyphName]
+        reverseScalingFactor = 1/(self.getPosSize()[3]/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm))
 
+        # _L__ group
         dt.save()
-
-        # _R__ group
         dt.fill(*GROUP_GLYPHS_COLOR)
-        groupName = whichGroup(prevGlyphName, 'rgt', self.fontObj)
+        groupName = whichGroup(prevGlyphName, 'lft', self.fontObj)
         if groupName:
             groupContent = self.fontObj.groups[groupName]
             for eachGroupSibling in groupContent:
@@ -1020,32 +1020,31 @@ class WordDisplay(Group):
                     dt.drawGlyph(glyphToDisplay)
                     dt.restore()
 
-        dt.save()
-        reverseScalingFactor = 1/(self.getPosSize()[3]/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm))
+        dt.fill(*BLACK)    # caption
         dt.translate(-prevGlyph.width, 0) # we need a caption in the right place
-        dt.fill(*BLACK)
         dt.font(SYSTEM_FONT_NAME)
         dt.fontSize(GROUP_NAME_BODY_SIZE*reverseScalingFactor)
         textWidth, textHeight = dt.textSize(groupName)
         dt.text(groupName, (glyphToDisplay.width/2.-textWidth/2., -GROUP_NAME_BODY_SIZE*reverseScalingFactor*2))
         dt.restore()
 
-        # _L__ group
-        dt.fill(*GROUP_GLYPHS_COLOR)
+        # _R__ group
+        dt.save()
         dt.translate(correction, 0)
-        groupName = whichGroup(eachGlyphName, 'lft', self.fontObj)
+        dt.fill(*GROUP_GLYPHS_COLOR)
+        groupName = whichGroup(eachGlyphName, 'rgt', self.fontObj)
         if groupName:
             groupContent = self.fontObj.groups[groupName]
             for eachGroupSibling in groupContent:
                 if eachGroupSibling != eachGlyphName:
                     glyphToDisplay = self.fontObj[eachGroupSibling]
                     dt.drawGlyph(glyphToDisplay)
-        dt.fill(*BLACK)    # caption
+
+        dt.fill(*BLACK)
         dt.font(SYSTEM_FONT_NAME)
         dt.fontSize(GROUP_NAME_BODY_SIZE*reverseScalingFactor)
         textWidth, textHeight = dt.textSize(groupName)
         dt.text(groupName, (glyphToDisplay.width/2.-textWidth/2., -GROUP_NAME_BODY_SIZE*reverseScalingFactor*2))
-
         dt.restore()
 
     def _drawCollisions(self, aPair):
