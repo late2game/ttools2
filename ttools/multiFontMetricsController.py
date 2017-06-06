@@ -679,7 +679,7 @@ class TextStringsControls(Group):
         jumpingX += textFilePopUpWidth + MARGIN_COL
         textLinePopUpWidth = 60
         self.textLinePopUp = PopUpButton((jumpingX, 0, textLinePopUpWidth, vanillaControlsSize['PopUpButtonRegularHeight']),
-                                         ['%#02d' % item for item in range(1, len(self.chosenTxt)+1)],
+                                         ['%#02d' % item for item in xrange(1, len(self.chosenTxt)+1)],
                                          callback=self.textLinePopUpCallback)
 
         jumpingX += textLinePopUpWidth + MARGIN_COL
@@ -722,7 +722,7 @@ class TextStringsControls(Group):
         self.stringIndex = 0
         self.chosenLine = self.chosenTxt[self.stringIndex].split(' ')
 
-        self.textLinePopUp.setItems(['%#02d' % item for item in range(1, len(self.chosenTxt)+1)])
+        self.textLinePopUp.setItems(['%#02d' % item for item in xrange(1, len(self.chosenTxt)+1)])
         self.selectedLine.set(convertLineToPseudoUnicode(self.chosenLine))
         self.callback(self)
 
