@@ -1,0 +1,131 @@
+06 INT INT
+comma hyphen comma hyphen comma hyphen comma
+n n comma hyphen n n hyphen comma
+n n comma hyphen n n hyphen comma
+comma guillemotleft comma guillemotright comma guillemotleft comma guillemotright comma
+n n comma guillemotleft n n guillemotright comma
+n n comma guillemotright n n guillemotleft comma
+comma slash comma backslash comma slash comma backslash comma
+n n comma slash n n backslash comma
+n n comma backslash n n slash comma
+comma quotedblleft comma quotedblright comma quotedblleft comma quotedblright comma
+n n comma quotedblleft n n quotedblright comma
+n n comma quotedblright n n quotedblleft comma
+comma quotedblbase comma quotedblright comma quotedblbase comma quotedblright comma
+n n comma quotedblbase n n quotedblright comma
+n n comma quotedblright n n quotedblbase comma
+comma asterisk comma asterisk comma
+n n comma asterisk n n asterisk comma
+n n comma asterisk n n asterisk comma
+comma quotedbl comma quotedbl comma quotedbl comma
+n n comma quotedbl n n quotedbl comma
+n n comma quotedbl n n quotedbl comma
+hyphen guillemotleft hyphen guillemotright hyphen guillemotleft hyphen guillemotright hyphen
+n n hyphen guillemotleft n n guillemotright hyphen
+n n hyphen guillemotright n n guillemotleft hyphen
+hyphen slash hyphen backslash hyphen slash hyphen backslash hyphen
+n n hyphen slash n n backslash hyphen
+n n hyphen backslash n n slash hyphen
+hyphen quotedblleft hyphen quotedblright hyphen quotedblleft hyphen quotedblright hyphen
+n n hyphen quotedblleft n n quotedblright hyphen
+n n hyphen quotedblright n n quotedblleft hyphen
+hyphen quotedblbase hyphen quotedblright hyphen quotedblbase hyphen quotedblright hyphen
+n n hyphen quotedblbase n n quotedblright hyphen
+n n hyphen quotedblright n n quotedblbase hyphen
+parenleft bracketleft braceleft space space braceright bracketright parenright
+parenleft braceleft bracketleft space space bracketright braceright parenright
+bracketleft parenleft braceleft space space braceright parenright bracketright
+bracketleft braceleft parenleft space space parenright braceright bracketright
+braceleft parenleft bracketleft space space bracketright parenright braceright
+braceleft bracketleft parenleft space space parenright bracketright braceright
+parenleft.sc bracketleft.sc braceleft.sc space space braceright.sc bracketright.sc parenright.sc
+parenleft.sc braceleft.sc bracketleft.sc space space bracketright.sc braceright.sc parenright.sc
+bracketleft.sc parenleft.sc braceleft.sc space space braceright.sc parenright.sc bracketright.sc
+bracketleft.sc braceleft.sc parenleft.sc space space parenright.sc braceright.sc bracketright.sc
+braceleft.sc parenleft.sc bracketleft.sc space space bracketright.sc parenright.sc braceright.sc
+braceleft.sc bracketleft.sc parenleft.sc space space parenright.sc bracketright.sc braceright.sc
+parenleft.case bracketleft.case braceleft.case space space braceright.case bracketright.case parenright.case
+parenleft.case braceleft.case bracketleft.case space space bracketright.case braceright.case parenright.case
+bracketleft.case parenleft.case braceleft.case space space braceright.case parenright.case bracketright.case
+bracketleft.case braceleft.case parenleft.case space space parenright.case braceright.case bracketright.case
+braceleft.case parenleft.case bracketleft.case space space bracketright.case parenright.case braceright.case
+braceleft.case bracketleft.case parenleft.case space space parenright.case bracketright.case braceright.case
+
+asterisk slash asterisk backslash asterisk slash asterisk backslash asterisk
+n n asterisk slash n n backslash asterisk
+n n asterisk backslash n n slash asterisk
+asterisk quotedblbase asterisk quotedblright asterisk quotedblbase asterisk quotedblright asterisk
+n n asterisk quotedblbase n n quotedblright asterisk
+n n asterisk quotedblright n n quotedblbase asterisk
+quotedblbase slash quotedblbase backslash quotedblbase slash quotedblbase backslash quotedblbase
+n n quotedblbase slash n n backslash quotedblbase
+n n quotedblbase backslash n n slash quotedblbase
+quotedblleft slash quotedblleft backslash quotedblleft slash quotedblleft backslash quotedblleft
+n n quotedblleft slash n n backslash quotedblleft
+n n quotedblleft backslash n n slash quotedblleft
+quotedblright slash quotedblright backslash quotedblright slash quotedblright backslash quotedblright
+n n quotedblright slash n n backslash quotedblright
+n n quotedblright backslash n n slash quotedblright
+guillemotleft slash guillemotleft backslash guillemotleft slash guillemotleft backslash guillemotleft
+n n guillemotleft slash n n backslash guillemotleft
+n n guillemotleft backslash n n slash guillemotleft
+guillemotright slash guillemotright backslash guillemotright slash guillemotright backslash guillemotright
+n n guillemotright slash n n backslash guillemotright
+n n guillemotright backslash n n slash guillemotright
+exclam slash exclam backslash exclam
+n n exclam slash n n backslash exclam
+n n exclam backslash n n slash exclam
+exclamdown slash exclamdown backslash exclamdown
+n n exclamdown slash n n backslash exclamdown
+n n exclamdown backslash n n slash exclamdown
+question slash question backslash question
+n n question slash n n backslash question
+n n question backslash n n slash question
+questiondown slash questiondown backslash questiondown
+n n questiondown slash n n backslash questiondown
+n n questiondown backslash n n slash questiondown
+dagger slash dagger backslash dagger
+n n dagger slash n n backslash dagger
+n n dagger backslash n n slash dagger
+H comma M comma H H comma M H H M comma H
+H hyphen M hyphen H H hyphen M H H M hyphen H
+H guillemotright M guillemotleft H H guillemotright M H H M guillemotleft H
+H guillemotleft M guillemotright H H guillemotleft M H H M guillemotright H
+H slash M backslash H H slash M H H M backslash H
+HH quotedblleft M quotedblright HH quotedblright M quotedblleft HH quotedblbase M quotedblleft HH
+H ampersand M ampersand H H ampersand M H H M ampersand H
+h.sc comma m.sc comma h.sc h.sc comma m.sc h.sc h.sc m.sc comma h.sc
+h.sc hyphen.sc m.sc hyphen.sc h.sc h.sc hyphen.sc m.sc h.sc h.sc m.sc hyphen.sc h.sc
+h.sc guillemotright.sc m.sc guillemotleft.sc h.sc h.sc guillemotright.sc m.sc h.sc h.sc m.sc guillemotleft.sc h.sc
+h.sc guillemotleft.sc m.sc guillemotright.sc h.sc h.sc guillemotleft.sc m.sc h.sc h.sc m.sc guillemotright.sc h.sc
+h.sc slash.sc m.sc backslash.sc h.sc h.sc slash.sc m.sc h.sc h.sc m.sc backslash.sc h.sc
+h.sc h.sc quotedblleft.sc m.sc quotedblright.sc h.sc h.sc quotedblright.sc m.sc quotedblleft.sc h.sc h.sc quotedblbase.sc m.sc quotedblleft.sc h.sc h.sc
+h.sc ampersand.sc m.sc ampersand.sc h.sc h.sc ampersand.sc m.sc h.sc h.sc m.sc ampersand.sc h.sc
+H hyphen.case M hyphen.case H H hyphen.case M H H M hyphen.case H
+H guillemotright.case M guillemotleft.case H H guillemotright.case M H H M guillemotleft.case H
+H guillemotleft.case M guillemotright.case H H guillemotleft.case M H H M guillemotright.case H
+n hyphen y hyphen n n hyphen y n n y hyphen n
+n comma y comma n n comma y n n y comma n
+n n quotedblleft y quotedblright n n quotedblright y quotedblleft n n quotedblbase y quotedblleft n n
+n slash y backslash n n slash y n n y backslash n
+H comma M.alt comma H H comma M.alt H H M.alt comma H
+H hyphen M.alt hyphen H H hyphen M.alt H H M.alt hyphen H
+H guillemotright M.alt guillemotleft H H guillemotright M.alt H H M.alt guillemotleft H
+H guillemotleft M.alt guillemotright H H guillemotleft M.alt H H M.alt guillemotright H
+H slash M.alt backslash H H slash M.alt H H M.alt backslash H
+HH quotedblleft M.alt quotedblright HH quotedblright M.alt quotedblleft HH quotedblbase M.alt quotedblleft HH
+H ampersand M.alt ampersand H H ampersand M.alt H H M.alt ampersand H
+h.sc comma m.sc.alt comma h.sc h.sc comma m.sc.alt h.sc h.sc m.sc.alt comma h.sc
+h.sc hyphen.sc m.sc.alt hyphen.sc h.sc h.sc hyphen.sc m.sc.alt h.sc h.sc m.sc.alt hyphen.sc h.sc
+h.sc guillemotright.sc m.sc.alt guillemotleft.sc h.sc h.sc guillemotright.sc m.sc.alt h.sc h.sc m.sc.alt guillemotleft.sc h.sc
+h.sc guillemotleft.sc m.sc.alt guillemotright.sc h.sc h.sc guillemotleft.sc m.sc.alt h.sc h.sc m.sc.alt guillemotright.sc h.sc
+h.sc slash.sc m.sc.alt backslash.sc h.sc h.sc slash.sc m.sc.alt h.sc h.sc m.sc.alt backslash.sc h.sc
+h.sc h.sc quotedblleft.sc m.sc.alt quotedblright.sc h.sc h.sc quotedblright.sc m.sc.alt quotedblleft.sc h.sc h.sc quotedblbase.sc m.sc.alt quotedblleft.sc h.sc h.sc
+h.sc ampersand.sc m.sc.alt ampersand.sc h.sc h.sc ampersand.sc m.sc.alt h.sc h.sc m.sc.alt ampersand.sc h.sc
+H hyphen.case M.alt hyphen.case H H hyphen.case M.alt H H M.alt hyphen.case H
+H guillemotright.case M.alt guillemotleft.case H H guillemotright.case M.alt H H M.alt guillemotleft.case H
+H guillemotleft.case M.alt guillemotright.case H H guillemotleft.case M.alt H H M.alt guillemotright.case H
+n hyphen y.alt hyphen n n hyphen y.alt n n y.alt hyphen n
+n comma y.alt comma n n comma y.alt n n y.alt comma n
+n n quotedblleft y.alt quotedblright n n quotedblright y.alt quotedblleft n n quotedblbase y.alt quotedblleft n n
+n slash y.alt backslash n n slash y.alt n n y.alt backslash n
