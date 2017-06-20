@@ -1,11 +1,70 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import userInterfaceValues
+reload(userInterfaceValues)
+from userInterfaceValues import vanillaControlsSize
+
 import types
 from mojo.roboFont import RGlyph
 from extraTools import findPossibleOverlappingSegmentsPen
 from fontTools.misc.arrayTools import offsetRect, sectRect
 from lib.tools.bezierTools import intersectCubicCubic, intersectCubicLine, intersectLineLine
+from vanilla import Window, RadioGroup, Button
+
+MARGIN = 12
+
+class ChooseException(object):
+
+    def __init__(self, options, callback):
+        self.options = options
+        self.callback = callback
+        self.whichException = options[0]
+
+        self.w = Window((300, 120),
+                        'Choose exception')
+
+        self.w.options = RadioGroup((MARGIN, MARGIN, 140, len(options)*20),
+                                    options,
+                                    callback=self.optionsCallback)
+        self.w.options.set(0)
+
+        self.w.cancel = Button((-(90*2+MARGIN*2), -(vanillaControlsSize['ButtonRegularHeight']+MARGIN), 90, vanillaControlsSize['ButtonRegularHeight']),
+                               'Cancel',
+                               callback=self.cancelCallback)
+
+        self.w.submit = Button((-(90+MARGIN), -(vanillaControlsSize['ButtonRegularHeight']+MARGIN), 90, vanillaControlsSize['ButtonRegularHeight']),
+                               'Submit',
+                               callback=self.submitCallback)
+
+        self.w.open()
+
+    def get(self):
+        return self.whichException
+
+    def enable(self, value):
+        if value is True:
+            self.w.show()
+        else:
+            self.w.hide()
+
+    def setOptions(self, options):
+        delattr(self.w, 'options')
+        self.w.options = RadioGroup((MARGIN, MARGIN, 140, len(options)*20),
+                                    options,
+                                    callback=self.optionsCallback)
+
+    def optionsCallback(self, sender):
+        self.whichException = self.options[sender.get()]
+
+    def cancelCallback(self, sender):
+        self.whichException = None
+        self.callback(self)
+        self.w.hide()
+
+    def submitCallback(self, sender):
+        self.callback(self)
+        self.w.hide()
 
 
 def checkPairFormat(value):
@@ -14,20 +73,81 @@ def checkPairFormat(value):
     assert isinstance(value[0], types.UnicodeType), 'wrong pair format'
     assert isinstance(value[1], types.UnicodeType), 'wrong pair format'
 
+
 def whichGroup(targetGlyphName, aLocation, aFont):
     assert aLocation in ['lft', 'rgt']
-    possibleLocations = {'lft': '@MMK_L__',
-                         'rgt': '@MMK_R__'}
+    possibleLocations = {'lft': '@MMK_L_',
+                         'rgt': '@MMK_R_'}
     filteredGroups = {name: content for name, content in aFont.groups.items() if name.startswith(possibleLocations[aLocation])}
     for eachGroupName, eachGroupContent in filteredGroups.items():
-        for eachGlyphName in eachGroupContent:
-            if eachGlyphName == targetGlyphName:
-                return eachGroupName
+        if targetGlyphName in eachGroupContent:
+            return eachGroupName
     return None
+
+
+def makePairCorrection(aPair, aFont, amount):
+    correction, correctionKey = getCorrection(aPair, aFont, getKey=True)
+
+    # if pair already in font
+    if correctionKey in aFont.kerning:
+        aFont.kerning[correctionKey] += amount
+
+    # brand new pair, prefer group kerning if possible
+    else:
+        lftGlyphName, rgtGlyphName = aPair
+        lftGroup = whichGroup(lftGlyphName, 'lft', aFont)
+        rgtGroup = whichGroup(rgtGlyphName, 'rgt', aFont)
+
+        if lftGroup and rgtGroup:
+            correctionKey = lftGroup, rgtGroup
+        elif lftGroup:
+            correctionKey = lftGroup, rgtGlyphName
+        elif rgtGroup:
+            correctionKey = lftGlyphName, rgtGroup
+        else:
+            correctionKey = lftGlyphName, rgtGlyphName
+        aFont.kerning[correctionKey] = amount
+
+
+def searchCorrections(aPair, aFont):
+    """
+    aPair should be only glyphNames, right?
+    """
+
+    lftGlyphName, rgtGlyphName = aPair
+    lftGroup = whichGroup(lftGlyphName, 'lft', aFont)
+    rgtGroup = whichGroup(rgtGlyphName, 'rgt', aFont)
+
+    correctionsOptions = ('group2group', 'group2glyph', 'glyph2group', 'glyph2glyph')
+    corrections = {'group2group': ((lftGroup, rgtGroup), aFont.kerning.get((lftGroup, rgtGroup))),
+                   'group2glyph': ((lftGroup, rgtGlyphName), aFont.kerning.get((lftGroup, rgtGlyphName))),
+                   'glyph2group': ((lftGlyphName, rgtGroup), aFont.kerning.get((lftGlyphName, rgtGroup))),
+                   'glyph2glyph': ((lftGlyphName, rgtGlyphName), aFont.kerning.get((lftGlyphName, rgtGlyphName)))}
+
+    usedCorrections = {kind: corrections[kind] for kind in correctionsOptions if corrections[kind][1] is not None}
+    if len(usedCorrections) > 2:
+        print 'we have a conflict here'
+        raise StandardError
+
+    usedKeys = [name for name in correctionsOptions if name in usedCorrections.keys()]
+    correctionsMap = {}
+
+    if len(usedCorrections) == 2:
+        kerningStandard, kerningException = usedCorrections[usedKeys[0]], usedCorrections[usedKeys[1]]
+        correctionsMap['standard'] = kerningStandard
+        correctionsMap['exception'] = kerningException
+
+    elif len(usedCorrections) == 1:
+        kerningStandard = usedCorrections[usedKeys[0]]
+        correctionsMap['standard'] = kerningStandard
+
+    return correctionsMap
+
 
 def getCorrection(aPair, aFont, getKey=False, checkWithFlatKerning=False):
     key = None
     correction = 0
+    isException = False
 
     # pair to pair
     if aPair in aFont.kerning:
@@ -53,7 +173,7 @@ def getCorrection(aPair, aFont, getKey=False, checkWithFlatKerning=False):
             key = (lftGroup, rgtGlyphName)
 
         # pair to group
-        if rgtGroup and (lftGroup, rgtGlyphName) in aFont.kerning:
+        if rgtGroup and (lftGlyphName, rgtGroup) in aFont.kerning:
             correction = aFont.kerning.get((lftGlyphName, rgtGroup))
             key = (lftGlyphName, rgtGroup)
 
@@ -65,6 +185,7 @@ def getCorrection(aPair, aFont, getKey=False, checkWithFlatKerning=False):
 
         if reference != correction:
             print u'We have a problem with %s, %s from %s font' % (lftGlyphName, rgtGlyphName, aFont)
+            print u'key: %s' % key
             print u'flat: %s, correction: %s' % (reference, correction)
             print u'flat kerning is different ¯\_(ツ)_/¯'
             raise StandardError

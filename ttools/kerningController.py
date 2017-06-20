@@ -19,10 +19,11 @@ import uiControllers
 reload(uiControllers)
 from uiControllers import FontsOrderController, FONT_ROW_HEIGHT
 
-import kerningMiscFunctions
-reload(kerningMiscFunctions)
-from kerningMiscFunctions import checkPairFormat, whichGroup, getCorrection
-from kerningMiscFunctions import checkIfPairOverlaps
+import kerningMisc
+reload(kerningMisc)
+from kerningMisc import checkPairFormat, whichGroup, getCorrection
+from kerningMisc import checkIfPairOverlaps, makePairCorrection
+from kerningMisc import searchCorrections, ChooseException
 
 # standard
 import os
@@ -47,7 +48,7 @@ PLUGIN_TITLE = 'TT Kerning editor'
 
 # func
 KERNING_TEXT_FOLDER = os.path.join(os.path.dirname(__file__), 'resources', 'kerningTexts')
-JOYSTICK_EVENTS = ['minusMajor', 'minusMinor', 'plusMinor', 'plusMajor', 'preview', 'solved', 'symmetricalEditing', 'keyboardEdit', 'previousWord', 'cursorUp', 'cursorLeft', 'cursorRight', 'cursorDown', 'nextWord']
+JOYSTICK_EVENTS = ['exceptionTrigger', 'minusMajor', 'minusMinor', 'plusMinor', 'plusMajor', 'preview', 'solved', 'symmetricalEditing', 'keyboardEdit', 'previousWord', 'cursorUp', 'cursorLeft', 'cursorRight', 'cursorDown', 'nextWord']
 
 MAJOR_STEP = 20
 MINOR_STEP = 4
@@ -55,14 +56,16 @@ MINOR_STEP = 4
 KERNING_NOT_DISPLAYED_ERROR = 'Why are you editing kerning if it is not displayed?'
 
 # colors
-BLACK = (0, 0, 0)
+EXCEPTION_COLOR = (1,0,0,.4)
 GROUP_GLYPHS_COLOR = (0, 0, 1, .1)
+SYMMETRICAL_BACKGROUND_COLOR = (1, 0, 1, .2)
+
+BLACK = (0, 0, 0)
 WHITE = (1,1,1)
 LIGHT_RED = (1, 0, 0, .4)
 LIGHT_GREEN = (0, 1, 0, .4)
 LIGHT_BLUE = (0, 0, 1, .4)
 LIGHT_GRAY = (0, 0, 0, .4)
-SYMMETRICAL_BACKGROUND_COLOR = (1, 0, 1, .2)
 
 # ui
 MARGIN_VER = 8
@@ -71,7 +74,7 @@ MARGIN_COL = 4
 
 LEFT_COLUMN = 200
 PLUGIN_WIDTH = 1000
-PLUGIN_HEIGHT = 800
+PLUGIN_HEIGHT = 850
 
 TEXT_MARGIN = 200 #upm
 CANVAS_SCALING_FACTOR_INIT = 1.6
@@ -141,6 +144,11 @@ class KerningController(BaseWindowController):
 
         # load opened fonts
         self.initFontsOrder()
+
+        # exception window (will appear only if needed)
+        self.exceptionWindow = ChooseException(['group2glyph', 'glyph2group', 'glyph2glyph'],
+                                               callback=self.exceptionWindowCallback)
+        self.exceptionWindow.enable(False)
 
         self.jumping_Y = MARGIN_VER
         self.jumping_X = MARGIN_HOR
@@ -335,18 +343,11 @@ class KerningController(BaseWindowController):
         selectedFont = self.fontsOrder[self.navCursor_Y]
         selectedPair = tuple(splitText(''.join(self.displayedPairs[self.navCursor_X]), selectedFont.naked().unicodeData))
 
-        correction, correctionKey = getCorrection(selectedPair, selectedFont, getKey=True)
-        if correctionKey in selectedFont.kerning:
-            selectedFont.kerning[correctionKey] += amount
-        else:
-            selectedFont.kerning[correctionKey] = amount
-
+        makePairCorrection(selectedPair, selectedFont, amount)
         if self.isSymmetricalEditingOn is True:
-            flippedCorrectionKey = correctionKey[1], correctionKey[0]
-            if flippedCorrectionKey in selectedFont.kerning:
-                selectedFont.kerning[flippedCorrectionKey] += amount
-            else:
-                selectedFont.kerning[flippedCorrectionKey] = amount
+            flippedPair = selectedPair[1], selectedPair[0]
+            makePairCorrection(flippedPair, selectedFont, amount)
+
         self.w.joystick.updateCorrectionValue()
         self.updateWordDisplays()
 
@@ -378,6 +379,9 @@ class KerningController(BaseWindowController):
         self.updateWordDisplays()
 
     ### callbacks
+    def exceptionWindowCallback(self, sender):
+        self.whichException = sender.get()
+
     def mainWindowResize(self, mainWindow):
         windowWidth, windowHeight = mainWindow.getPosSize()[2], mainWindow.getPosSize()[3]
         rightColumnWidth = windowWidth - LEFT_COLUMN
@@ -483,6 +487,9 @@ class KerningController(BaseWindowController):
                 message('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
                 self.w.joystick.updateCorrectionValue()
 
+        elif joystickEvent == 'exceptionTrigger':
+            self.exceptionWindow.enable(True)
+
 
 class FactorController(Group):
 
@@ -521,7 +528,6 @@ class FactorController(Group):
         self.callback(self)
 
 
-
 class JoystickGroup(Group):
 
     lastEvent = None
@@ -540,6 +546,7 @@ class JoystickGroup(Group):
         self.jumping_Y = 0
 
         correction = getCorrection(self.activePair, self.fontObj, checkWithFlatKerning=True)
+
         self.minusMajorCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
                                            "-%s" % MAJOR_STEP,
                                            sizeStyle='small',
@@ -569,6 +576,14 @@ class JoystickGroup(Group):
 
         self.jumping_X = buttonSide/2.
         self.jumping_Y += buttonSide
+        self.exceptionController = SquareButton((self.jumping_X, self.jumping_Y, buttonSide*4, buttonSide*.75),
+                                                'exception',
+                                                sizeStyle='small',
+                                                callback=self.exceptionControllerCallback)
+        self.exceptionController.bind('e', ['command'])
+
+        self.jumping_X = buttonSide/2.
+        self.jumping_Y += buttonSide*.75
         self.previewCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide*2, buttonSide*.75),
                                         "preview",
                                         sizeStyle='small',
@@ -661,7 +676,13 @@ class JoystickGroup(Group):
         self.updateCorrectionValue()
 
     def updateCorrectionValue(self):
-        correction = getCorrection(self.activePair, self.fontObj)
+        correctionsMap = searchCorrections(self.activePair, self.fontObj)
+        if 'exception' in correctionsMap:
+            correctionKey, correction = correctionsMap['exception']
+        elif 'standard' in correctionsMap:
+            correctionKey, correction = correctionsMap['standard']
+        else:
+            correctionKey, correction = None, 0
         self.activePairEditCorrection.set('%s' % correction)
 
     def minusMajorCtrlCallback(self, sender):
@@ -678,6 +699,10 @@ class JoystickGroup(Group):
 
     def plusMajorCtrlCallback(self, sender):
         self.lastEvent = 'plusMajor'
+        self.callback(self)
+
+    def exceptionControllerCallback(self, sender):
+        self.lastEvent = 'exceptionTrigger'
         self.callback(self)
 
     def previewCtrlCallback(self, sender):
@@ -731,7 +756,13 @@ class JoystickGroup(Group):
 
         except ValueError:
             if sender.get() != '-' or sender.get() != '':
-                correction = getCorrection(self.activePair, self.fontObj)
+                correctionsMap = searchCorrections(self.activePair, self.fontObj)
+                if 'exception' in correctionsMap:
+                    correctionKey, correction = correctionsMap['exception']
+                elif 'standard' in correctionsMap:
+                    correctionKey, correction = correctionsMap['standard']
+                else:
+                    correctionKey, correction = 0
                 self.activePairEditCorrection.set('%s' % correction)
                 print traceback.format_exc()
 
@@ -990,9 +1021,13 @@ class WordDisplay(Group):
 
         dt.restore()
 
-    def _drawCursor(self, correction):
+    def _drawCursor(self, correction, isException):
         dt.save()
-        dt.fill(*LIGHT_BLUE)
+        if isException is True:
+            dt.fill(*EXCEPTION_COLOR)
+        else:
+            dt.fill(*LIGHT_BLUE)
+
         lftGlyphName, rgtGlyphName = splitText(''.join(self.activePair), self.fontObj.naked().unicodeData)
         lftGlyph = self.fontObj[lftGlyphName]
         rgtGlyph = self.fontObj[rgtGlyphName]
@@ -1001,51 +1036,58 @@ class WordDisplay(Group):
         dt.rect(-lftGlyph.width/2.-correction, self.fontObj.info.descender-cursorHeight+cursorHeight/2., cursorWidth, cursorHeight)
         dt.restore()
 
-    def _drawGlyphOutlinesFromGroups(self, aPair, correction):
+    def _drawGlyphOutlinesFromGroups(self, aPair, correctionKey, correction):
         prevGlyphName, eachGlyphName = aPair
+
+        if correctionKey is not None:
+            lftReference, rgtReference = correctionKey
+        else:
+            lftReference = whichGroup(prevGlyphName, 'lft', self.fontObj)
+            rgtReference = whichGroup(eachGlyphName, 'rgt', self.fontObj)
+
         prevGlyph, eachGlyph = self.fontObj[prevGlyphName], self.fontObj[eachGlyphName]
         reverseScalingFactor = 1/(self.getPosSize()[3]/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm))
 
         # _L__ group
-        dt.save()
-        dt.fill(*GROUP_GLYPHS_COLOR)
-        groupName = whichGroup(prevGlyphName, 'lft', self.fontObj)
-        if groupName:
-            groupContent = self.fontObj.groups[groupName]
-            for eachGroupSibling in groupContent:
-                if eachGroupSibling != prevGlyphName:
-                    glyphToDisplay = self.fontObj[eachGroupSibling]
-                    dt.save()
-                    dt.translate(-glyphToDisplay.width, 0) # back, according to his width, otherwise it does not coincide
-                    dt.drawGlyph(glyphToDisplay)
-                    dt.restore()
+        if lftReference:
+            if lftReference.startswith('@MMK_L_'):
+                dt.save()
+                dt.fill(*GROUP_GLYPHS_COLOR)
+                groupContent = self.fontObj.groups[lftReference]
+                for eachGroupSibling in groupContent:
+                    if eachGroupSibling != prevGlyphName:
+                        glyphToDisplay = self.fontObj[eachGroupSibling]
+                        dt.save()
+                        dt.translate(-glyphToDisplay.width, 0) # back, according to his width, otherwise it does not coincide
+                        dt.drawGlyph(glyphToDisplay)
+                        dt.restore()
 
-        dt.fill(*BLACK)    # caption
-        dt.translate(-prevGlyph.width, 0) # we need a caption in the right place
-        dt.font(SYSTEM_FONT_NAME)
-        dt.fontSize(GROUP_NAME_BODY_SIZE*reverseScalingFactor)
-        textWidth, textHeight = dt.textSize(groupName)
-        dt.text(groupName, (glyphToDisplay.width/2.-textWidth/2., -GROUP_NAME_BODY_SIZE*reverseScalingFactor*2))
-        dt.restore()
+                dt.fill(*BLACK)    # caption
+                dt.translate(-prevGlyph.width, 0) # we need a caption in the right place
+                dt.font(SYSTEM_FONT_NAME)
+                dt.fontSize(GROUP_NAME_BODY_SIZE*reverseScalingFactor)
+                textWidth, textHeight = dt.textSize(lftReference)
+                dt.text(lftReference, (glyphToDisplay.width/2.-textWidth/2., -GROUP_NAME_BODY_SIZE*reverseScalingFactor*2))
+                dt.restore()
 
         # _R__ group
-        dt.save()
-        dt.translate(correction, 0)
-        dt.fill(*GROUP_GLYPHS_COLOR)
-        groupName = whichGroup(eachGlyphName, 'rgt', self.fontObj)
-        if groupName:
-            groupContent = self.fontObj.groups[groupName]
-            for eachGroupSibling in groupContent:
-                if eachGroupSibling != eachGlyphName:
-                    glyphToDisplay = self.fontObj[eachGroupSibling]
-                    dt.drawGlyph(glyphToDisplay)
+        if rgtReference:
+            if rgtReference.startswith('@MMK_R_'):
+                dt.save()
+                dt.translate(correction, 0)
+                dt.fill(*GROUP_GLYPHS_COLOR)
+                groupContent = self.fontObj.groups[rgtReference]
+                for eachGroupSibling in groupContent:
+                    if eachGroupSibling != eachGlyphName:
+                        glyphToDisplay = self.fontObj[eachGroupSibling]
+                        dt.drawGlyph(glyphToDisplay)
 
-        dt.fill(*BLACK)
-        dt.font(SYSTEM_FONT_NAME)
-        dt.fontSize(GROUP_NAME_BODY_SIZE*reverseScalingFactor)
-        textWidth, textHeight = dt.textSize(groupName)
-        dt.text(groupName, (glyphToDisplay.width/2.-textWidth/2., -GROUP_NAME_BODY_SIZE*reverseScalingFactor*2))
-        dt.restore()
+                dt.fill(*BLACK)
+                dt.font(SYSTEM_FONT_NAME)
+                dt.fontSize(GROUP_NAME_BODY_SIZE*reverseScalingFactor)
+                textWidth, textHeight = dt.textSize(rgtReference)
+                dt.text(rgtReference, (glyphToDisplay.width/2.-textWidth/2., -GROUP_NAME_BODY_SIZE*reverseScalingFactor*2))
+                dt.restore()
 
     def _drawCollisions(self, aPair):
         dt.save()
@@ -1082,7 +1124,6 @@ class WordDisplay(Group):
 
             if breakCycle is True:
                 break
-
         dt.restore()
 
 
@@ -1113,9 +1154,16 @@ class WordDisplay(Group):
 
                     # this is for kerning
                     if indexChar > 0:
-                        correction = getCorrection((prevGlyphName, eachGlyphName), self.fontObj, checkWithFlatKerning=True)
+                        correctionsMap = searchCorrections((prevGlyphName, eachGlyphName), self.fontObj)
+                        if 'exception' in correctionsMap:
+                            correctionKey, correction = correctionsMap['exception']
+                        elif 'standard' in correctionsMap:
+                            correctionKey, correction = correctionsMap['standard']
+                        else:
+                            correctionKey, correction = None, 0
+
                         if (indexChar-1) == self.pairIndex:
-                            self._drawGlyphOutlinesFromGroups((prevGlyphName, eachGlyphName), correction)
+                            self._drawGlyphOutlinesFromGroups((prevGlyphName, eachGlyphName), correctionKey, correction)
 
                         if correction and correction != 0:
                             dt.translate(correction, 0)
@@ -1133,9 +1181,18 @@ class WordDisplay(Group):
 
                 # this is for kerning
                 if indexChar > 0:
-                    correction = getCorrection((prevGlyphName, eachGlyphName), self.fontObj, checkWithFlatKerning=True)
-                    if correction and correction != 0:
+                    correctionsMap = searchCorrections((prevGlyphName, eachGlyphName), self.fontObj)
+                    if 'exception' in correctionsMap:
+                        correctionKey, correction = correctionsMap['exception']
+                        isException = True
+                    elif 'standard' in correctionsMap:
+                        correctionKey, correction = correctionsMap['standard']
+                        isException = False
+                    else:
+                        correctionKey, correction = None, 0
+                        isException = False
 
+                    if correction and correction != 0:
                         if self.isColorsActive is True and self.isPreviewOn is False:
                             self._drawColoredCorrection(correction)
                         if self.isMetricsActive is True and self.isPreviewOn is False:
@@ -1143,7 +1200,7 @@ class WordDisplay(Group):
                         dt.translate(correction, 0)
 
                     if (indexChar-1) == self.pairIndex:
-                        self._drawCursor(correction)
+                        self._drawCursor(correction, isException)
 
                 # # draw metrics info
                 if self.isMetricsActive is True and self.isPreviewOn is False:
@@ -1166,7 +1223,14 @@ class WordDisplay(Group):
 
                 # this is for kerning
                 if indexChar > 0:
-                    correction = getCorrection((prevGlyphName, eachGlyphName), self.fontObj, checkWithFlatKerning=True)
+                    correctionsMap = searchCorrections((prevGlyphName, eachGlyphName), self.fontObj)
+                    if 'exception' in correctionsMap:
+                        correctionKey, correction = correctionsMap['exception']
+                    elif 'standard' in correctionsMap:
+                        correctionKey, correction = correctionsMap['standard']
+                    else:
+                        correctionKey, correction = None, 0
+
                     if correction and correction != 0:
                         dt.translate(correction, 0)
 
