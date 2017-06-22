@@ -22,26 +22,6 @@ def catchFilesAndFolders(path, extension):
     items = [os.path.join(path, item) for item in os.listdir(path) if item.endswith(extension)]
     return items
 
-def buildPairsFromString(uniString):
-    assert isinstance(uniString, types.UnicodeType) is True
-
-    pairs = []
-    for eachI in range(1, len(uniString)):
-        myPair = (u'%s' % uniString[eachI-1], u'%s' % uniString[eachI])
-        pairs.append(myPair)
-    return pairs
-
-def loadKerningTexts(kerningTextFolder):
-    kerningWordDB = OrderedDict()
-    kerningTextBaseNames = [pth for pth in os.listdir(kerningTextFolder) if pth.endswith('.txt')]
-    kerningTextBaseNames.sort()
-    for eachKerningTextBaseName in kerningTextBaseNames:
-        kerningWords = [u'%s' % word.strip() for word in codecs.open(os.path.join(kerningTextFolder, eachKerningTextBaseName), 'r', 'utf-8').readlines()]
-        uniqueKerningWords = []
-        _ = [uniqueKerningWords.append(word) for word in kerningWords if word not in uniqueKerningWords]
-        kerningWordDB[eachKerningTextBaseName[3:]] = [{'word': word, 'done?': 0} for word in uniqueKerningWords]
-    return kerningWordDB
-
 def getOpenedFontFromPath(openedFonts, pth):
     for eachFont in openedFonts:
         if eachFont.path == pth:
