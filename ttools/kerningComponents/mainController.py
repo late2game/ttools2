@@ -47,8 +47,7 @@ from mojo.events import addObserver, removeObserver
 from defconAppKit.windows.baseWindow import BaseWindowController
 from defconAppKit.tools.textSplitter import splitText
 from vanilla import Window, TextBox, HorizontalLine
-from vanilla.dialogs import message, getFile, putFile
-
+from vanilla.dialogs import message
 
 ### Constants
 PLUGIN_TITLE = 'TT Kerning editor'
@@ -168,13 +167,15 @@ class KerningController(BaseWindowController):
     def windowCloseCallback(self, sender):
         removeObserver(self, "fontDidOpen")
         removeObserver(self, "fontWillClose")
+        self.exceptionWindow.close()
         super(KerningController, self).windowCloseCallback(sender)
+        self.w.close()
 
     def openCloseFontCallback(self, sender):
         if AllFonts() == []:
             message('No fonts, no party!', 'Please, open some fonts before starting the mighty MultiFont Kerning Controller')
-            self.w.close()
-
+            self.windowCloseCallback(sender)
+            return None
 
         self.deleteWordDisplays()
         self.initFontsOrder()
@@ -303,7 +304,7 @@ class KerningController(BaseWindowController):
             self.exceptionWindow.setOptions(exceptionOptions)
             self.exceptionWindow.enable(True)
         else:
-            message('no kerning pair, no exception!')
+            self.showMessage('no kerning pair, no exception!', 'kerning exceptions can be triggered only starting from class kerning')
 
     # manipulate data
     def setPairCorrection(self, amount):
@@ -420,25 +421,25 @@ class KerningController(BaseWindowController):
             if self.isKerningDisplayActive is True:
                 self.modifyPairCorrection(-MAJOR_STEP)
             else:
-                message('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
+                self.showMessage('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
 
         elif joystickEvent == 'minusMinor':
             if self.isKerningDisplayActive is True:
                 self.modifyPairCorrection(-MINOR_STEP)
             else:
-                message('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
+                self.showMessage('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
 
         elif joystickEvent == 'plusMinor':
             if self.isKerningDisplayActive is True:
                 self.modifyPairCorrection(MINOR_STEP)
             else:
-                message('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
+                self.showMessage('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
 
         elif joystickEvent == 'plusMajor':
             if self.isKerningDisplayActive is True:
                 self.modifyPairCorrection(MAJOR_STEP)
             else:
-                message('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
+                self.showMessage('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
 
         elif joystickEvent == 'preview':
             if self.isPreviewOn is True:
@@ -488,7 +489,7 @@ class KerningController(BaseWindowController):
                 self.updateWordDisplays()
 
             else:
-                message('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
+                self.showMessage('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
                 self.w.joystick.updateCorrectionValue()
 
         elif joystickEvent == 'exceptionTrigger':
