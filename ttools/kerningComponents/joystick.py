@@ -94,6 +94,7 @@ class JoystickController(Group):
                                                  'vertically aligned editing',
                                                  value=self.isVerticalAlignedEditingOn,
                                                  callback=self.verticalAlignedModeCheckCallback)
+        self.verticalAlignedModeCheck.bind('v', ['command'])
 
         self.hiddenSymmetryEditingButton = Button((self.jumping_X, self.ctrlHeight+40, self.ctrlWidth, vanillaControlsSize['ButtonRegularHeight']),
                                                    'hiddenSymmetriyEditingButton',
