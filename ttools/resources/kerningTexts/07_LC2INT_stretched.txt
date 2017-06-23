@@ -1,0 +1,36 @@
+(f) )f( [f] ]f[ {f} }f{
+\f/ /f\ ‹f› ›f‹ -f-
+‘f’ “f” 'f' "f"
+.f. •f• ·f· *f* °f°
+(k) )k( [k] ]k[ {k} }k{
+\k/ /k\ ‹k› ›k‹ -k-
+‘k’ “k” 'k' "k"
+.k. •k• ·k· *k* °k°
+(r) )r( [r] ]r[ {r} }r{
+\r/ /r\ ‹r› ›r‹ -r-
+‘r’ “r” 'r' "r"
+.r. •r• ·r· *r* °r°
+(t) )t( [t] ]t[ {t} }t{
+\t/ /t\ ‹t› ›t‹ -t-
+‘t’ “t” 't' "t"
+.t. •t• ·t· *t* °t°
+(v) )v( [v] ]v[ {v} }v{
+\v/ /v\ ‹v› ›v‹ -v-
+‘v’ “v” 'v' "v"
+.v. •v• ·v· *v* °v°
+(w) )w( [w] ]w[ {w} }w{
+\w/ /w\ ‹w› ›w‹ -w-
+‘w’ “w” 'w' "w"
+.w. •w• ·w· *w* °w°
+(x) )x( [x] ]x[ {x} }x{
+\x/ /x\ ‹x› ›x‹ -x-
+‘x’ “x” 'x' "x"
+.x. •x• ·x· *x* °x°
+(y) )y( [y] ]y[ {y} }y{
+\y/ /y\ ‹y› ›y‹ -y-
+‘y’ “y” 'y' "y"
+.y. •y• ·y· *y* °y°
+(z) )z( [z] ]z[ {z} }z{
+\z/ /z\ ‹z› ›z‹ -z-
+‘z’ “z” 'z' "z"
+.z. •z• ·z· *z* °z°
