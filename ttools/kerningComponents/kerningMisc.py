@@ -35,11 +35,11 @@ def checkPairFormat(value):
     assert isinstance(value[0], types.UnicodeType), 'wrong pair format'
     assert isinstance(value[1], types.UnicodeType), 'wrong pair format'
 
-def buildPairsFromString(uniString):
-    assert isinstance(uniString, types.UnicodeType) is True
+def buildPairsFromString(uniString, aFont):
     pairs = []
-    for eachI in range(1, len(uniString)):
-        myPair = (u'%s' % uniString[eachI-1], u'%s' % uniString[eachI])
+    splittedText = splitText(uniString, aFont.naked().unicodeData)
+    for eachI in range(1, len(splittedText)):
+        myPair = (u'%s' % splittedText[eachI-1], u'%s' % splittedText[eachI])
         pairs.append(myPair)
     return pairs
 

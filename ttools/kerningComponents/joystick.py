@@ -3,7 +3,7 @@
 
 # custom modules
 from ..userInterfaceValues import vanillaControlsSize
-from kerningMisc import getCorrection, checkPairFormat
+from kerningMisc import getCorrection, checkPairFormat, buildPairsFromString
 from kerningMisc import MAJOR_STEP, MINOR_STEP
 
 # standard modules
@@ -17,10 +17,13 @@ class JoystickController(Group):
     lastEvent = None
     keyboardCorrection = 0
 
-    def __init__(self, posSize, fontObj, activePair, isSymmetricalEditingOn, isVerticalAlignedEditingOn, callback):
+    def __init__(self, posSize, fontObj, displayedWord, indexPair, isSymmetricalEditingOn, isVerticalAlignedEditingOn, callback):
         super(JoystickController, self).__init__(posSize)
-        self.activePair = activePair
+        self.indexPair = indexPair
         self.fontObj = fontObj
+        self.displayedPairs = buildPairsFromString(displayedWord, self.fontObj)
+        self.activePair = self.displayedPairs[self.indexPair]
+
         self.isSymmetricalEditingOn = isSymmetricalEditingOn
         self.isVerticalAlignedEditingOn = isVerticalAlignedEditingOn
         self.callback = callback
@@ -166,9 +169,10 @@ class JoystickController(Group):
     def getKeyboardCorrection(self):
         return self.keyboardCorrection
 
-    def setActivePair(self, value):
-        checkPairFormat(value)
-        self.activePair = value
+    def setActivePair(self, displayedWord, indexPair):
+        self.indexPair = indexPair
+        self.displayedPairs = buildPairsFromString(displayedWord, self.fontObj)
+        self.activePair = self.displayedPairs[self.indexPair]
         self.updateCorrectionValue()
 
     def setFontObj(self, value):

@@ -53,16 +53,20 @@ LIGHT_GRAY = (0, 0, 0, .4)
 # object
 class WordDisplay(Group):
 
-    def __init__(self, posSize, displayedWord, canvasScalingFactor, displayedPairs, fontObj, isKerningDisplayActive, areGroupsShown, areCollisionsShown, isSidebearingsActive, isMetricsActive, isColorsActive, isPreviewOn, isSymmetricalEditingOn, activePair=None, pairIndex=None):
+    def __init__(self, posSize, displayedWord, canvasScalingFactor, fontObj, isKerningDisplayActive, areGroupsShown, areCollisionsShown, isSidebearingsActive, isMetricsActive, isColorsActive, isPreviewOn, isSymmetricalEditingOn, indexPair):
         super(WordDisplay, self).__init__(posSize)
 
-        self.displayedWord = displayedWord
-        self.displayedPairs = displayedPairs
-        self.canvasScalingFactor = canvasScalingFactor
         self.fontObj = fontObj
-        self.activePair = activePair
-        self.pairIndex = pairIndex
+        self.displayedWord = displayedWord
+        self.displayedPairs = buildPairsFromString(self.displayedWord, self.fontObj)
+        self.indexPair = indexPair
 
+        if indexPair is not None:
+            self.activePair = self.displayedPairs[self.indexPair]
+        else:
+            self.activePair = None
+
+        self.canvasScalingFactor = canvasScalingFactor
         self.isKerningDisplayActive = isKerningDisplayActive
         self.areGroupsShown = areGroupsShown
         self.areCollisionsShown = areCollisionsShown
@@ -84,6 +88,9 @@ class WordDisplay(Group):
             if status is False:
                 print 'conflicting pairs'
                 print 'please check the DB:', pairsDB
+
+    def getActivePair(self):
+        return self.activePair
 
     def setSymmetricalEditingMode(self, value):
         self.isSymmetricalEditingOn = value
@@ -108,19 +115,16 @@ class WordDisplay(Group):
 
     def setDisplayedWord(self, displayedWord):
         self.displayedWord = displayedWord
-        self.displayedPairs = buildPairsFromString(self.displayedWord)
+        self.displayedPairs = buildPairsFromString(self.displayedWord, self.fontObj)
         self.checkPairsQuality()
-
-    def setDisplayedPairs(self, displayedPairs):
-        self.displayedPairs = displayedPairs
 
     def setScalingFactor(self, scalingFactor):
         self.canvasScalingFactor = scalingFactor
 
-    def setActivePairIndex(self, pairIndex):
-        self.pairIndex = pairIndex
-        if self.pairIndex is not None:
-            self.activePair = self.displayedPairs[self.pairIndex]
+    def setActivePairIndex(self, indexPair):
+        self.indexPair = indexPair
+        if self.indexPair is not None:
+            self.activePair = self.displayedPairs[self.indexPair]
         else:
             self.activePair = None
 
@@ -235,7 +239,7 @@ class WordDisplay(Group):
             lftColor = GLYPH_COLOR
             rgtColor = GLYPH_COLOR
 
-        lftGlyphName, rgtGlyphName = splitText(''.join(self.activePair), self.fontObj.naked().unicodeData)
+        lftGlyphName, rgtGlyphName = self.activePair
         lftGlyph = self.fontObj[lftGlyphName]
         rgtGlyph = self.fontObj[rgtGlyphName]
 
@@ -398,7 +402,7 @@ class WordDisplay(Group):
                             if exceptionStatus is True and self.isPreviewOn is False:
                                 self._drawException((prevGlyphName, eachGlyphName), correction)
 
-                        if (indexChar-1) == self.pairIndex and self.isPreviewOn is False:
+                        if (indexChar-1) == self.indexPair and self.isPreviewOn is False:
                             self._drawGlyphOutlinesFromGroups((prevGlyphName, eachGlyphName), kerningReference, correction)
 
                         if correction and correction != 0:
@@ -425,7 +429,7 @@ class WordDisplay(Group):
                             self._drawMetricsCorrection(correction)
                         dt.translate(correction, 0)
 
-                    if (indexChar-1) == self.pairIndex:
+                    if (indexChar-1) == self.indexPair:
                         self._drawCursor(correction, pairKind)
 
                 # # draw metrics info
@@ -454,7 +458,7 @@ class WordDisplay(Group):
                     if correction and correction != 0:
                         dt.translate(correction, 0)
 
-                    if (indexChar-1) == self.pairIndex and self.areCollisionsShown is True:
+                    if (indexChar-1) == self.indexPair and self.areCollisionsShown is True:
                         self._drawCollisions((prevGlyphName, eachGlyphName))
 
                 self._drawGlyphOutlines(eachGlyphName)

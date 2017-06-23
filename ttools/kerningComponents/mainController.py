@@ -112,9 +112,6 @@ class KerningController(BaseWindowController):
         self.w.wordListController = WordListController((self.jumping_X, self.jumping_Y, LEFT_COLUMN, 290),
                                                        callback=self.wordListControllerCallback)
         self.displayedWord = self.w.wordListController.get()
-        self.displayedPairs = buildPairsFromString(self.displayedWord)
-        self.activePair = self.displayedPairs[0]
-        checkPairFormat(self.activePair)
 
         self.jumping_Y += self.w.wordListController.getPosSize()[3]+4
         self.w.word_font_separationLine = HorizontalLine((self.jumping_X, self.jumping_Y, LEFT_COLUMN, vanillaControlsSize['HorizontalLineThickness']))
@@ -130,7 +127,8 @@ class KerningController(BaseWindowController):
         self.jumping_Y += MARGIN_VER
         self.w.joystick = JoystickController((self.jumping_X, self.jumping_Y, LEFT_COLUMN, 264),
                                              self.fontsOrder[self.navCursor_Y],
-                                             self.activePair,
+                                             self.displayedWord,
+                                             self.navCursor_X,
                                              self.isSymmetricalEditingOn,
                                              self.isVerticalAlignedEditingOn,
                                              callback=self.joystickCallback)
@@ -224,17 +222,14 @@ class KerningController(BaseWindowController):
         for eachI in range(len(self.fontsOrder)):
 
             if eachI == self.navCursor_Y:
-                initActivePair = self.displayedPairs[self.navCursor_X]
                 initPairIndex = self.navCursor_X
             else:
-                initActivePair = None
                 initPairIndex = None
 
             try:
                 wordCtrl = WordDisplay((self.jumping_X, self.jumping_Y, rightColumnWidth, singleWindowHeight),
                                        self.displayedWord,
                                        self.canvasScalingFactor,
-                                       self.displayedPairs,
                                        self.fontsOrder[eachI],
                                        self.isKerningDisplayActive,
                                        self.areGroupsShown,
@@ -244,8 +239,7 @@ class KerningController(BaseWindowController):
                                        self.isColorsActive,
                                        self.isPreviewOn,
                                        self.isSymmetricalEditingOn,
-                                       activePair=initActivePair,
-                                       pairIndex=initPairIndex)
+                                       indexPair=initPairIndex)
             except Exception:
                 print traceback.format_exc()
 
@@ -257,7 +251,6 @@ class KerningController(BaseWindowController):
             eachDisplay = getattr(self.w, 'wordCtrl_%#02d' % (eachI+1))
             eachDisplay.setDisplayedWord(self.displayedWord)
             eachDisplay.setScalingFactor(self.canvasScalingFactor)
-            eachDisplay.setDisplayedPairs(self.displayedPairs)
             eachDisplay.setGraphicsBooleans(self.isKerningDisplayActive, self.areGroupsShown, self.areCollisionsShown, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive)
             eachDisplay.setPreviewMode(self.isPreviewOn)
             eachDisplay.setSymmetricalEditingMode(self.isSymmetricalEditingOn)
@@ -275,13 +268,9 @@ class KerningController(BaseWindowController):
 
     def updateEditorAccordingToDiplayedWord(self):
         self.w.displayedWordCaption.set(self.displayedWord)
-        self.w.displayedWordCaption.set(self.displayedWord)
-        self.displayedPairs = buildPairsFromString(self.displayedWord)
-        if len(self.displayedPairs) < (self.navCursor_X+1):
-            self.navCursor_X = len(self.displayedPairs)-1
-        self.activePair = self.displayedPairs[self.navCursor_X]
-        checkPairFormat(self.activePair)
-        self.w.joystick.setActivePair(self.activePair)
+        if len(self.displayedWord)-1 < (self.navCursor_X+1):
+            self.navCursor_X = len(self.displayedWord)-2
+        self.w.joystick.setActivePair(self.displayedWord, self.navCursor_X)
         self.updateWordDisplays()
         getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(self.navCursor_X)
 
@@ -297,10 +286,11 @@ class KerningController(BaseWindowController):
 
     def exceptionTrigger(self):
         selectedFont = self.fontsOrder[self.navCursor_Y]
-        correction, kerningReference, pairKind = getCorrection(self.activePair, selectedFont)
+        selectedPair = getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).getActivePair()
+        correction, kerningReference, pairKind = getCorrection(selectedPair, selectedFont)
 
         if correction:
-            exceptionOptions = possibleExceptions(self.activePair, kerningReference, selectedFont)
+            exceptionOptions = possibleExceptions(selectedPair, kerningReference, selectedFont)
             self.exceptionWindow.setOptions(exceptionOptions)
             self.exceptionWindow.enable(True)
         else:
@@ -308,7 +298,7 @@ class KerningController(BaseWindowController):
 
     # manipulate data
     def setPairCorrection(self, amount):
-        selectedPair = tuple(self.displayedPairs[self.navCursor_X])
+        selectedPair = getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).getActivePair()
         if self.isVerticalAlignedEditingOn is True:
             selectedFonts = self.fontsOrder
         else:
@@ -328,7 +318,7 @@ class KerningController(BaseWindowController):
             selectedFonts = [self.fontsOrder[self.navCursor_Y]]
 
         for eachFont in selectedFonts:
-            selectedPair = tuple(splitText(''.join(self.displayedPairs[self.navCursor_X]), eachFont.naked().unicodeData))
+            selectedPair = buildPairsFromString(self.displayedWord, eachFont)[self.navCursor_X]
             correction, correctionKey, pairKind = getCorrection(selectedPair, eachFont)
             setCorrection(selectedPair, eachFont, correction+amount)
 
@@ -341,17 +331,15 @@ class KerningController(BaseWindowController):
 
     # cursor methods
     def cursorLeft(self):
-        self.navCursor_X = (self.navCursor_X-1)%len(self.displayedPairs)
-        self.activePair = self.displayedPairs[self.navCursor_X]
+        self.navCursor_X = (self.navCursor_X-1)%(len(self.displayedWord)-1)
         getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(self.navCursor_X)
-        self.w.joystick.setActivePair(self.displayedPairs[self.navCursor_X])
+        self.w.joystick.setActivePair(self.displayedWord, self.navCursor_X)
         self.updateWordDisplays()
 
     def cursorRight(self):
-        self.navCursor_X = (self.navCursor_X+1)%len(self.displayedPairs)
-        self.activePair = self.displayedPairs[self.navCursor_X]
+        self.navCursor_X = (self.navCursor_X+1)%(len(self.displayedWord)-1)
         getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(self.navCursor_X)
-        self.w.joystick.setActivePair(self.displayedPairs[self.navCursor_X])
+        self.w.joystick.setActivePair(self.displayedWord, self.navCursor_X)
         self.updateWordDisplays()
 
     def cursorUp(self):
@@ -371,9 +359,10 @@ class KerningController(BaseWindowController):
     ### callbacks
     def exceptionWindowCallback(self, sender):
         selectedFont = self.fontsOrder[self.navCursor_Y]
+        selectedPair = getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).getActivePair()
         if sender.lastEvent == 'submit':
             exceptionKey = sender.get()
-            correction, kerningReference, pairKind = getCorrection(self.activePair, selectedFont)
+            correction, kerningReference, pairKind = getCorrection(selectedPair, selectedFont)
             setRawCorrection(exceptionKey, selectedFont, correction)
             self.w.joystick.updateCorrectionValue()
             self.updateWordDisplays()
