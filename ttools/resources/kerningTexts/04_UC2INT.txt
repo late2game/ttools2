@@ -1,107 +1,107 @@
 # super symmetrical
-(A) )A( [A] ]A[ {A} }A{
-\A// //A\ ‹A› ›A‹ -A-
-‘A’ “A” 'A' "A"
-.A. •A• ·A· *A* °A°
-(O) )O( [O] ]O[ {O} }O{
-\O// //O\ ‹O› ›O‹ -O-
-‘O’ “O” 'O' "O"
-.O. •O• ·O· *O* °O°
-(S) )S( [S] ]S[ {S} }S{
-\S// //S\ ‹S› ›S‹ -S-
-‘S’ “S” 'S' "S"
-.S. •S• ·S· *S* °S°
-(T) )T( [T] ]T[ {T} }T{
-\T// //T\ ‹T› ›T‹ -T-
-‘T’ “T” 'T' "T"
-.T. •T• ·T· *T* °T°
-(U) )U( [U] ]U[ {U} }U{
-\U// //U\ ‹U› ›U‹ -U-
-‘U’ “U” 'U' "U"
-.U. •U• ·U· *U* °U°
-(W) )W( [W] ]W[ {W} }W{
-\W// //W\ ‹W› ›W‹ -W-
-‘W’ “W” 'W' "W"
-.W. •W• ·W· *W* °W°
-(X) )X( [X] ]X[ {X} }X{
-\X// //X\ ‹X› ›X‹ -X-
-‘X’ “X” 'X' "X"
-.X. •X• ·X· *X* °X°
-(V) )V( [V] ]V[ {V} }V{
-\V// //V\ ‹V› ›V‹ -V-
-‘V’ “V” 'V' "V"
-.V. •V• ·V· *V* °V°
-(Y) )Y( [Y] ]Y[ {Y} }Y{
-\Y// //Y\ ‹Y› ›Y‹ -Y-
-‘Y’ “Y” 'Y' "Y"
-.Y. •Y• ·Y· *Y* °Y°
-(Z) )Z( [Z] ]Z[ {Z} }Z{
-\Z// //Z\ ‹Z› ›Z‹ -Z-
-‘Z’ “Z” 'Z' "Z"
-.Z. •Z• ·Z· *Z* °Z°
+(A)II)A(II[A]II]A[II{A}II}A{
+\A//II//A\II‹A›II›A‹II-A-
+‘A’II“A”II'A'II"A"
+.A.II•A•II·A·II*A*II°A°
+(O)II)O(II[O]II]O[II{O}II}O{
+\O//II//O\II‹O›II›O‹II-O-
+‘O’II“O”II'O'II"O"
+.O.II•O•II·O·II*O*II°O°
+(S)II)S(II[S]II]S[II{S}II}S{
+\S//II//S\II‹S›II›S‹II-S-
+‘S’II“S”II'S'II"S"
+.S.II•S•II·S·II*S*II°S°
+(T)II)T(II[T]II]T[II{T}II}T{
+\T//II//T\II‹T›II›T‹II-T-
+‘T’II“T”II'T'II"T"
+.T.II•T•II·T·II*T*II°T°
+(U)II)U(II[U]II]U[II{U}II}U{
+\U//II//U\II‹U›II›U‹II-U-
+‘U’II“U”II'U'II"U"
+.U.II•U•II·U·II*U*II°U°
+(W)II)W(II[W]II]W[II{W}II}W{
+\W//II//W\II‹W›II›W‹II-W-
+‘W’II“W”II'W'II"W"
+.W.II•W•II·W·II*W*II°W°
+(X)II)X(II[X]II]X[II{X}II}X{
+\X//II//X\II‹X›II›X‹II-X-
+‘X’II“X”II'X'II"X"
+.X.II•X•II·X·II*X*II°X°
+(V)II)V(II[V]II]V[II{V}II}V{
+\V//II//V\II‹V›II›V‹II-V-
+‘V’II“V”II'V'II"V"
+.V.II•V•II·V·II*V*II°V°
+(Y)II)Y(II[Y]II]Y[II{Y}II}Y{
+\Y//II//Y\II‹Y›II›Y‹II-Y-
+‘Y’II“Y”II'Y'II"Y"
+.Y.II•Y•II·Y·II*Y*II°Y°
+(Z)II)Z(II[Z]II]Z[II{Z}II}Z{
+\Z//II//Z\II‹Z›II›Z‹II-Z-
+‘Z’II“Z”II'Z'II"Z"
+.Z.II•Z•II·Z·II*Z*II°Z°
 
 # not that symmetrical
-(B) )B( [B] ]B[ {B} }B{
-\B// //B\ ‹B› ›B‹ -B-
-‘B’ “B” 'B' "B"
-.B. •B• ·B· *B* °B°
-(C) )C( [C] ]C[ {C} }C{
-\C// //C\ ‹C› ›C‹ -C-
-‘C’ “C” 'C' "C"
-.C. •C• ·C· *C* °C°
-(D) )D( [D] ]D[ {D} }D{
-\D// //D\ ‹D› ›D‹ -D-
-‘D’ “D” 'D' "D"
-.D. •D• ·D· *D* °D°
-(E) )E( [E] ]E[ {E} }E{
-\E// //E\ ‹E› ›E‹ -E-
-‘E’ “E” 'E' "E"
-.E. •E• ·E· *E* °E°
-(F) )F( [F] ]F[ {F} }F{
-\F// //F\ ‹F› ›F‹ -F-
-‘F’ “F” 'F' "F"
-.F. •F• ·F· *F* °F°
-(G) )G( [G] ]G[ {G} }G{
-\G// //G\ ‹G› ›G‹ -G-
-‘G’ “G” 'G' "G"
-.G. •G• ·G· *G* °G°
-(H) )H( [H] ]H[ {H} }H{
-\H// //H\ ‹H› ›H‹ -H-
-‘H’ “H” 'H' "H"
-.H. •H• ·H· *H* °H°
-(I) )I( [I] ]I[ {I} }I{
-\I// //I\ ‹I› ›I‹ -I-
-‘I’ “I” 'I' "I"
-.I. •I• ·I· *I* °I°
-(J) )J( [J] ]J[ {J} }J{
-\J// //J\ ‹J› ›J‹ -J-
-‘J’ “J” 'J' "J"
-.J. •J• ·J· *J* °J°
-(K) )K( [K] ]K[ {K} }K{
-\K// //K\ ‹K› ›K‹ -K-
-‘K’ “K” 'K' "K"
-.K. •K• ·K· *K* °K°
-(L) )L( [L] ]L[ {L} }L{
-\L// //L\ ‹L› ›L‹ -L-
-‘L’ “L” 'L' "L"
-.L. •L• ·L· *L* °L°
-(M) )M( [M] ]M[ {M} }M{
-\M// //M\ ‹M› ›M‹ -M-
-‘M’ “M” 'M' "M"
-.M. •M• ·M· *M* °M°
-(N) )N( [N] ]N[ {N} }N{
-\N// //N\ ‹N› ›N‹ -N-
-‘N’ “N” 'N' "N"
-.N. •N• ·N· *N* °N°
-(P) )P( [P] ]P[ {P} }P{
-\P// //P\ ‹P› ›P‹ -P-
-‘P’ “P” 'P' "P"
-.P. •P• ·P· *P* °P°
-(Q) )Q( [Q] ]Q[ {Q} }Q{
-\Q// //Q\ ‹Q› ›Q‹ -Q-
-‘Q’ “Q” 'Q' "Q"
-.Q. •Q• ·Q· *Q* °Q°
-(R) )R( [R] ]R[ {R} }R{
-\R// //R\ ‹R› ›R‹ -R-
-‘R’ “R” 'R' "R"
-.R. •R• ·R· *R* °R°
+(B)II)B(II[B]II]B[II{B}II}B{
+\B//II//B\II‹B›II›B‹II-B-
+‘B’II“B”II'B'II"B"
+.B.II•B•II·B·II*B*II°B°
+(C)II)C(II[C]II]C[II{C}II}C{
+\C//II//C\II‹C›II›C‹II-C-
+‘C’II“C”II'C'II"C"
+.C.II•C•II·C·II*C*II°C°
+(D)II)D(II[D]II]D[II{D}II}D{
+\D//II//D\II‹D›II›D‹II-D-
+‘D’II“D”II'D'II"D"
+.D.II•D•II·D·II*D*II°D°
+(E)II)E(II[E]II]E[II{E}II}E{
+\E//II//E\II‹E›II›E‹II-E-
+‘E’II“E”II'E'II"E"
+.E.II•E•II·E·II*E*II°E°
+(F)II)F(II[F]II]F[II{F}II}F{
+\F//II//F\II‹F›II›F‹II-F-
+‘F’II“F”II'F'II"F"
+.F.II•F•II·F·II*F*II°F°
+(G)II)G(II[G]II]G[II{G}II}G{
+\G//II//G\II‹G›II›G‹II-G-
+‘G’II“G”II'G'II"G"
+.G.II•G•II·G·II*G*II°G°
+(H)II)H(II[H]II]H[II{H}II}H{
+\H//II//H\II‹H›II›H‹II-H-
+‘H’II“H”II'H'II"H"
+.H.II•H•II·H·II*H*II°H°
+(I)II)I(II[I]II]I[II{I}II}I{
+\I//II//I\II‹I›II›I‹II-I-
+‘I’II“I”II'I'II"I"
+.I.II•I•II·I·II*I*II°I°
+(J)II)J(II[J]II]J[II{J}II}J{
+\J//II//J\II‹J›II›J‹II-J-
+‘J’II“J”II'J'II"J"
+.J.II•J•II·J·II*J*II°J°
+(K)II)K(II[K]II]K[II{K}II}K{
+\K//II//K\II‹K›II›K‹II-K-
+‘K’II“K”II'K'II"K"
+.K.II•K•II·K·II*K*II°K°
+(L)II)L(II[L]II]L[II{L}II}L{
+\L//II//L\II‹L›II›L‹II-L-
+‘L’II“L”II'L'II"L"
+.L.II•L•II·L·II*L*II°L°
+(M)II)M(II[M]II]M[II{M}II}M{
+\M//II//M\II‹M›II›M‹II-M-
+‘M’II“M”II'M'II"M"
+.M.II•M•II·M·II*M*II°M°
+(N)II)N(II[N]II]N[II{N}II}N{
+\N//II//N\II‹N›II›N‹II-N-
+‘N’II“N”II'N'II"N"
+.N.II•N•II·N·II*N*II°N°
+(P)II)P(II[P]II]P[II{P}II}P{
+\P//II//P\II‹P›II›P‹II-P-
+‘P’II“P”II'P'II"P"
+.P.II•P•II·P·II*P*II°P°
+(Q)II)Q(II[Q]II]Q[II{Q}II}Q{
+\Q//II//Q\II‹Q›II›Q‹II-Q-
+‘Q’II“Q”II'Q'II"Q"
+.Q.II•Q•II·Q·II*Q*II°Q°
+(R)II)R(II[R]II]R[II{R}II}R{
+\R//II//R\II‹R›II›R‹II-R-
+‘R’II“R”II'R'II"R"
+.R.II•R•II·R·II*R*II°R°

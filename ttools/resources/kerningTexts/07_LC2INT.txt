@@ -1,44 +1,44 @@
-(f) )f( [f] ]f[ {f} }f{
-\f/ /f\ ‹f› ›f‹ -f-
-‘f’ “f” 'f' "f"
-.f. •f• ·f· *f* °f°
-(k) )k( [k] ]k[ {k} }k{
-\k/ /k\ ‹k› ›k‹ -k-
-‘k’ “k” 'k' "k"
-.k. •k• ·k· *k* °k°
-(r) )r( [r] ]r[ {r} }r{
-\r/ /r\ ‹r› ›r‹ -r-
-‘r’ “r” 'r' "r"
-.r. •r• ·r· *r* °r°
-(t) )t( [t] ]t[ {t} }t{
-\t/ /t\ ‹t› ›t‹ -t-
-‘t’ “t” 't' "t"
-.t. •t• ·t· *t* °t°
-(v) )v( [v] ]v[ {v} }v{
-\v/ /v\ ‹v› ›v‹ -v-
-‘v’ “v” 'v' "v"
-.v. •v• ·v· *v* °v°
-(w) )w( [w] ]w[ {w} }w{
-\w/ /w\ ‹w› ›w‹ -w-
-‘w’ “w” 'w' "w"
-.w. •w• ·w· *w* °w°
-(x) )x( [x] ]x[ {x} }x{
-\x/ /x\ ‹x› ›x‹ -x-
-‘x’ “x” 'x' "x"
-.x. •x• ·x· *x* °x°
-(y) )y( [y] ]y[ {y} }y{
-\y/ /y\ ‹y› ›y‹ -y-
-‘y’ “y” 'y' "y"
-.y. •y• ·y· *y* °y°
-(z) )z( [z] ]z[ {z} }z{
-\z/ /z\ ‹z› ›z‹ -z-
-‘z’ “z” 'z' "z"
-.z. •z• ·z· *z* °z°
-(&) )&( [&] ]&[ {&} }&{
-\&/ /&\ ‹&› ›&‹ -&-
-‘&’ “&” '&' "&"
-.&. •&• ·&· *&* °&°
-(ß) )ß( [ß] ]ß[ {ß} }ß{
-\ß/ /ß\ ‹ß› ›ß‹ -ß-
-‘ß’ “ß” 'ß' "ß"
-.ß. •ß• ·ß· *ß* °ß°
+(f)ll)f(ll[f]ll]f[ll{f}ll}f{
+\f//ll//f\ll‹f›ll›f‹ll-f-
+‘f’ll“f”ll'f'll"f"
+.f.ll•f•ll·f·ll*f*ll°f°
+(k)ll)k(ll[k]ll]k[ll{k}ll}k{
+\k//ll//k\ll‹k›ll›k‹ll-k-
+‘k’ll“k”ll'k'll"k"
+.k.ll•k•ll·k·ll*k*ll°k°
+(r)ll)r(ll[r]ll]r[ll{r}ll}r{
+\r//ll//r\ll‹r›ll›r‹ll-r-
+‘r’ll“r”ll'r'll"r"
+.r.ll•r•ll·r·ll*r*ll°r°
+(t)ll)t(ll[t]ll]t[ll{t}ll}t{
+\t//ll//t\ll‹t›ll›t‹ll-t-
+‘t’ll“t”ll't'll"t"
+.t.ll•t•ll·t·ll*t*ll°t°
+(v)ll)v(ll[v]ll]v[ll{v}ll}v{
+\v//ll//v\ll‹v›ll›v‹ll-v-
+‘v’ll“v”ll'v'll"v"
+.v.ll•v•ll·v·ll*v*ll°v°
+(w)ll)w(ll[w]ll]w[ll{w}ll}w{
+\w//ll//w\ll‹w›ll›w‹ll-w-
+‘w’ll“w”ll'w'll"w"
+.w.ll•w•ll·w·ll*w*ll°w°
+(x)ll)x(ll[x]ll]x[ll{x}ll}x{
+\x//ll//x\ll‹x›ll›x‹ll-x-
+‘x’ll“x”ll'x'll"x"
+.x.ll•x•ll·x·ll*x*ll°x°
+(y)ll)y(ll[y]ll]y[ll{y}ll}y{
+\y//ll//y\ll‹y›ll›y‹ll-y-
+‘y’ll“y”ll'y'll"y"
+.y.ll•y•ll·y·ll*y*ll°y°
+(z)ll)z(ll[z]ll]z[ll{z}ll}z{
+\z//ll//z\ll‹z›ll›z‹ll-z-
+‘z’ll“z”ll'z'll"z"
+.z.ll•z•ll·z·ll*z*ll°z°
+(&)ll)&(ll[&]ll]&[ll{&}ll}&{
+\&//ll//&\ll‹&›ll›&‹ll-&-
+‘&’ll“&”ll'&'ll"&"
+.&.ll•&•ll·&·ll*&*ll°&°
+(ß)ll)ß(ll[ß]ll]ß[ll{ß}ll}ß{
+\ß//ll//ß\ll‹ß›ll›ß‹ll-ß-
+‘ß’ll“ß”ll'ß'll"ß"
+.ß.ll•ß•ll·ß·ll*ß*ll°ß°
