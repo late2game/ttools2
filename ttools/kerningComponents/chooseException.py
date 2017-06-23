@@ -3,10 +3,11 @@
 
 from ..userInterfaceValues import vanillaControlsSize
 from vanilla import FloatingWindow, RadioGroup, Button
+from defconAppKit.windows.baseWindow import BaseWindowController
 
 MARGIN = 12
 
-class ChooseExceptionWindow(object):
+class ChooseExceptionWindow(BaseWindowController):
     lastEvent = None
 
     def __init__(self, options, callback):
@@ -41,6 +42,10 @@ class ChooseExceptionWindow(object):
             self.w.show()
         else:
             self.w.hide()
+
+    def close(self):
+        self.whichException = None
+        self.w.close()
 
     def setOptions(self, options):
         self.options = options
