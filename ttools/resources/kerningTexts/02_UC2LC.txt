@@ -1,0 +1,240 @@
+Aa
+Af
+Ag
+Ao #symmetrical
+At
+Au
+Av #symmetrical
+Aw #symmetrical
+Ax #symmetrical
+Ay #symmetrical
+Bf
+Bh
+Bi
+Bl
+Bn
+Bu
+Bv
+Ca
+Cf
+Cg
+Cn
+Co
+Ct
+Cu
+Cv
+Cw
+Cy
+Dh
+Di
+Dl
+Dn
+Ea
+Ef
+Eg
+Eh
+Ei
+El
+En
+Eo
+Es
+Et
+Eu
+Ev
+Ew
+Ey
+Fa
+Ff
+Fg
+Fh
+Fl
+Fn
+Fo
+Fs
+Ft
+Fu
+Fv
+Fw
+Fx
+Fy
+Fz
+Gf
+Gn
+Gv
+Gy
+Ha
+Hf
+Hg
+Ho #symmetrical
+Hs
+Ht
+Hu #symmetrical
+Hv #symmetrical
+Hw #symmetrical
+Hy #symmetrical
+Hz #symmetrical
+Ja
+Jf
+Jg
+Jh
+Ji
+Jl
+Jn
+Jo
+Js
+Jt
+Ju
+Jv
+Jx
+Jy
+Jz
+Ka
+Kf
+Kg
+Kn
+Ko
+Ks
+Kt
+Ku
+Kv
+Kw
+Ky
+Lf
+Lg
+Lt
+Lu
+Lv
+Lw
+Ly
+Oh
+Oi
+Ol
+On
+Ow #symmetrical
+Ox #symmetrical
+Pa
+Pg
+Pi
+Pn
+Po
+Ps
+Pu
+Ra
+Rg
+Rh
+Ri
+Rl
+Rn
+Ro
+Rs
+Ru
+Sf
+Sn
+St
+Su #symmetrical
+Sv #symmetrical
+Sw #symmetrical
+Sx #symmetrical
+Sy #symmetrical
+Sz #symmetrical
+Ta #symmetrical
+Tf
+Tg
+Th
+Ti #symmetrical
+Tl
+Tn
+To #symmetrical
+Ts
+Tt
+Tu #symmetrical
+Tv #symmetrical
+Tw #symmetrical
+Tx #symmetrical
+Ty #symmetrical
+Tz #symmetrical
+Ua
+Uf
+Ug
+Uh
+Ui
+Ul
+Un
+Uo
+Us
+Ut
+Uu
+Uv #symmetrical
+Ux #symmetrical
+Uy #symmetrical
+Uz #symmetrical
+Va
+Vf
+Vg
+Vh
+Vi
+Vl
+Vn
+Vo #symmetrical
+Vs #symmetrical
+Vt
+Vu #symmetrical
+Vv #symmetrical
+Vw #symmetrical
+Vx #symmetrical
+Vy #symmetrical
+Vz #symmetrical
+Wa #symmetrical
+Wf
+Wg
+Wn
+Wo #symmetrical
+Ws #symmetrical
+Wt
+Wu
+Wv #symmetrical
+Ww #symmetrical
+Wx #symmetrical
+Wy #symmetrical
+Wz #symmetrical
+Xa
+Xf
+Xg
+Xh
+Xl
+Xn
+Xo
+Xs
+Xt
+Xu
+Xv
+Xw #symmetrical
+Xx #symmetrical
+Xy
+Ya #symmetrical
+Yf
+Yg
+Yh
+Yi
+Yl
+Yn
+Yo #symmetrical
+Ys #symmetrical
+Yt
+Yu #symmetrical
+Yv #symmetrical
+Yw #symmetrical
+Yx
+Yy
+Yz
+Za
+Zf
+Zg
+Zn
+Zo #symmetrical
+Zs
+Zt
+Zu #symmetrical
+Zv #symmetrical
+Zw #symmetrical
+Zy #symmetrical

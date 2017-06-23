@@ -1,0 +1,3 @@
+@MMK_L__w, @MMK_R__w #symmetrical
+@MMK_L__w, x #symmetrical
+x, x #symmetrical
