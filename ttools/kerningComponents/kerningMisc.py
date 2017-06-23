@@ -10,6 +10,7 @@
 import os
 import types
 import codecs
+from defconAppKit.tools.textSplitter import splitText
 from ..extraTools.findPossibleOverlappingSegmentsPen import FindPossibleOverlappingSegmentsPen
 from mojo.roboFont import RGlyph
 from fontTools.misc.arrayTools import offsetRect, sectRect
@@ -36,7 +37,6 @@ def checkPairFormat(value):
 
 def buildPairsFromString(uniString):
     assert isinstance(uniString, types.UnicodeType) is True
-
     pairs = []
     for eachI in range(1, len(uniString)):
         myPair = (u'%s' % uniString[eachI-1], u'%s' % uniString[eachI])
@@ -48,7 +48,18 @@ def loadKerningTexts(kerningTextFolder):
     kerningTextBaseNames = [pth for pth in os.listdir(kerningTextFolder) if pth.endswith('.txt')]
     kerningTextBaseNames.sort()
     for eachKerningTextBaseName in kerningTextBaseNames:
-        kerningWords = [u'%s' % word.strip() for word in codecs.open(os.path.join(kerningTextFolder, eachKerningTextBaseName), 'r', 'utf-8').readlines()]
+        kerningWordsDoc = codecs.open(os.path.join(kerningTextFolder, eachKerningTextBaseName), 'r', 'utf-8').readlines()
+
+        kerningWords = []
+        for rawWord in kerningWordsDoc:
+            if '#' in rawWord:
+                word = u'%s' % rawWord[:rawWord.index('#')].strip()
+            else:
+                word = u'%s' % rawWord.strip()
+
+            if word:
+                kerningWords.append(word)
+
         uniqueKerningWords = []
         _ = [uniqueKerningWords.append(word) for word in kerningWords if word not in uniqueKerningWords]
         kerningWordDB[eachKerningTextBaseName[3:]] = [{'word': word, 'done?': 0} for word in uniqueKerningWords]
