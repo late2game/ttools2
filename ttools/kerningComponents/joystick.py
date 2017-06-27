@@ -175,6 +175,10 @@ class JoystickController(Group):
         self.activePair = self.displayedPairs[self.indexPair]
         self.updateCorrectionValue()
 
+    def setSymmetricalEditing(self, symmetricalEditing):
+        self.isSymmetricalEditingOn = symmetricalEditing
+        self.symmetryModeCheck.set(self.isSymmetricalEditingOn)
+
     def setFontObj(self, value):
         self.fontObj = value
         self.updateCorrectionValue()

@@ -259,11 +259,15 @@ class KerningController(BaseWindowController):
     def nextWord(self):
         self.w.wordListController.nextWord()
         self.displayedWord = self.w.wordListController.get()
+        self.isSymmetricalEditingOn = False
+        self.w.joystick.setSymmetricalEditing(self.isSymmetricalEditingOn)
         self.updateEditorAccordingToDiplayedWord()
 
     def previousWord(self):
         self.w.wordListController.previousWord()
         self.displayedWord = self.w.wordListController.get()
+        self.isSymmetricalEditingOn = False
+        self.w.joystick.setSymmetricalEditing(self.isSymmetricalEditingOn)
         self.updateEditorAccordingToDiplayedWord()
 
     def updateEditorAccordingToDiplayedWord(self):
