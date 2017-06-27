@@ -47,11 +47,11 @@ def correct_f_sups_numr(aFont):
     """f followed by superior and numerator +60"""
     dnomNumrSubsSups = [line.strip().split('\t') for line in open(DNOM_NUMR_SUBS_SUPS_PATH, 'r').readlines() if line != '']
 
-    aFont.group['@MMK_R_sups'] = []
-    aFont.group['@MMK_R_subs'] = []
+    aFont.groups['@MMK_R_sups'] = []
+    aFont.groups['@MMK_R_subs'] = []
     for eachLine in dnomNumrSubsSups[1:]:
-        aFont.group['@MMK_R_sups'].append(eachLine[2])
-        aFont.group['@MMK_R_subs'].append(eachLine[4])
+        aFont.groups['@MMK_R_sups'].append(eachLine[2])
+        aFont.groups['@MMK_R_subs'].append(eachLine[4])
 
     fGroup = whichGroup('f', 'lft', aFont)
     if fGroup is None:
@@ -74,11 +74,10 @@ def collect_LCacc(aFont):
     UCreferences = list(uppercase)
     for eachChar in uppercase:
         lftGroup = whichGroup(eachChar, 'lft', aFont)
-        if lftGroup is None:
+        if lftGroup is not None:
             UCreferences.append(lftGroup)
-
         rgtGroup = whichGroup(eachChar, 'rgt', aFont)
-        if rgtGroup is None:
+        if rgtGroup is not None:
             UCreferences.append(rgtGroup)
 
     for eachClassName in LCacc:
@@ -98,8 +97,11 @@ def collect_LCacc(aFont):
 
         for eachPair, eachValue in pairsToExtend:
             lftName, rgtName = eachPair
-            if location == 'lft':
 
+            # if eachClassName == '@MMK_R_aAcc':
+            #     print lftName, rgtName
+
+            if location == 'lft':
                 if rgtName in UCreferences:
                     extendedPair = (eachClassName, rgtName)
                 else:
@@ -111,10 +113,7 @@ def collect_LCacc(aFont):
                     extendedPair = None
 
             if extendedPair is not None:
-                print
-                print eachPair, eachValue
-                print extendedPair, int(eachValue*.6)
-                # aFont.kerning[extendedPair] = int(eachValue*.6)
+                aFont.kerning[extendedPair] = int(eachValue*.6)
 
 """
 3) capital interpunction follow basic interpunction (maybe solved with classes?)
@@ -122,4 +121,4 @@ def collect_LCacc(aFont):
 
 if __name__ == '__main__':
     collect_LCacc(CurrentFont())
-    # correct_f_sups_numr(CurrentFont())
+    correct_f_sups_numr(CurrentFont())
