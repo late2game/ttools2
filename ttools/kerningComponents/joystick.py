@@ -11,7 +11,55 @@ from vanilla import Group, SquareButton, CheckBox, EditText
 from vanilla import Button
 import traceback
 
+"""
+-20: cmd+alt+leftArrow
+-04: cmd+leftArrow
++04: cmd+rightArrow
++20: cmd+alt+rightArrow 
+delete pair: fn+backspace
 
+lft group switch: cmd+a
+rgt group switch: cmd+s
+
+exception: cmd+e
+toggle preview: cmd+p
+solved word: cmd+enter
+symmetrical mode: cmd+f
+vertical mode: cmd+v
+
+up: upArrow
+down: downArrow
+left: leftArrow
+right: rightArrow
+"""
+
+# Constants
+MINUS_MAJOR_SHORTCUT = 'leftarrow', ['option', 'command']
+MINUS_MINOR_SHORTCUT = 'leftarrow', ['command']
+PLUS_MINOR_SHORTCUT = 'rightarrow', ['command']
+PLUS_MAJOR_SHORTCUT = 'rightarrow', ['option', 'command']
+
+PREVIEW_SHORTCUT = 'p', ['command']
+SOLVED_SHORTCUT = unichr(13), ['command']
+
+EXCEPTION_SHORTCUT = 'e', ['command']
+LEFT_BROWSING_SHORTCUT = 'a', ['command']
+RIGHT_BROWSING_SHORTCUT = 's', ['command']
+DEL_PAIR_SHORTCUT = 'forwarddelete', []
+
+VERTICAL_MODE_SHORTCUT = 'v', ['command']
+SYMMETRY_EDITING_SHORTCUT = 'f', ['command']
+
+NEXT_WORD_SHORTCUT = 'downarrow', ['command', 'option']
+PREVIOUS_WORD_SHORTCUT = 'uparrow', ['command', 'option']
+
+CURSOR_UP_SHORTCUT = 'uparrow', []
+CURSOR_LEFT_SHORTCUT = 'leftarrow', []
+CURSOR_RIGHT_SHORTCUT = 'rightarrow', []
+CURSOR_DOWN_SHORTCUT = 'downarrow', []
+
+
+# class definition!
 class JoystickController(Group):
 
     lastEvent = None
@@ -35,28 +83,28 @@ class JoystickController(Group):
                                            "-%s" % MAJOR_STEP,
                                            sizeStyle='small',
                                            callback=self.minusMajorCtrlCallback)
-        self.minusMajorCtrl.bind('leftarrow', ['option', 'command'])
+        self.minusMajorCtrl.bind(*MINUS_MAJOR_SHORTCUT)
 
         self.jumping_X += buttonSide
         self.minusMinorCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
                                            "-%s" % MINOR_STEP,
                                            sizeStyle='small',
                                            callback=self.minusMinorCtrlCallback)
-        self.minusMinorCtrl.bind('leftarrow', ['command'])
+        self.minusMinorCtrl.bind(*MINUS_MINOR_SHORTCUT)
 
         self.jumping_X += buttonSide
         self.plusMinorCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
                                           "+%s" % MINOR_STEP,
                                           sizeStyle='small',
                                           callback=self.plusMinorCtrlCallback)
-        self.plusMinorCtrl.bind('rightarrow', ["command"])
+        self.plusMinorCtrl.bind(*PLUS_MINOR_SHORTCUT)
 
         self.jumping_X += buttonSide
         self.plusMajorCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
                                           "+%s" % MAJOR_STEP,
                                           sizeStyle='small',
                                           callback=self.plusMajorCtrlCallback)
-        self.plusMajorCtrl.bind('rightarrow', ['option', 'command'])
+        self.plusMajorCtrl.bind(*PLUS_MAJOR_SHORTCUT)
 
         self.jumping_X = buttonSide/2.
         self.jumping_Y += buttonSide
@@ -64,22 +112,22 @@ class JoystickController(Group):
                                         "lft switch",
                                         sizeStyle='small',
                                         callback=self.lftSwitchCtrlCallback)
-        # self.previewCtrl.bind(unichr(112), ['command'])
+        self.lftSwitchCtrl.bind(*LEFT_BROWSING_SHORTCUT)
 
         self.jumping_X += buttonSide*2
         self.rgtSwitchCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide*2, buttonSide*.75),
                                        "rgt switch",
                                        sizeStyle='small',
                                        callback=self.rgtSwitchCtrlCallback)
-        # self.solvedCtrl.bind(unichr(13), ['command'])
+        self.rgtSwitchCtrl.bind(*RIGHT_BROWSING_SHORTCUT)
 
         self.jumping_X = buttonSide/2.
         self.jumping_Y += buttonSide
-        self.exceptionController = SquareButton((self.jumping_X, self.jumping_Y, buttonSide*4, buttonSide*.75),
+        self.exceptionTrigger = SquareButton((self.jumping_X, self.jumping_Y, buttonSide*4, buttonSide*.75),
                                                 'exception',
                                                 sizeStyle='small',
-                                                callback=self.exceptionControllerCallback)
-        self.exceptionController.bind('e', ['command'])
+                                                callback=self.exceptionTriggerCallback)
+        self.exceptionTrigger.bind(*EXCEPTION_SHORTCUT)
 
         self.jumping_X = buttonSide/2.
         self.jumping_Y += buttonSide*.75
@@ -87,14 +135,14 @@ class JoystickController(Group):
                                         "preview",
                                         sizeStyle='small',
                                         callback=self.previewCtrlCallback)
-        self.previewCtrl.bind(unichr(112), ['command'])
+        self.previewCtrl.bind(*PREVIEW_SHORTCUT)
 
         self.jumping_X += buttonSide*2
         self.solvedCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide*2, buttonSide*.75),
                                        "solved",
                                        sizeStyle='small',
                                        callback=self.solvedCtrlCallback)
-        self.solvedCtrl.bind(unichr(13), ['command'])
+        self.solvedCtrl.bind(*SOLVED_SHORTCUT)
 
         self.jumping_X = buttonSide/2.
         self.jumping_Y += buttonSide*.75+2
@@ -108,25 +156,25 @@ class JoystickController(Group):
                                                  'vertically aligned editing',
                                                  value=self.isVerticalAlignedEditingOn,
                                                  callback=self.verticalAlignedModeCheckCallback)
-        self.verticalAlignedModeCheck.bind('v', ['command'])
+        self.verticalAlignedModeCheck.bind(*VERTICAL_MODE_SHORTCUT)
 
         self.hiddenSymmetryEditingButton = Button((self.jumping_X, self.ctrlHeight+40, self.ctrlWidth, vanillaControlsSize['ButtonRegularHeight']),
                                                    'hiddenSymmetriyEditingButton',
                                                    callback=self.hiddenSymmetryEditingButtonCallback)
-        self.hiddenSymmetryEditingButton.bind('s', ['command'])
+        self.hiddenSymmetryEditingButton.bind(*SYMMETRY_EDITING_SHORTCUT)
 
         self.jumping_X = buttonSide
         self.jumping_Y += buttonSide
         self.previousWordCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
                                              u'↖',
                                              callback=self.previousWordCtrlCallback)
-        self.previousWordCtrl.bind('uparrow', ['command', 'option'])
+        self.previousWordCtrl.bind(*PREVIOUS_WORD_SHORTCUT)
 
         self.jumping_X += buttonSide
         self.cursorUpCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
                                          u'↑',
                                          callback=self.cursorUpCtrlCallback)
-        self.cursorUpCtrl.bind("uparrow", [])
+        self.cursorUpCtrl.bind(*CURSOR_UP_SHORTCUT)
 
         self.jumping_X += buttonSide*1.5
         self.activePairEditCorrection = EditText((self.jumping_X, self.jumping_Y, 50, vanillaControlsSize['EditTextRegularHeight']),
@@ -139,13 +187,13 @@ class JoystickController(Group):
         self.cursorLeftCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
                                            u"←",
                                            callback=self.cursorLeftCtrlCallback)
-        self.cursorLeftCtrl.bind("leftarrow", [])
+        self.cursorLeftCtrl.bind(*CURSOR_LEFT_SHORTCUT)
 
         self.jumping_X += buttonSide*2
         self.cursorRightCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
                                             u'→',
                                             callback=self.cursorRightCtrlCallback)
-        self.cursorRightCtrl.bind("rightarrow", [])
+        self.cursorRightCtrl.bind(*CURSOR_RIGHT_SHORTCUT)
 
         self.jumping_X = buttonSide
         self.jumping_Y += buttonSide
@@ -153,19 +201,19 @@ class JoystickController(Group):
         self.delPairCtrl = SquareButton((self.jumping_X-6, self.jumping_Y+6, buttonSide, buttonSide),
                                         u'Del',
                                         callback=self.delPairCtrlCallback)
-        self.delPairCtrl.bind("forwarddelete", [])
+        self.delPairCtrl.bind(*DEL_PAIR_SHORTCUT)
 
         self.jumping_X += buttonSide
         self.cursorDownCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
                                            u'↓',
                                            callback=self.cursorDownCtrlCallback)
-        self.cursorDownCtrl.bind("downarrow", [])
+        self.cursorDownCtrl.bind(*CURSOR_DOWN_SHORTCUT)
 
         self.jumping_X += buttonSide
         self.nextWordCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
                                          u'↘',
                                          callback=self.nextWordCtrlCallback)
-        self.nextWordCtrl.bind('downarrow', ['command', 'option'])
+        self.nextWordCtrl.bind(*NEXT_WORD_SHORTCUT)
 
     # goes out
     def getLastEvent(self):
@@ -212,7 +260,7 @@ class JoystickController(Group):
         self.lastEvent = 'deletePair'
         self.callback(self)
 
-    def exceptionControllerCallback(self, sender):
+    def exceptionTriggerCallback(self, sender):
         self.lastEvent = 'exceptionTrigger'
         self.callback(self)
 
@@ -277,7 +325,6 @@ class JoystickController(Group):
             self.lastEvent = 'keyboardEdit'
             self.keyboardCorrection = int(sender.get())
             self.callback(self)
-
         except ValueError:
             if sender.get() != '-' or sender.get() != '':
                 self.activePairEditCorrection.set('%s' % self.keyboardCorrection)
