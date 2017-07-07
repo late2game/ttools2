@@ -17,12 +17,10 @@ class JoystickController(Group):
     lastEvent = None
     keyboardCorrection = 0
 
-    def __init__(self, posSize, fontObj, displayedWord, indexPair, isSymmetricalEditingOn, isVerticalAlignedEditingOn, callback):
+    def __init__(self, posSize, fontObj, isSymmetricalEditingOn, isVerticalAlignedEditingOn, activePair, callback):
         super(JoystickController, self).__init__(posSize)
-        self.indexPair = indexPair
         self.fontObj = fontObj
-        self.displayedPairs = buildPairsFromString(displayedWord, self.fontObj)
-        self.activePair = self.displayedPairs[self.indexPair]
+        self.activePair = activePair
 
         self.isSymmetricalEditingOn = isSymmetricalEditingOn
         self.isVerticalAlignedEditingOn = isVerticalAlignedEditingOn
@@ -32,8 +30,6 @@ class JoystickController(Group):
         self.ctrlWidth, self.ctrlHeight = posSize[2], posSize[3]
         self.jumping_X = buttonSide/2.
         self.jumping_Y = 0
-
-        correction, kerningReference, pairKind = getCorrection(self.activePair, self.fontObj)
 
         self.minusMajorCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
                                            "-%s" % MAJOR_STEP,
@@ -61,6 +57,21 @@ class JoystickController(Group):
                                           sizeStyle='small',
                                           callback=self.plusMajorCtrlCallback)
         self.plusMajorCtrl.bind('rightarrow', ['option', 'command'])
+
+        self.jumping_X = buttonSide/2.
+        self.jumping_Y += buttonSide
+        self.lftSwitchCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide*2, buttonSide*.75),
+                                        "lft switch",
+                                        sizeStyle='small',
+                                        callback=self.lftSwitchCtrlCallback)
+        # self.previewCtrl.bind(unichr(112), ['command'])
+
+        self.jumping_X += buttonSide*2
+        self.rgtSwitchCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide*2, buttonSide*.75),
+                                       "rgt switch",
+                                       sizeStyle='small',
+                                       callback=self.rgtSwitchCtrlCallback)
+        # self.solvedCtrl.bind(unichr(13), ['command'])
 
         self.jumping_X = buttonSide/2.
         self.jumping_Y += buttonSide
@@ -108,20 +119,18 @@ class JoystickController(Group):
         self.jumping_Y += buttonSide
         self.previousWordCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
                                              u'↖',
-                                             sizeStyle='small',
                                              callback=self.previousWordCtrlCallback)
         self.previousWordCtrl.bind('uparrow', ['command', 'option'])
 
         self.jumping_X += buttonSide
         self.cursorUpCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
                                          u'↑',
-                                         sizeStyle='small',
                                          callback=self.cursorUpCtrlCallback)
         self.cursorUpCtrl.bind("uparrow", [])
 
         self.jumping_X += buttonSide*1.5
         self.activePairEditCorrection = EditText((self.jumping_X, self.jumping_Y, 50, vanillaControlsSize['EditTextRegularHeight']),
-                                                 text='%s' % correction,
+                                                 text='%s' % 0,   # init value
                                                  continuous=False,
                                                  callback=self.activePairEditCorrectionCallback)
 
@@ -129,14 +138,12 @@ class JoystickController(Group):
         self.jumping_Y += buttonSide
         self.cursorLeftCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
                                            u"←",
-                                           sizeStyle='small',
                                            callback=self.cursorLeftCtrlCallback)
         self.cursorLeftCtrl.bind("leftarrow", [])
 
         self.jumping_X += buttonSide*2
         self.cursorRightCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
                                             u'→',
-                                            sizeStyle='small',
                                             callback=self.cursorRightCtrlCallback)
         self.cursorRightCtrl.bind("rightarrow", [])
 
@@ -145,34 +152,31 @@ class JoystickController(Group):
 
         self.delPairCtrl = SquareButton((self.jumping_X-6, self.jumping_Y+6, buttonSide, buttonSide),
                                         u'Del',
-                                        sizeStyle='small',
                                         callback=self.delPairCtrlCallback)
         self.delPairCtrl.bind("forwarddelete", [])
 
         self.jumping_X += buttonSide
         self.cursorDownCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
                                            u'↓',
-                                           sizeStyle='small',
                                            callback=self.cursorDownCtrlCallback)
         self.cursorDownCtrl.bind("downarrow", [])
 
         self.jumping_X += buttonSide
         self.nextWordCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
                                          u'↘',
-                                         sizeStyle='small',
                                          callback=self.nextWordCtrlCallback)
         self.nextWordCtrl.bind('downarrow', ['command', 'option'])
 
+    # goes out
     def getLastEvent(self):
         return self.lastEvent
 
     def getKeyboardCorrection(self):
         return self.keyboardCorrection
 
-    def setActivePair(self, displayedWord, indexPair):
-        self.indexPair = indexPair
-        self.displayedPairs = buildPairsFromString(displayedWord, self.fontObj)
-        self.activePair = self.displayedPairs[self.indexPair]
+    # comes in
+    def setActivePair(self, activePair):
+        self.activePair = activePair
         self.updateCorrectionValue()
 
     def setSymmetricalEditing(self, symmetricalEditing):
@@ -187,6 +191,7 @@ class JoystickController(Group):
         correction, kerningReference, pairKind = getCorrection(self.activePair, self.fontObj)
         self.activePairEditCorrection.set('%s' % correction)
 
+    # callbacks
     def minusMajorCtrlCallback(self, sender):
         self.lastEvent = 'minusMajor'
         self.callback(self)
@@ -257,6 +262,14 @@ class JoystickController(Group):
 
     def nextWordCtrlCallback(self, sender):
         self.lastEvent = 'nextWord'
+        self.callback(self)
+
+    def lftSwitchCtrlCallback(self, sender):
+        self.lastEvent = 'switchLftGlyph'
+        self.callback(self)
+
+    def rgtSwitchCtrlCallback(self, sender):
+        self.lastEvent = 'switchRgtGlyph'
         self.callback(self)
 
     def activePairEditCorrectionCallback(self, sender):

@@ -92,6 +92,22 @@ class WordDisplay(Group):
     def getActivePair(self):
         return self.activePair
 
+    def switchLftGlyphFromGroup(self):
+        lftName, rgtName = self.activePair
+        lftReference = whichGroup(lftName, 'lft', self.fontObj)
+        if self.areGroupsShown is True and lftReference is not None:
+            nextLftIndex = (self.fontObj.groups[lftReference].index(lftName)+1) % len(self.fontObj.groups[lftReference])
+            self.activePair = self.fontObj.groups[lftReference][nextLftIndex], rgtName
+            self.wordCanvasGroup.update()
+
+    def switchRgtGlyphFromGroup(self):
+        lftName, rgtName = self.activePair
+        rgtReference = whichGroup(rgtName, 'rgt', self.fontObj)
+        if self.areGroupsShown is True and rgtReference is not None:
+            nextRgtIndex = (self.fontObj.groups[rgtReference].index(rgtName)+1) % len(self.fontObj.groups[rgtReference])
+            self.activePair = lftName, self.fontObj.groups[rgtReference][nextRgtIndex]
+            self.wordCanvasGroup.update()
+
     def setSymmetricalEditingMode(self, value):
         self.isSymmetricalEditingOn = value
 
@@ -371,6 +387,16 @@ class WordDisplay(Group):
     def draw(self):
 
         try:
+            glyphsToDisplay = splitText(self.displayedWord, self.fontObj.naked().unicodeData)
+
+            # if the user switches the glyphs from the groups
+            # here we have to arrange the list of glyphnames properly
+            if self.activePair is not None:
+                lftName, rgtName = self.activePair
+                glyphsToDisplay[self.indexPair]   = lftName
+                glyphsToDisplay[self.indexPair+1] = rgtName
+
+            # here we draw
             dt.save()
 
             # this is for safety reason, user should be notified about possible unwanted kerning corrections
@@ -389,7 +415,6 @@ class WordDisplay(Group):
             if self.areGroupsShown is True:
                 dt.save()
                 prevGlyphName = None
-                glyphsToDisplay = splitText(self.displayedWord, self.fontObj.naked().unicodeData)
                 for indexChar, eachGlyphName in enumerate(glyphsToDisplay):
                     eachGlyph = self.fontObj[eachGlyphName]
 
@@ -415,7 +440,6 @@ class WordDisplay(Group):
             # background loop
             dt.save()
             prevGlyphName = None
-            glyphsToDisplay = splitText(self.displayedWord, self.fontObj.naked().unicodeData)
             for indexChar, eachGlyphName in enumerate(glyphsToDisplay):
                 eachGlyph = self.fontObj[eachGlyphName]
 
@@ -447,7 +471,6 @@ class WordDisplay(Group):
             # foreground loop
             dt.save()
             prevGlyphName = None
-            glyphsToDisplay = splitText(self.displayedWord, self.fontObj.naked().unicodeData)
             for indexChar, eachGlyphName in enumerate(glyphsToDisplay):
                 eachGlyph = self.fontObj[eachGlyphName]
 
@@ -458,14 +481,32 @@ class WordDisplay(Group):
                     if correction and correction != 0:
                         dt.translate(correction, 0)
 
-                    if (indexChar-1) == self.indexPair and self.areCollisionsShown is True:
-                        self._drawCollisions((prevGlyphName, eachGlyphName))
-
                 self._drawGlyphOutlines(eachGlyphName)
                 dt.translate(eachGlyph.width, 0)
 
                 prevGlyphName = eachGlyphName
             dt.restore()
+
+            # collisions loop
+            if self.areCollisionsShown is True:
+                dt.save()
+                prevGlyphName = None
+                for indexChar, eachGlyphName in enumerate(glyphsToDisplay):
+                    eachGlyph = self.fontObj[eachGlyphName]
+
+                    if indexChar > 0:
+                        correction, kerningReference, pairKind = getCorrection((prevGlyphName, eachGlyphName), self.fontObj)
+
+                        if correction and correction != 0:
+                            dt.translate(correction, 0)
+
+                        if (indexChar-1) == self.indexPair:
+                            self._drawCollisions((prevGlyphName, eachGlyphName))
+
+                    dt.translate(eachGlyph.width, 0)
+                    prevGlyphName = eachGlyphName
+
+                dt.restore()
 
             # main restore, it wraps the three loops
             dt.restore()

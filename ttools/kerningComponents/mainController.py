@@ -53,7 +53,7 @@ from vanilla.dialogs import message
 PLUGIN_TITLE = 'TT Kerning editor'
 
 # func
-JOYSTICK_EVENTS = ['exceptionTrigger', 'verticalAlignedEditing', 'minusMajor', 'minusMinor', 'plusMinor', 'plusMajor', 'preview', 'solved', 'symmetricalEditing', 'keyboardEdit', 'previousWord', 'cursorUp', 'cursorLeft', 'cursorRight', 'cursorDown', 'nextWord', 'deletePair']
+JOYSTICK_EVENTS = ['exceptionTrigger', 'verticalAlignedEditing', 'minusMajor', 'minusMinor', 'plusMinor', 'plusMajor', 'preview', 'solved', 'symmetricalEditing', 'keyboardEdit', 'previousWord', 'cursorUp', 'cursorLeft', 'cursorRight', 'cursorDown', 'nextWord', 'deletePair', 'switchLftGlyph', 'switchRgtGlyph']
 KERNING_NOT_DISPLAYED_ERROR = 'Why are you editing kerning if it is not displayed?'
 
 # ui
@@ -109,7 +109,7 @@ class KerningController(BaseWindowController):
 
         self.jumping_Y = MARGIN_VER
         self.jumping_X = MARGIN_HOR
-        self.w.wordListController = WordListController((self.jumping_X, self.jumping_Y, LEFT_COLUMN, 290),
+        self.w.wordListController = WordListController((self.jumping_X, self.jumping_Y, LEFT_COLUMN, 190),
                                                        callback=self.wordListControllerCallback)
         self.displayedWord = self.w.wordListController.get()
 
@@ -125,12 +125,11 @@ class KerningController(BaseWindowController):
         self.w.fonts_controller_separationLine = HorizontalLine((self.jumping_X, self.jumping_Y, LEFT_COLUMN, vanillaControlsSize['HorizontalLineThickness']))
         
         self.jumping_Y += MARGIN_VER
-        self.w.joystick = JoystickController((self.jumping_X, self.jumping_Y, LEFT_COLUMN, 264),
+        self.w.joystick = JoystickController((self.jumping_X, self.jumping_Y, LEFT_COLUMN, 300),
                                              self.fontsOrder[self.navCursor_Y],
-                                             self.displayedWord,
-                                             self.navCursor_X,
                                              self.isSymmetricalEditingOn,
                                              self.isVerticalAlignedEditingOn,
+                                             activePair=None,
                                              callback=self.joystickCallback)
 
         self.jumping_Y += self.w.joystick.getPosSize()[3] + MARGIN_VER
@@ -155,6 +154,7 @@ class KerningController(BaseWindowController):
 
         self.jumping_Y += self.w.displayedWordCaption.getPosSize()[3]+MARGIN_COL
         self.initWordDisplays()
+        self.w.joystick.setActivePair(self.getActiveWordDisplay().getActivePair())
 
         # observers!
         addObserver(self, 'openCloseFontCallback', "fontDidOpen")
@@ -274,9 +274,12 @@ class KerningController(BaseWindowController):
         self.w.displayedWordCaption.set(self.displayedWord)
         if len(self.displayedWord)-1 < (self.navCursor_X+1):
             self.navCursor_X = len(self.displayedWord)-2
-        self.w.joystick.setActivePair(self.displayedWord, self.navCursor_X)
         self.updateWordDisplays()
-        getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(self.navCursor_X)
+        self.getActiveWordDisplay().setActivePairIndex(self.navCursor_X)
+        self.w.joystick.setActivePair(self.getActiveWordDisplay().getActivePair())
+
+    def getActiveWordDisplay(self):
+        return getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1))
 
     def switchSolvedAttribute(self):
         self.w.wordListController.switchActiveWordSolvedAttribute()
@@ -290,7 +293,7 @@ class KerningController(BaseWindowController):
 
     def exceptionTrigger(self):
         selectedFont = self.fontsOrder[self.navCursor_Y]
-        selectedPair = getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).getActivePair()
+        selectedPair = self.getActiveWordDisplay().getActivePair()
         correction, kerningReference, pairKind = getCorrection(selectedPair, selectedFont)
 
         if correction:
@@ -302,7 +305,7 @@ class KerningController(BaseWindowController):
 
     # manipulate data
     def setPairCorrection(self, amount):
-        selectedPair = getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).getActivePair()
+        selectedPair = self.getActiveWordDisplay().getActivePair()
         if self.isVerticalAlignedEditingOn is True:
             selectedFonts = self.fontsOrder
         else:
@@ -322,7 +325,7 @@ class KerningController(BaseWindowController):
             selectedFonts = [self.fontsOrder[self.navCursor_Y]]
 
         for eachFont in selectedFonts:
-            selectedPair = buildPairsFromString(self.displayedWord, eachFont)[self.navCursor_X]
+            selectedPair = self.getActiveWordDisplay().getActivePair()
             correction, correctionKey, pairKind = getCorrection(selectedPair, eachFont)
             setCorrection(selectedPair, eachFont, correction+amount)
 
@@ -336,34 +339,34 @@ class KerningController(BaseWindowController):
     # cursor methods
     def cursorLeft(self):
         self.navCursor_X = (self.navCursor_X-1)%(len(self.displayedWord)-1)
-        getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(self.navCursor_X)
-        self.w.joystick.setActivePair(self.displayedWord, self.navCursor_X)
+        self.getActiveWordDisplay().setActivePairIndex(self.navCursor_X)
+        self.w.joystick.setActivePair(self.getActiveWordDisplay().getActivePair())
         self.updateWordDisplays()
 
     def cursorRight(self):
         self.navCursor_X = (self.navCursor_X+1)%(len(self.displayedWord)-1)
-        getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(self.navCursor_X)
-        self.w.joystick.setActivePair(self.displayedWord, self.navCursor_X)
+        self.getActiveWordDisplay().setActivePairIndex(self.navCursor_X)
+        self.w.joystick.setActivePair(self.getActiveWordDisplay().getActivePair())
         self.updateWordDisplays()
 
     def cursorUp(self):
-        getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(None)   # old
+        self.getActiveWordDisplay().setActivePairIndex(None)   # old
         self.navCursor_Y = (self.navCursor_Y-1)%len(self.fontsOrder)
-        getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(self.navCursor_X)   # new
+        self.getActiveWordDisplay().setActivePairIndex(self.navCursor_X)   # new
         self.w.joystick.setFontObj(self.fontsOrder[self.navCursor_Y])
         self.updateWordDisplays()
 
     def cursorDown(self):
-        getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(None)   # old
+        self.getActiveWordDisplay().setActivePairIndex(None)   # old
         self.navCursor_Y = (self.navCursor_Y+1)%len(self.fontsOrder)
-        getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).setActivePairIndex(self.navCursor_X)   # new
+        self.getActiveWordDisplay().setActivePairIndex(self.navCursor_X)   # new
         self.w.joystick.setFontObj(self.fontsOrder[self.navCursor_Y])
         self.updateWordDisplays()
 
     ### callbacks
     def exceptionWindowCallback(self, sender):
         selectedFont = self.fontsOrder[self.navCursor_Y]
-        selectedPair = getattr(self.w, 'wordCtrl_%#02d' % (self.navCursor_Y+1)).getActivePair()
+        selectedPair = self.getActiveWordDisplay().getActivePair()
         if sender.lastEvent == 'submit':
             exceptionKey = sender.get()
             correction, kerningReference, pairKind = getCorrection(selectedPair, selectedFont)
@@ -474,6 +477,15 @@ class KerningController(BaseWindowController):
         elif joystickEvent == 'deletePair':
             if self.isKerningDisplayActive is True:
                 self.setPairCorrection(0)
+                self.w.joystick.setActivePair(self.getActiveWordDisplay().getActivePair())
+
+        elif joystickEvent == 'switchLftGlyph':
+            self.getActiveWordDisplay().switchLftGlyphFromGroup()
+            self.w.joystick.setActivePair(self.getActiveWordDisplay().getActivePair())
+
+        elif joystickEvent == 'switchRgtGlyph':
+            self.getActiveWordDisplay().switchRgtGlyphFromGroup()
+            self.w.joystick.setActivePair(self.getActiveWordDisplay().getActivePair())
 
         elif joystickEvent == 'keyboardEdit':
             if self.isKerningDisplayActive is True:

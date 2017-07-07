@@ -47,7 +47,7 @@ class WordListController(Group):
             {'title': 'done?', 'width': 35, 'cell': CheckBoxListCell(), 'editable': False}]
 
         jumping_Y += self.kerningVocabularyPopUp.getPosSize()[3] + MARGIN_VER
-        self.wordsListCtrl = List((0, jumping_Y, self.ctrlWidth, 200),
+        self.wordsListCtrl = List((0, jumping_Y, self.ctrlWidth, 100),
                                   self.wordsDisplayList,
                                   enableDelete=False,
                                   allowsMultipleSelection=False,

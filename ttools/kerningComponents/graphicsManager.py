@@ -50,7 +50,7 @@ class GraphicsManager(Group):
 
         jumping_Y += vanillaControlsSize['CheckBoxRegularHeight']
         self.showCollisionsCheck = CheckBox((indent, jumping_Y, self.ctrlWidth-indent, vanillaControlsSize['CheckBoxRegularHeight']),
-                                        'show collisions',
+                                        'show pair collision',
                                         value=self.areCollisionsShown,
                                         callback=self.showCollisionsCheckCallback)
 
