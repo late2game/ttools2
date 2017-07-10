@@ -92,20 +92,24 @@ class WordDisplay(Group):
     def getActivePair(self):
         return self.activePair
 
-    def switchLftGlyphFromGroup(self):
-        lftName, rgtName = self.activePair
-        lftReference = whichGroup(lftName, 'lft', self.fontObj)
-        if self.areGroupsShown is True and lftReference is not None:
-            nextLftIndex = (self.fontObj.groups[lftReference].index(lftName)+1) % len(self.fontObj.groups[lftReference])
-            self.activePair = self.fontObj.groups[lftReference][nextLftIndex], rgtName
-            self.wordCanvasGroup.update()
+    def switchGlyphFromGroup(self, location, indexPair):
+        assert location in ['lft', 'rgt']
 
-    def switchRgtGlyphFromGroup(self):
-        lftName, rgtName = self.activePair
-        rgtReference = whichGroup(rgtName, 'rgt', self.fontObj)
-        if self.areGroupsShown is True and rgtReference is not None:
-            nextRgtIndex = (self.fontObj.groups[rgtReference].index(rgtName)+1) % len(self.fontObj.groups[rgtReference])
-            self.activePair = lftName, self.fontObj.groups[rgtReference][nextRgtIndex]
+        if self.activePair is None:
+            self.setActivePairIndex(indexPair)
+
+        if location == 'lft':
+            theElem, otherElem = self.activePair
+        else:
+            otherElem, theElem = self.activePair
+        groupReference = whichGroup(theElem, location, self.fontObj)
+
+        if self.areGroupsShown is True and groupReference is not None:
+            nextElemIndex = (self.fontObj.groups[groupReference].index(theElem)+1) % len(self.fontObj.groups[groupReference])
+            if location == 'lft':
+                self.activePair = self.fontObj.groups[groupReference][nextElemIndex], otherElem
+            else:
+                self.activePair = otherElem, self.fontObj.groups[groupReference][nextElemIndex]
             self.wordCanvasGroup.update()
 
     def setSymmetricalEditingMode(self, value):
@@ -132,6 +136,8 @@ class WordDisplay(Group):
     def setDisplayedWord(self, displayedWord):
         self.displayedWord = displayedWord
         self.displayedPairs = buildPairsFromString(self.displayedWord, self.fontObj)
+        if self.indexPair is not None:
+            self.activePair = self.displayedPairs[self.indexPair]
         self.checkPairsQuality()
 
     def setScalingFactor(self, scalingFactor):
