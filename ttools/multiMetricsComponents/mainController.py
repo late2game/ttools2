@@ -379,6 +379,9 @@ class MultiFontMetricsWindow(BaseWindowController):
                         if (leftGlyph.name, rightGlyph.name) in leftFont.flatKerning:
                             leftRecord.xAdvance += leftFont.flatKerning[(leftGlyph.name, rightGlyph.name)]
 
+            # manually refresh the line view ctrl, it should help
+            self.w.lineView.update()
+
             # update spacing matrix
             self.w.spacingMatrix.canvas.update()
 
