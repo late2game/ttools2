@@ -44,7 +44,7 @@ MARGIN_RGT = 15
 MARGIN_TOP = 15
 MARGIN_COL = 10
 MARGIN_ROW = 15
-MARGIN_BTM = 20
+MARGIN_BTM = 10
 MARGIN_HALFROW = 7
 RIGHT_COLUMN = 180
 
@@ -157,18 +157,18 @@ class MultiFontMetricsWindow(BaseWindowController):
             'Fill': True,
             'Left to Right': True}
         self.w.lineView = MultiLineView((MARGIN_LFT, jumpingY, -(RIGHT_COLUMN+MARGIN_COL+MARGIN_RGT), -MARGIN_BTM-MARGIN_HALFROW-self.spacingMatrixHeight),
-                                          pointSize=self.bodySize,
-                                          lineHeight=self.lineHeight,
-                                          doubleClickCallback=self.lineViewDoubleClickCallback,
-                                          selectionCallback=self.lineViewSelectionCallback,
-                                          bordered=True,
-                                          # applyKerning=True,
-                                          applyKerning=self.applyKerning,
-                                          hasHorizontalScroller=False,
-                                          hasVerticalScroller=True,
-                                          displayOptions=self.multiLineOptions,
-                                          updateUserDefaults=False,
-                                          menuForEventCallback=None)
+                                        pointSize=self.bodySize,
+                                        lineHeight=self.lineHeight,
+                                        doubleClickCallback=self.lineViewDoubleClickCallback,
+                                        selectionCallback=self.lineViewSelectionCallback,
+                                        bordered=True,
+                                        # applyKerning=True,
+                                        applyKerning=self.applyKerning,
+                                        hasHorizontalScroller=False,
+                                        hasVerticalScroller=True,
+                                        displayOptions=self.multiLineOptions,
+                                        updateUserDefaults=False,
+                                        menuForEventCallback=None)
 
         # static options
             # body
@@ -215,7 +215,7 @@ class MultiFontMetricsWindow(BaseWindowController):
                                                            callback=self.fontsOrderControllerCallback)
 
         # edit metrics
-        self.w.spacingMatrix = SpacingMatrix((MARGIN_LFT, -(MARGIN_HALFROW+self.spacingMatrixHeight), self.w.getPosSize()[2]-MARGIN_LFT-MARGIN_RGT, self.spacingMatrixHeight),
+        self.w.spacingMatrix = SpacingMatrix((MARGIN_LFT, -(MARGIN_BTM+self.spacingMatrixHeight), self.w.getPosSize()[2]-MARGIN_LFT-MARGIN_RGT, self.spacingMatrixHeight),
                                              self.glyphNamesToDisplay,
                                              self.fontsOrder,
                                              callback=self.spacingMatrixCallback)
