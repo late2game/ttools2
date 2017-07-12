@@ -218,7 +218,10 @@ class SpacingMatrix(Group):
 
         # metrics
         for eachFont in self.fontsOrder:
-            eachGlyph = eachFont[glyphName]
+            try:
+                eachGlyph = eachFont[glyphName]
+            except Exception, error:
+                continue
 
             if eachGlyph == self.lineViewSelectedGlyph:
                 color = RED
