@@ -111,9 +111,9 @@ class MultiFontMetricsWindow(BaseWindowController):
                         minSize=(800, 400))
         self.w.bind('resize', self.mainWindowResize)
 
-        if not AllFonts():
-            self.showMessage('No fonts, no party!', 'Please, open some fonts before starting the mighty MultiFont Metrics Controller')
-            self.w.close()
+        if not self.fontsOrder:
+            # no fonts, no party
+            return None
 
         self.w.switchButton = PopUpButton((MARGIN_LFT, jumpingY, netWidth*.2, vanillaControlsSize['PopUpButtonRegularHeight']),
                                             self.textModeOptions,
