@@ -31,13 +31,6 @@ if '.SFNSText' in dt.installedFonts():
 else:
     SYSTEM_FONT_NAME = '.HelveticaNeueDeskInterface-Regular'
 
-"""
-notes:
-- should not draw if ctrls are not visible
-- should convert a square in editText if click
-- if a glyph is selected, should color text in red
-
-"""
 
 ### Factory
 class SpacingMatrix(Group):
