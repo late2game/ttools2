@@ -251,7 +251,7 @@ class MultiFontMetricsWindow(BaseWindowController):
                 eachGlyph.removeObserver(self, "Glyph.Changed")
 
     def glyphChangedCallback(self, notification):
-        self.updateLineView()
+        self.w.lineView.update()
 
     # observers funcs
     def mainWindowResize(self, mainWindow):
@@ -450,7 +450,6 @@ class MultiFontMetricsWindow(BaseWindowController):
             if eachFont.path == doodleFont.path:
                 roboGlyph = self.fontsOrder[indexFont][doodleGlyph.name]
                 break
-
         if roboGlyph is not None:
             OpenGlyphWindow(glyph=roboGlyph, newWindow=False)
 
