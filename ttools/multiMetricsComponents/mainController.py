@@ -407,12 +407,14 @@ class MultiFontMetricsWindow(BaseWindowController):
 
     def typewriterCtrlCallback(self, sender):
         self.stringDisplayMode, self.glyphNamesToDisplay = 'Waterfall', sender.get()
+        self.updateSubscriptions()
         self.w.spacingMatrix.setGlyphNamesToDisplay(self.glyphNamesToDisplay)
         self.w.spacingMatrix.refreshActiveElements()
         self.updateLineView()
 
     def textStringsControlsCallback(self, sender):
         self.stringDisplayMode, self.glyphNamesToDisplay = sender.get()
+        self.updateSubscriptions()
         self.w.spacingMatrix.setGlyphNamesToDisplay(self.glyphNamesToDisplay)
         self.w.spacingMatrix.refreshActiveElements()
         self.updateLineView()
