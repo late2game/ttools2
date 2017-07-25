@@ -318,27 +318,27 @@ class AccentedMaker(BaseWindowController):
         self.glyphLists['Place Anchors']['ACC CASE BTM'] = accentsCaseBtm
 
         ucBaseTop = []
-        _ = [ucBaseTop.append(row[1]) for row in self.accentedData if row[1].isupper() and row[3] == 'top']
+        _ = [ucBaseTop.append(row[1]) for row in self.accentedData if row[1][0].isupper() and row[3] == 'top']
         self.glyphLists['Place Anchors']['UC TOP'] = ucBaseTop
         
         ucBaseBtm = []
-        _ = [ucBaseBtm.append(row[1]) for row in self.accentedData if row[1].isupper() and row[3] == 'bottom']
+        _ = [ucBaseBtm.append(row[1]) for row in self.accentedData if row[1][0].isupper() and row[3] == 'bottom']
         self.glyphLists['Place Anchors']['UC BTM'] = ucBaseBtm
 
         lcBaseTop = []
-        _ = [lcBaseTop.append(row[1]) for row in self.accentedData if row[1].islower() and row[3] == 'top']
+        _ = [lcBaseTop.append(row[1]) for row in self.accentedData if row[1][0].islower() and row[3] == 'top']
         self.glyphLists['Place Anchors']['LC TOP'] = lcBaseTop
 
         lcBaseBtm = []
-        _ = [lcBaseBtm.append(row[1]) for row in self.accentedData if row[1].islower() and row[3] == 'bottom']
+        _ = [lcBaseBtm.append(row[1]) for row in self.accentedData if row[1][0].islower() and row[3] == 'bottom']
         self.glyphLists['Place Anchors']['LC BTM'] = lcBaseBtm
 
         # build
         self.glyphLists['Build Accents'] = OrderedDict()
         self.glyphLists['Build Accents']['ALL'] = self.accentedData
-        buildUC = [row for row in self.accentedData if row[1].isupper() is True]
+        buildUC = [row for row in self.accentedData if row[1][0].isupper() is True]
         self.glyphLists['Build Accents']['UC'] = buildUC
-        buildLC = [row for row in self.accentedData if row[1].islower() is True]
+        buildLC = [row for row in self.accentedData if row[1][0].islower() is True]
         self.glyphLists['Build Accents']['LC'] = buildLC
 
 
