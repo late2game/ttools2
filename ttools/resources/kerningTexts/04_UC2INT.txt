@@ -159,3 +159,17 @@ II‹Z›II›Z‹II-Z-II
 II“Z”II"Z"II
 II.Z.II:Z:II·Z·II
 II•Z•II*Z*II°Z°II
+II(Æ)II)Æ(II[Æ]II
+II]Æ[II{Æ}II}Æ{II
+II\Æ//II//Æ\II
+II‹Æ›II›Æ‹II-Æ-II
+II“Æ”II"Æ"II
+II.Æ.II:Æ:II·Æ·II
+II•Æ•II*Æ*II°Æ°II
+II(&)II)&(II[&]II
+II]&[II{&}II}&{II
+II\&//II//&\II
+II‹&›II›&‹II-&-II
+II“&”II"&"II
+II.&.II:&:II·&·II
+II•&•II*&*II°&°II
