@@ -132,3 +132,29 @@ CY DECYZJA
 OO COOP
 YY BEYYL
 XX MAXXI
+H&H&O&A&H
+H&H&O&B&H
+H&H&O&C&H
+H&H&O&D&H
+H&H&O&E&H
+H&H&O&F&H
+H&H&O&G&H
+H&H&O&H&H
+H&H&O&I&H
+H&H&O&J&H
+H&H&O&K&H
+H&H&O&L&H
+H&H&O&M&H
+H&H&O&N&H
+H&H&O&O&H
+H&H&O&P&H
+H&H&O&Q&H
+H&H&O&R&H
+H&H&O&S&H
+H&H&O&T&H
+H&H&O&U&H
+H&H&O&V&H
+H&H&O&W&H
+H&H&O&X&H
+H&H&O&Y&H
+H&H&O&Z&H
