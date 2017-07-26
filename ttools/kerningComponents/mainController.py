@@ -284,6 +284,7 @@ class KerningController(BaseWindowController):
             self.navCursor_X = len(self.displayedWord)-2
         for eachI in xrange(len(self.fontsOrder)):
             eachDisplay = getattr(self.w, 'wordCtrl_%#02d' % (eachI+1))
+            eachDisplay.setActivePairIndex(self.navCursor_X)
             eachDisplay.setDisplayedWord(self.displayedWord)
         self.updateWordDisplays()
 
