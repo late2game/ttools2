@@ -28,7 +28,64 @@ MINOR_STEP = 4
 
 CANVAS_SCALING_FACTOR_INIT = 1.6
 
+SYMMETRICAL_GLYPHS = list(u'AHIOTUVWXY.:-•·!¡|¦†‡"\'_*°…')
+SYMMETRICAL_COUPLES_POS = {u"‹": u"›",
+                           u"«": u"»",
+                           u"(": u")",
+                           u"[": u"]",
+                           u"{": u"}",
+                           u"/": u"\\",
+                           u"‘": u"’"}
+SYMMETRICAL_COUPLES_NEG = {value: key for (key, value) in SYMMETRICAL_COUPLES_POS.items()}
+
 # functions
+def findSymmetricalPair(aPair):
+    assert len(aPair) == 2
+    symmetricalPair = None
+    lftGlyph, rgtGlyph = aPair
+
+    if lftGlyph == rgtGlyph:
+        return None
+
+    # only symmetrical
+    elif lftGlyph in SYMMETRICAL_GLYPHS and rgtGlyph in SYMMETRICAL_GLYPHS:
+        symmetricalPair = rgtGlyph, lftGlyph
+
+    # symmetrical glyphs + couples
+    elif lftGlyph in SYMMETRICAL_GLYPHS and rgtGlyph in SYMMETRICAL_COUPLES_POS:
+        symmetricalPair = SYMMETRICAL_COUPLES_POS[rgtGlyph], lftGlyph
+
+    elif lftGlyph in SYMMETRICAL_GLYPHS and rgtGlyph in SYMMETRICAL_COUPLES_NEG:
+        symmetricalPair = SYMMETRICAL_COUPLES_NEG[rgtGlyph], lftGlyph
+
+    elif lftGlyph in SYMMETRICAL_COUPLES_POS and rgtGlyph in SYMMETRICAL_GLYPHS:
+        symmetricalPair = rgtGlyph, SYMMETRICAL_COUPLES_POS[lftGlyph]
+
+    elif lftGlyph in SYMMETRICAL_COUPLES_NEG and rgtGlyph in SYMMETRICAL_GLYPHS:
+        symmetricalPair = rgtGlyph, SYMMETRICAL_COUPLES_NEG[lftGlyph]
+
+    # only from the couples
+        # straight
+    elif lftGlyph in SYMMETRICAL_COUPLES_POS and rgtGlyph in SYMMETRICAL_COUPLES_POS:
+        symmetricalPair = SYMMETRICAL_COUPLES_POS[rgtGlyph], SYMMETRICAL_COUPLES_POS[lftGlyph]
+
+    elif lftGlyph in SYMMETRICAL_COUPLES_NEG and rgtGlyph in SYMMETRICAL_COUPLES_NEG:
+        symmetricalPair = SYMMETRICAL_COUPLES_NEG[rgtGlyph], SYMMETRICAL_COUPLES_NEG[lftGlyph]
+
+        # crossed
+    elif lftGlyph in SYMMETRICAL_COUPLES_POS and rgtGlyph in SYMMETRICAL_COUPLES_NEG:
+        symmetricalPair = SYMMETRICAL_COUPLES_NEG[rgtGlyph], SYMMETRICAL_COUPLES_POS[lftGlyph]
+
+    elif lftGlyph in SYMMETRICAL_COUPLES_NEG and rgtGlyph in SYMMETRICAL_COUPLES_POS:
+        symmetricalPair = SYMMETRICAL_COUPLES_POS[rgtGlyph], SYMMETRICAL_COUPLES_NEG[lftGlyph]
+
+    if symmetricalPair:
+        if symmetricalPair != (lftGlyph, rgtGlyph):
+            return symmetricalPair
+
+    return None
+
+
 def checkPairFormat(value):
     assert isinstance(value, types.TupleType), 'wrong pair format'
     assert len(value) == 2, 'wrong pair format'

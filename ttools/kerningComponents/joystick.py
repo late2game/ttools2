@@ -65,12 +65,12 @@ class JoystickController(Group):
     lastEvent = None
     keyboardCorrection = 0
 
-    def __init__(self, posSize, fontObj, isSymmetricalEditingOn, isVerticalAlignedEditingOn, activePair, callback):
+    def __init__(self, posSize, fontObj, isFlippedEditingOn, isVerticalAlignedEditingOn, activePair, callback):
         super(JoystickController, self).__init__(posSize)
         self.fontObj = fontObj
         self.activePair = activePair
 
-        self.isSymmetricalEditingOn = isSymmetricalEditingOn
+        self.isFlippedEditingOn = isFlippedEditingOn
         self.isVerticalAlignedEditingOn = isVerticalAlignedEditingOn
         self.callback = callback
 
@@ -148,7 +148,7 @@ class JoystickController(Group):
         self.jumping_Y += buttonSide*.75+2
         self.symmetryModeCheck = CheckBox((self.jumping_X, self.jumping_Y, self.ctrlWidth, vanillaControlsSize['CheckBoxRegularHeight']),
                                           'symmetrical editing',
-                                          value=self.isSymmetricalEditingOn,
+                                          value=self.isFlippedEditingOn,
                                           callback=self.symmetryModeCheckCallback)
 
         self.jumping_Y += buttonSide*.6
@@ -228,8 +228,8 @@ class JoystickController(Group):
         self.updateCorrectionValue()
 
     def setSymmetricalEditing(self, symmetricalEditing):
-        self.isSymmetricalEditingOn = symmetricalEditing
-        self.symmetryModeCheck.set(self.isSymmetricalEditingOn)
+        self.isFlippedEditingOn = symmetricalEditing
+        self.symmetryModeCheck.set(self.isFlippedEditingOn)
 
     def setFontObj(self, value):
         self.fontObj = value
@@ -274,7 +274,7 @@ class JoystickController(Group):
 
     def symmetryModeCheckCallback(self, sender):
         self.lastEvent = 'symmetricalEditing'
-        self.isSymmetricalEditingOn = bool(sender.get())
+        self.isFlippedEditingOn = bool(sender.get())
         self.callback(self)
 
     def verticalAlignedModeCheckCallback(self, sender):
@@ -284,8 +284,8 @@ class JoystickController(Group):
 
     def hiddenSymmetryEditingButtonCallback(self, sender):
         self.lastEvent = 'symmetricalEditing'
-        self.isSymmetricalEditingOn = not self.isSymmetricalEditingOn
-        self.symmetryModeCheck.set(self.isSymmetricalEditingOn)
+        self.isFlippedEditingOn = not self.isFlippedEditingOn
+        self.symmetryModeCheck.set(self.isFlippedEditingOn)
         self.callback(self)
 
     def previousWordCtrlCallback(self, sender):
