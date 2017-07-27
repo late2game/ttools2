@@ -31,7 +31,7 @@ from ..userInterfaceValues import vanillaControlsSize
 from ..uiControllers import FontsOrderController, FONT_ROW_HEIGHT
 import kerningMisc
 reload(kerningMisc)
-from kerningMisc import checkPairFormat, getCorrection
+from kerningMisc import checkPairFormat, getCorrection, findSymmetricalPair
 from kerningMisc import buildPairsFromString, setCorrection, setRawCorrection
 from kerningMisc import MAJOR_STEP, MINOR_STEP
 from kerningMisc import MARGIN_VER, MARGIN_HOR, MARGIN_COL
@@ -53,13 +53,13 @@ from vanilla.dialogs import message
 PLUGIN_TITLE = 'TT Kerning editor'
 
 # func
-JOYSTICK_EVENTS = ['exceptionTrigger', 'verticalAlignedEditing', 'minusMajor', 'minusMinor', 'plusMinor', 'plusMajor', 'preview', 'solved', 'symmetricalEditing', 'keyboardEdit', 'previousWord', 'cursorUp', 'cursorLeft', 'cursorRight', 'cursorDown', 'nextWord', 'deletePair', 'switchLftGlyph', 'switchRgtGlyph']
+JOYSTICK_EVENTS = ['exceptionTrigger', 'verticalAlignedEditing', 'minusMajor', 'minusMinor', 'plusMinor', 'plusMajor', 'preview', 'solved', 'symmetricalEditing', 'flippedEditing', 'keyboardEdit', 'previousWord', 'cursorUp', 'cursorLeft', 'cursorRight', 'cursorDown', 'nextWord', 'deletePair', 'switchLftGlyph', 'switchRgtGlyph']
 KERNING_NOT_DISPLAYED_ERROR = 'Why are you editing kerning if it is not displayed?'
 
 # ui
 LEFT_COLUMN = 200
 PLUGIN_WIDTH = 1000
-PLUGIN_HEIGHT = 860
+PLUGIN_HEIGHT = 920
 
 
 ### Controllers
@@ -83,6 +83,8 @@ class KerningController(BaseWindowController):
     isSidebearingsActive = True
     isMetricsActive = True
     isColorsActive = True
+
+    isSymmetricalEditingOn = False
     isFlippedEditingOn = False
     isVerticalAlignedEditingOn = False
 
@@ -125,10 +127,11 @@ class KerningController(BaseWindowController):
         self.w.fonts_controller_separationLine = HorizontalLine((self.jumping_X, self.jumping_Y, LEFT_COLUMN, vanillaControlsSize['HorizontalLineThickness']))
         
         self.jumping_Y += MARGIN_VER
-        self.w.joystick = JoystickController((self.jumping_X, self.jumping_Y, LEFT_COLUMN, 300),
-                                             self.fontsOrder[self.navCursor_Y],
-                                             self.isFlippedEditingOn,
-                                             self.isVerticalAlignedEditingOn,
+        self.w.joystick = JoystickController((self.jumping_X, self.jumping_Y, LEFT_COLUMN, 324),
+                                             fontObj=self.fontsOrder[self.navCursor_Y],
+                                             isSymmetricalEditingOn=self.isSymmetricalEditingOn,
+                                             isFlippedEditingOn=self.isFlippedEditingOn,
+                                             isVerticalAlignedEditingOn=self.isVerticalAlignedEditingOn,
                                              activePair=None,
                                              callback=self.joystickCallback)
 
@@ -228,18 +231,20 @@ class KerningController(BaseWindowController):
 
             try:
                 wordCtrl = WordDisplay((self.jumping_X, self.jumping_Y, rightColumnWidth, singleWindowHeight),
-                                       self.displayedWord,
-                                       self.canvasScalingFactor,
-                                       self.fontsOrder[eachI],
-                                       self.isKerningDisplayActive,
-                                       self.areGroupsShown,
-                                       self.areCollisionsShown,
-                                       self.isSidebearingsActive,
-                                       self.isMetricsActive,
-                                       self.isColorsActive,
-                                       self.isPreviewOn,
-                                       self.isFlippedEditingOn,
+                                       displayedWord=self.displayedWord,
+                                       canvasScalingFactor=self.canvasScalingFactor,
+                                       fontObj=self.fontsOrder[eachI],
+                                       isKerningDisplayActive=self.isKerningDisplayActive,
+                                       areGroupsShown=self.areGroupsShown,
+                                       areCollisionsShown=self.areCollisionsShown,
+                                       isSidebearingsActive=self.isSidebearingsActive,
+                                       isMetricsActive=self.isMetricsActive,
+                                       isColorsActive=self.isColorsActive,
+                                       isPreviewOn=self.isPreviewOn,
+                                       isSymmetricalEditingOn=self.isSymmetricalEditingOn,
+                                       isFlippedEditingOn=self.isFlippedEditingOn,
                                        indexPair=initPairIndex)
+
             except Exception:
                 print traceback.format_exc()
 
@@ -249,7 +254,8 @@ class KerningController(BaseWindowController):
     def updateWordDisplays(self):
         for eachI in xrange(len(self.fontsOrder)):
             eachDisplay = getattr(self.w, 'wordCtrl_%#02d' % (eachI+1))
-            eachDisplay.setSymmetricalEditingMode(self.isFlippedEditingOn)
+            eachDisplay.setSymmetricalEditingMode(self.isSymmetricalEditingOn)
+            eachDisplay.setFlippedEditingMode(self.isFlippedEditingOn)
             eachDisplay.setScalingFactor(self.canvasScalingFactor)
             eachDisplay.setGraphicsBooleans(self.isKerningDisplayActive, self.areGroupsShown, self.areCollisionsShown, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive)
             eachDisplay.setPreviewMode(self.isPreviewOn)
@@ -259,14 +265,14 @@ class KerningController(BaseWindowController):
         self.w.wordListController.nextWord()
         self.displayedWord = self.w.wordListController.get()
         self.isFlippedEditingOn = False
-        self.w.joystick.setSymmetricalEditing(self.isFlippedEditingOn)
+        self.w.joystick.setFlippedEditing(self.isFlippedEditingOn)
         self.updateEditorAccordingToDiplayedWord()
 
     def previousWord(self):
         self.w.wordListController.previousWord()
         self.displayedWord = self.w.wordListController.get()
         self.isFlippedEditingOn = False
-        self.w.joystick.setSymmetricalEditing(self.isFlippedEditingOn)
+        self.w.joystick.setFlippedEditing(self.isFlippedEditingOn)
         self.updateEditorAccordingToDiplayedWord()
 
     def oneStepGroupSwitch(self, location):
@@ -297,8 +303,18 @@ class KerningController(BaseWindowController):
     def switchSolvedAttribute(self):
         self.w.wordListController.switchActiveWordSolvedAttribute()
 
-    def switchSymmetricalEditing(self):
+    def switchFlippedEditing(self):
         self.isFlippedEditingOn = not self.isFlippedEditingOn
+        if self.isFlippedEditingOn is True and self.isSymmetricalEditingOn is True:
+            self.isSymmetricalEditingOn = False
+            self.w.joystick.setSymmetricalEditing(self.isSymmetricalEditingOn)
+        self.updateWordDisplays()
+
+    def switchSymmetricalEditing(self):
+        self.isSymmetricalEditingOn = not self.isSymmetricalEditingOn
+        if self.isFlippedEditingOn is True and self.isSymmetricalEditingOn is True:
+            self.isFlippedEditingOn = False
+            self.w.joystick.setFlippedEditing(self.isFlippedEditingOn)
         self.updateWordDisplays()
 
     def switchVerticalAlignedEditing(self):
@@ -337,6 +353,12 @@ class KerningController(BaseWindowController):
             if self.isFlippedEditingOn is True:
                 flippedCorrectionKey = selectedPair[1], selectedPair[0]
                 setCorrection(flippedCorrectionKey, eachFont, amount)
+
+            if self.isSymmetricalEditingOn is True:
+                symmetricalCorrectionKey = findSymmetricalPair(selectedPair)
+                if symmetricalCorrectionKey:
+                    setCorrection(symmetricalCorrectionKey, eachFont, amount)
+
         self.updateWordDisplays()
 
     def modifyPairCorrection(self, amount):
@@ -354,6 +376,11 @@ class KerningController(BaseWindowController):
             if self.isFlippedEditingOn is True:
                 flippedPair = selectedPair[1], selectedPair[0]
                 setCorrection(flippedPair, eachFont, correction+amount)
+
+            if self.isSymmetricalEditingOn is True:
+                symmetricalCorrectionKey = findSymmetricalPair(selectedPair)
+                if symmetricalCorrectionKey:
+                    setCorrection(symmetricalCorrectionKey, eachFont, correction+amount)
 
         self.w.joystick.updateCorrectionValue()
         self.updateWordDisplays()
@@ -503,6 +530,9 @@ class KerningController(BaseWindowController):
 
         elif joystickEvent == 'symmetricalEditing':
             self.switchSymmetricalEditing()
+
+        elif joystickEvent == 'flippedEditing':
+            self.switchFlippedEditing()
 
         elif joystickEvent == 'verticalAlignedEditing':
             self.switchVerticalAlignedEditing()

@@ -1,11 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# custom modules
-# from ..userInterfaceValues import vanillaControlsSize
-# from ..extraTools import findPossibleOverlappingSegmentsPen
-
-
 # standard modules
 import os
 import types
@@ -28,15 +23,17 @@ MINOR_STEP = 4
 
 CANVAS_SCALING_FACTOR_INIT = 1.6
 
-SYMMETRICAL_GLYPHS = list(u'AHIOTUVWXY.:-•·!¡|¦†‡"\'_*°…')
-SYMMETRICAL_COUPLES_POS = {u"‹": u"›",
-                           u"«": u"»",
-                           u"(": u")",
-                           u"[": u"]",
-                           u"{": u"}",
-                           u"/": u"\\",
-                           u"‘": u"’"}
+SYMMETRICAL_GLYPHS = list(u'AHIOTUVWXY') + ['comma', 'period', 'colon', 'semicolon', 'ellipsis', 'underscore', 'hyphen', 'endash', 'emdash', 'bullet', 'periodcentered', 'guilsinglleft', 'guilsinglright', 'guillemotleft', 'guillemotright', 'exclam', 'exclamdown', 'bar', 'brokenbar', 'dagger', 'daggerdbl', 'quotesingle', 'quotedbl', 'asterisk', 'degree']
+SYMMETRICAL_COUPLES_POS = {'guilsinglleft': 'guilsinglright',
+                           'guillemotleft': 'guillemotright',
+                           'parenleft': 'parenright',
+                           'bracketleft': 'bracketright',
+                           'braceleft': 'braceright',
+                           'slash': 'backslash',
+                           'quoteleft': 'quoteright',
+                           'quotedblleft': 'quotedblright'}
 SYMMETRICAL_COUPLES_NEG = {value: key for (key, value) in SYMMETRICAL_COUPLES_POS.items()}
+
 
 # functions
 def findSymmetricalPair(aPair):
@@ -47,11 +44,11 @@ def findSymmetricalPair(aPair):
     if lftGlyph == rgtGlyph:
         return None
 
-    # only symmetrical
+    # only flipped
     elif lftGlyph in SYMMETRICAL_GLYPHS and rgtGlyph in SYMMETRICAL_GLYPHS:
         symmetricalPair = rgtGlyph, lftGlyph
 
-    # symmetrical glyphs + couples
+    # flipped glyphs + couples
     elif lftGlyph in SYMMETRICAL_GLYPHS and rgtGlyph in SYMMETRICAL_COUPLES_POS:
         symmetricalPair = SYMMETRICAL_COUPLES_POS[rgtGlyph], lftGlyph
 

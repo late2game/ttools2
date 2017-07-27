@@ -41,7 +41,8 @@ GLYPH_COLOR = (1,0,0,.4)
 GROUP_COLOR = (0,0,1,.4)
 
 LAYERED_GLYPHS_COLOR = (0, 0, 1, .1)
-SYMMETRICAL_BACKGROUND_COLOR = (1, 0, 1, .15)
+FLIPPED_BACKGROUND_COLOR = (1, 0, 1, .15)
+SYMMETRICAL_BACKGROUND_COLOR = (1, 1, 0, .15)
 
 BLACK = (0, 0, 0)
 WHITE = (1,1,1)
@@ -53,7 +54,7 @@ LIGHT_GRAY = (0, 0, 0, .4)
 # object
 class WordDisplay(Group):
 
-    def __init__(self, posSize, displayedWord, canvasScalingFactor, fontObj, isKerningDisplayActive, areGroupsShown, areCollisionsShown, isSidebearingsActive, isMetricsActive, isColorsActive, isPreviewOn, isFlippedEditingOn, indexPair):
+    def __init__(self, posSize, displayedWord, canvasScalingFactor, fontObj, isKerningDisplayActive, areGroupsShown, areCollisionsShown, isSidebearingsActive, isMetricsActive, isColorsActive, isPreviewOn, isSymmetricalEditingOn, isFlippedEditingOn, indexPair):
         super(WordDisplay, self).__init__(posSize)
 
         self.fontObj = fontObj
@@ -74,6 +75,8 @@ class WordDisplay(Group):
         self.isMetricsActive = isMetricsActive
         self.isColorsActive = isColorsActive
         self.isPreviewOn = isPreviewOn
+
+        self.isSymmetricalEditingOn = isSymmetricalEditingOn
         self.isFlippedEditingOn = isFlippedEditingOn
 
         self.ctrlWidth, self.ctrlHeight = posSize[2], posSize[3]
@@ -112,8 +115,11 @@ class WordDisplay(Group):
                 self.activePair = otherElem, self.fontObj.groups[groupReference][nextElemIndex]
             self.wordCanvasGroup.update()
 
-    def setSymmetricalEditingMode(self, value):
+    def setFlippedEditingMode(self, value):
         self.isFlippedEditingOn = value
+
+    def setSymmetricalEditingMode(self, value):
+        self.isSymmetricalEditingOn = value
 
     def setPreviewMode(self, value):
         self.isPreviewOn = value
@@ -134,6 +140,7 @@ class WordDisplay(Group):
         self.wordCanvasGroup.update()
 
     def setDisplayedWord(self, displayedWord):
+        previousLength = len(self.displayedPairs)
         self.displayedWord = displayedWord
         self.displayedPairs = buildPairsFromString(self.displayedWord, self.fontObj)
         if self.indexPair is not None:
@@ -407,6 +414,12 @@ class WordDisplay(Group):
 
             # this is for safety reason, user should be notified about possible unwanted kerning corrections
             if self.isFlippedEditingOn is True:
+                dt.save()
+                dt.fill(*FLIPPED_BACKGROUND_COLOR)
+                dt.rect(0, 0, self.getPosSize()[2], self.getPosSize()[3])
+                dt.restore()
+
+            if self.isSymmetricalEditingOn is True:
                 dt.save()
                 dt.fill(*SYMMETRICAL_BACKGROUND_COLOR)
                 dt.rect(0, 0, self.getPosSize()[2], self.getPosSize()[3])
