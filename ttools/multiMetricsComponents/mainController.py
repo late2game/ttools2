@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""here goes the main controller, which controls them all"""
+"""one main controller, to rule them all"""
 
 ### Modules
 # other components
@@ -111,9 +111,9 @@ class MultiFontMetricsWindow(BaseWindowController):
                         minSize=(800, 400))
         self.w.bind('resize', self.mainWindowResize)
 
-        if not self.fontsOrder:
-            # no fonts, no party
-            return None
+        # if not self.fontsOrder:
+        #     # no fonts, no party
+        #     return None
 
         self.w.switchButton = PopUpButton((MARGIN_LFT, jumpingY, netWidth*.2, vanillaControlsSize['PopUpButtonRegularHeight']),
                                             self.textModeOptions,
@@ -162,7 +162,6 @@ class MultiFontMetricsWindow(BaseWindowController):
                                         doubleClickCallback=self.lineViewDoubleClickCallback,
                                         selectionCallback=self.lineViewSelectionCallback,
                                         bordered=True,
-                                        # applyKerning=True,
                                         applyKerning=self.applyKerning,
                                         hasHorizontalScroller=False,
                                         hasVerticalScroller=True,
@@ -259,14 +258,14 @@ class MultiFontMetricsWindow(BaseWindowController):
         self.w.spacingMatrix.adjustSize((windowWidth-MARGIN_LFT-MARGIN_RGT, self.spacingMatrixHeight))
 
     def openCloseFontCallback(self, sender):
-        if AllFonts() == []:
-            message('No fonts, no party!', 'Please, open some fonts before starting the mighty MultiFont Kerning Controller')
-            self.w.close()
         self.loadFontsOrder()
         self.w.fontsOrderController.setFontsOrder(self.fontsOrder)
+        self.w.spacingMatrix.setFontsOrder(self.fontsOrder)
         self.updateUnicodeMinimum()
-        self.adjustSpacingMatrixHeight()
         self.updateSubscriptions()
+        self.adjustSpacingMatrixHeight()
+        self.w.spacingMatrix.update()
+        self.adjustFontsOrderControllerHeight()
         self.updateLineView()
 
     def loadFontsOrder(self):
@@ -279,7 +278,6 @@ class MultiFontMetricsWindow(BaseWindowController):
 
     def newFontOpened(self, notification):
         message('The MultiFont Metrics Window works only with saved font, please save the new font and re-open the plugin')
-        self.w.close()
 
     def calcSpacingMatrixHeight(self):
         self.spacingMatrixHeight = vanillaControlsSize['EditTextSmallHeight']+len(self.fontsOrder)*vanillaControlsSize['EditTextSmallHeight']*2
@@ -289,9 +287,16 @@ class MultiFontMetricsWindow(BaseWindowController):
 
     # other funcs
     def adjustSpacingMatrixHeight(self):
+        self.calcSpacingMatrixHeight()
         lineViewPosSize = self.w.lineView.getPosSize()
         self.w.lineView.setPosSize((lineViewPosSize[0], lineViewPosSize[1], lineViewPosSize[2], -MARGIN_BTM-MARGIN_HALFROW-self.spacingMatrixHeight))
-        self.calcSpacingMatrixHeight()
+        spacingMatrixPosSize = self.w.spacingMatrix.getPosSize()
+        self.w.spacingMatrix.setPosSize((spacingMatrixPosSize[0], -MARGIN_BTM-self.spacingMatrixHeight, spacingMatrixPosSize[2], self.spacingMatrixHeight))
+
+    def adjustFontsOrderControllerHeight(self):
+        fontsOrderControllerHeight = FONT_ROW_HEIGHT*len(self.fontsOrder)+MARGIN_COL
+        fontsOrderControllerPosSize = self.w.fontsOrderController.getPosSize()
+        self.w.fontsOrderController.setPosSize((fontsOrderControllerPosSize[0], fontsOrderControllerPosSize[1], fontsOrderControllerPosSize[2], fontsOrderControllerHeight))
 
     def windowCloseCallback(self, sender):
         self.unsubscribeGlyphs()

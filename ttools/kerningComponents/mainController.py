@@ -173,10 +173,10 @@ class KerningController(BaseWindowController):
         self.w.close()
 
     def openCloseFontCallback(self, sender):
-        if AllFonts() == []:
-            message('No fonts, no party!', 'Please, open some fonts before starting the mighty MultiFont Kerning Controller')
-            self.windowCloseCallback(sender)
-            return None
+        # if AllFonts() == []:
+        #     message('No fonts, no party!', 'Please, open some fonts before starting the mighty MultiFont Kerning Controller')
+        #     self.windowCloseCallback(sender)
+        #     return None
 
         self.deleteWordDisplays()
         self.initFontsOrder()
@@ -218,7 +218,12 @@ class KerningController(BaseWindowController):
     def initWordDisplays(self):
         windowWidth, windowHeight = self.w.getPosSize()[2], self.w.getPosSize()[3]
         netTotalWindowHeight = windowHeight-MARGIN_COL-MARGIN_VER*2-vanillaControlsSize['TextBoxRegularHeight']-MARGIN_HOR*(len(self.fontsOrder)-1)
-        singleWindowHeight = netTotalWindowHeight/len(self.fontsOrder)
+        
+        try:
+            singleWindowHeight = netTotalWindowHeight/len(self.fontsOrder)
+        except ZeroDivisionError:
+            singleWindowHeight = 0
+
         rightColumnWidth = windowWidth-LEFT_COLUMN-MARGIN_COL
 
         self.jumping_Y = MARGIN_VER+vanillaControlsSize['TextBoxRegularHeight']+MARGIN_COL
@@ -290,7 +295,13 @@ class KerningController(BaseWindowController):
             self.navCursor_X = len(self.displayedWord)-2
         for eachI in xrange(len(self.fontsOrder)):
             eachDisplay = getattr(self.w, 'wordCtrl_%#02d' % (eachI+1))
-            eachDisplay.setActivePairIndex(self.navCursor_X)
+
+            if self.isVerticalAlignedEditingOn is False:
+                if eachI == self.navCursor_Y:
+                    eachDisplay.setActivePairIndex(self.navCursor_X)
+            else:
+                eachDisplay.setActivePairIndex(self.navCursor_X)
+
             eachDisplay.setDisplayedWord(self.displayedWord)
         self.updateWordDisplays()
 
@@ -463,7 +474,11 @@ class KerningController(BaseWindowController):
         # displayers
         initY = MARGIN_VER+vanillaControlsSize['TextBoxRegularHeight']+MARGIN_COL
         netTotalWindowHeight = windowHeight-initY-MARGIN_VER-MARGIN_HOR*(len(self.fontsOrder)-1)
-        singleWordDisplayHeight = netTotalWindowHeight/len(self.fontsOrder)
+
+        try:
+            singleWordDisplayHeight = netTotalWindowHeight/len(self.fontsOrder)
+        except ZeroDivisionError:
+            singleWordDisplayHeight = 0
 
         y = initY
         for eachI in xrange(len(self.fontsOrder)):

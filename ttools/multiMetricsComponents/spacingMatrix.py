@@ -159,6 +159,9 @@ class SpacingMatrix(Group):
         self.canvas.update()
         self.callback(self)
 
+    def update(self):
+        self.canvas.update()
+
     def draw(self):
         try:
             dt.save()
