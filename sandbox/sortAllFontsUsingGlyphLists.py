@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 ####################################################
 # Sort All fonts according to standard glyph lists #

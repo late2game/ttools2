@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 from math import radians, cos, sin
 from calcFunctions import calcDistance, calcAngle, calcMidPoint

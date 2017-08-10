@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 ###################################################
 # Check if glyphs in smart sets and spacing texts #

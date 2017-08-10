@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 """elements for the sidebar"""
 from vanilla import Group, TextBox, ComboBox
