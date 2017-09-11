@@ -101,7 +101,7 @@ MARGIN_VER = 8
 NET_WIDTH = PLUGIN_WIDTH - MARGIN_HOR*2
 
 ### Classes
-class FractionMaker(object):
+class CopyAndMove(object):
 
     isOffsetAllowed = False
     verticalOffset = 0
@@ -205,4 +205,4 @@ class FractionMaker(object):
 
 
 if __name__ == '__main__':
-    fm = FractionMaker()
+    fm = CopyAndMove()
