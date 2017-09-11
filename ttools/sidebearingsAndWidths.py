@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-#############################
-# Set margins or set widths #
-#############################
+##################################
+# Set sidebearings or set widths #
+##################################
 
 ### Modules
 # custom
@@ -13,24 +13,25 @@ from userInterfaceValues import vanillaControlsSize
 
 # standard
 import types
+from mojo.roboFont import AllFonts, CurrentFont
 from mojo.tools import IntersectGlyphWithLine
 from vanilla import FloatingWindow, Group, RadioGroup, PopUpButton
 from vanilla import Button, TextBox, EditText, CheckBox
 
 ### Constants
 PLUGIN_WIDTH = 220
-PLUGIN_TITLE = 'Margins and Widths'
+PLUGIN_TITLE = 'Sidebearings and Widths'
 
 MARGIN_HOR = 10
 MARGIN_VER = 8
 NET_WIDTH = PLUGIN_WIDTH - MARGIN_HOR*2
 
-MODE_OPTIONS = ['Set Margins', 'Set Widths']
+MODE_OPTIONS = ['Set Sidebearings', 'Set Widths']
 FONT_TARGET_OPTIONS = ['All Fonts', 'Current Font']
 GLYPH_TARGET_OPTIONS = ['All Glyphs', 'Selection', 'Current Glyph']
 
 ACTION_BUTTON_MESSAGES = {
-    'Set Margins': 'Set Margins! Set Margins!',
+    'Set Sidebearings': 'Set Sidebearings! Set Sidebearings!',
     'Set Widths': 'Set Widths! Set Widths!'
     }
 
@@ -57,7 +58,7 @@ OPERATORS_2_FUNCTION = {
     'minus': subtract,
     'equal': substitute}
 
-def changeMargins(aGlyph, whichOperation, targetLocation, amount, isBeamActive, beamHeight):
+def changeSidebearings(aGlyph, whichOperation, targetLocation, amount, isBeamActive, beamHeight):
     assert whichOperation in ARITHMETIC_OPERATOR
     assert targetLocation in LOCATIONS
     assert isinstance(amount, types.IntType)
@@ -70,20 +71,16 @@ def changeMargins(aGlyph, whichOperation, targetLocation, amount, isBeamActive, 
 
     chosenFunction = OPERATORS_2_FUNCTION[whichOperation]
 
+    # standard value, override if intersections
+    lftProtrusion = 0
+    rgtProtrusion = 0
+
     if isBeamActive is True:
         intersections = IntersectGlyphWithLine(aGlyph, ((0, beamHeight), (aGlyph.width, beamHeight)), addSideBearings=False)
-        intersections = sorted(intersections, key=lambda item:item[0])
-        lftProtrusion = intersections[0][0]-aGlyph.leftMargin
-        rgtProtrusion = aGlyph.width-intersections[-1][0]-aGlyph.rightMargin
-    else:
-        lftProtrusion = 0
-        rgtProtrusion = 0
-
-    print
-    print aGlyph.width
-    print intersections
-    print lftProtrusion
-    print rgtProtrusion
+        if intersections:
+            intersections = sorted(intersections, key=lambda item:item[0])
+            lftProtrusion = intersections[0][0]-aGlyph.leftMargin
+            rgtProtrusion = aGlyph.width-intersections[-1][0]-aGlyph.rightMargin
 
     if targetLocation == 'left' or targetLocation == 'both':
         aGlyph.leftMargin = chosenFunction(aGlyph.leftMargin+lftProtrusion, amount)-lftProtrusion
@@ -112,7 +109,7 @@ def changeWidth(aGlyph, whichOperation, whereToAct, amount):
             aGlyph.leftMargin += 1
 
 
-class MarginsAndWidthsManager(object):
+class SidebearingsAndWidthsManager(object):
 
     def __init__(self):
         self.fontTarget = FONT_TARGET_OPTIONS[0]
@@ -137,9 +134,9 @@ class MarginsAndWidthsManager(object):
                                                    callback=self.glyphTargetOptionsPopUpCallback)
         self.topReferenceY += vanillaControlsSize['PopUpButtonRegularHeight']+MARGIN_VER
 
-        self.w.marginsCtrl = MarginsManager((MARGIN_HOR, self.topReferenceY, NET_WIDTH, MARGINS_MANAGER_HEIGHT),
-                                            callback=self.marginsCtrlCallback)
-        self.w.marginsCtrl.show(True)
+        self.w.sidebearingsCtrl = SidebearingsManager((MARGIN_HOR, self.topReferenceY, NET_WIDTH, MARGINS_MANAGER_HEIGHT),
+                                            callback=self.sidebearingsCtrlCallback)
+        self.w.sidebearingsCtrl.show(True)
 
         self.w.widthsCtrl = WidthsManager((MARGIN_HOR, self.topReferenceY, NET_WIDTH, WIDTHS_MANAGER_HEIGHT),
                                             callback=self.widthsCtrlCallback)
@@ -149,21 +146,21 @@ class MarginsAndWidthsManager(object):
                                      ACTION_BUTTON_MESSAGES[self.mode],
                                      callback=self.actionButtonCallback)
 
-        self.marginsPluginHeight = self.topReferenceY+vanillaControlsSize['ButtonRegularHeight']+MARGINS_MANAGER_HEIGHT+MARGIN_VER*1.5
+        self.sidebearingsPluginHeight = self.topReferenceY+vanillaControlsSize['ButtonRegularHeight']+MARGINS_MANAGER_HEIGHT+MARGIN_VER*1.5
         self.widthsPluginHeight = self.topReferenceY+vanillaControlsSize['ButtonRegularHeight']+WIDTHS_MANAGER_HEIGHT+MARGIN_VER*1.5
-        self.w.setPosSize((0, 0, PLUGIN_WIDTH, self.marginsPluginHeight))
+        self.w.setPosSize((0, 0, PLUGIN_WIDTH, self.sidebearingsPluginHeight))
         self.w.open()
 
     def modePopUpCallback(self, sender):
         self.mode = MODE_OPTIONS[sender.get()]
-        if self.mode == 'Set Margins':
+        if self.mode == 'Set Sidebearings':
             self.w.actionButton.setTitle(ACTION_BUTTON_MESSAGES[self.mode])
-            self.w.marginsCtrl.show(True)
+            self.w.sidebearingsCtrl.show(True)
             self.w.widthsCtrl.show(False)
-            self.w.resize(PLUGIN_WIDTH, self.marginsPluginHeight)
+            self.w.resize(PLUGIN_WIDTH, self.sidebearingsPluginHeight)
         else:
             self.w.actionButton.setTitle(ACTION_BUTTON_MESSAGES[self.mode])
-            self.w.marginsCtrl.show(False)
+            self.w.sidebearingsCtrl.show(False)
             self.w.widthsCtrl.show(True)
             self.w.resize(PLUGIN_WIDTH, self.widthsPluginHeight)
 
@@ -173,7 +170,7 @@ class MarginsAndWidthsManager(object):
     def glyphTargetOptionsPopUpCallback(self, sender):
         self.glyphTarget = GLYPH_TARGET_OPTIONS[sender.get()]
 
-    def marginsCtrlCallback(self, sender):
+    def sidebearingsCtrlCallback(self, sender):
         self.mrgWhichOperation, self.mrgTargetLocation, self.mrgAmount, self.mrgIsBeamActive, self.mrgBeamHeight = sender.get()
 
     def widthsCtrlCallback(self, sender):
@@ -196,19 +193,19 @@ class MarginsAndWidthsManager(object):
             for eachGlyphName in glyphNamesToProcess:
                 eachGlyph = eachFont[eachGlyphName]
 
-                if self.mode == 'Set Margins':
-                    changeMargins(eachGlyph, self.mrgWhichOperation, self.mrgTargetLocation, self.mrgAmount, self.mrgIsBeamActive, self.mrgBeamHeight)
+                if self.mode == 'Set Sidebearings':
+                    changeSidebearings(eachGlyph, self.mrgWhichOperation, self.mrgTargetLocation, self.mrgAmount, self.mrgIsBeamActive, self.mrgBeamHeight)
 
                 else:          # set widths
                     changeWidth(eachGlyph, self.wdtWhichOperation, self.wdtWhereToAct, self.wdtWidth)
 
-class MarginsManager(Group):
+class SidebearingsManager(Group):
 
     beamHeight = None
     amount = None
 
     def __init__(self, posSize, callback):
-        super(MarginsManager, self).__init__(posSize)
+        super(SidebearingsManager, self).__init__(posSize)
         self.callback = callback
 
         jumpingY = 0
@@ -252,6 +249,14 @@ class MarginsManager(Group):
 
     def operationRadioCallback(self, sender):
         self.whichOperation = ARITHMETIC_OPERATOR[sender.get()]
+
+        if self.whichOperation in ['plus', 'minus']:
+            self.isBeamActive = False
+            self.beamCheck.set(self.isBeamActive)
+            self.beamCheck.enable(False)
+            self.beamEdit.enable(self.isBeamActive)
+        else:
+            self.beamCheck.enable(True)
         self.callback(self)
 
     def targetLocationRadioCallback(self, sender):
@@ -330,4 +335,4 @@ class WidthsManager(Group):
 
 
 if __name__ == '__main__':
-    mw = MarginsAndWidthsManager()
+    mw = SidebearingsAndWidthsManager()
