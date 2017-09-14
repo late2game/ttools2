@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="uniFEFF" format="1">
+  <advance width="0"/>
+  <unicode hex="FEFF"/>
+  <outline>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.typemytype.robofont.mark</key>
+      <array>
+        <real>1.0</real>
+        <real>1.0</real>
+        <real>0.6824</real>
+        <real>1.0</real>
+      </array>
+    </dict>
+  </lib>
+</glyph>

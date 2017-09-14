@@ -95,9 +95,9 @@
 				<string>germandbls</string>
 				<string>ae</string>
 				<string>oe</string>
-				<string>uniFB00</string>
-				<string>uniFB01</string>
-				<string>uniFB02</string>
+				<string>f_f</string>
+				<string>f_i</string>
+				<string>f_l</string>
 				<string>comma</string>
 				<string>period</string>
 				<string>colon</string>
@@ -430,9 +430,9 @@
 				<string>f_t</string>
 				<string>t_t</string>
 				<string>t_f</string>
-				<string>uniFB03</string>
+				<string>f_f_i</string>
 				<string>f_f_j</string>
-				<string>uniFB04</string>
+				<string>f_f_l</string>
 				<string>f_f_b</string>
 				<string>f_f_h</string>
 				<string>f_f_k</string>
@@ -495,16 +495,16 @@
 				<string>trademark.sc</string>
 				<string>ordfeminine.sc</string>
 				<string>ordmasculine.sc</string>
-				<string>filledbox</string>
-				<string>H22073</string>
+				<string>uni25A0</string>
+				<string>uni25A1</string>
 				<string>uni25B6</string>
 				<string>uni25B7</string>
 				<string>uni25C1</string>
 				<string>uni25C0</string>
-				<string>circle</string>
-				<string>H18533</string>
-				<string>H18543</string>
-				<string>H18551</string>
+				<string>uni25CB</string>
+				<string>uni25CF</string>
+				<string>uni25AA</string>
+				<string>uni25AB</string>
 				<string>arrowleft</string>
 				<string>arrowright</string>
 				<string>arrowdown</string>
@@ -591,9 +591,9 @@
 				<string>y.sups</string>
 				<string>z.sups</string>
 				<string>uni2070</string>
-				<string>uni00B9</string>
-				<string>uni00B2</string>
-				<string>uni00B3</string>
+				<string>onesuperior</string>
+				<string>twosuperior</string>
+				<string>threesuperior</string>
 				<string>uni2074</string>
 				<string>uni2075</string>
 				<string>uni2076</string>
@@ -770,7 +770,7 @@
 				<string>uni0156</string>
 				<string>Sacute</string>
 				<string>Scaron</string>
-				<string>Scedilla</string>
+				<string>uni015E</string>
 				<string>Scircumflex</string>
 				<string>uni0218</string>
 				<string>Tcaron</string>
@@ -857,7 +857,7 @@
 				<string>uni0157</string>
 				<string>sacute</string>
 				<string>scaron</string>
-				<string>scedilla</string>
+				<string>uni015F</string>
 				<string>scircumflex</string>
 				<string>uni0219</string>
 				<string>uni0163</string>
@@ -945,7 +945,7 @@
 				<string>uni0157.sc</string>
 				<string>sacute.sc</string>
 				<string>scaron.sc</string>
-				<string>scedilla.sc</string>
+				<string>uni015F.sc</string>
 				<string>scircumflex.sc</string>
 				<string>tcaron.sc</string>
 				<string>uni0219.sc</string>
@@ -972,10 +972,6 @@
 				<string>zacute.sc</string>
 				<string>zcaron.sc</string>
 				<string>zdotaccent.sc</string>
-				<string>lcommaaccent</string>
-				<string>tcommaaccent.sc</string>
-				<string>uni0122.sc</string>
-				<string>uni0145.sc</string>
 			</array>
 			<key>type</key>
 			<string>glyphList</string>
@@ -1043,9 +1039,9 @@
 		<string>germandbls</string>
 		<string>ae</string>
 		<string>oe</string>
-		<string>uniFB00</string>
-		<string>uniFB01</string>
-		<string>uniFB02</string>
+		<string>f_f</string>
+		<string>f_i</string>
+		<string>f_l</string>
 		<string>comma</string>
 		<string>period</string>
 		<string>colon</string>
@@ -1378,9 +1374,9 @@
 		<string>f_t</string>
 		<string>t_t</string>
 		<string>t_f</string>
-		<string>uniFB03</string>
+		<string>f_f_i</string>
 		<string>f_f_j</string>
-		<string>uniFB04</string>
+		<string>f_f_l</string>
 		<string>f_f_b</string>
 		<string>f_f_h</string>
 		<string>f_f_k</string>
@@ -1443,16 +1439,16 @@
 		<string>trademark.sc</string>
 		<string>ordfeminine.sc</string>
 		<string>ordmasculine.sc</string>
-		<string>filledbox</string>
-		<string>H22073</string>
+		<string>uni25A0</string>
+		<string>uni25A1</string>
 		<string>uni25B6</string>
 		<string>uni25B7</string>
 		<string>uni25C1</string>
 		<string>uni25C0</string>
-		<string>circle</string>
-		<string>H18533</string>
-		<string>H18543</string>
-		<string>H18551</string>
+		<string>uni25CB</string>
+		<string>uni25CF</string>
+		<string>uni25AA</string>
+		<string>uni25AB</string>
 		<string>arrowleft</string>
 		<string>arrowright</string>
 		<string>arrowdown</string>
@@ -1539,9 +1535,9 @@
 		<string>y.sups</string>
 		<string>z.sups</string>
 		<string>uni2070</string>
-		<string>uni00B9</string>
-		<string>uni00B2</string>
-		<string>uni00B3</string>
+		<string>onesuperior</string>
+		<string>twosuperior</string>
+		<string>threesuperior</string>
 		<string>uni2074</string>
 		<string>uni2075</string>
 		<string>uni2076</string>
@@ -1718,7 +1714,7 @@
 		<string>uni0156</string>
 		<string>Sacute</string>
 		<string>Scaron</string>
-		<string>Scedilla</string>
+		<string>uni015E</string>
 		<string>Scircumflex</string>
 		<string>uni0218</string>
 		<string>Tcaron</string>
@@ -1805,7 +1801,7 @@
 		<string>uni0157</string>
 		<string>sacute</string>
 		<string>scaron</string>
-		<string>scedilla</string>
+		<string>uni015F</string>
 		<string>scircumflex</string>
 		<string>uni0219</string>
 		<string>uni0163</string>
@@ -1893,7 +1889,7 @@
 		<string>uni0157.sc</string>
 		<string>sacute.sc</string>
 		<string>scaron.sc</string>
-		<string>scedilla.sc</string>
+		<string>uni015F.sc</string>
 		<string>scircumflex.sc</string>
 		<string>tcaron.sc</string>
 		<string>uni0219.sc</string>
@@ -1920,10 +1916,7 @@
 		<string>zacute.sc</string>
 		<string>zcaron.sc</string>
 		<string>zdotaccent.sc</string>
-		<string>lcommaaccent</string>
-		<string>tcommaaccent.sc</string>
-		<string>uni0122.sc</string>
-		<string>uni0145.sc</string>
+		<string>uniFB00.sc</string>
 	</array>
 </dict>
 </plist>

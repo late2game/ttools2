@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="uniFB03.sc" format="1">
+  <advance width="1272"/>
+  <outline>
+    <component base="f.sc"/>
+    <component base="f.sc"/>
+    <component base="f.sc" xOffset="504"/>
+    <component base="i.sc" xOffset="1008"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.typemytype.robofont.mark</key>
+      <array>
+        <real>1.0</real>
+        <real>1.0</real>
+        <real>0.6824</real>
+        <real>1.0</real>
+      </array>
+    </dict>
+  </lib>
+</glyph>
