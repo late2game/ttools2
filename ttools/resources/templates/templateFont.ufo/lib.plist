@@ -36,6 +36,9 @@
 			<key>ascending</key>
 			<array>
 				<string>space</string>
+				<string>uni200B</string>
+				<string>uni00A0</string>
+				<string>uniFEFF</string>
 				<string>at</string>
 				<string>A</string>
 				<string>B</string>
@@ -98,6 +101,8 @@
 				<string>f_f</string>
 				<string>f_i</string>
 				<string>f_l</string>
+				<string>uni2008</string>
+				<string>uni00AD</string>
 				<string>comma</string>
 				<string>period</string>
 				<string>colon</string>
@@ -141,6 +146,7 @@
 				<string>degree</string>
 				<string>paragraph</string>
 				<string>section</string>
+				<string>uni00AD.case</string>
 				<string>hyphen.case</string>
 				<string>endash.case</string>
 				<string>emdash.case</string>
@@ -226,6 +232,11 @@
 				<string>product</string>
 				<string>pi</string>
 				<string>mu</string>
+				<string>uni0394</string>
+				<string>uni03BC</string>
+				<string>uni2215</string>
+				<string>uni03A9</string>
+				<string>uni2219</string>
 				<string>grave</string>
 				<string>acute</string>
 				<string>hungarumlaut</string>
@@ -242,6 +253,7 @@
 				<string>uni0312</string>
 				<string>uni0313</string>
 				<string>uni0326</string>
+				<string>uni02C9</string>
 				<string>grave.case</string>
 				<string>acute.case</string>
 				<string>hungarumlaut.case</string>
@@ -267,6 +279,7 @@
 				<string>eight.osf</string>
 				<string>nine.osf</string>
 				<string>zero.osf.zero</string>
+				<string>uni2007.tosf</string>
 				<string>zero.tosf</string>
 				<string>one.tosf</string>
 				<string>two.tosf</string>
@@ -390,8 +403,10 @@
 				<string>dcaron</string>
 				<string>hbar</string>
 				<string>ij</string>
+				<string>i.latn_TRK</string>
 				<string>lslash</string>
 				<string>ldot</string>
+				<string>ldot.latn_CAT</string>
 				<string>lcaron</string>
 				<string>eng</string>
 				<string>oslash</string>
@@ -405,24 +420,34 @@
 				<string>IJ</string>
 				<string>Lslash</string>
 				<string>Ldot</string>
+				<string>Ldot.latn_CAT</string>
 				<string>Lcaron</string>
 				<string>Eng</string>
 				<string>Oslash</string>
 				<string>Tbar</string>
 				<string>Thorn</string>
+				<string>uni1E9E</string>
 				<string>eth.sc</string>
 				<string>dcroat.sc</string>
 				<string>hbar.sc</string>
 				<string>ij.sc</string>
+				<string>uni0237.sc</string>
+				<string>i.latn_TRK.sc</string>
 				<string>lslash.sc</string>
 				<string>ldot.sc</string>
+				<string>ldot.latn_CAT.sc</string>
 				<string>lcaron.sc</string>
 				<string>eng.sc</string>
 				<string>oslash.sc</string>
 				<string>tbar.sc</string>
 				<string>thorn.sc</string>
+				<string>longs.sc</string>
+				<string>uni1E9E.sc</string>
 				<string>fi.sc</string>
 				<string>fl.sc</string>
+				<string>uniFB00.sc</string>
+				<string>uniFB03.sc</string>
+				<string>uniFB04.sc</string>
 				<string>f_j</string>
 				<string>f_b</string>
 				<string>f_h</string>
@@ -709,6 +734,7 @@
 				<string>fraction</string>
 				<string>percent.sc</string>
 				<string>perthousand.sc</string>
+				<string>space.frac</string>
 				<string>Aacute</string>
 				<string>Abreve</string>
 				<string>Acircumflex</string>
@@ -770,9 +796,9 @@
 				<string>uni0156</string>
 				<string>Sacute</string>
 				<string>Scaron</string>
-				<string>uni015E</string>
 				<string>Scircumflex</string>
 				<string>uni0218</string>
+				<string>uni015E</string>
 				<string>Tcaron</string>
 				<string>uni0162</string>
 				<string>uni021A</string>
@@ -857,11 +883,11 @@
 				<string>uni0157</string>
 				<string>sacute</string>
 				<string>scaron</string>
-				<string>uni015F</string>
 				<string>scircumflex</string>
 				<string>uni0219</string>
 				<string>uni0163</string>
 				<string>uni021B</string>
+				<string>uni015F</string>
 				<string>uacute</string>
 				<string>ubreve</string>
 				<string>ucircumflex</string>
@@ -930,6 +956,7 @@
 				<string>ncaron.sc</string>
 				<string>uni0146.sc</string>
 				<string>ntilde.sc</string>
+				<string>napostrophe.sc</string>
 				<string>oacute.sc</string>
 				<string>obreve.sc</string>
 				<string>ocircumflex.sc</string>
@@ -944,8 +971,8 @@
 				<string>uni0157.sc</string>
 				<string>sacute.sc</string>
 				<string>scaron.sc</string>
-				<string>uni015F.sc</string>
 				<string>scircumflex.sc</string>
+				<string>uni015F.sc</string>
 				<string>tcaron.sc</string>
 				<string>uni0219.sc</string>
 				<string>uni0163.sc</string>
@@ -971,33 +998,6 @@
 				<string>zacute.sc</string>
 				<string>zcaron.sc</string>
 				<string>zdotaccent.sc</string>
-				<string>uniFB00.sc</string>
-				<string>uniFB03.sc</string>
-				<string>uniFEFF</string>
-				<string>uniFB04.sc</string>
-				<string>napostrophe.sc</string>
-				<string>i.latn_TRK.sc</string>
-				<string>uni0394</string>
-				<string>uni00AD.case</string>
-				<string>ldot.latn_CAT.sc</string>
-				<string>uni03BC</string>
-				<string>uni2215</string>
-				<string>space.frac</string>
-				<string>longs.sc</string>
-				<string>i.latn_TRK</string>
-				<string>uni03A9</string>
-				<string>uni00AD</string>
-				<string>uni00A0</string>
-				<string>uni2007.tosf</string>
-				<string>uni2008</string>
-				<string>uni200B</string>
-				<string>Ldot.latn_CAT</string>
-				<string>uni0237.sc</string>
-				<string>uni02C9</string>
-				<string>uni2219</string>
-				<string>ldot.latn_CAT</string>
-				<string>uni1E9E.sc</string>
-				<string>uni1E9E</string>
 			</array>
 			<key>type</key>
 			<string>glyphList</string>
@@ -1006,6 +1006,9 @@
 	<key>public.glyphOrder</key>
 	<array>
 		<string>space</string>
+		<string>uni200B</string>
+		<string>uni00A0</string>
+		<string>uniFEFF</string>
 		<string>at</string>
 		<string>A</string>
 		<string>B</string>
@@ -1068,6 +1071,8 @@
 		<string>f_f</string>
 		<string>f_i</string>
 		<string>f_l</string>
+		<string>uni2008</string>
+		<string>uni00AD</string>
 		<string>comma</string>
 		<string>period</string>
 		<string>colon</string>
@@ -1111,6 +1116,7 @@
 		<string>degree</string>
 		<string>paragraph</string>
 		<string>section</string>
+		<string>uni00AD.case</string>
 		<string>hyphen.case</string>
 		<string>endash.case</string>
 		<string>emdash.case</string>
@@ -1196,6 +1202,11 @@
 		<string>product</string>
 		<string>pi</string>
 		<string>mu</string>
+		<string>uni0394</string>
+		<string>uni03BC</string>
+		<string>uni2215</string>
+		<string>uni03A9</string>
+		<string>uni2219</string>
 		<string>grave</string>
 		<string>acute</string>
 		<string>hungarumlaut</string>
@@ -1212,6 +1223,7 @@
 		<string>uni0312</string>
 		<string>uni0313</string>
 		<string>uni0326</string>
+		<string>uni02C9</string>
 		<string>grave.case</string>
 		<string>acute.case</string>
 		<string>hungarumlaut.case</string>
@@ -1237,6 +1249,7 @@
 		<string>eight.osf</string>
 		<string>nine.osf</string>
 		<string>zero.osf.zero</string>
+		<string>uni2007.tosf</string>
 		<string>zero.tosf</string>
 		<string>one.tosf</string>
 		<string>two.tosf</string>
@@ -1360,8 +1373,10 @@
 		<string>dcaron</string>
 		<string>hbar</string>
 		<string>ij</string>
+		<string>i.latn_TRK</string>
 		<string>lslash</string>
 		<string>ldot</string>
+		<string>ldot.latn_CAT</string>
 		<string>lcaron</string>
 		<string>eng</string>
 		<string>oslash</string>
@@ -1375,24 +1390,34 @@
 		<string>IJ</string>
 		<string>Lslash</string>
 		<string>Ldot</string>
+		<string>Ldot.latn_CAT</string>
 		<string>Lcaron</string>
 		<string>Eng</string>
 		<string>Oslash</string>
 		<string>Tbar</string>
 		<string>Thorn</string>
+		<string>uni1E9E</string>
 		<string>eth.sc</string>
 		<string>dcroat.sc</string>
 		<string>hbar.sc</string>
 		<string>ij.sc</string>
+		<string>uni0237.sc</string>
+		<string>i.latn_TRK.sc</string>
 		<string>lslash.sc</string>
 		<string>ldot.sc</string>
+		<string>ldot.latn_CAT.sc</string>
 		<string>lcaron.sc</string>
 		<string>eng.sc</string>
 		<string>oslash.sc</string>
 		<string>tbar.sc</string>
 		<string>thorn.sc</string>
+		<string>longs.sc</string>
+		<string>uni1E9E.sc</string>
 		<string>fi.sc</string>
 		<string>fl.sc</string>
+		<string>uniFB00.sc</string>
+		<string>uniFB03.sc</string>
+		<string>uniFB04.sc</string>
 		<string>f_j</string>
 		<string>f_b</string>
 		<string>f_h</string>
@@ -1679,6 +1704,7 @@
 		<string>fraction</string>
 		<string>percent.sc</string>
 		<string>perthousand.sc</string>
+		<string>space.frac</string>
 		<string>Aacute</string>
 		<string>Abreve</string>
 		<string>Acircumflex</string>
@@ -1740,9 +1766,9 @@
 		<string>uni0156</string>
 		<string>Sacute</string>
 		<string>Scaron</string>
-		<string>uni015E</string>
 		<string>Scircumflex</string>
 		<string>uni0218</string>
+		<string>uni015E</string>
 		<string>Tcaron</string>
 		<string>uni0162</string>
 		<string>uni021A</string>
@@ -1827,11 +1853,11 @@
 		<string>uni0157</string>
 		<string>sacute</string>
 		<string>scaron</string>
-		<string>uni015F</string>
 		<string>scircumflex</string>
 		<string>uni0219</string>
 		<string>uni0163</string>
 		<string>uni021B</string>
+		<string>uni015F</string>
 		<string>uacute</string>
 		<string>ubreve</string>
 		<string>ucircumflex</string>
@@ -1900,6 +1926,7 @@
 		<string>ncaron.sc</string>
 		<string>uni0146.sc</string>
 		<string>ntilde.sc</string>
+		<string>napostrophe.sc</string>
 		<string>oacute.sc</string>
 		<string>obreve.sc</string>
 		<string>ocircumflex.sc</string>
@@ -1914,8 +1941,8 @@
 		<string>uni0157.sc</string>
 		<string>sacute.sc</string>
 		<string>scaron.sc</string>
-		<string>uni015F.sc</string>
 		<string>scircumflex.sc</string>
+		<string>uni015F.sc</string>
 		<string>tcaron.sc</string>
 		<string>uni0219.sc</string>
 		<string>uni0163.sc</string>
@@ -1941,33 +1968,6 @@
 		<string>zacute.sc</string>
 		<string>zcaron.sc</string>
 		<string>zdotaccent.sc</string>
-		<string>uniFB00.sc</string>
-		<string>uniFB03.sc</string>
-		<string>uniFEFF</string>
-		<string>uniFB04.sc</string>
-		<string>napostrophe.sc</string>
-		<string>i.latn_TRK.sc</string>
-		<string>uni0394</string>
-		<string>uni00AD.case</string>
-		<string>ldot.latn_CAT.sc</string>
-		<string>uni03BC</string>
-		<string>uni2215</string>
-		<string>space.frac</string>
-		<string>longs.sc</string>
-		<string>i.latn_TRK</string>
-		<string>uni03A9</string>
-		<string>uni00AD</string>
-		<string>uni00A0</string>
-		<string>uni2007.tosf</string>
-		<string>uni2008</string>
-		<string>uni200B</string>
-		<string>Ldot.latn_CAT</string>
-		<string>uni0237.sc</string>
-		<string>uni02C9</string>
-		<string>uni2219</string>
-		<string>ldot.latn_CAT</string>
-		<string>uni1E9E.sc</string>
-		<string>uni1E9E</string>
 	</array>
 </dict>
 </plist>

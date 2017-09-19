@@ -16,6 +16,9 @@ import codecs
 import types
 from collections import OrderedDict
 
+### Constants
+SMART_SETS_FOLDER = os.path.join(os.path.dirname(__file__), '..', 'resources', 'smartSets')
+
 ### Functions
 def catchFilesAndFolders(path, extension):
     """Return all the files in a path with a specific extension"""
@@ -79,5 +82,27 @@ def selectAnchorByName(glyphObj, name):
             return eachAnchor
     return None
 
+
 def loadGlyphNamesTable(aPath):
     return [item.strip().split('\t') for item in codecs.open(aPath, 'r', 'utf-8')]
+
+
+def sortFontAccordingToSmartSets(aFont):
+    # loading smart sets path
+    smartSetsPaths = catchFilesAndFolders(SMART_SETS_FOLDER, '.txt')
+    # building a reference glyph order from smart sets
+    smartSetsGlyphOrder = []
+    for eachPath in smartSetsPaths:
+        smartSetsGlyphOrder += [name.strip() for name in codecs.open(eachPath, 'r', 'utf-8').readlines()]
+    # creating a glyph order to push into the font (according to its content)
+    sortedGlyphOrder = []
+    for eachGlyphName in smartSetsGlyphOrder:
+        if eachGlyphName in aFont.glyphOrder:
+            sortedGlyphOrder.append(eachGlyphName)
+    # filtering glyphs which are not part of our standard
+    extraStandardGlyphs = [name for name in aFont.glyphOrder if name not in smartSetsGlyphOrder]
+    sortedGlyphOrder += extraStandardGlyphs
+    # pushing glyph order
+    aFont.glyphOrder = sortedGlyphOrder
+    # return extra standard glyphs, it could be helpful to know them...
+    return extraStandardGlyphs
