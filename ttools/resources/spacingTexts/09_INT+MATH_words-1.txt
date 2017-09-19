@@ -32,7 +32,7 @@ K a p i e r t question exclam question exclam space parenleft exclam parenright 
 parenleft a space plus space b parenright space logicalnot space parenleft b space minus space c parenright
 hyphen hyphen hyphen T a b u l a r hyphen hyphen hyphen
 zero.zero three space four one space slash space one nine space zero.zero eight space seven six
-uniFB01 n d space section space five nine space b space u n d space section section space eight three space b i s space one six four
+f_i n d space section space five nine space b space u n d space section section space eight three space b i s space one six four
 one two dollar space three four cent space five six Euro space seven eight yen space nine zero sterling space one zero.zero florin
 dollar one two space cent three four space Euro five six space yen seven eight space sterling nine zero space florin one zero.zero
 asterisk zero one period zero three period one eight eight three comma space dagger two three period zero four period one nine five six

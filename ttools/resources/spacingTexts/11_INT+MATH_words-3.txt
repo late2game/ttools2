@@ -8,7 +8,7 @@ braceleft Delta space equal one.lf eight.lf comma five.lf four.lf braceright spa
 lozenge space equal zero.lf comma zero.lf zero.lf one.lf space partialdiff equal one.lf comma zero.lf three.lf
 integral two.lf space b i s space nine.lf comma space c l o s e space t o space infinity
 zero.osf.zero three.osf space four.osf one.osf space slash space one.osf nine.osf space zero.osf.zero eight.osf space seven.osf six.osf
-uniFB01 n d space section space five.osf nine.osf space b space u n d space section section space eight.osf three.osf space b i s space one.osf six.osf four.osf
+f_i n d space section space five.osf nine.osf space b space u n d space section section space eight.osf three.osf space b i s space one.osf six.osf four.osf
 one.osf two.osf dollar space three.osf four.osf cent space five.osf six.osf Euro space seven.osf eight.osf yen space nine.osf zero sterling space one.osf zero.zero florin
 dollar one.osf two.osf space cent three.osf four.osf space Euro five.osf six.osf space yen seven.osf eight.osf space sterling nine.osf zero space florin one.osf zero.zero
 asterisk zero.osf one.osf period zero.osf three.osf period one.osf eight.osf eight.osf three.osf comma space
