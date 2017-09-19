@@ -16,15 +16,4 @@
       <point x="318" y="604" type="line"/>
     </contour>
   </outline>
-  <lib>
-    <dict>
-      <key>com.typemytype.robofont.mark</key>
-      <array>
-        <real>1.0</real>
-        <real>1.0</real>
-        <real>0.6824</real>
-        <real>1.0</real>
-      </array>
-    </dict>
-  </lib>
 </glyph>

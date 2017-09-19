@@ -926,7 +926,6 @@
 				<string>uni0137.sc</string>
 				<string>lacute.sc</string>
 				<string>uni013C.sc</string>
-				<string>lcommaaccent.sc</string>
 				<string>nacute.sc</string>
 				<string>ncaron.sc</string>
 				<string>uni0146.sc</string>
@@ -1965,6 +1964,8 @@
 		<string>uni02C9</string>
 		<string>uni2219</string>
 		<string>ldot.latn_CAT</string>
+		<string>uni1E9E.sc</string>
+		<string>uni1E9E</string>
 	</array>
 </dict>
 </plist>
