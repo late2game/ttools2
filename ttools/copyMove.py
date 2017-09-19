@@ -1,97 +1,60 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-################################
-# TTools for fraction building #
-################################
+#################################
+# TTools for numr, fractions... #
+#################################
 
 ### Modules
 # custom
-import userInterfaceValues
-reload(userInterfaceValues)
-from userInterfaceValues import vanillaControlsSize
+import ui.userInterfaceValues
+reload(ui.userInterfaceValues)
+from ui.userInterfaceValues import vanillaControlsSize
+import extraTools.miscFunctions
+reload(extraTools.miscFunctions)
+from extraTools.miscFunctions import loadGlyphNamesTable
 
 # standard
+import os
 import types
 from mojo.roboFont import AllFonts, CurrentFont
 from vanilla import FloatingWindow, PopUpButton, TextBox, EditText, Button
 
 ### Constants
-LC_LIGATURES = [(('f', 'j'), "f_j"),
-                (('f', 'b'), "f_b"),
-                (('f', 'h'), "f_h"),
-                (('f', 'k'), "f_k"),
-                (('f', 't'), "f_t"),
-                (('t', 't'), "t_t"),
-                (('t', 'f'), "t_f"),
-                (('f', 'f', 'i'), "uniFB03"),
-                (('f', 'f', 'j'), "f_f_j"),
-                (('f', 'f', 'l'), "uniFB04"),
-                (('f', 'f', 'b'), "f_f_b"),
-                (('f', 'f', 'h'), "f_f_h"),
-                (('f', 'f', 'k'), "f_f_k"),
-                (('f', 'f', 't'), "f_f_t")]
+BASIC_PATH = os.path.join(os.path.dirname(__file__), 'resources', 'tables')
 
-FRACTIONS = [(("zero.numr", "fraction", "zero.dnom"), "percent"),
-             (("zero.numr", "fraction", "zero.dnom", "zero.dnom"), "perthousand"),
-             (("one.numr", "fraction", "two.dnom"), "onehalf"),
-             (("one.numr", "fraction", "three.dnom"), "onethird"),
-             (("two.numr", "fraction", "three.dnom"), "twothirds"),
-             (("one.numr", "fraction", "four.dnom"), "onequarter"),
-             (("three.numr", "fraction", "four.dnom"), "threequarters"),
-             (("one.numr", "fraction", "five.dnom"), "uni2155"),
-             (("two.numr", "fraction", "five.dnom"), "uni2156"),
-             (("three.numr", "fraction", "five.dnom"), "uni2157"),
-             (("four.numr", "fraction", "five.dnom"), "uni2158"),
-             (("one.numr", "fraction", "six.dnom"), "uni2159"),
-             (("five.numr", "fraction", "six.dnom"), "uni215A"),
-             (("one.numr", "fraction", "eight.dnom"), "oneeighth"),
-             (("three.numr", "fraction", "eight.dnom"), "threeeighths"),
-             (("five.numr", "fraction", "eight.dnom"), "fiveeighths"),
-             (("seven.numr", "fraction", "eight.dnom"), "seveneighths")]
+DNOM_NUMR_SUBS_SUPS_PATH = os.path.join(BASIC_PATH, 'dnomNumrSubsSups.csv')
+DNOM_NUMR_SUBS_SUPS = loadGlyphNamesTable(DNOM_NUMR_SUBS_SUPS_PATH)
+DNOM_NUMR = [(row[2], row[1]) for row in DNOM_NUMR_SUBS_SUPS]
+DNOM_SUBS = [(row[3], row[1]) for row in DNOM_NUMR_SUBS_SUPS]
+DNOM_SUPS = [(row[4], row[1]) for row in DNOM_NUMR_SUBS_SUPS]
 
-MATH_CASE = [("plus", "plus.case"),
-            ("minus", "minus.case"),
-            ("multiply", "multiply.case"),
-            ("divide", "divide.case"),
-            ("equal", "equal.case"),
-            ("less", "less.case"),
-            ("greater", "greater.case"),
-            ("plusminus", "plusminus.case"),
-            ("lessequal", "lessequal.case"),
-            ("greaterequal", "greaterequal.case"),
-            ("notequal", "notequal.case"),
-            ("logicalnot", "logicalnot.case"),
-            ("asciitilde", "asciitilde.case"),
-            ("approxequal", "approxequal.case"),
-            ("numbersign", "numbersign.case"),
-            ("infinity", "infinity.case")]
+LC_LIGATURES_PATH = os.path.join(BASIC_PATH, 'lcLigatures.csv')
+LC_LIGATURES = loadGlyphNamesTable(LC_LIGATURES_PATH)
 
-MATH_SC = [("plus", "plus.sc"),
-           ("minus", "minus.sc"),
-           ("multiply", "multiply.sc"),
-           ("divide", "divide.sc"),
-           ("equal", "equal.sc"),
-           ("less", "less.sc"),
-           ("greater", "greater.sc"),
-           ("plusminus", "plusminus.sc"),
-           ("lessequal", "lessequal.sc"),
-           ("greaterequal", "greaterequal.sc"),
-           ("notequal", "notequal.sc"),
-           ("logicalnot", "logicalnot.sc"),
-           ("asciitilde", "asciitilde.sc"),
-           ("approxequal", "approxequal.sc"),
-           ("numbersign", "numbersign.sc"),
-           ("infinity", "infinity.sc")]
+FRACTIONS_PATH = os.path.join(BASIC_PATH, 'fractions.csv')
+FRACTIONS = loadGlyphNamesTable(FRACTIONS_PATH)
 
+MATH_CASE_PATH = os.path.join(BASIC_PATH, 'mathCase.csv')
+MATH_CASE = loadGlyphNamesTable(MATH_CASE_PATH)
 
-GLYPHLISTS_OPTIONS = ('LC ligatures', 'Fractions', 'Math Case', 'Math SC')
-NAME_2_GLYPHLIST = {
-    'LC ligatures': LC_LIGATURES,
-    'Fractions': FRACTIONS,
-    'Math Case': MATH_CASE,
-    'Math SC': MATH_SC}
+MATH_SC_PATH = os.path.join(BASIC_PATH, 'mathSC.csv')
+MATH_SC = loadGlyphNamesTable(MATH_SC_PATH)
 
+LIG_AND_EXTRA_SC_PATH = os.path.join(BASIC_PATH, 'LigAndExtraSC.csv')
+LIG_AND_EXTRA_SC = loadGlyphNamesTable(LIG_AND_EXTRA_SC_PATH)
+
+GLYPHLISTS_OPTIONS = ('Numerators', 'Subscripts', 'Superscripts', 'LC ligatures', 'Fractions', 'Math Case', 'Math SC', 'Ligatures and Extras SC')
+NAME_2_GLYPHLIST = {'Numerators': DNOM_NUMR,
+                    'Subscripts': DNOM_SUBS,
+                    'Superscripts': DNOM_SUPS,
+                    'LC ligatures': LC_LIGATURES,
+                    'Fractions': FRACTIONS,
+                    'Math Case': MATH_CASE,
+                    'Math SC': MATH_SC,
+                    'Ligatures and Extras SC': LIG_AND_EXTRA_SC}
+
+ACTIVE_OFFSET = ['Numerators', 'Subscripts', 'Superscripts', 'Math Case', 'Math SC']
 TARGET_OPTIONS = ['All Fonts', 'Current Font']
 
 PLUGIN_TITLE = 'TT Copy and move'
@@ -133,7 +96,6 @@ class CopyAndMove(object):
         self.w.offsetEdit = EditText((MARGIN_HOR+NET_WIDTH*.25, jumpingY, NET_WIDTH*.35, vanillaControlsSize['EditTextRegularHeight']),
                                      callback=self.offsetEditCallback)
         self.w.offsetEdit.set('%d' % self.verticalOffset)
-        self.w.offsetEdit.enable(False)
         jumpingY += vanillaControlsSize['EditTextRegularHeight']+MARGIN_VER
 
         # clean button
@@ -155,7 +117,7 @@ class CopyAndMove(object):
         self.target = TARGET_OPTIONS[sender.get()]
 
     def glyphListPopUpCallback(self, sender):
-        if GLYPHLISTS_OPTIONS[sender.get()].startswith('Math'):
+        if GLYPHLISTS_OPTIONS[sender.get()] in ACTIVE_OFFSET:
             self.w.offsetEdit.enable(True)
         else:
             self.w.offsetEdit.enable(False)
@@ -186,14 +148,20 @@ class CopyAndMove(object):
             fontsToProcess = [CurrentFont()]
 
         for eachFont in fontsToProcess:
-            for eachSource, eachTarget in self.transferList:
+            for eachRow in self.transferList:
+                
+                if len(eachRow) == 2:
+                    eachTarget, eachSource = eachRow
+                else:
+                    eachTarget, eachSource = eachRow[0], eachRow[1:]
+
                 if eachTarget not in eachFont:
                     targetGlyph = eachFont.newGlyph(eachTarget)
                 else:
                     targetGlyph = eachFont[eachTarget]
                     targetGlyph.clear()
 
-                if isinstance(eachSource, types.StringType) is True:
+                if isinstance(eachSource, types.ListType) is False:
                     targetGlyph.width = eachFont[eachSource].width
                     targetGlyph.appendComponent(eachSource, (0, self.verticalOffset))
                 else:
@@ -205,4 +173,4 @@ class CopyAndMove(object):
 
 
 if __name__ == '__main__':
-    fm = CopyAndMove()
+    cm = CopyAndMove()

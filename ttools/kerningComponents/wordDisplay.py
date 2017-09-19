@@ -1,19 +1,23 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# custom modules
-import kerningMisc
-reload(kerningMisc)
+### Modules
+# custom
 import exceptionTools
 reload(exceptionTools)
+from exceptionTools import checkPairConflicts, isPairException, calcWiggle
 
+import kerningMisc
+reload(kerningMisc)
 from kerningMisc import whichGroup, getCorrection, buildPairsFromString
 from kerningMisc import checkIfPairOverlaps
 from kerningMisc import CANVAS_SCALING_FACTOR_INIT
-from ..userInterfaceValues import vanillaControlsSize
-from exceptionTools import checkPairConflicts, isPairException, calcWiggle
 
-# standard modules
+from ..ui import userInterfaceValues
+reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
+
+# standard
 import traceback
 from defconAppKit.tools.textSplitter import splitText
 import mojo.drawingTools as dt
@@ -21,7 +25,7 @@ from vanilla import Group
 from mojo.canvas import CanvasGroup
 from collections import namedtuple
 
-# costants
+### Costants
 Point = namedtuple('Point', ['x', 'y'])
 TEXT_MARGIN = 100 #upm
 COLLISION_BODY_SIZE = 200
@@ -51,7 +55,7 @@ LIGHT_GREEN = (0, 1, 0, .4)
 LIGHT_BLUE = (0, 0, 1, .4)
 LIGHT_GRAY = (0, 0, 0, .4)
 
-# object
+### Classes
 class WordDisplay(Group):
 
     def __init__(self, posSize, displayedWord, canvasScalingFactor, fontObj, isKerningDisplayActive, areGroupsShown, areCollisionsShown, isSidebearingsActive, isMetricsActive, isColorsActive, isPreviewOn, isSymmetricalEditingOn, isFlippedEditingOn, indexPair):

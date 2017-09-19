@@ -7,18 +7,18 @@
 
 ### Modules
 # custom
-import miscFunctions
-reload(miscFunctions)
-from miscFunctions import collectIDsFromSelectedPoints
+import extraTools.miscFunctions
+reload(extraTools.miscFunctions)
+from extraTools.miscFunctions import collectIDsFromSelectedPoints
 
-import calcFunctions
-reload(calcFunctions)
-from calcFunctions import interpolateValue, calcDistance
+import extraTools.calcFunctions
+reload(extraTools.calcFunctions)
+from extraTools.calcFunctions import interpolateValue, calcDistance
 
-import bezierTools
-reload(bezierTools)
-from bezierTools import calcPointOnBezier, collectsPointsOnBezierCurve
-from bezierTools import collectsPointsOnBezierCurveWithFixedDistance
+import extraTools.bezierTools
+reload(extraTools.bezierTools)
+from extraTools.bezierTools import calcPointOnBezier, collectsPointsOnBezierCurve
+from extraTools.bezierTools import collectsPointsOnBezierCurveWithFixedDistance
 
 
 # standard

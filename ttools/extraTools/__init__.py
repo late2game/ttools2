@@ -1,1 +1,1 @@
-"""Hello world"""
+"""a bunch of modules filled with useful functions"""

@@ -5,7 +5,9 @@
 
 ### Modules
 # custom
-from ..userInterfaceValues import vanillaControlsSize
+from ..ui import userInterfaceValues
+reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
 
 # standard
 import traceback

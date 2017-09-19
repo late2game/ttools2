@@ -7,19 +7,21 @@
 # other components
 
 # custom
-from ..miscFunctions import catchFilesAndFolders
-from ..userInterfaceValues import vanillaControlsSize
-from ..uiControllers import FontsOrderController, FONT_ROW_HEIGHT
+from ..extraTools import miscFunctions
+reload(miscFunctions)
+from ..extraTools.miscFunctions import catchFilesAndFolders
 
-import topCtrls
+from ..ui import userInterfaceValues, uiControllers
+reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
+reload(uiControllers)
+from ..ui.uiControllers import FontsOrderController, FONT_ROW_HEIGHT
+
+import topCtrls, sidebar, spacingMatrix
 reload(topCtrls)
 from topCtrls import Typewriter, TextStringsControls
-
-import sidebar
 reload(sidebar)
 from sidebar import ComboBoxWithCaption
-
-import spacingMatrix
 reload(spacingMatrix)
 from spacingMatrix import SpacingMatrix
 
@@ -130,6 +132,7 @@ class MultiFontMetricsWindow(BaseWindowController):
         # strings ctrls
         self.w.textStringsControls = TextStringsControls((textCtrlX, jumpingY, -(RIGHT_COLUMN+MARGIN_COL+MARGIN_RGT), vanillaControlsSize['PopUpButtonRegularHeight']+1),
                                                            self.editTexts,
+                                                           self.unicodeMinimum,
                                                            callback=self.textStringsControlsCallback)
         self.stringDisplayMode, self.glyphNamesToDisplay = self.w.textStringsControls.get()
 

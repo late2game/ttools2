@@ -1,15 +1,20 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# custom modules
+### Modules
+# custom
 import kerningMisc
 reload(kerningMisc)
 from kerningMisc import MARGIN_VER
-from ..userInterfaceValues import vanillaControlsSize 
 
-# standard modules
+from ..ui import userInterfaceValues
+reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
+
+# standard
 from vanilla import Group, TextBox, Button, CheckBox
 
+### Classes
 class GraphicsManager(Group):
     previousState = None
 

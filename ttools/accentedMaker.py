@@ -7,13 +7,13 @@
 
 ### Modules
 # custom modules
-import userInterfaceValues
-reload(userInterfaceValues)
-from userInterfaceValues import vanillaControlsSize, glyphCollectionColors
+import ui.userInterfaceValues
+reload(ui.userInterfaceValues)
+from ui.userInterfaceValues import vanillaControlsSize, glyphCollectionColors
 
-import miscFunctions
-reload(miscFunctions)
-from miscFunctions import selectAnchorByName
+import extraTools.miscFunctions
+reload(extraTools.miscFunctions)
+from extraTools.miscFunctions import selectAnchorByName
 
 # standard modules
 import os

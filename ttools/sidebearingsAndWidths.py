@@ -7,9 +7,9 @@
 
 ### Modules
 # custom
-import userInterfaceValues
-reload(userInterfaceValues)
-from userInterfaceValues import vanillaControlsSize
+import ui.userInterfaceValues
+reload(ui.userInterfaceValues)
+from ui.userInterfaceValues import vanillaControlsSize
 
 # standard
 import types
@@ -31,8 +31,8 @@ FONT_TARGET_OPTIONS = ['All Fonts', 'Current Font']
 GLYPH_TARGET_OPTIONS = ['All Glyphs', 'Selection', 'Current Glyph']
 
 ACTION_BUTTON_MESSAGES = {
-    'Set Sidebearings': 'Set Sidebearings! Set Sidebearings!',
-    'Set Widths': 'Set Widths! Set Widths!'
+    'Set Sidebearings': 'Set Sidebearings!',
+    'Set Widths': 'Set Widths!'
     }
 
 ARITHMETIC_OPERATOR = ['plus', 'minus', 'equal']

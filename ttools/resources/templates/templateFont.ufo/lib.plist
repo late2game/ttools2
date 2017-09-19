@@ -972,6 +972,31 @@
 				<string>zacute.sc</string>
 				<string>zcaron.sc</string>
 				<string>zdotaccent.sc</string>
+				<string>uniFB00.sc</string>
+				<string>uniFB03.sc</string>
+				<string>uniFEFF</string>
+				<string>uniFB04.sc</string>
+				<string>napostrophe.sc</string>
+				<string>i.latn_TRK.sc</string>
+				<string>uni0394</string>
+				<string>uni00AD.case</string>
+				<string>ldot.latn_CAT.sc</string>
+				<string>uni03BC</string>
+				<string>uni2215</string>
+				<string>space.frac</string>
+				<string>longs.sc</string>
+				<string>i.latn_TRK</string>
+				<string>uni03A9</string>
+				<string>uni00AD</string>
+				<string>uni00A0</string>
+				<string>uni2007.tosf</string>
+				<string>uni2008</string>
+				<string>uni200B</string>
+				<string>Ldot.latn_CAT</string>
+				<string>uni0237.sc</string>
+				<string>uni02C9</string>
+				<string>uni2219</string>
+				<string>ldot.latn_CAT</string>
 			</array>
 			<key>type</key>
 			<string>glyphList</string>
@@ -1870,7 +1895,6 @@
 		<string>uni0137.sc</string>
 		<string>lacute.sc</string>
 		<string>uni013C.sc</string>
-		<string>lcommaaccent.sc</string>
 		<string>nacute.sc</string>
 		<string>ncaron.sc</string>
 		<string>uni0146.sc</string>
@@ -1917,6 +1941,30 @@
 		<string>zcaron.sc</string>
 		<string>zdotaccent.sc</string>
 		<string>uniFB00.sc</string>
+		<string>uniFB03.sc</string>
+		<string>uniFEFF</string>
+		<string>uniFB04.sc</string>
+		<string>napostrophe.sc</string>
+		<string>i.latn_TRK.sc</string>
+		<string>uni0394</string>
+		<string>uni00AD.case</string>
+		<string>ldot.latn_CAT.sc</string>
+		<string>uni03BC</string>
+		<string>uni2215</string>
+		<string>space.frac</string>
+		<string>longs.sc</string>
+		<string>i.latn_TRK</string>
+		<string>uni03A9</string>
+		<string>uni00AD</string>
+		<string>uni00A0</string>
+		<string>uni2007.tosf</string>
+		<string>uni2008</string>
+		<string>uni200B</string>
+		<string>Ldot.latn_CAT</string>
+		<string>uni0237.sc</string>
+		<string>uni02C9</string>
+		<string>uni2219</string>
+		<string>ldot.latn_CAT</string>
 	</array>
 </dict>
 </plist>

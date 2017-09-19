@@ -1,1 +1,1 @@
-"""components for the kerning controller"""
+"""here I store the stuff for the multiFont Kerning editor"""

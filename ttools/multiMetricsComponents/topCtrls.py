@@ -5,13 +5,12 @@
 
 ### Modules
 # custom
-from ..userInterfaceValues import vanillaControlsSize
-
-import spacingMisc
-reload(spacingMisc)
-from spacingMisc import convertLineToPseudoUnicode
+from ..ui import userInterfaceValues
+reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
 
 # standard
+import types
 from defconAppKit.tools.textSplitter import splitText
 from vanilla import Group, EditText, PopUpButton, SquareButton, TextBox
 
@@ -19,7 +18,20 @@ from vanilla import Group, EditText, PopUpButton, SquareButton, TextBox
 MARGIN_RGT = 15
 MARGIN_COL = 10
 
-### Factories
+### Classes and functions
+def spitDecentString(someGlyphs, unicodeData):
+    assert isinstance(someGlyphs, types.ListType)
+    assert isinstance(unicodeData, types.DictType)
+    flippedUnicodeData = {eachV[0]: eachK for (eachK, eachV) in unicodeData.items()}
+    decentString = ''
+    for eachGlyphName in someGlyphs:
+        if eachGlyphName in flippedUnicodeData:
+            decentString += unichr(flippedUnicodeData[eachGlyphName])
+        else:
+            decentString += '/%s ' % eachGlyphName
+    return decentString
+
+
 class Typewriter(Group):
 
     # attrs
@@ -94,8 +106,9 @@ class TextStringsControls(Group):
     stringOptions = ('Waterfall', 'Shuffled')
     title = 'Loaded Strings'
 
-    def __init__(self, posSize, editTexts, callback):
+    def __init__(self, posSize, editTexts, unicodeMinimum, callback):
         Group.__init__(self, posSize)
+        self.unicodeMinimum = unicodeMinimum
         self.callback = callback
 
         self.editTexts = editTexts
@@ -140,9 +153,13 @@ class TextStringsControls(Group):
 
         jumpingX += arrowWidth + MARGIN_COL
 
-        pseudoUniString = convertLineToPseudoUnicode(self.chosenLine)
+        pseudoUniString = spitDecentString(self.chosenLine, self.unicodeMinimum)
         self.selectedLine = TextBox((jumpingX, 0, -MARGIN_RGT, vanillaControlsSize['TextBoxRegularHeight']),
                                     pseudoUniString)
+
+    def setUnicodeMinimum(self, unicodeMinimum):
+        assert isinstance(unicodeMinimum, DictType), 'unicode minimum is not a dict'
+        self.unicodeMinimum = unicodeMinimum
 
     def get(self):
         return self.chosenStringOption, self.chosenLine
@@ -166,13 +183,13 @@ class TextStringsControls(Group):
         self.chosenLine = self.chosenTxt[self.stringIndex].split(' ')
 
         self.textLinePopUp.setItems(['%#02d' % item for item in xrange(1, len(self.chosenTxt)+1)])
-        self.selectedLine.set(convertLineToPseudoUnicode(self.chosenLine))
+        self.selectedLine.set(spitDecentString(self.chosenLine, self.unicodeMinimum))
         self.callback(self)
 
     def textLinePopUpCallback(self, sender):
         self.stringIndex = sender.get()
         self.chosenLine = self.chosenTxt[self.stringIndex].split(' ')
-        self.selectedLine.set(convertLineToPseudoUnicode(self.chosenLine))
+        self.selectedLine.set(spitDecentString(self.chosenLine, self.unicodeMinimum))
         self.callback(self)
 
     def arrowUpCallback(self, sender):
@@ -183,7 +200,7 @@ class TextStringsControls(Group):
             self.stringIndex = self.stringIndex % len(self.chosenTxt)
 
         self.chosenLine = self.chosenTxt[self.stringIndex].split(' ')
-        self.selectedLine.set(convertLineToPseudoUnicode(self.chosenLine))
+        self.selectedLine.set(spitDecentString(self.chosenLine, self.unicodeMinimum))
         self.textLinePopUp.set(self.chosenTxt.index(' '.join(self.chosenLine)))
         self.callback(self)
 
@@ -195,6 +212,6 @@ class TextStringsControls(Group):
             self.stringIndex = self.stringIndex % len(self.chosenTxt)
 
         self.chosenLine = self.chosenTxt[self.stringIndex].split(' ')
-        self.selectedLine.set(convertLineToPseudoUnicode(self.chosenLine))
+        self.selectedLine.set(spitDecentString(self.chosenLine, self.unicodeMinimum))
         self.textLinePopUp.set(self.chosenTxt.index(' '.join(self.chosenLine)))
         self.callback(self)

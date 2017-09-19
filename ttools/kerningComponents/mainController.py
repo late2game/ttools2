@@ -6,29 +6,40 @@
 ###############################
 
 ### Modules
-# other components
+# components
 import factor
 reload(factor)
 from factor import FactorController
+
 import graphicsManager
 reload(graphicsManager)
 from graphicsManager import GraphicsManager
+
 import joystick
 reload(joystick)
 from joystick import JoystickController
+
 import wordDisplay
 reload(wordDisplay)
 from wordDisplay import WordDisplay
+
 import wordList
 reload(wordList)
 from wordList import WordListController
+
 import chooseException
 reload(chooseException)
 from chooseException import ChooseExceptionWindow
 
 # custom
-from ..userInterfaceValues import vanillaControlsSize
-from ..uiControllers import FontsOrderController, FONT_ROW_HEIGHT
+from ..ui import userInterfaceValues
+reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
+
+from ..ui import uiControllers
+reload(uiControllers)
+from ..ui.uiControllers import FontsOrderController, FONT_ROW_HEIGHT
+
 import kerningMisc
 reload(kerningMisc)
 from kerningMisc import checkPairFormat, getCorrection, findSymmetricalPair
@@ -36,6 +47,7 @@ from kerningMisc import buildPairsFromString, setCorrection, setRawCorrection
 from kerningMisc import MAJOR_STEP, MINOR_STEP
 from kerningMisc import MARGIN_VER, MARGIN_HOR, MARGIN_COL
 from kerningMisc import CANVAS_SCALING_FACTOR_INIT
+
 import exceptionTools
 reload(exceptionTools)
 from exceptionTools import checkGroupConflicts, possibleExceptions
@@ -594,5 +606,5 @@ class KerningController(BaseWindowController):
         elif joystickEvent == 'exceptionTrigger':
             self.exceptionTrigger()
 
-if __name__ == '__main__':
-    kc = KerningController()
+# if __name__ == '__main__':
+#     kc = KerningController()

@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <glyph name="i.latn_TRK" format="1">
-  <advance width="500"/>
+  <advance width="240"/>
   <outline>
+    <contour>
+      <point x="72" y="632" type="line" name="hr00"/>
+      <point x="168" y="632" type="line"/>
+      <point x="168" y="732" type="line"/>
+      <point x="72" y="732" type="line"/>
+    </contour>
+    <contour>
+      <point x="76" y="0" type="line"/>
+      <point x="164" y="0" type="line"/>
+      <point x="164" y="488" type="line"/>
+      <point x="76" y="488" type="line"/>
+    </contour>
   </outline>
-  <lib>
-    <dict>
-      <key>com.typemytype.robofont.mark</key>
-      <array>
-        <real>1.0</real>
-        <real>0.6471</real>
-        <real>0.6471</real>
-        <real>1.0</real>
-      </array>
-    </dict>
-  </lib>
 </glyph>

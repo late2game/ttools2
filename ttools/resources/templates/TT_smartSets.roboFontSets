@@ -6,6 +6,9 @@
 		<key>glyphNames</key>
 		<array>
 			<string>space</string>
+			<string>uni200B</string>
+			<string>uni00A0</string>
+			<string>uniFEFF</string>
 			<string>at</string>
 			<string>A</string>
 			<string>B</string>
@@ -65,18 +68,20 @@
 			<string>germandbls</string>
 			<string>ae</string>
 			<string>oe</string>
-			<string>uniFB00</string>
-			<string>uniFB01</string>
-			<string>uniFB02</string>
+			<string>f_f</string>
+			<string>f_i</string>
+			<string>f_l</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {'space', 'at', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'ampersand', 'AE', 'OE', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'germandbls', 'ae', 'oe', 'uniFB00', 'uniFB01', 'uniFB02'}</string>
+		<string>Name IN {'space', 'uni200B', 'uni00A0', 'uniFEFF', 'at', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'ampersand', 'AE', 'OE', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'germandbls', 'ae', 'oe', 'f_f', 'f_i', 'f_l'}</string>
 		<key>smartSetName</key>
 		<string>LCUC</string>
 	</dict>
 	<dict>
 		<key>glyphNames</key>
 		<array>
+			<string>uni2008</string>
+			<string>uni00AD</string>
 			<string>comma</string>
 			<string>period</string>
 			<string>colon</string>
@@ -120,6 +125,7 @@
 			<string>degree</string>
 			<string>paragraph</string>
 			<string>section</string>
+			<string>uni00AD.case</string>
 			<string>hyphen.case</string>
 			<string>endash.case</string>
 			<string>emdash.case</string>
@@ -139,7 +145,7 @@
 			<string>braceright.case</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {'comma', 'period', 'colon', 'semicolon', 'ellipsis', 'underscore', 'hyphen', 'endash', 'emdash', 'bullet', 'periodcentered', 'guilsinglleft', 'guilsinglright', 'guillemotleft', 'guillemotright', 'exclam', 'question', 'exclamdown', 'questiondown', 'bar', 'brokenbar', 'dagger', 'daggerdbl', 'parenleft', 'parenright', 'bracketleft', 'bracketright', 'braceleft', 'braceright', 'slash', 'backslash', 'quotesinglbase', 'quotedblbase', 'quoteleft', 'quotedblleft', 'quoteright', 'quotedblright', 'quotesingle', 'quotedbl', 'asterisk', 'degree', 'paragraph', 'section', 'hyphen.case', 'endash.case', 'emdash.case', 'bullet.case', 'exclamdown.case', 'questiondown.case', 'periodcentered.case', 'guilsinglleft.case', 'guilsinglright.case', 'guillemotleft.case', 'guillemotright.case', 'parenleft.case', 'parenright.case', 'bracketleft.case', 'bracketright.case', 'braceleft.case', 'braceright.case'}</string>
+		<string>Name IN {'uni2008', 'uni00AD', 'comma', 'period', 'colon', 'semicolon', 'ellipsis', 'underscore', 'hyphen', 'endash', 'emdash', 'bullet', 'periodcentered', 'guilsinglleft', 'guilsinglright', 'guillemotleft', 'guillemotright', 'exclam', 'question', 'exclamdown', 'questiondown', 'bar', 'brokenbar', 'dagger', 'daggerdbl', 'parenleft', 'parenright', 'bracketleft', 'bracketright', 'braceleft', 'braceright', 'slash', 'backslash', 'quotesinglbase', 'quotedblbase', 'quoteleft', 'quotedblleft', 'quoteright', 'quotedblright', 'quotesingle', 'quotedbl', 'asterisk', 'degree', 'paragraph', 'section', 'uni00AD.case', 'hyphen.case', 'endash.case', 'emdash.case', 'bullet.case', 'exclamdown.case', 'questiondown.case', 'periodcentered.case', 'guilsinglleft.case', 'guilsinglright.case', 'guillemotleft.case', 'guillemotright.case', 'parenleft.case', 'parenright.case', 'bracketleft.case', 'bracketright.case', 'braceleft.case', 'braceright.case'}</string>
 		<key>smartSetName</key>
 		<string>UCLC_INT</string>
 	</dict>
@@ -223,9 +229,14 @@
 			<string>product</string>
 			<string>pi</string>
 			<string>mu</string>
+			<string>uni0394</string>
+			<string>uni03BC</string>
+			<string>uni2215</string>
+			<string>uni03A9</string>
+			<string>uni2219</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {'plus', 'minus', 'multiply', 'divide', 'equal', 'less', 'greater', 'plusminus', 'lessequal', 'greaterequal', 'notequal', 'logicalnot', 'asciicircum', 'asciitilde', 'approxequal', 'infinity', 'numbersign', 'radical', 'lozenge', 'Delta', 'Omega', 'summation', 'partialdiff', 'integral', 'product', 'pi', 'mu'}</string>
+		<string>Name IN {'plus', 'minus', 'multiply', 'divide', 'equal', 'less', 'greater', 'plusminus', 'lessequal', 'greaterequal', 'notequal', 'logicalnot', 'asciicircum', 'asciitilde', 'approxequal', 'infinity', 'numbersign', 'radical', 'lozenge', 'Delta', 'Omega', 'summation', 'partialdiff', 'integral', 'product', 'pi', 'mu', 'uni0394', 'uni03BC', 'uni2215', 'uni03A9', 'uni2219'}</string>
 		<key>smartSetName</key>
 		<string>MATH</string>
 	</dict>
@@ -248,6 +259,7 @@
 			<string>uni0312</string>
 			<string>uni0313</string>
 			<string>uni0326</string>
+			<string>uni02C9</string>
 			<string>grave.case</string>
 			<string>acute.case</string>
 			<string>hungarumlaut.case</string>
@@ -264,7 +276,7 @@
 			<string>uni0326.case</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {'grave', 'acute', 'hungarumlaut', 'dotaccent', 'dieresis', 'circumflex', 'caron', 'macron', 'tilde', 'breve', 'ring', 'cedilla', 'ogonek', 'uni0312', 'uni0313', 'uni0326', 'grave.case', 'acute.case', 'hungarumlaut.case', 'dotaccent.case', 'dieresis.case', 'circumflex.case', 'caron.case', 'macron.case', 'tilde.case', 'breve.case', 'ring.case', 'cedilla.case', 'ogonek.case', 'uni0326.case'}</string>
+		<string>Name IN {'grave', 'acute', 'hungarumlaut', 'dotaccent', 'dieresis', 'circumflex', 'caron', 'macron', 'tilde', 'breve', 'ring', 'cedilla', 'ogonek', 'uni0312', 'uni0313', 'uni0326', 'uni02C9', 'grave.case', 'acute.case', 'hungarumlaut.case', 'dotaccent.case', 'dieresis.case', 'circumflex.case', 'caron.case', 'macron.case', 'tilde.case', 'breve.case', 'ring.case', 'cedilla.case', 'ogonek.case', 'uni0326.case'}</string>
 		<key>smartSetName</key>
 		<string>ACC</string>
 	</dict>
@@ -282,6 +294,7 @@
 			<string>eight.osf</string>
 			<string>nine.osf</string>
 			<string>zero.osf.zero</string>
+			<string>uni2007.tosf</string>
 			<string>zero.tosf</string>
 			<string>one.tosf</string>
 			<string>two.tosf</string>
@@ -295,7 +308,7 @@
 			<string>zero.tosf.zero</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {'zero.osf', 'one.osf', 'two.osf', 'three.osf', 'four.osf', 'five.osf', 'six.osf', 'seven.osf', 'eight.osf', 'nine.osf', 'zero.osf.zero', 'zero.tosf', 'one.tosf', 'two.tosf', 'three.tosf', 'four.tosf', 'five.tosf', 'six.tosf', 'seven.tosf', 'eight.tosf', 'nine.tosf', 'zero.tosf.zero'}</string>
+		<string>Name IN {'zero.osf', 'one.osf', 'two.osf', 'three.osf', 'four.osf', 'five.osf', 'six.osf', 'seven.osf', 'eight.osf', 'nine.osf', 'zero.osf.zero', 'uni2007.tosf', 'zero.tosf', 'one.tosf', 'two.tosf', 'three.tosf', 'four.tosf', 'five.tosf', 'six.tosf', 'seven.tosf', 'eight.tosf', 'nine.tosf', 'zero.tosf.zero'}</string>
 		<key>smartSetName</key>
 		<string>FIG_OS</string>
 	</dict>
@@ -441,8 +454,10 @@
 			<string>dcaron</string>
 			<string>hbar</string>
 			<string>ij</string>
+			<string>i.latn_TRK</string>
 			<string>lslash</string>
 			<string>ldot</string>
+			<string>ldot.latn_CAT</string>
 			<string>lcaron</string>
 			<string>eng</string>
 			<string>oslash</string>
@@ -452,7 +467,7 @@
 			<string>tbar</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {'uni0237', 'dotlessi', 'eth', 'dcroat', 'dcaron', 'hbar', 'ij', 'lslash', 'ldot', 'lcaron', 'eng', 'oslash', 'longs', 'thorn', 'tcaron', 'tbar'}</string>
+		<string>Name IN {'uni0237', 'dotlessi', 'eth', 'dcroat', 'dcaron', 'hbar', 'ij', 'i.latn_TRK', 'lslash', 'ldot', 'ldot.latn_CAT', 'lcaron', 'eng', 'oslash', 'longs', 'thorn', 'tcaron', 'tbar'}</string>
 		<key>smartSetName</key>
 		<string>LC_Extra</string>
 	</dict>
@@ -465,6 +480,7 @@
 			<string>IJ</string>
 			<string>Lslash</string>
 			<string>Ldot</string>
+			<string>Ldot.latn_CAT</string>
 			<string>Lcaron</string>
 			<string>Eng</string>
 			<string>Oslash</string>
@@ -474,18 +490,25 @@
 			<string>dcroat.sc</string>
 			<string>hbar.sc</string>
 			<string>ij.sc</string>
+			<string>uni0237.sc</string>
+			<string>i.latn_TRK.sc</string>
 			<string>lslash.sc</string>
 			<string>ldot.sc</string>
+			<string>ldot.latn_CAT.sc</string>
 			<string>lcaron.sc</string>
 			<string>eng.sc</string>
 			<string>oslash.sc</string>
 			<string>tbar.sc</string>
 			<string>thorn.sc</string>
+			<string>longs.sc</string>
 			<string>fi.sc</string>
 			<string>fl.sc</string>
+			<string>uniFB00.sc</string>
+			<string>uniFB03.sc</string>
+			<string>uniFB04.sc</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {'Eth', 'Dcroat', 'Hbar', 'IJ', 'Lslash', 'Ldot', 'Lcaron', 'Eng', 'Oslash', 'Tbar', 'Thorn', 'eth.sc', 'dcroat.sc', 'hbar.sc', 'ij.sc', 'lslash.sc', 'ldot.sc', 'lcaron.sc', 'eng.sc', 'oslash.sc', 'tbar.sc', 'thorn.sc', 'fi.sc', 'fl.sc'}</string>
+		<string>Name IN {'Eth', 'Dcroat', 'Hbar', 'IJ', 'Lslash', 'Ldot', 'Ldot.latn_CAT', 'Lcaron', 'Eng', 'Oslash', 'Tbar', 'Thorn', 'eth.sc', 'dcroat.sc', 'hbar.sc', 'ij.sc', 'uni0237.sc', 'i.latn_TRK.sc', 'lslash.sc', 'ldot.sc', 'ldot.latn_CAT.sc', 'lcaron.sc', 'eng.sc', 'oslash.sc', 'tbar.sc', 'thorn.sc', 'longs.sc', 'fi.sc', 'fl.sc', 'uniFB00.sc', 'uniFB03.sc', 'uniFB04.sc'}</string>
 		<key>smartSetName</key>
 		<string>UCSC_Extra</string>
 	</dict>
@@ -499,16 +522,16 @@
 			<string>f_t</string>
 			<string>t_t</string>
 			<string>t_f</string>
-			<string>uniFB03</string>
+			<string>f_f_i</string>
 			<string>f_f_j</string>
-			<string>uniFB04</string>
+			<string>f_f_l</string>
 			<string>f_f_b</string>
 			<string>f_f_h</string>
 			<string>f_f_k</string>
 			<string>f_f_t</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {'f_j', 'f_b', 'f_h', 'f_k', 'f_t', 't_t', 't_f', 'uniFB03', 'f_f_j', 'uniFB04', 'f_f_b', 'f_f_h', 'f_f_k', 'f_f_t'}</string>
+		<string>Name IN {'f_j', 'f_b', 'f_h', 'f_k', 'f_t', 't_t', 't_f', 'f_f_i', 'f_f_j', 'f_f_l', 'f_f_b', 'f_f_h', 'f_f_k', 'f_f_t'}</string>
 		<key>smartSetName</key>
 		<string>LC_Ligatures</string>
 	</dict>
@@ -582,16 +605,16 @@
 			<string>trademark.sc</string>
 			<string>ordfeminine.sc</string>
 			<string>ordmasculine.sc</string>
-			<string>filledbox</string>
-			<string>H22073</string>
+			<string>uni25A0</string>
+			<string>uni25A1</string>
 			<string>uni25B6</string>
 			<string>uni25B7</string>
 			<string>uni25C1</string>
 			<string>uni25C0</string>
-			<string>circle</string>
-			<string>H18533</string>
-			<string>H18543</string>
-			<string>H18551</string>
+			<string>uni25CB</string>
+			<string>uni25CF</string>
+			<string>uni25AA</string>
+			<string>uni25AB</string>
 			<string>arrowleft</string>
 			<string>arrowright</string>
 			<string>arrowdown</string>
@@ -606,7 +629,7 @@
 			<string>estimated</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {'.notdef', 'copyright', 'registered', 'trademark', 'ordfeminine', 'ordmasculine', 'copyright.sc', 'registered.sc', 'trademark.sc', 'ordfeminine.sc', 'ordmasculine.sc', 'filledbox', 'H22073', 'uni25B6', 'uni25B7', 'uni25C1', 'uni25C0', 'circle', 'H18533', 'H18543', 'H18551', 'arrowleft', 'arrowright', 'arrowdown', 'arrowup', 'uni2196', 'uni2197', 'uni2198', 'uni2199', 'uni2605', 'uni2113', 'uni2116', 'estimated'}</string>
+		<string>Name IN {'.notdef', 'copyright', 'registered', 'trademark', 'ordfeminine', 'ordmasculine', 'copyright.sc', 'registered.sc', 'trademark.sc', 'ordfeminine.sc', 'ordmasculine.sc', 'uni25A0', 'uni25A1', 'uni25B6', 'uni25B7', 'uni25C1', 'uni25C0', 'uni25CB', 'uni25CF', 'uni25AA', 'uni25AB', 'arrowleft', 'arrowright', 'arrowdown', 'arrowup', 'uni2196', 'uni2197', 'uni2198', 'uni2199', 'uni2605', 'uni2113', 'uni2116', 'estimated'}</string>
 		<key>smartSetName</key>
 		<string>SYMBOLS</string>
 	</dict>
@@ -687,9 +710,9 @@
 			<string>y.sups</string>
 			<string>z.sups</string>
 			<string>uni2070</string>
-			<string>uni00B9</string>
-			<string>uni00B2</string>
-			<string>uni00B3</string>
+			<string>onesuperior</string>
+			<string>twosuperior</string>
+			<string>threesuperior</string>
 			<string>uni2074</string>
 			<string>uni2075</string>
 			<string>uni2076</string>
@@ -756,7 +779,7 @@
 			<string>uni208E</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {'a.numr', 'b.numr', 'c.numr', 'd.numr', 'e.numr', 'f.numr', 'g.numr', 'h.numr', 'i.numr', 'j.numr', 'k.numr', 'l.numr', 'm.numr', 'n.numr', 'o.numr', 'p.numr', 'q.numr', 'r.numr', 's.numr', 't.numr', 'u.numr', 'v.numr', 'w.numr', 'x.numr', 'y.numr', 'z.numr', 'zero.numr', 'one.numr', 'two.numr', 'three.numr', 'four.numr', 'five.numr', 'six.numr', 'seven.numr', 'eight.numr', 'nine.numr', 'dollar.numr', 'cent.numr', 'Euro.numr', 'plus.numr', 'minus.numr', 'equal.numr', 'period.numr', 'comma.numr', 'hyphen.numr', 'parenleft.numr', 'parenright.numr', 'a.sups', 'b.sups', 'c.sups', 'd.sups', 'e.sups', 'f.sups', 'g.sups', 'h.sups', 'uni2071', 'j.sups', 'k.sups', 'l.sups', 'm.sups', 'uni207F', 'o.sups', 'p.sups', 'q.sups', 'r.sups', 's.sups', 't.sups', 'u.sups', 'v.sups', 'w.sups', 'x.sups', 'y.sups', 'z.sups', 'uni2070', 'uni00B9', 'uni00B2', 'uni00B3', 'uni2074', 'uni2075', 'uni2076', 'uni2077', 'uni2078', 'uni2079', 'dollar.sups', 'cent.sups', 'Euro.sups', 'uni207A', 'uni207B', 'uni207C', 'period.sups', 'comma.sups', 'hyphen.sups', 'uni207D', 'uni207E', 'uni2090', 'b.subs', 'c.subs', 'd.subs', 'uni2091', 'f.subs', 'g.subs', 'uni2095', 'i.subs', 'j.subs', 'uni2096', 'uni2097', 'uni2098', 'uni2099', 'uni2092', 'uni209A', 'q.subs', 'r.subs', 'uni209B', 'uni209C', 'u.subs', 'v.subs', 'w.subs', 'uni2093', 'y.subs', 'z.subs', 'uni2080', 'uni2081', 'uni2082', 'uni2083', 'uni2084', 'uni2085', 'uni2086', 'uni2087', 'uni2088', 'uni2089', 'dollar.subs', 'cent.subs', 'Euro.subs', 'uni208A', 'uni208B', 'uni208C', 'period.subs', 'comma.subs', 'hyphen.subs', 'uni208D', 'uni208E'}</string>
+		<string>Name IN {'a.numr', 'b.numr', 'c.numr', 'd.numr', 'e.numr', 'f.numr', 'g.numr', 'h.numr', 'i.numr', 'j.numr', 'k.numr', 'l.numr', 'm.numr', 'n.numr', 'o.numr', 'p.numr', 'q.numr', 'r.numr', 's.numr', 't.numr', 'u.numr', 'v.numr', 'w.numr', 'x.numr', 'y.numr', 'z.numr', 'zero.numr', 'one.numr', 'two.numr', 'three.numr', 'four.numr', 'five.numr', 'six.numr', 'seven.numr', 'eight.numr', 'nine.numr', 'dollar.numr', 'cent.numr', 'Euro.numr', 'plus.numr', 'minus.numr', 'equal.numr', 'period.numr', 'comma.numr', 'hyphen.numr', 'parenleft.numr', 'parenright.numr', 'a.sups', 'b.sups', 'c.sups', 'd.sups', 'e.sups', 'f.sups', 'g.sups', 'h.sups', 'uni2071', 'j.sups', 'k.sups', 'l.sups', 'm.sups', 'uni207F', 'o.sups', 'p.sups', 'q.sups', 'r.sups', 's.sups', 't.sups', 'u.sups', 'v.sups', 'w.sups', 'x.sups', 'y.sups', 'z.sups', 'uni2070', 'onesuperior', 'twosuperior', 'threesuperior', 'uni2074', 'uni2075', 'uni2076', 'uni2077', 'uni2078', 'uni2079', 'dollar.sups', 'cent.sups', 'Euro.sups', 'uni207A', 'uni207B', 'uni207C', 'period.sups', 'comma.sups', 'hyphen.sups', 'uni207D', 'uni207E', 'uni2090', 'b.subs', 'c.subs', 'd.subs', 'uni2091', 'f.subs', 'g.subs', 'uni2095', 'i.subs', 'j.subs', 'uni2096', 'uni2097', 'uni2098', 'uni2099', 'uni2092', 'uni209A', 'q.subs', 'r.subs', 'uni209B', 'uni209C', 'u.subs', 'v.subs', 'w.subs', 'uni2093', 'y.subs', 'z.subs', 'uni2080', 'uni2081', 'uni2082', 'uni2083', 'uni2084', 'uni2085', 'uni2086', 'uni2087', 'uni2088', 'uni2089', 'dollar.subs', 'cent.subs', 'Euro.subs', 'uni208A', 'uni208B', 'uni208C', 'period.subs', 'comma.subs', 'hyphen.subs', 'uni208D', 'uni208E'}</string>
 		<key>smartSetName</key>
 		<string>NUMR_SUBS_SUPS</string>
 	</dict>
@@ -823,9 +846,10 @@
 			<string>fraction</string>
 			<string>percent.sc</string>
 			<string>perthousand.sc</string>
+			<string>space.frac</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {'percent', 'perthousand', 'onehalf', 'onethird', 'twothirds', 'onequarter', 'threequarters', 'uni2155', 'uni2156', 'uni2157', 'uni2158', 'uni2159', 'uni215A', 'oneeighth', 'threeeighths', 'fiveeighths', 'seveneighths', 'fraction', 'percent.sc', 'perthousand.sc'}</string>
+		<string>Name IN {'percent', 'perthousand', 'onehalf', 'onethird', 'twothirds', 'onequarter', 'threequarters', 'uni2155', 'uni2156', 'uni2157', 'uni2158', 'uni2159', 'uni215A', 'oneeighth', 'threeeighths', 'fiveeighths', 'seveneighths', 'fraction', 'percent.sc', 'perthousand.sc', 'space.frac'}</string>
 		<key>smartSetName</key>
 		<string>FRACTIONS</string>
 	</dict>
@@ -893,9 +917,9 @@
 			<string>uni0156</string>
 			<string>Sacute</string>
 			<string>Scaron</string>
-			<string>Scedilla</string>
 			<string>Scircumflex</string>
 			<string>uni0218</string>
+			<string>uni015E</string>
 			<string>Tcaron</string>
 			<string>uni0162</string>
 			<string>uni021A</string>
@@ -922,7 +946,7 @@
 			<string>Zdotaccent</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {'Aacute', 'Abreve', 'Acircumflex', 'Adieresis', 'AEacute', 'Agrave', 'Amacron', 'Aogonek', 'Aring', 'Atilde', 'Cacute', 'Ccaron', 'Ccedilla', 'Ccircumflex', 'Cdotaccent', 'Dcaron', 'Eacute', 'Ebreve', 'Ecaron', 'Ecircumflex', 'Edieresis', 'Edotaccent', 'Egrave', 'Emacron', 'Eogonek', 'Gbreve', 'uni0122', 'Gcircumflex', 'Gdotaccent', 'Hcircumflex', 'Iacute', 'Ibreve', 'Icircumflex', 'Idieresis', 'Idotaccent', 'Igrave', 'Imacron', 'Iogonek', 'Itilde', 'Jcircumflex', 'uni0136', 'Lacute', 'uni013B', 'Nacute', 'Ncaron', 'uni0145', 'Ntilde', 'Oacute', 'Obreve', 'Ocircumflex', 'Odieresis', 'Ograve', 'Ohungarumlaut', 'Omacron', 'Oslashacute', 'Otilde', 'Racute', 'Rcaron', 'uni0156', 'Sacute', 'Scaron', 'Scedilla', 'Scircumflex', 'uni0218', 'Tcaron', 'uni0162', 'uni021A', 'Uacute', 'Ubreve', 'Ucircumflex', 'Udieresis', 'Ugrave', 'Uhungarumlaut', 'Umacron', 'Uogonek', 'Uring', 'Utilde', 'Wacute', 'Wcircumflex', 'Wdieresis', 'Wgrave', 'Yacute', 'Ycircumflex', 'Ydieresis', 'Ygrave', 'Zacute', 'Zcaron', 'Zdotaccent'}</string>
+		<string>Name IN {'Aacute', 'Abreve', 'Acircumflex', 'Adieresis', 'AEacute', 'Agrave', 'Amacron', 'Aogonek', 'Aring', 'Atilde', 'Cacute', 'Ccaron', 'Ccedilla', 'Ccircumflex', 'Cdotaccent', 'Dcaron', 'Eacute', 'Ebreve', 'Ecaron', 'Ecircumflex', 'Edieresis', 'Edotaccent', 'Egrave', 'Emacron', 'Eogonek', 'Gbreve', 'uni0122', 'Gcircumflex', 'Gdotaccent', 'Hcircumflex', 'Iacute', 'Ibreve', 'Icircumflex', 'Idieresis', 'Idotaccent', 'Igrave', 'Imacron', 'Iogonek', 'Itilde', 'Jcircumflex', 'uni0136', 'Lacute', 'uni013B', 'Nacute', 'Ncaron', 'uni0145', 'Ntilde', 'Oacute', 'Obreve', 'Ocircumflex', 'Odieresis', 'Ograve', 'Ohungarumlaut', 'Omacron', 'Oslashacute', 'Otilde', 'Racute', 'Rcaron', 'uni0156', 'Sacute', 'Scaron', 'Scircumflex', 'uni0218', 'uni015E', 'Tcaron', 'uni0162', 'uni021A', 'Uacute', 'Ubreve', 'Ucircumflex', 'Udieresis', 'Ugrave', 'Uhungarumlaut', 'Umacron', 'Uogonek', 'Uring', 'Utilde', 'Wacute', 'Wcircumflex', 'Wdieresis', 'Wgrave', 'Yacute', 'Ycircumflex', 'Ydieresis', 'Ygrave', 'Zacute', 'Zcaron', 'Zdotaccent'}</string>
 		<key>smartSetName</key>
 		<string>UC_ACC</string>
 	</dict>
@@ -989,11 +1013,11 @@
 			<string>uni0157</string>
 			<string>sacute</string>
 			<string>scaron</string>
-			<string>scedilla</string>
 			<string>scircumflex</string>
 			<string>uni0219</string>
 			<string>uni0163</string>
 			<string>uni021B</string>
+			<string>uni015F</string>
 			<string>uacute</string>
 			<string>ubreve</string>
 			<string>ucircumflex</string>
@@ -1017,7 +1041,7 @@
 			<string>zdotaccent</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {'aacute', 'abreve', 'acircumflex', 'adieresis', 'aeacute', 'agrave', 'amacron', 'aogonek', 'aring', 'atilde', 'cacute', 'ccaron', 'ccedilla', 'ccircumflex', 'cdotaccent', 'eacute', 'ebreve', 'ecaron', 'ecircumflex', 'edieresis', 'edotaccent', 'egrave', 'emacron', 'eogonek', 'gbreve', 'uni0123', 'gcircumflex', 'gdotaccent', 'hcircumflex', 'iacute', 'ibreve', 'icircumflex', 'idieresis', 'igrave', 'imacron', 'iogonek', 'itilde', 'jcircumflex', 'uni0137', 'lacute', 'uni013C', 'nacute', 'napostrophe', 'ncaron', 'uni0146', 'ntilde', 'oacute', 'obreve', 'ocircumflex', 'odieresis', 'ograve', 'ohungarumlaut', 'omacron', 'oslashacute', 'otilde', 'racute', 'rcaron', 'uni0157', 'sacute', 'scaron', 'scedilla', 'scircumflex', 'uni0219', 'uni0163', 'uni021B', 'uacute', 'ubreve', 'ucircumflex', 'udieresis', 'ugrave', 'uhungarumlaut', 'umacron', 'uogonek', 'uring', 'utilde', 'wacute', 'wcircumflex', 'wdieresis', 'wgrave', 'yacute', 'ycircumflex', 'ydieresis', 'ygrave', 'zacute', 'zcaron', 'zdotaccent'}</string>
+		<string>Name IN {'aacute', 'abreve', 'acircumflex', 'adieresis', 'aeacute', 'agrave', 'amacron', 'aogonek', 'aring', 'atilde', 'cacute', 'ccaron', 'ccedilla', 'ccircumflex', 'cdotaccent', 'eacute', 'ebreve', 'ecaron', 'ecircumflex', 'edieresis', 'edotaccent', 'egrave', 'emacron', 'eogonek', 'gbreve', 'uni0123', 'gcircumflex', 'gdotaccent', 'hcircumflex', 'iacute', 'ibreve', 'icircumflex', 'idieresis', 'igrave', 'imacron', 'iogonek', 'itilde', 'jcircumflex', 'uni0137', 'lacute', 'uni013C', 'nacute', 'napostrophe', 'ncaron', 'uni0146', 'ntilde', 'oacute', 'obreve', 'ocircumflex', 'odieresis', 'ograve', 'ohungarumlaut', 'omacron', 'oslashacute', 'otilde', 'racute', 'rcaron', 'uni0157', 'sacute', 'scaron', 'scircumflex', 'uni0219', 'uni0163', 'uni021B', 'uni015F', 'uacute', 'ubreve', 'ucircumflex', 'udieresis', 'ugrave', 'uhungarumlaut', 'umacron', 'uogonek', 'uring', 'utilde', 'wacute', 'wcircumflex', 'wdieresis', 'wgrave', 'yacute', 'ycircumflex', 'ydieresis', 'ygrave', 'zacute', 'zcaron', 'zdotaccent'}</string>
 		<key>smartSetName</key>
 		<string>LC_ACC</string>
 	</dict>
@@ -1072,6 +1096,7 @@
 			<string>ncaron.sc</string>
 			<string>uni0146.sc</string>
 			<string>ntilde.sc</string>
+			<string>napostrophe.sc</string>
 			<string>oacute.sc</string>
 			<string>obreve.sc</string>
 			<string>ocircumflex.sc</string>
@@ -1086,8 +1111,8 @@
 			<string>uni0157.sc</string>
 			<string>sacute.sc</string>
 			<string>scaron.sc</string>
-			<string>scedilla.sc</string>
 			<string>scircumflex.sc</string>
+			<string>uni015F.sc</string>
 			<string>tcaron.sc</string>
 			<string>uni0219.sc</string>
 			<string>uni0163.sc</string>
@@ -1115,7 +1140,7 @@
 			<string>zdotaccent.sc</string>
 		</array>
 		<key>query</key>
-		<string>Name IN {'aacute.sc', 'abreve.sc', 'acircumflex.sc', 'adieresis.sc', 'aeacute.sc', 'agrave.sc', 'amacron.sc', 'aogonek.sc', 'aring.sc', 'atilde.sc', 'cacute.sc', 'ccaron.sc', 'ccedilla.sc', 'ccircumflex.sc', 'cdotaccent.sc', 'eacute.sc', 'ebreve.sc', 'ecaron.sc', 'ecircumflex.sc', 'edieresis.sc', 'edotaccent.sc', 'egrave.sc', 'emacron.sc', 'eogonek.sc', 'dcaron.sc', 'idotaccent.sc', 'gbreve.sc', 'uni0123.sc', 'gcircumflex.sc', 'gdotaccent.sc', 'hcircumflex.sc', 'iacute.sc', 'ibreve.sc', 'icircumflex.sc', 'idieresis.sc', 'igrave.sc', 'imacron.sc', 'iogonek.sc', 'itilde.sc', 'jcircumflex.sc', 'uni0137.sc', 'lacute.sc', 'uni013C.sc', 'lcommaaccent.sc', 'nacute.sc', 'ncaron.sc', 'uni0146.sc', 'ntilde.sc', 'oacute.sc', 'obreve.sc', 'ocircumflex.sc', 'odieresis.sc', 'ograve.sc', 'ohungarumlaut.sc', 'omacron.sc', 'oslashacute.sc', 'otilde.sc', 'racute.sc', 'rcaron.sc', 'uni0157.sc', 'sacute.sc', 'scaron.sc', 'scedilla.sc', 'scircumflex.sc', 'tcaron.sc', 'uni0219.sc', 'uni0163.sc', 'uni021B.sc', 'uacute.sc', 'ubreve.sc', 'ucircumflex.sc', 'udieresis.sc', 'ugrave.sc', 'uhungarumlaut.sc', 'umacron.sc', 'uogonek.sc', 'uring.sc', 'utilde.sc', 'wacute.sc', 'wcircumflex.sc', 'wdieresis.sc', 'wgrave.sc', 'yacute.sc', 'ycircumflex.sc', 'ydieresis.sc', 'ygrave.sc', 'zacute.sc', 'zcaron.sc', 'zdotaccent.sc'}</string>
+		<string>Name IN {'aacute.sc', 'abreve.sc', 'acircumflex.sc', 'adieresis.sc', 'aeacute.sc', 'agrave.sc', 'amacron.sc', 'aogonek.sc', 'aring.sc', 'atilde.sc', 'cacute.sc', 'ccaron.sc', 'ccedilla.sc', 'ccircumflex.sc', 'cdotaccent.sc', 'eacute.sc', 'ebreve.sc', 'ecaron.sc', 'ecircumflex.sc', 'edieresis.sc', 'edotaccent.sc', 'egrave.sc', 'emacron.sc', 'eogonek.sc', 'dcaron.sc', 'idotaccent.sc', 'gbreve.sc', 'uni0123.sc', 'gcircumflex.sc', 'gdotaccent.sc', 'hcircumflex.sc', 'iacute.sc', 'ibreve.sc', 'icircumflex.sc', 'idieresis.sc', 'igrave.sc', 'imacron.sc', 'iogonek.sc', 'itilde.sc', 'jcircumflex.sc', 'uni0137.sc', 'lacute.sc', 'uni013C.sc', 'lcommaaccent.sc', 'nacute.sc', 'ncaron.sc', 'uni0146.sc', 'ntilde.sc', 'napostrophe.sc', 'oacute.sc', 'obreve.sc', 'ocircumflex.sc', 'odieresis.sc', 'ograve.sc', 'ohungarumlaut.sc', 'omacron.sc', 'oslashacute.sc', 'otilde.sc', 'racute.sc', 'rcaron.sc', 'uni0157.sc', 'sacute.sc', 'scaron.sc', 'scircumflex.sc', 'uni015F.sc', 'tcaron.sc', 'uni0219.sc', 'uni0163.sc', 'uni021B.sc', 'uacute.sc', 'ubreve.sc', 'ucircumflex.sc', 'udieresis.sc', 'ugrave.sc', 'uhungarumlaut.sc', 'umacron.sc', 'uogonek.sc', 'uring.sc', 'utilde.sc', 'wacute.sc', 'wcircumflex.sc', 'wdieresis.sc', 'wgrave.sc', 'yacute.sc', 'ycircumflex.sc', 'ydieresis.sc', 'ygrave.sc', 'zacute.sc', 'zcaron.sc', 'zdotaccent.sc'}</string>
 		<key>smartSetName</key>
 		<string>SC_ACC</string>
 	</dict>

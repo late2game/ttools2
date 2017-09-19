@@ -1,16 +1,20 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# custom module
+### Modules
+# custom
 import kerningMisc
 reload(kerningMisc)
 from kerningMisc import MARGIN_VER, MARGIN_COL
-from ..userInterfaceValues import vanillaControlsSize
 
-# standard module
+from ..ui import userInterfaceValues
+reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
+
+# standard
 from vanilla import Group, TextBox, SquareButton, SquareButton
 
-# object
+### Classes
 class FactorController(Group):
 
     def __init__(self, posSize, canvasScalingFactor, callback):

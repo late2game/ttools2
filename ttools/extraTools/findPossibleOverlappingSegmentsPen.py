@@ -1,4 +1,5 @@
-# coding=utf-8
+#!/usr/bin/env python
+# coding: utf-8
 
 from fontTools.pens.basePen import BasePen
 from fontTools.misc.arrayTools import pointInRect
@@ -11,7 +12,6 @@ def pointBoundTouche(point, bounds):
         minX, minY, maxX, maxY = bounds
         found = minX <= point[0] <= maxX
     return found
-    
     
 
 class FindPossibleOverlappingSegmentsPen(BasePen):

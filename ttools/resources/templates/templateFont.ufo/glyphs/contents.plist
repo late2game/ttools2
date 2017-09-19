@@ -962,8 +962,6 @@
 	<string>lcaron.glif</string>
 	<key>lcaron.sc</key>
 	<string>lcaron.sc.glif</string>
-	<key>lcommaaccent.sc</key>
-	<string>lcommaaccent.sc.glif</string>
 	<key>ldot</key>
 	<string>ldot.glif</string>
 	<key>ldot.latn_CAT</key>
@@ -1612,6 +1610,10 @@
 	<string>uni03A9_.glif</string>
 	<key>uni03BC</key>
 	<string>uni03BC_.glif</string>
+	<key>uni1E9E</key>
+	<string>uni1E9E_.glif</string>
+	<key>uni1E9E.sc</key>
+	<string>uni1E9E_.sc.glif</string>
 	<key>uni2007</key>
 	<string>uni2007.glif</string>
 	<key>uni2007.tosf</key>

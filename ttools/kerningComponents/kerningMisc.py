@@ -1,19 +1,25 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# standard modules
+### Modules
+# custom
+from ..extraTools import findPossibleOverlappingSegmentsPen
+reload(findPossibleOverlappingSegmentsPen)
+from ..extraTools.findPossibleOverlappingSegmentsPen import FindPossibleOverlappingSegmentsPen
+
+# standard
 import os
 import types
 import codecs
 from defconAppKit.tools.textSplitter import splitText
-from ..extraTools.findPossibleOverlappingSegmentsPen import FindPossibleOverlappingSegmentsPen
 from mojo.roboFont import RGlyph
 from fontTools.misc.arrayTools import offsetRect, sectRect
 from lib.tools.bezierTools import intersectCubicCubic, intersectCubicLine, intersectLineLine
 from vanilla import Window, RadioGroup, Button
 from collections import OrderedDict
 
-# constants
+
+### Constants
 MARGIN_VER = 8
 MARGIN_HOR = 8
 MARGIN_COL = 4
@@ -23,19 +29,25 @@ MINOR_STEP = 4
 
 CANVAS_SCALING_FACTOR_INIT = 1.6
 
-SYMMETRICAL_GLYPHS = list(u'AHIOTUVWXY') + ['comma', 'period', 'colon', 'semicolon', 'ellipsis', 'underscore', 'hyphen', 'endash', 'emdash', 'bullet', 'periodcentered', 'guilsinglleft', 'guilsinglright', 'guillemotleft', 'guillemotright', 'exclam', 'exclamdown', 'bar', 'brokenbar', 'dagger', 'daggerdbl', 'quotesingle', 'quotedbl', 'asterisk', 'degree']
-SYMMETRICAL_COUPLES_POS = {'guilsinglleft': 'guilsinglright',
-                           'guillemotleft': 'guillemotright',
-                           'parenleft': 'parenright',
-                           'bracketleft': 'bracketright',
-                           'braceleft': 'braceright',
-                           'slash': 'backslash',
-                           'quoteleft': 'quoteright',
-                           'quotedblleft': 'quotedblright'}
-SYMMETRICAL_COUPLES_NEG = {value: key for (key, value) in SYMMETRICAL_COUPLES_POS.items()}
+SYMMETRICAL_GLYPHS_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)),
+                                       'resources',
+                                       'tables',
+                                       'kerningPureSymmetricalGlyphs.csv')
+SYMMETRICAL_COUPLES_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)),
+                                        'resources',
+                                        'tables',
+                                        'kerningSymmetricalCouples.csv')
 
+### Functions
+def loadSymmetricalGlyphs():
+    symmetricalGlyphs = [item.strip() for item in codecs.open(SYMMETRICAL_GLYPHS_PATH, 'r', 'utf-8').readlines()]
+    symmetricalCouples = [item.split('\t') for item in codecs.open(SYMMETRICAL_COUPLES_PATH, 'r', 'utf-8').readlines()]
+    symmetricalCouplesPos = {eachKey: eachValue for (eachKey, eachValue) in symmetricalCouples}
+    symmetricalCouplesNeg = {eachValue: eachKey for (eachKey, eachValue) in symmetricalCouples}
+    return symmetricalGlyphs, symmetricalCouplesPos, symmetricalCouplesNeg
 
-# functions
+SYMMETRICAL_GLYPHS, SYMMETRICAL_COUPLES_POS, SYMMETRICAL_COUPLES_NEG = loadSymmetricalGlyphs()
+
 def findSymmetricalPair(aPair):
     assert len(aPair) == 2
     symmetricalPair = None
@@ -89,6 +101,7 @@ def checkPairFormat(value):
     assert isinstance(value[0], types.UnicodeType), 'wrong pair format'
     assert isinstance(value[1], types.UnicodeType), 'wrong pair format'
 
+
 def buildPairsFromString(uniString, aFont):
     pairs = []
     splittedText = splitText(uniString, aFont.naked().unicodeData)
@@ -96,6 +109,7 @@ def buildPairsFromString(uniString, aFont):
         myPair = (u'%s' % splittedText[eachI-1], u'%s' % splittedText[eachI])
         pairs.append(myPair)
     return pairs
+
 
 def loadKerningTexts(kerningTextFolder):
     kerningWordDB = OrderedDict()
@@ -119,6 +133,7 @@ def loadKerningTexts(kerningTextFolder):
         kerningWordDB[eachKerningTextBaseName[3:]] = [{'word': word, 'done?': 0} for word in uniqueKerningWords]
     return kerningWordDB
 
+
 def whichGroup(targetGlyphName, aLocation, aFont):
     assert aLocation in ['lft', 'rgt']
 
@@ -131,6 +146,7 @@ def whichGroup(targetGlyphName, aLocation, aFont):
             return eachGroupName
     return None
 
+
 def whichKindOfPair(aPair):
     lftReference, rgtReference = aPair
 
@@ -142,6 +158,7 @@ def whichKindOfPair(aPair):
         return 'gl2gr'
     else:
         return 'gl2gl'
+
 
 def collectPairMapping(aPair, aFont):
     """here I assume aPair is made of two glyphnames, no classes"""
@@ -156,9 +173,11 @@ def collectPairMapping(aPair, aFont):
     pairsDB = [pair for pair in pairsDB if pair['amount'] is not None]
     return pairsDB
 
+
 def setRawCorrection(kerningReference, aFont, amount):
     """sometimes, we don't need any intelligence applied, this in mainly used to set exception"""
     aFont.kerning[kerningReference] = amount
+
 
 def setCorrection(aPair, aFont, correctionAmount):
     lftGlyphName, rgtGlyphName = aPair
@@ -191,6 +210,7 @@ def setCorrection(aPair, aFont, correctionAmount):
     else:
         aFont.kerning[chosenPair] = correctionAmount
 
+
 def getCorrection(aPair, aFont):
     """here I should receive only glyphNames"""
 
@@ -200,6 +220,7 @@ def getCorrection(aPair, aFont):
         return chosenPair['amount'], chosenPair['key'], whichKindOfPair(chosenPair['key'])
     else:
         return 0, None, None
+
 
 def checkIfPairOverlaps(g1, g2):
     assert g1.getParent() is g2.getParent(), 'the two glyphs do not belong to the same font'
@@ -262,3 +283,4 @@ def checkIfPairOverlaps(g1, g2):
                 return True
 
     return False
+

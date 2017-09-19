@@ -1,25 +1,28 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# custom modules
+### Modules
+# custom
 import kerningMisc
 reload(kerningMisc)
 from kerningMisc import loadKerningTexts
 from kerningMisc import MARGIN_VER
 
-from ..userInterfaceValues import vanillaControlsSize
+from ..ui import userInterfaceValues
+reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
 
-# standard modules
+# standard
 import os
 import json
 from vanilla import Group, PopUpButton, List, EditText, TextBox
 from vanilla import SquareButton, CheckBoxListCell
 from vanilla.dialogs import getFile, putFile
 
-# constants
+### Constants
 KERNING_TEXT_FOLDER = os.path.join(os.path.dirname(__file__), '..', 'resources', 'kerningTexts')
 
-# objects
+### Classes
 class WordListController(Group):
     """this controller takes good care of word list flow"""
 

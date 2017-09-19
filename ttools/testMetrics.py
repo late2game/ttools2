@@ -19,17 +19,17 @@ from vanilla import RadioGroup, TextBox, CheckBox, Button
 from defconAppKit.windows.baseWindow import BaseWindowController
 
 # custom
-import testFunctions
-reload(testFunctions)
-from testFunctions import checkVerticalExtremes, checkAccented
-from testFunctions import checkInterpunction, checkFigures
-from testFunctions import checkDnomNumrSubsSups, checkFractions
-from testFunctions import checkLCligatures, checkUCligatures
-from testFunctions import checkLCextra, checkUCextra, checkFlippedMargins
+import extraTools.testFunctions
+reload(extraTools.testFunctions)
+from extraTools.testFunctions import checkVerticalExtremes, checkAccented
+from extraTools.testFunctions import checkInterpunction, checkFigures
+from extraTools.testFunctions import checkDnomNumrSubsSups, checkFractions
+from extraTools.testFunctions import checkLCligatures, checkUCligatures
+from extraTools.testFunctions import checkLCextra, checkUCextra, checkFlippedMargins
 
-import userInterfaceValues
-reload(userInterfaceValues)
-from userInterfaceValues import vanillaControlsSize
+import ui.userInterfaceValues
+reload(ui.userInterfaceValues)
+from ui.userInterfaceValues import vanillaControlsSize
 
 ### Constants
 RADIO_GROUP_HEIGHT = 40

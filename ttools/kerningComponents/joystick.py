@@ -1,12 +1,18 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# custom modules
-from ..userInterfaceValues import vanillaControlsSize
+### Modules
+# custom
+from ..ui import userInterfaceValues
+reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
+
+import kerningMisc
+reload(kerningMisc)
 from kerningMisc import getCorrection, checkPairFormat, buildPairsFromString
 from kerningMisc import MAJOR_STEP, MINOR_STEP
 
-# standard modules
+# standard
 from vanilla import Group, SquareButton, CheckBox, EditText
 from vanilla import Button
 import traceback

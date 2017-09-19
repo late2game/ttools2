@@ -1,12 +1,20 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from ..userInterfaceValues import vanillaControlsSize
+### Modules
+# custom
+from ..ui import userInterfaceValues
+reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
+
+# standard
 from vanilla import FloatingWindow, RadioGroup, Button
 from defconAppKit.windows.baseWindow import BaseWindowController
 
+### Constants
 MARGIN = 12
 
+### Classes
 class ChooseExceptionWindow(BaseWindowController):
     lastEvent = None
 

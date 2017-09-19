@@ -7,19 +7,19 @@
 
 ### Modules
 # custom
-import userInterfaceValues
-reload(userInterfaceValues)
-from userInterfaceValues import vanillaControlsSize
+import ui.userInterfaceValues
+reload(ui.userInterfaceValues)
+from ui.userInterfaceValues import vanillaControlsSize
 
-import calcFunctions
-reload(calcFunctions)
-from calcFunctions import intersectionBetweenSegments, calcAngle, calcDistance
-from calcFunctions import calcStemsData, calcDiagonalsData, calcMidPoint
+import extraTools.calcFunctions
+reload(extraTools.calcFunctions)
+from extraTools.calcFunctions import intersectionBetweenSegments, calcAngle, calcDistance
+from extraTools.calcFunctions import calcStemsData, calcDiagonalsData, calcMidPoint
 
-import miscFunctions
-reload(miscFunctions)
-from miscFunctions import collectIDsFromSelectedPoints, guessStemPoints
-from miscFunctions import getOpenedFontFromPath
+import extraTools.miscFunctions
+reload(extraTools.miscFunctions)
+from extraTools.miscFunctions import collectIDsFromSelectedPoints, guessStemPoints
+from extraTools.miscFunctions import getOpenedFontFromPath
 
 # standard
 import os, sys

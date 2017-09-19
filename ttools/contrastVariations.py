@@ -7,7 +7,9 @@
 
 ### Modules
 # custom modules
-from userInterfaceValues import vanillaControlsSize
+import ui.userInterfaceValues
+reload(ui.userInterfaceValues)
+from ui.userInterfaceValues import vanillaControlsSize
 
 # standard modules
 from vanilla import FloatingWindow, Group, PopUpButton, TextBox, CheckBox, SquareButton

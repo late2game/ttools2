@@ -1,12 +1,16 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+### Modules
+# standard
 from defconAppKit.tools.textSplitter import splitText
 from math import cos, sin, atan2, sqrt, radians
 from collections import namedtuple
 
+### Constants
 Point = namedtuple('Point', ['x', 'y'])
 
+### Classes and functions
 def checkGlyphPresenceInMultipleGroups(glyphName, location, aFont):
 
     locationPrefixes = {
