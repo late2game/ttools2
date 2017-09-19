@@ -58,11 +58,11 @@ rcaron
 uni0157
 sacute
 scaron
-scedilla
 scircumflex
 uni0219
 uni0163
 uni021B
+uni015F
 uacute
 ubreve
 ucircumflex

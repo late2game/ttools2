@@ -5,8 +5,10 @@ dcroat
 dcaron
 hbar
 ij
+i.latn_TRK
 lslash
 ldot
+ldot.latn_CAT
 lcaron
 eng
 oslash

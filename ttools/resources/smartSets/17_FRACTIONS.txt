@@ -18,3 +18,4 @@ seveneighths
 fraction
 percent.sc
 perthousand.sc
+space.frac

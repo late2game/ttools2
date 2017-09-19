@@ -72,9 +72,9 @@ x.sups
 y.sups
 z.sups
 uni2070
-uni00B9
-uni00B2
-uni00B3
+onesuperior
+twosuperior
+threesuperior
 uni2074
 uni2075
 uni2076

@@ -14,6 +14,7 @@ ogonek
 uni0312
 uni0313
 uni0326
+uni02C9
 grave.case
 acute.case
 hungarumlaut.case

@@ -1,4 +1,7 @@
 space
+uni200B
+uni00A0
+uniFEFF
 at
 A
 B
@@ -58,6 +61,6 @@ z
 germandbls
 ae
 oe
-uniFB00
-uniFB01
-uniFB02
+f_f
+f_i
+f_l

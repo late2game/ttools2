@@ -1,3 +1,5 @@
+uni2008
+uni00AD
 comma
 period
 colon
@@ -41,6 +43,7 @@ asterisk
 degree
 paragraph
 section
+uni00AD.case
 hyphen.case
 endash.case
 emdash.case

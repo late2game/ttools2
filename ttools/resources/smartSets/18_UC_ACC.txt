@@ -59,9 +59,9 @@ Rcaron
 uni0156
 Sacute
 Scaron
-Scedilla
 Scircumflex
 uni0218
+uni015E
 Tcaron
 uni0162
 uni021A

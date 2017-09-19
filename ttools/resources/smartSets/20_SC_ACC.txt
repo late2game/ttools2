@@ -46,6 +46,7 @@ nacute.sc
 ncaron.sc
 uni0146.sc
 ntilde.sc
+napostrophe.sc
 oacute.sc
 obreve.sc
 ocircumflex.sc
@@ -60,8 +61,8 @@ rcaron.sc
 uni0157.sc
 sacute.sc
 scaron.sc
-scedilla.sc
 scircumflex.sc
+uni015F.sc
 tcaron.sc
 uni0219.sc
 uni0163.sc

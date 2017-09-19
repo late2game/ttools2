@@ -25,3 +25,8 @@ integral
 product
 pi
 mu
+uni0394
+uni03BC
+uni2215
+uni03A9
+uni2219
