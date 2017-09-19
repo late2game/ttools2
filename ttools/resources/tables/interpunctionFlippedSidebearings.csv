@@ -1,0 +1,13 @@
+guilsinglleft	guilsinglright
+guilsinglleft.case	guilsinglright.case
+parenleft	parenright
+parenleft.case	parenright.case
+bracketleft	bracketright
+bracketleft.case	bracketright.case
+braceleft	braceright
+braceleft.case	braceright.case
+guillemotleft	guillemotright
+guillemotleft.case	guillemotright.case
+quoteleft	quoteright
+quotedblleft	quotedblright
+question	questiondown

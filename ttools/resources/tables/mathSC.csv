@@ -1,0 +1,16 @@
+plus.sc	plus
+minus.sc	minus
+multiply.sc	multiply
+divide.sc	divide
+equal.sc	equal
+less.sc	less
+greater.sc	greater
+plusminus.sc	plusminus
+lessequal.sc	lessequal
+greaterequal.sc	greaterequal
+notequal.sc	notequal
+logicalnot.sc	logicalnot
+asciitilde.sc	asciitilde
+approxequal.sc	approxequal
+numbersign.sc	numbersign
+infinity.sc	infinity

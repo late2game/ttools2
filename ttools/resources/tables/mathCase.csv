@@ -1,0 +1,15 @@
+plus.case	plus
+minus.case	minus
+multiply.case	multiply
+divide.case	divide
+equal.case	equal
+less.case	less
+greater.case	greater
+plusminus.case	plusminus
+lessequal.case	lessequal
+greaterequal.case	greaterequal
+notequal.case	notequal
+logicalnot.case	logicalnot
+asciitilde.case	asciitilde
+approxequal.case	approxequal
+infinity.case	infinity

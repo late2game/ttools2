@@ -1,0 +1,12 @@
+dcroat	d	*widthAndPosition
+hbar	h	*widthAndPosition
+oslash	o	*widthAndPosition
+longs	f	*widthAndPosition
+tcaron	t	*width
+tbar	t	*width
+dcaron	d	*left
+lslash	l	*left
+ldot	l	*left
+lcaron	l	*left
+eng	n	*left
+thorn	p	*right

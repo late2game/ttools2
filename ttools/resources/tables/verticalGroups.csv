@@ -1,0 +1,15 @@
+parenleft	parenright	bracketleft	bracketright
+parenleft.case	parenright.case	bracketleft.case	bracketright.case
+parenleft.sc	parenright.sc	bracketleft.sc	bracketright.sc
+braceleft	braceright
+braceleft.case	braceright.case
+braceleft.sc	braceright.sc
+guilsinglleft	guilsinglright	guillemotleft	guillemotright
+guilsinglleft.sc	guilsinglright.sc	guillemotleft.sc	guillemotright.sc
+guilsinglleft.case	guilsinglright.case	guillemotleft.case	guillemotright.case
+slash	backslash
+quotesinglbase	quotedblbase
+quoteleft	quoteright	quotedblleft	quotedblright
+quoteleft.sc	quoteright.sc	quotedblleft.sc	quotedblright.sc
+copyright	registered
+copyright.sc	registered.sc

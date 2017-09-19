@@ -1,0 +1,28 @@
+period	comma	colon	semicolon
+parenleft	parenright
+bracketleft	bracketright
+braceleft	braceright
+parenleft.case	parenright.case
+bracketleft.case	bracketright.case
+braceleft.case	braceright.case
+parenleft.sc	parenright.sc
+bracketleft.sc	bracketright.sc
+braceleft.sc	braceright.sc
+exclam	exclamdown
+question	questiondown
+exclam.sc	exclamdown.sc
+question.sc	questiondown.sc
+bar	brokenbar
+guilsinglleft	guilsinglright	guilsinglleft.sc	guilsinglright.sc	guilsinglleft.case	guilsinglright.case
+guillemotleft	guillemotright	guillemotleft.sc	guillemotright.sc	guillemotleft.case	guillemotright.case
+dagger	daggerdbl
+dagger.sc	daggerdbl.sc
+quotesinglbase	quoteleft	quoteright	quoteleft.sc	quoteright.sc
+quotedblbase	quotedblleft	quotedblright	quotedblleft.sc	quotedblright.sc
+asterisk	asterisk.sc
+slash	backslash
+hyphen	hyphen.sc	hyphen.case
+endash	endash.sc	endash.case
+emdash	emdash.sc	emdash.case
+copyright	registered
+copyright.sc	registered.sc

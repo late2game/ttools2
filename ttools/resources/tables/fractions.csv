@@ -1,0 +1,17 @@
+percent	zero.numr	fraction	zero.dnom
+perthousand	zero.numr	fraction	zero.dnom	zero.dnom
+onehalf	one.numr	fraction	two.dnom
+onethird	one.numr	fraction	three.dnom
+twothirds	two.numr	fraction	three.dnom
+onequarter	one.numr	fraction	four.dnom
+threequarters	three.numr	fraction	four.dnom
+uni2155	one.numr	fraction	five.dnom
+uni2156	two.numr	fraction	five.dnom
+uni2157	three.numr	fraction	five.dnom
+uni2158	four.numr	fraction	five.dnom
+uni2159	one.numr	fraction	six.dnom
+uni215A	five.numr	fraction	six.dnom
+oneeighth	one.numr	fraction	eight.dnom
+threeeighths	three.numr	fraction	eight.dnom
+fiveeighths	five.numr	fraction	eight.dnom
+seveneighths	seven.numr	fraction	eight.dnom
