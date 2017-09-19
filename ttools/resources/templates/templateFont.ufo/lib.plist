@@ -996,6 +996,8 @@
 				<string>uni02C9</string>
 				<string>uni2219</string>
 				<string>ldot.latn_CAT</string>
+				<string>uni1E9E.sc</string>
+				<string>uni1E9E</string>
 			</array>
 			<key>type</key>
 			<string>glyphList</string>
