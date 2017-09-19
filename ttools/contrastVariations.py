@@ -119,8 +119,5 @@ class ContrastController(object):
     def checkBoxStarCallback(self, sender):
         print sender.get()
 
-
-
-
 if __name__ == '__main__':
     cc = ContrastController()
