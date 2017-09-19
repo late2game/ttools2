@@ -6,22 +6,61 @@
 ###############
 
 ### Modules
-from types import *
+# standard
+import os
+import types
 from mojo.roboFont import RFont, RGlyph
-from string import lowercase
 from itertools import product
 from mojo.tools import IntersectGlyphWithLine
-from types import IntType
 
-import testsData
-reload(testsData)
-from testsData import accentedDict, figuresDict, verticalGlyphSets
-from testsData import fractionBase, interpunctionSets #, NEW2OLD
-from testsData import UCExtraSets, LCextraSets, LCligaturesSets
-from testsData import dnomNumrSubsSupsTable, flippedMarginsSet
-
+# custom
+import miscFunction
+reload(miscFunction)
+from miscFunction import loadGlyphNamesTable
 
 ### Constants
+# glyphLists
+BASIC_PATH = os.path.join(os.path.dirname(__file__), 'resources', 'tables')
+
+DNOM_NUMR_SUBS_SUPS_PATH = os.path.join(BASIC_PATH, 'dnomNumrSubsSups.csv')
+DNOM_NUMR_SUBS_SUPS = loadGlyphNamesTable(DNOM_NUMR_SUBS_SUPS_PATH)
+
+ACCENTED_LETTERS_PATH = os.path.join(BASIC_PATH, 'accentedLettersTable.csv')
+ACCENTED_LETTERS = loadGlyphNamesTable(ACCENTED_LETTERS_PATH)
+
+INTERPUNCTION_GROUPS_PATH = os.path.join(BASIC_PATH, 'interpunctionGroups.csv')
+INTERPUNCTION_GROUPS = loadGlyphNamesTable(INTERPUNCTION_GROUPS_PATH)
+
+VERTICAL_GROUPS_PATH = os.path.join(BASIC_PATH, 'verticalGroups.csv')
+VERTICAL_GROUPS = loadGlyphNamesTable(VERTICAL_GROUPS_PATH)
+
+INTERPUNCTION_FLIPPED_SIDEBEARINGS_PATH = os.path.join(BASIC_PATH, 'interpunctionFlippedSidebearings.csv')
+INTERPUNCTION_FLIPPED_SIDEBEARINGS = loadGlyphNamesTable(INTERPUNCTION_FLIPPED_SIDEBEARINGS_PATH)
+
+FRACTIONS_PATH = os.path.join(BASIC_PATH, 'fractions.csv')
+FRACTIONS = loadGlyphNamesTable(FRACTIONS_PATH)
+FRACTIONS_BASE = [item[0] for item in FRACTIONS]
+
+TABULAR_FIGURES_PATH = os.path.join(BASIC_PATH, 'tabularFigures.csv')
+TABULAR_FIGURES = loadGlyphNamesTable(TABULAR_FIGURES_PATH)
+TABULAR_LINING = [row[0] for row in TABULAR_FIGURES]
+TABULAR_OLDSTYLE = [row[1] for row in TABULAR_FIGURES]
+TABULAR_SC = [row[2] for row in TABULAR_FIGURES]
+
+MATH_SC_PATH = os.path.join(BASIC_PATH, 'mathSC.csv')
+MATH_SC = [row[0] for row in loadGlyphNamesTable(MATH_SC_PATH)]
+MATH = [row[1] for row in loadGlyphNamesTable(MATH_SC_PATH)]
+
+LC_EXTRA_PATH = os.path.join(BASIC_PATH, 'LCextrasTests.csv')
+LC_EXTRA = loadGlyphNamesTable(LC_EXTRA_PATH)
+
+UC_EXTRA_PATH = os.path.join(BASIC_PATH, 'UCextrasTests.csv')
+UC_EXTRA = loadGlyphNamesTable(UC_EXTRA_PATH)
+
+LC_LIGATURES_PATH = os.path.join(BASIC_PATH, 'LCligaturesTests.csv')
+LC_LIGATURES = loadGlyphNamesTable(LC_LIGATURES_PATH)
+
+# Error messages
 SEP = '-'*10
 START_ERROR = "%(sep)s %(funcName)s %(sep)s" # {'funcName': , 'sep': }
 END_ERROR = "%(sep)s END %(sep)s" # {'sep'}
@@ -32,35 +71,26 @@ WIDTH_DIFFER_ERROR = "%(glyphOne)s and %(glyphTwo)s width differ (%(widthOne)s v
 MOST_FREQUENT_ERROR = "The most frequent width is %(mostOccur)s (%(times)s times)" # {'mostOccur': , 'times': }
 FLIPPED_ERROR = "%(glyphOne)s and %(glyphTwo)s have not flipped sidebearings" #  {'glyphOne': , 'glyphTwo': }
 
+
 ### Functions
 def occurDict(items):
-    d = {}
-    for i in items:
-        if i in d:
-            d[i] = d[i]+1
+    aDict = {}
+    for eachItem in items:
+        if eachItem in aDict:
+            aDict[eachItem] = aDict[eachItem]+1
         else:
-            d[i] = 1
-    return d
-
-
-def convertToOLD(newNames):
-    oldNames = []
-    for newName in newNames:
-        if newName in NEW2OLD:
-            oldNames.append(NEW2OLD[newName])
-        else:
-            oldNames.append(newName)
-    return oldNames
+            aDict[eachItem] = 1
+    return aDict
 
 
 def isWidthEqual(glyph1, glyph2):
     assert isinstance(glyph1, RGlyph), "%r is not a RGlyph object" % glyph1
     assert isinstance(glyph2, RGlyph), "%r is not a RGlyph object" % glyph2
-
     if glyph1.width == glyph2.width:
         return True
     else:
         return False
+
 
 def areSidebearingsFlipped(glyph1, glyph2):
     assert isinstance(glyph1, RGlyph), "%r is not a RGlyph object" % glyph1
@@ -71,10 +101,11 @@ def areSidebearingsFlipped(glyph1, glyph2):
     else:
         return False
 
+
 def isSidebearingEqual(glyph1, glyph2, position, height):
     # checking arguments qualities
     assert position == 'left' or position == 'right'
-    assert type(height) is IntType
+    assert type(height) is types.IntType
 
     intersections1 = IntersectGlyphWithLine(glyph1,
                                             ((0, height), (glyph1.width, height)),
@@ -117,17 +148,13 @@ def areVerticalExtremesEqual(glyphs):
         return False, glyphsData
 
 
-def checkVerticalExtremes(sourceFont, nameScheme='new'):
+def checkVerticalExtremes(sourceFont):
     assert isinstance(sourceFont, RFont), "%r is not a RFont object" % sourceFont
-    assert nameScheme in ['new', 'old'], "%r is neither 'new' or 'old'" % nameScheme
 
     errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkVerticalExtremes.__name__}]
     missingGlyphs = []
 
-    for eachSetToCheck in verticalGlyphSets:
-        if nameScheme == 'old':
-            eachSetToCheck = convertToOLD(eachSetToCheck)
-
+    for eachSetToCheck in VERTICAL_GROUPS:
         glyphs = []
         for eachName in eachSetToCheck:
             if eachName in sourceFont:
@@ -152,18 +179,14 @@ def checkVerticalExtremes(sourceFont, nameScheme='new'):
     return errorLines, missingGlyphs
 
 
-def checkLCextra(sourceFont, nameScheme='new'):
+def checkLCextra(sourceFont):
     assert isinstance(sourceFont, RFont), "%r is not a RFont object" % sourceFont
-    assert nameScheme in ['new', 'old'], "%r is neither 'new' or 'old'" % nameScheme
 
     errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkLCextra.__name__}]
     missingGlyphs = []
 
-    for subName, parentName, whichCheck in LCextraSets:
+    for subName, parentName, whichCheck in LC_EXTRA:
         assert whichCheck == 'widthAndPosition' or whichCheck == 'width' or whichCheck == 'left' or whichCheck == 'right'
-
-        if nameScheme == 'old':
-            subName, parentName = convertToOLD([subName, parentName])
 
         if subName not in sourceFont:
             missingGlyphs.append(subName)
@@ -205,17 +228,13 @@ def checkLCextra(sourceFont, nameScheme='new'):
     return errorLines, missingGlyphs
 
 
-def checkUCextra(sourceFont, nameScheme='new'):
+def checkUCextra(sourceFont):
     assert isinstance(sourceFont, RFont), "%r is not a RFont object" % sourceFont
-    assert nameScheme in ['new', 'old'], "%r is neither 'new' or 'old'" % nameScheme
 
     errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkUCextra.__name__}]
     missingGlyphs = []
 
-    for parentName, subName, position in UCExtraSets:
-
-        if nameScheme == 'old':
-            parentName, subName = convertToOLD([parentName, subName])
+    for parentName, subName, position in UC_EXTRA:
 
         if subName not in sourceFont:
             missingGlyphs.append(subName)
@@ -246,17 +265,13 @@ def checkUCextra(sourceFont, nameScheme='new'):
     return errorLines, missingGlyphs
 
 
-def checkLCligatures(sourceFont, nameScheme='new'):
+def checkLCligatures(sourceFont):
     assert isinstance(sourceFont, RFont), "%r is not a RFont object" % sourceFont
-    assert nameScheme in ['new', 'old'], "%r is neither 'new' or 'old'" % nameScheme
 
     errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkLCligatures.__name__}]
     missingGlyphs = []
 
-    for leftParentName, ligatureName, rightParentName in LCligaturesSets:
-
-        if nameScheme == 'old':
-            leftParentName, ligatureName, rightParentName = convertToOLD([leftParentName, ligatureName, rightParentName])
+    for leftParentName, ligatureName, rightParentName in LC_LIGATURES:
 
         if ligatureName not in sourceFont:
             missingGlyphs.append(ligatureName)
@@ -276,9 +291,8 @@ def checkLCligatures(sourceFont, nameScheme='new'):
     return errorLines, missingGlyphs
 
 
-def checkUCligatures(sourceFont, nameScheme='new'):
+def checkUCligatures(sourceFont):
     assert isinstance(sourceFont, RFont), "%r is not a RFont object" % sourceFont
-    assert nameScheme in ['new', 'old'], "%r is neither 'new' or 'old'" % nameScheme
 
     errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkUCligatures.__name__}]
     missingGlyphs = []
@@ -286,9 +300,6 @@ def checkUCligatures(sourceFont, nameScheme='new'):
     # AE
     ligaName = 'AE'
     rightParentName = 'E'
-
-    if nameScheme == 'old':
-        ligaName, rightParentName = convertToOLD([ligaName, rightParentName])
 
     if ligaName in sourceFont:
         liga = sourceFont[ligaName]
@@ -302,9 +313,6 @@ def checkUCligatures(sourceFont, nameScheme='new'):
     ligaName = 'OE'
     leftParentName = 'O'
     rightParentName = 'E'
-
-    if nameScheme == 'old':
-        ligaName, leftParentName, rightParentName = convertToOLD([ligaName, leftParentName, rightParentName])
 
     if ligaName in sourceFont:
         liga = sourceFont[ligaName]
@@ -324,9 +332,8 @@ def checkUCligatures(sourceFont, nameScheme='new'):
     return errorLines, missingGlyphs
 
 
-def checkFigures(sourceFont, nameScheme='new'):
+def checkFigures(sourceFont):
     assert isinstance(sourceFont, RFont), "%r is not a RFont object" % sourceFont
-    assert nameScheme in ['new', 'old'], "%r is neither 'new' or 'old'" % nameScheme
 
     errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkFigures.__name__}]
     missingGlyphs = []
@@ -334,9 +341,6 @@ def checkFigures(sourceFont, nameScheme='new'):
     checksToBeDone = ['tabularLining', 'tabularOS', 'tabularSC', 'math', 'mathSC']
     for eachCheck in checksToBeDone:
         digitsNames = figuresDict[eachCheck]
-
-        if nameScheme == 'old':
-            digitsNames = convertToOLD(digitsNames)
 
         widths = {}
         for eachFigureName in digitsNames:
@@ -367,23 +371,22 @@ def checkFigures(sourceFont, nameScheme='new'):
     return errorLines, missingGlyphs
 
 
-def checkDnomNumrSubsSups(sourceFont, nameScheme='new'):
+def checkDnomNumrSubsSups(sourceFont):
     """DnomNumrSubsSups figures are check as monospaced
        then margins are checked --> a.dnom.leftMargin  == uni2090.leftMargin
                                     a.dnom.rightMargin == uni2090.rightMargin
     """
     assert isinstance(sourceFont, RFont), "%r is not a RFont object" % sourceFont
-    assert nameScheme in ['new', 'old'], "%r is neither 'new' or 'old'" % nameScheme
 
     errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkDnomNumrSubsSups.__name__}]
     missingGlyphs = []
 
     # filter tabular dnoms
     tabularRows = []
-    for eachDigitName in figuresDict['tabularLining']:
+    for eachDigitName in TABULAR_LINING:
         if eachDigitName == 'figurespace':
             continue
-        for eachRow in dnomNumrSubsSupsTable[1:]:
+        for eachRow in DNOM_NUMR_SUBS_SUPS[1:]:
             if eachRow[0] == eachDigitName:
                 tabularRows.append(eachRow)
 
@@ -416,7 +419,7 @@ def checkDnomNumrSubsSups(sourceFont, nameScheme='new'):
 
     else:   # dnom are fine, let's see the rest
 
-        for eachRow in dnomNumrSubsSupsTable[1:]:
+        for eachRow in DNOM_NUMR_SUBS_SUPS[1:]:
             eachDnomName = eachRow[1]
             for eachColIndex in range(2, 5):
                 numInfSupName = eachRow[eachColIndex]
@@ -447,14 +450,13 @@ def checkDnomNumrSubsSups(sourceFont, nameScheme='new'):
     return errorLines, missingGlyphs
 
 
-def checkFlippedMargins(sourceFont, nameScheme='new'):
+def checkFlippedMargins(sourceFont):
     assert isinstance(sourceFont, RFont), "%r is not a RFont object" % sourceFont
-    assert nameScheme in ['new', 'old'], "%r is neither 'new' or 'old'" % nameScheme
 
     errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkFlippedMargins.__name__}]
     missingGlyphs = []
 
-    for eachLftName, eachRgtName in flippedMarginsSet:
+    for eachLftName, eachRgtName in INTERPUNCTION_FLIPPED_SIDEBEARINGS:
         if sourceFont.has_key(eachLftName) and sourceFont.has_key(eachRgtName):
             eachLftGlyph = sourceFont[eachLftName]
             eachRgtGlyph = sourceFont[eachRgtName]
@@ -470,20 +472,13 @@ def checkFlippedMargins(sourceFont, nameScheme='new'):
     return errorLines, missingGlyphs
 
 
-def checkFractions(sourceFont, nameScheme='new'):
+def checkFractions(sourceFont):
     assert isinstance(sourceFont, RFont), "%r is not a RFont object" % sourceFont
-    assert nameScheme in ['new', 'old'], "%r is neither 'new' or 'old'" % nameScheme
 
     errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkFractions.__name__}]
     missingGlyphs = []
-
-    if nameScheme == 'old':
-        fractionNames = convertToOLD(fractionBase)
-    else:
-        fractionNames = fractionBase
-
     widths = {}
-    for eachFractionName in fractionNames:
+    for eachFractionName in FRACTIONS_BASE:
         if eachFractionName in sourceFont:
             glyph = sourceFont[eachFractionName]
             widths[eachFractionName] = glyph.width
@@ -500,7 +495,7 @@ def checkFractions(sourceFont, nameScheme='new'):
         errorLines.append(MOST_FREQUENT_ERROR % {'mostOccur': mostOccurrentWidth, 'times': occurrencesAmount})
 
         # print widths
-        for eachFractionName in fractionNames:
+        for eachFractionName in FRACTIONS_BASE:
             if eachFractionName in sourceFont:
                 glyph = sourceFont[eachFractionName]
                 if glyph.width != mostOccurrentWidth:
@@ -510,19 +505,14 @@ def checkFractions(sourceFont, nameScheme='new'):
     return errorLines, missingGlyphs
 
 
-def checkInterpunction(sourceFont, nameScheme='new'):
+def checkInterpunction(sourceFont):
     assert isinstance(sourceFont, RFont), "%r is not a RFont object" % sourceFont
-    assert nameScheme in ['new', 'old'], "%r is neither 'new' or 'old'" % nameScheme
 
     errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkInterpunction.__name__}]
     missingGlyphs = []
 
-    for eachSetToCheck in interpunctionSets:
+    for eachSetToCheck in INTERPUNCTION_GROUPS:
         glyphs = []
-
-        if nameScheme == 'old':
-            eachSetToCheck = convertToOLD(eachSetToCheck)
-
         for eachName in eachSetToCheck:
             if eachName in sourceFont:
                 glyphs.append(sourceFont[eachName])
@@ -552,21 +542,16 @@ def checkInterpunction(sourceFont, nameScheme='new'):
     return errorLines, missingGlyphs
 
 
-def checkAccented(sourceFont, nameScheme='new'):
+def checkAccented(sourceFont):
     assert isinstance(sourceFont, RFont), "%r is not a RFont object" % sourceFont
-    assert nameScheme in ['new', 'old'], "%r is neither 'new' or 'old'" % nameScheme
 
     errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkAccented.__name__}]
     missingGlyphs = []
 
-    for eachAccentedGlyphName, eachAccentedData in accentedDict.items():
+    for eachAccentedGlyphName, eachAccentedData in ACCENTED_LETTERS.items():
         if eachAccentedGlyphName in sourceFont:
             accentedName = eachAccentedGlyphName
             parentName = eachAccentedData[0]
-
-            if nameScheme == 'old':
-                accentedName, parentName = convertToOLD([accentedName, parentName])
-
             accentedGlyph = sourceFont[accentedName]
             parentGlyph = sourceFont[parentName]
 
