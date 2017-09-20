@@ -15,6 +15,8 @@ import sys
 import codecs
 import types
 from collections import OrderedDict
+from mojo.roboFont import CurrentFont, OpenFont
+from vanilla.dialogs import getFile
 
 ### Constants
 SMART_SETS_FOLDER = os.path.join(os.path.dirname(__file__), '..', 'resources', 'smartSets')
@@ -106,3 +108,12 @@ def sortFontAccordingToSmartSets(aFont):
     aFont.glyphOrder = sortedGlyphOrder
     # return extra standard glyphs, it could be helpful to know them...
     return extraStandardGlyphs
+
+
+def importFontInfoFromUFOtoCurrentFont():
+    aFontPath = getFile(messageText='Please, choose a UFO file', fileTypes=['ufo'])[0]
+    if aFontPath.endswith('.ufo'):
+        sourceFont = OpenFont(aFontPath, showUI=False)
+        sourceFontInfos = sourceFont.info.asDict()
+        for eachAttribute, eachValue in sourceFontInfos.items():
+            setattr(CurrentFont().info, eachAttribute, eachValue)
