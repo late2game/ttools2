@@ -65,6 +65,8 @@ CURSOR_LEFT_SHORTCUT = 'leftarrow', []
 CURSOR_RIGHT_SHORTCUT = 'rightarrow', []
 CURSOR_DOWN_SHORTCUT = 'downarrow', []
 
+UNDO_SHORTCUT = 'z', ['command']
+REDO_SHORTCUT = 'z', ['command', 'shift']
 
 # class definition!
 class JoystickController(Group):
@@ -131,11 +133,25 @@ class JoystickController(Group):
 
         self.jumping_X = buttonSide/2.
         self.jumping_Y += buttonSide
-        self.exceptionTrigger = SquareButton((self.jumping_X, self.jumping_Y, buttonSide*4, buttonSide*.75),
+        self.exceptionTrigger = SquareButton((self.jumping_X, self.jumping_Y, buttonSide*2, buttonSide*.75),
                                                 'exception',
                                                 sizeStyle='small',
                                                 callback=self.exceptionTriggerCallback)
         self.exceptionTrigger.bind(*EXCEPTION_SHORTCUT)
+
+        self.jumping_X += buttonSide*2
+        self.undoButton = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide*.75),
+                                       'undo',
+                                       sizeStyle='small',
+                                       callback=self.undoButtonCallback)
+        self.undoButton.bind(*UNDO_SHORTCUT)
+
+        self.jumping_X += buttonSide
+        self.redoButton = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide*.75),
+                                       'redo',
+                                       sizeStyle='small',
+                                       callback=self.redoButtonCallback)
+        self.redoButton.bind(*REDO_SHORTCUT)
 
         self.jumping_X = buttonSide/2.
         self.jumping_Y += buttonSide*.75
@@ -280,6 +296,14 @@ class JoystickController(Group):
 
     def exceptionTriggerCallback(self, sender):
         self.lastEvent = 'exceptionTrigger'
+        self.callback(self)
+
+    def undoButtonCallback(self, sender):
+        self.lastEvent = 'undo'
+        self.callback(self)
+
+    def redoButtonCallback(self, sender):
+        self.lastEvent = 'redo'
         self.callback(self)
 
     def previewCtrlCallback(self, sender):

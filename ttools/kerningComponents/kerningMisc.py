@@ -48,6 +48,7 @@ def loadSymmetricalGlyphs():
 
 SYMMETRICAL_GLYPHS, SYMMETRICAL_COUPLES_POS, SYMMETRICAL_COUPLES_NEG = loadSymmetricalGlyphs()
 
+
 def findSymmetricalPair(aPair):
     assert len(aPair) == 2
     symmetricalPair = None
@@ -283,4 +284,3 @@ def checkIfPairOverlaps(g1, g2):
                 return True
 
     return False
-

@@ -148,7 +148,7 @@ class WordDisplay(Group):
         self.displayedWord = displayedWord
         self.displayedPairs = buildPairsFromString(self.displayedWord, self.fontObj)
         if self.indexPair is not None:
-            self.activePair = self.displayedPairs[self.indexPair]
+            self.setActivePairIndex(self.indexPair)
         self.checkPairsQuality()
 
     def setScalingFactor(self, scalingFactor):
@@ -157,7 +157,11 @@ class WordDisplay(Group):
     def setActivePairIndex(self, indexPair):
         self.indexPair = indexPair
         if self.indexPair is not None:
-            self.activePair = self.displayedPairs[self.indexPair]
+            try:
+                self.activePair = self.displayedPairs[self.indexPair]
+            except IndexError:
+                self.activePair = self.displayedPairs[-1]
+                self.indexPair = len(self.displayedPairs)-1
         else:
             self.activePair = None
 
