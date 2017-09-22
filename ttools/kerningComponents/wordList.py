@@ -37,6 +37,7 @@ class WordListController(Group):
         self.activeKerningTextBaseName = self.kerningTextBaseNames[0]
         self.wordsWorkingList = self.kerningWordsDB[self.activeKerningTextBaseName]
         self.wordsDisplayList = list(self.wordsWorkingList)
+
         self.activeWord = self.wordsWorkingList[0]['word']
         self.wordFilter = ''
 
@@ -46,7 +47,8 @@ class WordListController(Group):
                                                   callback=self.kerningVocabularyPopUpCallback)
 
         wordsColumnDescriptors = [
-            {'title': 'word', 'width': self.ctrlWidth-60, 'editable': False},
+            {'title': '#', 'width': 30, 'editable': False},
+            {'title': 'word', 'width': self.ctrlWidth-80, 'editable': False},
             {'title': 'done?', 'width': 35, 'cell': CheckBoxListCell(), 'editable': False}]
 
         jumping_Y += self.kerningVocabularyPopUp.getPosSize()[3] + MARGIN_VER
