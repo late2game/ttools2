@@ -46,8 +46,8 @@ SYMMETRICAL_COUPLES_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__
 def loadSymmetricalGlyphs():
     symmetricalGlyphs = [item.strip() for item in codecs.open(SYMMETRICAL_GLYPHS_PATH, 'r', 'utf-8').readlines()]
     symmetricalCouples = [item.split('\t') for item in codecs.open(SYMMETRICAL_COUPLES_PATH, 'r', 'utf-8').readlines()]
-    symmetricalCouplesPos = {eachKey: eachValue for (eachKey, eachValue) in symmetricalCouples}
-    symmetricalCouplesNeg = {eachValue: eachKey for (eachKey, eachValue) in symmetricalCouples}
+    symmetricalCouplesPos = {eachKey.strip(): eachValue.strip() for (eachKey, eachValue) in symmetricalCouples}
+    symmetricalCouplesNeg = {eachValue.strip(): eachKey.strip() for (eachKey, eachValue) in symmetricalCouples}
     return symmetricalGlyphs, symmetricalCouplesPos, symmetricalCouplesNeg
 
 SYMMETRICAL_GLYPHS, SYMMETRICAL_COUPLES_POS, SYMMETRICAL_COUPLES_NEG = loadSymmetricalGlyphs()
