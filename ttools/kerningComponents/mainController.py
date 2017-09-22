@@ -53,7 +53,10 @@ reload(exceptionTools)
 from exceptionTools import checkGroupConflicts, possibleExceptions
 
 # standard
-import os, traceback, types
+import os
+import traceback
+import types
+import logging
 from datetime import datetime
 from mojo.roboFont import AllFonts
 from mojo.events import addObserver, removeObserver
@@ -114,10 +117,15 @@ class KerningController(BaseWindowController):
     autoSave = True
     autoSaveSpan = 5  # mins
 
+    kerningLogger = None
+
     def __init__(self):
         super(KerningController, self).__init__()
+        # init time for the autosave
         self.initTime = datetime.now()
-
+        # init logging
+        self.initLogger()
+        # init fonts
         if AllFonts() == []:
             message('No fonts, no party!', 'Please, open some fonts before starting the mighty MultiFont Kerning Controller')
             return None
@@ -195,6 +203,24 @@ class KerningController(BaseWindowController):
         self.setUpBaseWindowBehavior()
         self.w.open()
 
+    def initLogger(self):
+        # create a logger
+        self.kerningLogger = logging.getLogger('kerningLogger')
+        self.kerningLogger.setLevel(logging.INFO)
+        # create file handler which logs info messages
+        fileHandle = logging.FileHandler('kerningLogger.log')
+        fileHandle.setLevel(logging.INFO)
+        # create console handler with a higher log level, only errors
+        consoleHandler = logging.StreamHandler()
+        consoleHandler.setLevel(logging.ERROR)
+        # create formatter and add it to the handlers
+        formatter = logging.Formatter('%(asctime)s – %(message)s')
+        fileHandle.setFormatter(formatter)
+        consoleHandler.setFormatter(formatter)
+        # add the handlers to the logger
+        self.kerningLogger.addHandler(fileHandle)
+        self.kerningLogger.addHandler(consoleHandler)
+
     def windowCloseCallback(self, sender):
         removeObserver(self, "fontDidOpen")
         removeObserver(self, "fontWillClose")
@@ -229,8 +255,8 @@ class KerningController(BaseWindowController):
         for eachFont in self.fontsOrder:
             status, report = checkGroupConflicts(eachFont)
             if status is False:
-                print 'groups conflict in %s' % eachFont.path
-                print report
+                self.kerningLogger.error('groups conflict in %s' % eachFont.path)
+                self.kerningLogger.error(report)
 
     def deleteWordDisplays(self):
         for eachI in xrange(len(self.fontsOrder)):
@@ -238,7 +264,7 @@ class KerningController(BaseWindowController):
                 delattr(self.w, 'wordCtrl_%#02d' % (eachI+1))
                 self.jumping_Y = MARGIN_VER+vanillaControlsSize['TextBoxRegularHeight']
             except Exception as e:
-                print traceback.format_exc()
+                self.kerningLogger.error(traceback.format_exc())
 
     def initWordDisplays(self):
         windowWidth, windowHeight = self.w.getPosSize()[2], self.w.getPosSize()[3]
@@ -277,7 +303,7 @@ class KerningController(BaseWindowController):
                                        indexPair=initPairIndex)
 
             except Exception:
-                print traceback.format_exc()
+                self.kerningLogger.error(traceback.format_exc())
 
             self.jumping_Y += singleWindowHeight + MARGIN_HOR
             setattr(self.w, 'wordCtrl_%#02d' % (eachI+1), wordCtrl)
@@ -412,13 +438,19 @@ class KerningController(BaseWindowController):
             selectedFonts = [self.fontsOrder[self.navCursor_Y]]
 
         for eachFont in selectedFonts:
+            if isRecording is True:
+                previousAmount = getCorrection(selectedPair, eachFont)[0]
+                self.appendRecord('setCorrection', (selectedPair, eachFont, previousAmount))
             setCorrection(selectedPair, eachFont, amount)
+            self.kerningLogger.info(SET_CORRECTION_LOG % {'leftGlyphName': selectedPair[0], 'rightGlyphName': selectedPair[1], 'familyName': eachFont.info.familyName, 'styleName': eachFont.info.styleName, 'amount': amount})
+
             if self.isFlippedEditingOn is True:
                 flippedCorrectionKey = selectedPair[1], selectedPair[0]
                 if isRecording is True:
                     previousAmount = getCorrection(flippedCorrectionKey, eachFont)[0]
                     self.appendRecord('setCorrection', (flippedCorrectionKey, eachFont, previousAmount))
                 setCorrection(flippedCorrectionKey, eachFont, amount)
+                self.kerningLogger.info(SET_CORRECTION_LOG % {'leftGlyphName': flippedCorrectionKey[0], 'rightGlyphName': flippedCorrectionKey[1], 'familyName': eachFont.info.familyName, 'styleName': eachFont.info.styleName, 'amount': amount})
 
             if self.isSymmetricalEditingOn is True:
                 symmetricalCorrectionKey = findSymmetricalPair(selectedPair)
@@ -427,6 +459,7 @@ class KerningController(BaseWindowController):
                         previousAmount = getCorrection(symmetricalCorrectionKey, eachFont)[0]
                         self.appendRecord('setCorrection', (symmetricalCorrectionKey, eachFont, previousAmount))
                     setCorrection(symmetricalCorrectionKey, eachFont, amount)
+                    self.kerningLogger.info(SET_CORRECTION_LOG % {'leftGlyphName': symmetricalCorrectionKey[0], 'rightGlyphName': symmetricalCorrectionKey[1], 'familyName': eachFont.info.familyName, 'styleName': eachFont.info.styleName, 'amount': amount})
 
         self.updateWordDisplays()
 
@@ -447,6 +480,7 @@ class KerningController(BaseWindowController):
                 previousAmount = getCorrection(selectedPair, eachFont)[0]
                 self.appendRecord('setCorrection', (selectedPair, eachFont, previousAmount))
             setCorrection(selectedPair, eachFont, correction+amount)
+            self.kerningLogger.info(SET_CORRECTION_LOG % {'leftGlyphName': selectedPair[0], 'rightGlyphName': selectedPair[1], 'familyName': eachFont.info.familyName, 'styleName': eachFont.info.styleName, 'amount': amount})
 
             if self.isFlippedEditingOn is True:
                 flippedPair = selectedPair[1], selectedPair[0]
@@ -454,6 +488,7 @@ class KerningController(BaseWindowController):
                     previousAmount = getCorrection(selectedPair, eachFont)[0]
                     self.appendRecord('setCorrection', (flippedPair, eachFont, previousAmount))
                 setCorrection(flippedPair, eachFont, correction+amount)
+                self.kerningLogger.info(SET_CORRECTION_LOG % {'leftGlyphName': flippedPair[0], 'rightGlyphName': flippedPair[1], 'familyName': eachFont.info.familyName, 'styleName': eachFont.info.styleName, 'amount': amount})
 
             if self.isSymmetricalEditingOn is True:
                 symmetricalCorrectionKey = findSymmetricalPair(selectedPair)
@@ -462,6 +497,7 @@ class KerningController(BaseWindowController):
                         previousAmount = getCorrection(symmetricalCorrectionKey, eachFont)[0]
                         self.appendRecord('setCorrection', (symmetricalCorrectionKey, eachFont, previousAmount))
                     setCorrection(symmetricalCorrectionKey, eachFont, correction+amount)
+                    self.kerningLogger.info(SET_CORRECTION_LOG % {'leftGlyphName': symmetricalCorrectionKey[0], 'rightGlyphName': symmetricalCorrectionKey[1], 'familyName': eachFont.info.familyName, 'styleName': eachFont.info.styleName, 'amount': amount})
 
         self.w.joystick.updateCorrectionValue()
         self.updateWordDisplays()
@@ -668,9 +704,9 @@ class KerningController(BaseWindowController):
             self.initTime = datetime.now()
 
     def saveFontsOrder(self):
-        print 'saving all fonts opened...'
         for eachFont in self.fontsOrder:
             eachFont.save()
+        self.kerningLogger.info("all fonts saved")
 
     # undo/redo stack
     def appendRecord(self, actionName, data=None):
