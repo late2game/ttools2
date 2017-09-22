@@ -14,8 +14,8 @@ Point = namedtuple('Point', ['x', 'y'])
 def checkGlyphPresenceInMultipleGroups(glyphName, location, aFont):
 
     locationPrefixes = {
-            'lft': '@MMK_L_',
-            'rgt': '@MMK_R_'}
+            'left': '@MMK_L_',
+            'right': '@MMK_R_'}
 
     whichAreTheGroups = []
     for eachGroupName, eachGroupContent in aFont.groups.items():
@@ -39,12 +39,12 @@ def checkGroupConflicts(aFont):
 
     report = []
     for eachGlyphName in glyphsInvolvedInLft:
-        status, error = checkGlyphPresenceInMultipleGroups(eachGlyphName, 'lft', aFont)
+        status, error = checkGlyphPresenceInMultipleGroups(eachGlyphName, 'left', aFont)
         if status is False:
             report.append(error)
 
     for eachGlyphName in glyphsInvolvedInRgt:
-        status, error = checkGlyphPresenceInMultipleGroups(eachGlyphName, 'rgt', aFont)
+        status, error = checkGlyphPresenceInMultipleGroups(eachGlyphName, 'right', aFont)
         if status is False:
             report.append(error)
 
@@ -55,10 +55,10 @@ def checkGroupConflicts(aFont):
 
 
 def whichGroup(targetGlyphName, aLocation, aFont):
-    assert aLocation in ['lft', 'rgt']
+    assert aLocation in ['left', 'right']
 
-    locationPrefixes = {'lft': '@MMK_L_',
-                        'rgt': '@MMK_R_'}
+    locationPrefixes = {'left': '@MMK_L_',
+                        'right': '@MMK_R_'}
 
     filteredGroups = {name: content for name, content in aFont.groups.items() if name.startswith(locationPrefixes[aLocation])}
     for eachGroupName, eachGroupContent in filteredGroups.items():
@@ -70,8 +70,8 @@ def whichGroup(targetGlyphName, aLocation, aFont):
 def collectPairMapping(aPair, aFont):
     """here I assume aPair is made of two glyphnames, no classes"""
     lftGlyphName, rgtGlyphName = aPair
-    lftGroup = whichGroup(lftGlyphName, 'lft', aFont)
-    rgtGroup = whichGroup(rgtGlyphName, 'rgt', aFont)
+    lftGroup = whichGroup(lftGlyphName, 'left', aFont)
+    rgtGroup = whichGroup(rgtGlyphName, 'right', aFont)
 
     pairsDB = [{'kind': 'gl2gl', 'key': (lftGlyphName, rgtGlyphName), 'amount': aFont.kerning.get((lftGlyphName, rgtGlyphName))},
                {'kind': 'gl2gr', 'key': (lftGlyphName, rgtGroup)    , 'amount': aFont.kerning.get((lftGlyphName, rgtGroup))},
@@ -112,13 +112,13 @@ def isPairException(kerningReference, aFont):
         return False, doesExists, None
 
     elif lftReference.startswith('@MMK_L_'):
-        rgtGroup = whichGroup(rgtReference, 'rgt', aFont)
+        rgtGroup = whichGroup(rgtReference, 'right', aFont)
         if rgtGroup:
             if aFont.kerning.get((lftReference, rgtGroup)) is not None:
                 return True, doesExists, [(lftReference, rgtGroup)]
 
     elif rgtReference.startswith('@MMK_R_'):
-        lftGroup = whichGroup(lftReference, 'lft', aFont)
+        lftGroup = whichGroup(lftReference, 'left', aFont)
         if lftGroup:
             if aFont.kerning.get((lftGroup, rgtReference)) is not None:
                 return True, doesExists, [(lftGroup, rgtReference)]

@@ -58,7 +58,22 @@ LIGHT_GRAY = (0, 0, 0, .4)
 ### Classes
 class WordDisplay(Group):
 
-    def __init__(self, posSize, displayedWord, canvasScalingFactor, fontObj, isKerningDisplayActive, areVerticalLettersDrawn, areGroupsShown, areCollisionsShown, isSidebearingsActive, isMetricsActive, isColorsActive, isPreviewOn, isSymmetricalEditingOn, isFlippedEditingOn, indexPair):
+    def __init__(self, posSize,
+                       displayedWord,
+                       canvasScalingFactor,
+                       fontObj,
+                       isKerningDisplayActive,
+                       areVerticalLettersDrawn,
+                       areGroupsShown,
+                       areCollisionsShown,
+                       isSidebearingsActive,
+                       isMetricsActive,
+                       isColorsActive,
+                       isPreviewOn,
+                       isSymmetricalEditingOn,
+                       isFlippedEditingOn,
+                       indexPair):
+
         super(WordDisplay, self).__init__(posSize)
 
         self.fontObj = fontObj
@@ -101,12 +116,12 @@ class WordDisplay(Group):
         return self.activePair
 
     def switchGlyphFromGroup(self, location, indexPair):
-        assert location in ['lft', 'rgt']
+        assert location in ['left', 'right']
 
         if self.activePair is None:
             self.setActivePairIndex(indexPair)
 
-        if location == 'lft':
+        if location == 'left':
             theElem, otherElem = self.activePair
         else:
             otherElem, theElem = self.activePair
@@ -114,7 +129,7 @@ class WordDisplay(Group):
 
         if self.areGroupsShown is True and groupReference is not None:
             nextElemIndex = (self.fontObj.groups[groupReference].index(theElem)+1) % len(self.fontObj.groups[groupReference])
-            if location == 'lft':
+            if location == 'left':
                 self.activePair = self.fontObj.groups[groupReference][nextElemIndex], otherElem
             else:
                 self.activePair = otherElem, self.fontObj.groups[groupReference][nextElemIndex]
@@ -304,8 +319,8 @@ class WordDisplay(Group):
         if kerningReference is not None:
             lftReference, rgtReference = kerningReference
         else:
-            lftReference = whichGroup(prevGlyphName, 'lft', self.fontObj)
-            rgtReference = whichGroup(eachGlyphName, 'rgt', self.fontObj)
+            lftReference = whichGroup(prevGlyphName, 'left', self.fontObj)
+            rgtReference = whichGroup(eachGlyphName, 'right', self.fontObj)
 
         prevGlyph, eachGlyph = self.fontObj[prevGlyphName], self.fontObj[eachGlyphName]
         reverseScalingFactor = 1/(self.ctrlHeight/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm))

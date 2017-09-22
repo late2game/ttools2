@@ -54,6 +54,7 @@ from exceptionTools import checkGroupConflicts, possibleExceptions
 
 # standard
 import os, traceback, types
+from datetime import datetime
 from mojo.roboFont import AllFonts
 from mojo.events import addObserver, removeObserver
 from defconAppKit.windows.baseWindow import BaseWindowController
@@ -69,7 +70,7 @@ JOYSTICK_EVENTS = ['exceptionTrigger', 'verticalAlignedEditing', 'minusMajor', '
                    'plusMinor', 'plusMajor', 'preview', 'solved', 'symmetricalEditing',
                    'flippedEditing', 'keyboardEdit', 'previousWord', 'cursorUp', 'cursorLeft',
                    'cursorRight', 'cursorDown', 'nextWord', 'deletePair', 'switchLftGlyph',
-                   'switchRgtGlyph', 'undo', 'redo']
+                   'switchRgtGlyph', 'undo', 'redo', 'autoSave']
 
 KERNING_NOT_DISPLAYED_ERROR = 'Why are you editing kerning if it is not displayed?'
 
@@ -110,8 +111,12 @@ class KerningController(BaseWindowController):
     isFlippedEditingOn = False
     isVerticalAlignedEditingOn = False
 
+    autoSave = True
+    autoSaveSpan = 5  # mins
+
     def __init__(self):
         super(KerningController, self).__init__()
+        self.initTime = datetime.now()
 
         if AllFonts() == []:
             message('No fonts, no party!', 'Please, open some fonts before starting the mighty MultiFont Kerning Controller')
@@ -149,11 +154,13 @@ class KerningController(BaseWindowController):
         self.w.fonts_controller_separationLine = HorizontalLine((self.jumping_X, self.jumping_Y, LEFT_COLUMN, vanillaControlsSize['HorizontalLineThickness']))
         
         self.jumping_Y += MARGIN_VER
-        self.w.joystick = JoystickController((self.jumping_X, self.jumping_Y, LEFT_COLUMN, 324),
+        self.w.joystick = JoystickController((self.jumping_X, self.jumping_Y, LEFT_COLUMN, 348),
                                              fontObj=self.fontsOrder[self.navCursor_Y],
                                              isSymmetricalEditingOn=self.isSymmetricalEditingOn,
                                              isFlippedEditingOn=self.isFlippedEditingOn,
                                              isVerticalAlignedEditingOn=self.isVerticalAlignedEditingOn,
+                                             autoSave=self.autoSave,
+                                             autoSaveSpan=self.autoSaveSpan,
                                              activePair=None,
                                              callback=self.joystickCallback)
 
@@ -395,6 +402,9 @@ class KerningController(BaseWindowController):
 
     # manipulate data
     def setPairCorrection(self, amount, isRecording=True):
+        if self.autoSave is True:
+            self.checkAutoSave()
+
         selectedPair = self.getActiveWordDisplay().getActivePair()
         if self.isVerticalAlignedEditingOn is True:
             selectedFonts = self.fontsOrder
@@ -421,6 +431,9 @@ class KerningController(BaseWindowController):
         self.updateWordDisplays()
 
     def modifyPairCorrection(self, amount, isRecording=True):
+        if self.autoSave is True:
+            self.checkAutoSave()
+
         selectedPair = self.getActiveWordDisplay().getActivePair()
         
         if self.isVerticalAlignedEditingOn is True:
@@ -644,6 +657,22 @@ class KerningController(BaseWindowController):
         elif joystickEvent == 'redo':
             self.redo()
 
+        elif joystickEvent == 'autoSave':
+            self.autoSave, self.autoSaveSpan = self.w.joystick.getAutoSaveState()
+
+    # autosaving fonts
+    def checkAutoSave(self):
+        justNow = datetime.now()
+        if (justNow - self.initTime).seconds > self.autoSaveSpan*60:
+            self.saveFontsOrder()
+            self.initTime = datetime.now()
+
+    def saveFontsOrder(self):
+        print 'saving all fonts opened...'
+        for eachFont in self.fontsOrder:
+            eachFont.save()
+
+    # undo/redo stack
     def appendRecord(self, actionName, data=None):
         if self.recordIndex < 0:
             self.archive = self.archive[:self.recordIndex]

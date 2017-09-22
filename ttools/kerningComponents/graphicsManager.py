@@ -18,7 +18,16 @@ from vanilla import Group, TextBox, Button, CheckBox
 class GraphicsManager(Group):
     previousState = None
 
-    def __init__(self, posSize, isSidebearingsActive, areGroupsShown, areCollisionsShown, isKerningDisplayActive, areVerticalLettersDrawn, isMetricsActive, isColorsActive, callback):
+    def __init__(self, posSize,
+                       isSidebearingsActive,
+                       areGroupsShown,
+                       areCollisionsShown,
+                       isKerningDisplayActive,
+                       areVerticalLettersDrawn,
+                       isMetricsActive,
+                       isColorsActive,
+                       callback):
+
         super(GraphicsManager, self).__init__(posSize)
         self.isKerningDisplayActive = isKerningDisplayActive
         self.areVerticalLettersDrawn = areVerticalLettersDrawn

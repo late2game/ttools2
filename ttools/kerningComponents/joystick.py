@@ -14,7 +14,7 @@ from kerningMisc import MAJOR_STEP, MINOR_STEP
 
 # standard
 from vanilla import Group, SquareButton, CheckBox, EditText
-from vanilla import Button
+from vanilla import Button, PopUpButton
 import traceback
 
 """
@@ -68,13 +68,25 @@ CURSOR_DOWN_SHORTCUT = 'downarrow', []
 UNDO_SHORTCUT = 'z', ['command']
 REDO_SHORTCUT = 'z', ['command', 'shift']
 
+AUTO_SAVE_SPAN_OPTIONS = ["1'", "5'", "10'", "15'", "20'"]
+INT_2_SPAN = {"1'": 1,"5'": 5, "10'": 10, "15'": 15, "20'": 20}
+
 # class definition!
 class JoystickController(Group):
 
     lastEvent = None
     keyboardCorrection = 0
 
-    def __init__(self, posSize, fontObj, isSymmetricalEditingOn, isFlippedEditingOn, isVerticalAlignedEditingOn, activePair, callback):
+    def __init__(self, posSize,
+                       fontObj,
+                       isSymmetricalEditingOn,
+                       isFlippedEditingOn,
+                       isVerticalAlignedEditingOn,
+                       autoSave,
+                       autoSaveSpan,
+                       activePair,
+                       callback):
+
         super(JoystickController, self).__init__(posSize)
         self.fontObj = fontObj
         self.activePair = activePair
@@ -82,6 +94,8 @@ class JoystickController(Group):
         self.isSymmetricalEditingOn = isSymmetricalEditingOn
         self.isFlippedEditingOn = isFlippedEditingOn
         self.isVerticalAlignedEditingOn = isVerticalAlignedEditingOn
+        self.autoSave = autoSave
+        self.autoSaveSpan = autoSaveSpan
         self.callback = callback
 
         buttonSide = 36
@@ -245,12 +259,27 @@ class JoystickController(Group):
                                          callback=self.nextWordCtrlCallback)
         self.nextWordCtrl.bind(*NEXT_WORD_SHORTCUT)
 
+        self.jumping_Y += buttonSide*1.3
+        self.jumping_X = buttonSide*.5
+        self.autoSaveCheck = CheckBox((self.jumping_X, self.jumping_Y, buttonSide*2.5, vanillaControlsSize['CheckBoxRegularHeight']),
+                                      'auto save',
+                                      callback=self.autoSaveCheckCallback)
+
+        self.jumping_X += buttonSide*2.5
+        self.autoSaveSpanPopUp = PopUpButton((self.jumping_X, self.jumping_Y, buttonSide*1.5, vanillaControlsSize['PopUpButtonRegularHeight']),
+                                             AUTO_SAVE_SPAN_OPTIONS,
+                                             callback=self.autoSaveSpanPopUpCallback)
+        self.autoSaveSpanPopUp.set(AUTO_SAVE_SPAN_OPTIONS.index("%d'" % self.autoSaveSpan))
+
     # goes out
     def getLastEvent(self):
         return self.lastEvent
 
     def getKeyboardCorrection(self):
         return self.keyboardCorrection
+
+    def getAutoSaveState(self):
+        return self.autoSave, self.autoSaveSpan
 
     # comes in
     def setActivePair(self, activePair):
@@ -376,3 +405,14 @@ class JoystickController(Group):
             if sender.get() != '-' or sender.get() != '':
                 self.activePairEditCorrection.set('%s' % self.keyboardCorrection)
                 print traceback.format_exc()
+
+    def autoSaveCheckCallback(self, sender):
+        self.lastEvent = 'autoSave'
+        self.autoSave = bool(sender.get())
+        self.callback(self)
+
+    def autoSaveSpanPopUpCallback(self, sender):
+        self.lastEvent = 'autoSave'
+        self.autoSaveSpan = INT_2_SPAN[AUTO_SAVE_SPAN_OPTIONS[sender.get()]]
+        self.callback(self)
+

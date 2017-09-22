@@ -7,6 +7,10 @@ from ..extraTools import findPossibleOverlappingSegmentsPen
 reload(findPossibleOverlappingSegmentsPen)
 from ..extraTools.findPossibleOverlappingSegmentsPen import FindPossibleOverlappingSegmentsPen
 
+import exceptionTools
+reload(exceptionTools)
+from exceptionTools import whichGroup, isPairException
+
 # standard
 import os
 import types
@@ -135,19 +139,6 @@ def loadKerningTexts(kerningTextFolder):
     return kerningWordDB
 
 
-def whichGroup(targetGlyphName, aLocation, aFont):
-    assert aLocation in ['lft', 'rgt']
-
-    locationPrefixes = {'lft': '@MMK_L_',
-                        'rgt': '@MMK_R_'}
-
-    filteredGroups = {name: content for name, content in aFont.groups.items() if name.startswith(locationPrefixes[aLocation])}
-    for eachGroupName, eachGroupContent in filteredGroups.items():
-        if targetGlyphName in eachGroupContent:
-            return eachGroupName
-    return None
-
-
 def whichKindOfPair(aPair):
     lftReference, rgtReference = aPair
 
@@ -164,8 +155,8 @@ def whichKindOfPair(aPair):
 def collectPairMapping(aPair, aFont):
     """here I assume aPair is made of two glyphnames, no classes"""
     lftGlyphName, rgtGlyphName = aPair
-    lftGroup = whichGroup(lftGlyphName, 'lft', aFont)
-    rgtGroup = whichGroup(rgtGlyphName, 'rgt', aFont)
+    lftGroup = whichGroup(lftGlyphName, 'left', aFont)
+    rgtGroup = whichGroup(rgtGlyphName, 'right', aFont)
 
     pairsDB = [{'kind': 'gl2gl', 'key': (lftGlyphName, rgtGlyphName), 'amount': aFont.kerning.get((lftGlyphName, rgtGlyphName))},
                {'kind': 'gl2gr', 'key': (lftGlyphName, rgtGroup)    , 'amount': aFont.kerning.get((lftGlyphName, rgtGroup))},
@@ -190,8 +181,8 @@ def setCorrection(aPair, aFont, correctionAmount):
 
     # if not, we should prefer class kerning, single pairs are last choice
     else:
-        lftGroup = whichGroup(lftGlyphName, 'lft', aFont)
-        rgtGroup = whichGroup(rgtGlyphName, 'rgt', aFont)
+        lftGroup = whichGroup(lftGlyphName, 'left', aFont)
+        rgtGroup = whichGroup(rgtGlyphName, 'right', aFont)
 
         if lftGroup:
             lftReference = lftGroup
@@ -204,10 +195,11 @@ def setCorrection(aPair, aFont, correctionAmount):
             rgtReference = rgtGlyphName
         chosenPair = lftReference, rgtReference
 
-    if chosenPair in aFont.kerning and correctionAmount == 0:
-        aFont.kerning.remove(chosenPair)
-    elif chosenPair not in aFont.kerning and correctionAmount == 0:
-        pass
+    if correctionAmount == 0:
+        if isPairException(chosenPair, aFont)[0] is True:
+            aFont.kerning[chosenPair] = correctionAmount
+        else:
+            aFont.kerning.remove(chosenPair)
     else:
         aFont.kerning[chosenPair] = correctionAmount
 
