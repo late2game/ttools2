@@ -201,7 +201,8 @@ def setCorrection(aPair, aFont, correctionAmount):
         if isPairException(chosenPair, aFont)[0] is True:
             aFont.kerning[chosenPair] = correctionAmount
         else:
-            aFont.kerning.remove(chosenPair)
+            if chosenPair in aFont.kerning:
+                aFont.kerning.remove(chosenPair)
     else:
         aFont.kerning[chosenPair] = correctionAmount
 
