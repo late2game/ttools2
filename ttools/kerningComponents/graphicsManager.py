@@ -84,7 +84,6 @@ class GraphicsManager(Group):
         self.showSidebearingsCheck.enable(value)
         self.showMetricsCheck.enable(value)
         self.showColorsCheck.enable(value)
-        self.showGroupsCheck.enable(value)
         self.showCollisionsCheck.enable(value)
 
     def showKerningCheckCallback(self, sender):

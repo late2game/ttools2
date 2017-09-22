@@ -454,10 +454,10 @@ class WordDisplay(Group):
                             if exceptionStatus is True and self.isPreviewOn is False:
                                 self._drawException((prevGlyphName, eachGlyphName), correction)
 
-                        if (indexChar-1) == self.indexPair and self.isPreviewOn is False:
+                        if (indexChar-1) == self.indexPair:
                             self._drawGlyphOutlinesFromGroups((prevGlyphName, eachGlyphName), kerningReference, correction)
 
-                        if correction and correction != 0:
+                        if correction and correction != 0 and self.isKerningDisplayActive:
                             dt.translate(correction, 0)
 
                     dt.translate(eachGlyph.width, 0)
@@ -473,7 +473,7 @@ class WordDisplay(Group):
                 # this is for kerning
                 if indexChar > 0:
                     correction, kerningReference, pairKind = getCorrection((prevGlyphName, eachGlyphName), self.fontObj)
-                    if correction and correction != 0:
+                    if correction and correction != 0 and self.isKerningDisplayActive:
                         if self.isColorsActive is True and self.isPreviewOn is False:
                             self._drawColoredCorrection(correction)
                         if self.isMetricsActive is True and self.isPreviewOn is False:
@@ -505,7 +505,7 @@ class WordDisplay(Group):
                 if indexChar > 0:
                     correction, kerningReference, pairKind = getCorrection((prevGlyphName, eachGlyphName), self.fontObj)
 
-                    if correction and correction != 0:
+                    if correction and correction != 0 and self.isKerningDisplayActive:
                         dt.translate(correction, 0)
 
                 self._drawGlyphOutlines(eachGlyphName)
@@ -524,7 +524,7 @@ class WordDisplay(Group):
                     if indexChar > 0:
                         correction, kerningReference, pairKind = getCorrection((prevGlyphName, eachGlyphName), self.fontObj)
 
-                        if correction and correction != 0:
+                        if correction and correction != 0 and self.isKerningDisplayActive:
                             dt.translate(correction, 0)
 
                         if (indexChar-1) == self.indexPair:
