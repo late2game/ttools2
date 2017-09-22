@@ -132,15 +132,12 @@ def isPairException(kerningReference, aFont):
 
 
 def possibleExceptions(aPair, kerningReference, aFont):
-
     # two checks before starting
     if aPair == kerningReference:
-        print 'no groups, no exceptions'
         return []
 
     aPairStatus, aPairExistance, aPairParents = isPairException(aPair, aFont)
     if aPairStatus is True and aPairExistance is True:
-        print 'the provided glyph names are already an exception'
         return []
 
     # here we start with possible exceptions
