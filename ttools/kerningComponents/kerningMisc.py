@@ -135,7 +135,9 @@ def loadKerningTexts(kerningTextFolder):
 
         uniqueKerningWords = []
         _ = [uniqueKerningWords.append(word) for word in kerningWords if word not in uniqueKerningWords]
-        kerningWordDB[eachKerningTextBaseName[3:]] = [{'word': word, 'done?': 0} for word in uniqueKerningWords]
+        
+        kerningWordsList = [{'#': index, 'word': word, 'done?': 0} for (index, word) in enumerate(uniqueKerningWords)]
+        kerningWordDB[eachKerningTextBaseName[3:]] = kerningWordsList
     return kerningWordDB
 
 
