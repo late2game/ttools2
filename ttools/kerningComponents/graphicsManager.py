@@ -18,9 +18,10 @@ from vanilla import Group, TextBox, Button, CheckBox
 class GraphicsManager(Group):
     previousState = None
 
-    def __init__(self, posSize, isSidebearingsActive, areGroupsShown, areCollisionsShown, isKerningDisplayActive, isMetricsActive, isColorsActive, callback):
+    def __init__(self, posSize, isSidebearingsActive, areGroupsShown, areCollisionsShown, isKerningDisplayActive, areVerticalLettersDrawn, isMetricsActive, isColorsActive, callback):
         super(GraphicsManager, self).__init__(posSize)
         self.isKerningDisplayActive = isKerningDisplayActive
+        self.areVerticalLettersDrawn = areVerticalLettersDrawn
         self.areGroupsShown = areGroupsShown
         self.areCollisionsShown = areCollisionsShown
         self.isSidebearingsActive = isSidebearingsActive
@@ -54,6 +55,12 @@ class GraphicsManager(Group):
                                         callback=self.showGroupsCheckCallback)
 
         jumping_Y += vanillaControlsSize['CheckBoxRegularHeight']
+        self.verticalLettersCheck = CheckBox((indent, jumping_Y, self.ctrlWidth-indent, vanillaControlsSize['CheckBoxRegularHeight']),
+                                        'show vertical letters',
+                                        value=self.areGroupsShown,
+                                        callback=self.verticalLettersCheckCallback)
+
+        jumping_Y += vanillaControlsSize['CheckBoxRegularHeight']
         self.showCollisionsCheck = CheckBox((indent, jumping_Y, self.ctrlWidth-indent, vanillaControlsSize['CheckBoxRegularHeight']),
                                         'show pair collision',
                                         value=self.areCollisionsShown,
@@ -78,7 +85,7 @@ class GraphicsManager(Group):
                                     callback=self.showColorsCheckCallback)
 
     def get(self):
-        return self.isKerningDisplayActive, self.areGroupsShown, self.areCollisionsShown, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive
+        return self.isKerningDisplayActive, self.areVerticalLettersDrawn, self.areGroupsShown, self.areCollisionsShown, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive
 
     def switchControls(self, value):
         self.showSidebearingsCheck.enable(value)
@@ -93,6 +100,10 @@ class GraphicsManager(Group):
 
     def showGroupsCheckCallback(self, sender):
         self.areGroupsShown = bool(sender.get())
+        self.callback(self)
+
+    def verticalLettersCheckCallback(self, sender):
+        self.areVerticalLettersDrawn = bool(sender.get())
         self.callback(self)
 
     def showCollisionsCheckCallback(self, sender):

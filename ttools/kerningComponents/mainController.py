@@ -98,6 +98,7 @@ class KerningController(BaseWindowController):
     navCursor_Y = 0    # related to active fonts
 
     isPreviewOn = False
+    areVerticalLettersDrawn = True
     areGroupsShown = True
     areCollisionsShown = False
     isKerningDisplayActive = True
@@ -157,13 +158,14 @@ class KerningController(BaseWindowController):
                                              callback=self.joystickCallback)
 
         self.jumping_Y += self.w.joystick.getPosSize()[3] + MARGIN_VER
-        self.w.graphicsManager = GraphicsManager((self.jumping_X, -160, LEFT_COLUMN, 160),
-                                                 self.isKerningDisplayActive,
-                                                 self.areGroupsShown,
-                                                 self.areCollisionsShown,
-                                                 self.isSidebearingsActive,
-                                                 self.isMetricsActive,
-                                                 self.isColorsActive,
+        self.w.graphicsManager = GraphicsManager((self.jumping_X, -184, LEFT_COLUMN, 184),
+                                                 isKerningDisplayActive=self.isKerningDisplayActive,
+                                                 areVerticalLettersDrawn=self.areVerticalLettersDrawn,
+                                                 areGroupsShown=self.areGroupsShown,
+                                                 areCollisionsShown=self.areCollisionsShown,
+                                                 isSidebearingsActive=self.isSidebearingsActive,
+                                                 isMetricsActive=self.isMetricsActive,
+                                                 isColorsActive=self.isColorsActive,
                                                  callback=self.graphicsManagerCallback)
 
         self.jumping_X += LEFT_COLUMN+MARGIN_COL*2
@@ -256,6 +258,7 @@ class KerningController(BaseWindowController):
                                        canvasScalingFactor=self.canvasScalingFactor,
                                        fontObj=self.fontsOrder[eachI],
                                        isKerningDisplayActive=self.isKerningDisplayActive,
+                                       areVerticalLettersDrawn=self.areVerticalLettersDrawn,
                                        areGroupsShown=self.areGroupsShown,
                                        areCollisionsShown=self.areCollisionsShown,
                                        isSidebearingsActive=self.isSidebearingsActive,
@@ -278,7 +281,7 @@ class KerningController(BaseWindowController):
             eachDisplay.setSymmetricalEditingMode(self.isSymmetricalEditingOn)
             eachDisplay.setFlippedEditingMode(self.isFlippedEditingOn)
             eachDisplay.setScalingFactor(self.canvasScalingFactor)
-            eachDisplay.setGraphicsBooleans(self.isKerningDisplayActive, self.areGroupsShown, self.areCollisionsShown, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive)
+            eachDisplay.setGraphicsBooleans(self.isKerningDisplayActive, self.areVerticalLettersDrawn, self.areGroupsShown, self.areCollisionsShown, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive)
             eachDisplay.setPreviewMode(self.isPreviewOn)
             eachDisplay.wordCanvasGroup.update()
 
@@ -527,7 +530,9 @@ class KerningController(BaseWindowController):
 
         y = initY
         for eachI in xrange(len(self.fontsOrder)):
-            getattr(self.w, 'wordCtrl_%#02d' % (eachI+1)).adjustSize((self.jumping_X, y, rightColumnWidth, singleWordDisplayHeight))
+            eachDisplay = getattr(self.w, 'wordCtrl_%#02d' % (eachI+1))
+            eachDisplay.adjustSize((self.jumping_X, y, rightColumnWidth, singleWordDisplayHeight))
+            eachDisplay.setCtrlSize(rightColumnWidth, singleWordDisplayHeight)
             y += singleWordDisplayHeight+MARGIN_HOR
 
     def scalingFactorControllerCallback(self, sender):
@@ -544,7 +549,7 @@ class KerningController(BaseWindowController):
         self.initWordDisplays()
 
     def graphicsManagerCallback(self, sender):
-        self.isKerningDisplayActive, self.areGroupsShown, self.areCollisionsShown, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive = sender.get()
+        self.isKerningDisplayActive, self.areVerticalLettersDrawn, self.areGroupsShown, self.areCollisionsShown, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive = sender.get()
         self.updateWordDisplays()
 
     def joystickCallback(self, sender):

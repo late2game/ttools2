@@ -58,7 +58,7 @@ LIGHT_GRAY = (0, 0, 0, .4)
 ### Classes
 class WordDisplay(Group):
 
-    def __init__(self, posSize, displayedWord, canvasScalingFactor, fontObj, isKerningDisplayActive, areGroupsShown, areCollisionsShown, isSidebearingsActive, isMetricsActive, isColorsActive, isPreviewOn, isSymmetricalEditingOn, isFlippedEditingOn, indexPair):
+    def __init__(self, posSize, displayedWord, canvasScalingFactor, fontObj, isKerningDisplayActive, areVerticalLettersDrawn, areGroupsShown, areCollisionsShown, isSidebearingsActive, isMetricsActive, isColorsActive, isPreviewOn, isSymmetricalEditingOn, isFlippedEditingOn, indexPair):
         super(WordDisplay, self).__init__(posSize)
 
         self.fontObj = fontObj
@@ -73,6 +73,7 @@ class WordDisplay(Group):
 
         self.canvasScalingFactor = canvasScalingFactor
         self.isKerningDisplayActive = isKerningDisplayActive
+        self.areVerticalLettersDrawn = areVerticalLettersDrawn
         self.areGroupsShown = areGroupsShown
         self.areCollisionsShown = areCollisionsShown
         self.isSidebearingsActive = isSidebearingsActive
@@ -128,8 +129,9 @@ class WordDisplay(Group):
     def setPreviewMode(self, value):
         self.isPreviewOn = value
 
-    def setGraphicsBooleans(self, isKerningDisplayActive, areGroupsShown, areCollisionsShown, isSidebearingsActive, isMetricsActive, isColorsActive):
+    def setGraphicsBooleans(self, isKerningDisplayActive, areVerticalLettersDrawn, areGroupsShown, areCollisionsShown, isSidebearingsActive, isMetricsActive, isColorsActive):
         self.isKerningDisplayActive = isKerningDisplayActive
+        self.areVerticalLettersDrawn = areVerticalLettersDrawn
         self.areGroupsShown = areGroupsShown
         self.areCollisionsShown = areCollisionsShown
         self.isSidebearingsActive = isSidebearingsActive
@@ -165,6 +167,10 @@ class WordDisplay(Group):
         else:
             self.activePair = None
 
+    def setCtrlSize(self, ctrlWidth, ctrlHeight):
+        self.ctrlWidth = ctrlWidth
+        self.ctrlHeight = ctrlHeight
+
     def _drawColoredCorrection(self, correction):
         dt.save()
 
@@ -180,7 +186,7 @@ class WordDisplay(Group):
         dt.fill(*BLACK)
         dt.stroke(None)
         dt.translate(0, self.fontObj.info.unitsPerEm+self.fontObj.info.descender+100)
-        dt.scale(1/(self.getPosSize()[3]/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm)))
+        dt.scale(1/(self.ctrlHeight/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm)))
         dt.font(SYSTEM_FONT_NAME)
         dt.fontSize(BODY_SIZE)
         textWidth, textHeight = dt.textSize('%s' % correction)
@@ -200,7 +206,7 @@ class WordDisplay(Group):
         dt.save()
         glyphToDisplay = self.fontObj[glyphName]
         dt.translate(0, self.fontObj.info.descender)
-        reverseScalingFactor = 1/(self.getPosSize()[3]/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm))
+        reverseScalingFactor = 1/(self.ctrlHeight/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm))
 
         if self.isSidebearingsActive is True:
             dt.fill(None)
@@ -232,7 +238,7 @@ class WordDisplay(Group):
         dt.stroke(*BLACK)
         dt.fill(None)
         # reversed scaling factor
-        dt.strokeWidth(1/(self.getPosSize()[3]/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm)))
+        dt.strokeWidth(1/(self.ctrlHeight/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm)))
         dt.line((0, 0), (glyphToDisplay.width, 0))
         dt.restore()
 
@@ -244,7 +250,7 @@ class WordDisplay(Group):
         dt.fill(None)
 
         # reversed scaling factor
-        dt.strokeWidth(1/(self.getPosSize()[3]/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm)))
+        dt.strokeWidth(1/(self.ctrlHeight/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm)))
 
         dt.fill(*LIGHT_GRAY)
         dt.line((0, self.fontObj.info.descender), (0, self.fontObj.info.descender+self.fontObj.info.unitsPerEm))
@@ -302,7 +308,7 @@ class WordDisplay(Group):
             rgtReference = whichGroup(eachGlyphName, 'rgt', self.fontObj)
 
         prevGlyph, eachGlyph = self.fontObj[prevGlyphName], self.fontObj[eachGlyphName]
-        reverseScalingFactor = 1/(self.getPosSize()[3]/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm))
+        reverseScalingFactor = 1/(self.ctrlHeight/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm))
 
         # _L__ group
         if lftReference:
@@ -424,16 +430,16 @@ class WordDisplay(Group):
             if self.isFlippedEditingOn is True:
                 dt.save()
                 dt.fill(*FLIPPED_BACKGROUND_COLOR)
-                dt.rect(0, 0, self.getPosSize()[2], self.getPosSize()[3])
+                dt.rect(0, 0, self.ctrlWidth, self.ctrlHeight)
                 dt.restore()
 
             if self.isSymmetricalEditingOn is True:
                 dt.save()
                 dt.fill(*SYMMETRICAL_BACKGROUND_COLOR)
-                dt.rect(0, 0, self.getPosSize()[2], self.getPosSize()[3])
+                dt.rect(0, 0, self.ctrlWidth, self.ctrlHeight)
                 dt.restore()
 
-            dt.scale(self.getPosSize()[3]/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm))   # the canvas is virtually scaled according to self.canvasScalingFactor value and canvasSize
+            dt.scale(self.ctrlHeight/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm))   # the canvas is virtually scaled according to self.canvasScalingFactor value and canvasSize
             dt.translate(TEXT_MARGIN, 0)
 
             # group glyphs
@@ -466,6 +472,7 @@ class WordDisplay(Group):
 
             # background loop
             dt.save()
+            glyphsToDisplayTotalWidth = 0
             prevGlyphName = None
             for indexChar, eachGlyphName in enumerate(glyphsToDisplay):
                 eachGlyph = self.fontObj[eachGlyphName]
@@ -479,6 +486,7 @@ class WordDisplay(Group):
                         if self.isMetricsActive is True and self.isPreviewOn is False:
                             self._drawMetricsCorrection(correction)
                         dt.translate(correction, 0)
+                        glyphsToDisplayTotalWidth += correction
 
                     if (indexChar-1) == self.indexPair:
                         self._drawCursor(correction, pairKind)
@@ -492,6 +500,7 @@ class WordDisplay(Group):
                     self._drawSidebearings(eachGlyphName)
 
                 dt.translate(eachGlyph.width, 0)
+                glyphsToDisplayTotalWidth += eachGlyph.width
                 prevGlyphName = eachGlyphName
             dt.restore()
 
@@ -537,6 +546,43 @@ class WordDisplay(Group):
 
             # main restore, it wraps the three loops
             dt.restore()
+
+            if self.areVerticalLettersDrawn is True:
+                # separate from the rest, we put the vertical letters
+                dt.save()
+                # we push the matrix forward
+                dt.translate(self.ctrlWidth, 0)
+                # then we rotate
+                dt.rotate(90)
+                # then we scale, but how much? a quarter of the main lettering
+                dt.scale(self.ctrlHeight/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm)*.25)
+                # the reference is the baseline, so we have to put some air below the letters
+                dt.translate(0, 600)   # upm value
+                # let's define the graphics
+                dt.fill(*BLACK)
+                dt.stroke(None)
+                # then we draw, we need a prevGlyphName in order to get kerning correction
+                prevGlyphName = None
+                # we iterate on the letters we need to draw + a space as a margin
+                for indexChar, eachGlyphName in enumerate(['space']+glyphsToDisplay):
+                    # accessing the glyph obj
+                    eachGlyph = self.fontObj[eachGlyphName]
+                    # if it isn't the first letter...
+                    if indexChar > 0:
+                        # ... we grab the kerning correction from the pair
+                        correction, kerningReference, pairKind = getCorrection((prevGlyphName, eachGlyphName), self.fontObj)
+                        # if there is any correction...
+                        if correction and correction != 0 and self.isKerningDisplayActive:
+                            # ... we apply it to the transformation matrix
+                            dt.translate(correction, 0)
+                    # then we draw the outlines
+                    self._drawGlyphOutlines(eachGlyphName)
+                    # and we move the transformation matrix according to glyph width
+                    dt.translate(eachGlyph.width, 0)
+                    # then we load the glyph to the prevGlyphName
+                    prevGlyphName = eachGlyphName
+                # restoring the vertical drawing
+                dt.restore()
 
         except Exception:
             print traceback.format_exc()
