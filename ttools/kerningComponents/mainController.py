@@ -421,8 +421,11 @@ class KerningController(BaseWindowController):
 
         if correction:
             exceptionOptions = possibleExceptions(selectedPair, kerningReference, selectedFont)
-            self.exceptionWindow.setOptions(exceptionOptions)
-            self.exceptionWindow.enable(True)
+            if exceptionOptions:
+                self.exceptionWindow.setOptions(exceptionOptions)
+                self.exceptionWindow.enable(True)
+            else:
+                self.showMessage('no possible exceptions', 'kerning exceptions can be triggered only starting from class kerning')
         else:
             self.showMessage('no kerning pair, no exception!', 'kerning exceptions can be triggered only starting from class kerning')
 
