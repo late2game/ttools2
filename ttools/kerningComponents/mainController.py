@@ -77,10 +77,13 @@ JOYSTICK_EVENTS = ['exceptionTrigger', 'verticalAlignedEditing', 'minusMajor', '
 
 KERNING_NOT_DISPLAYED_ERROR = 'Why are you editing kerning if it is not displayed?'
 
+# log messages
+SET_CORRECTION_LOG = '%(leftGlyphName)s %(rightGlyphName)s from %(familyName)s %(styleName)s set to %(amount)s'
+
 # ui
 LEFT_COLUMN = 200
 PLUGIN_WIDTH = 1000
-PLUGIN_HEIGHT = 920
+PLUGIN_HEIGHT = 960
 
 
 ### Controllers
