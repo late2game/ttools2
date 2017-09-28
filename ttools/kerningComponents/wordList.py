@@ -35,9 +35,10 @@ class WordListController(Group):
         self.kerningWordsDB = loadKerningTexts(KERNING_TEXT_FOLDER)
         self.kerningTextBaseNames = self.kerningWordsDB.keys()
         self.activeKerningTextBaseName = self.kerningTextBaseNames[0]
+        # this is the list used for data manipulation
         self.wordsWorkingList = self.kerningWordsDB[self.activeKerningTextBaseName]
-        self.wordsDisplayList = list(self.wordsWorkingList)
-
+        # this list instead is used for data visualization in the ctrl
+        self._makeWordsDisplayList(self.activeKerningTextBaseName)
         self.activeWord = self.wordsWorkingList[0]['word']
         self.wordFilter = ''
 
@@ -78,8 +79,19 @@ class WordListController(Group):
                                        'Save status',
                                        callback=self.saveButtonCallback)
 
+    def _makeWordsDisplayList(self, textBaseName):
+        self.wordsDisplayList = []
+        for eachRow in self.kerningWordsDB[self.activeKerningTextBaseName]:
+            fixedWord = eachRow['word'].replace('//', '/')
+            self.wordsDisplayList.append({'#': eachRow['#'], 'word': fixedWord, 'done?': eachRow['done?']})
+
     def get(self):
         return self.activeWord
+
+    def getActiveIndex(self):
+        activeWordData = [wordData for wordData in self.wordsDisplayList if wordData['word'] == self.activeWord][0]
+        activeWordIndex = self.wordsDisplayList.index(activeWordData)
+        return activeWordIndex
 
     def nextWord(self):
         activeWordData = [wordData for wordData in self.wordsDisplayList if wordData['word'] == self.activeWord][0]
@@ -95,13 +107,20 @@ class WordListController(Group):
         self.activeWord = self.wordsDisplayList[previousWordIndex]['word']
         self.wordsListCtrl.setSelection([previousWordIndex])
 
+    def jumpToLine(self, lineIndex):
+        try:
+            self.activeWord = self.wordsDisplayList[lineIndex]['word']
+            self.wordsListCtrl.setSelection([lineIndex])
+        except IndexError:
+            pass
+
     def switchActiveWordSolvedAttribute(self):
         activeWordData = [wordData for wordData in self.wordsDisplayList if wordData['word'] == self.activeWord][0]
         activeWordIndex = self.wordsDisplayList.index(activeWordData)
         if activeWordData['done?'] == 0:
-            self.wordsDisplayList[activeWordIndex] = {'done?': 1, 'word': self.activeWord}
+            self.wordsDisplayList[activeWordIndex]['done?'] = 1
         else:
-            self.wordsDisplayList[activeWordIndex] = {'done?': 0, 'word': self.activeWord}
+            self.wordsDisplayList[activeWordIndex]['done?'] = 0
         self.wordsListCtrl.set(self.wordsDisplayList)
         self.wordsListCtrl.setSelection([activeWordIndex])
 
@@ -113,12 +132,13 @@ class WordListController(Group):
         self.activeKerningTextBaseName = self.kerningTextBaseNames[sender.get()]
         self.wordsWorkingList = self.kerningWordsDB[self.activeKerningTextBaseName]
         self.activeWord = self.wordsWorkingList[0]['word']
-        self.wordsListCtrl.set(self.wordsWorkingList)
+        self._makeWordsDisplayList(self.activeKerningTextBaseName)
+        self.wordsListCtrl.set(self.wordsDisplayList)
         self.callback(self)
 
     def wordsListCtrlSelectionCallback(self, sender):
         """this takes care of word count"""
-        self.wordsDisplayList = [{'word': row['word'], 'done?': row['done?']} for row in sender.get()]
+        self.wordsDisplayList = [{'#': row['#'], 'word': row['word'], 'done?': row['done?']} for row in sender.get()]
         for eachDisplayedRow in self.wordsDisplayList:
             for indexWorkingRow, eachWorkingRow in enumerate(self.wordsWorkingList):
                 if eachWorkingRow['word'] == eachDisplayedRow['word']:

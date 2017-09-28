@@ -31,6 +31,10 @@ import chooseException
 reload(chooseException)
 from chooseException import ChooseExceptionWindow
 
+import jumpToLine
+reload(jumpToLine)
+from jumpToLine import JumpToLineWindow
+
 # custom
 from ..ui import userInterfaceValues
 reload(userInterfaceValues)
@@ -73,12 +77,12 @@ JOYSTICK_EVENTS = ['exceptionTrigger', 'verticalAlignedEditing', 'minusMajor', '
                    'plusMinor', 'plusMajor', 'preview', 'solved', 'symmetricalEditing',
                    'flippedEditing', 'keyboardEdit', 'previousWord', 'cursorUp', 'cursorLeft',
                    'cursorRight', 'cursorDown', 'nextWord', 'deletePair', 'switchLftGlyph',
-                   'switchRgtGlyph', 'undo', 'redo', 'autoSave']
+                   'switchRgtGlyph', 'undo', 'redo', 'autoSave', 'jumpToLineTrigger']
 
 KERNING_NOT_DISPLAYED_ERROR = 'Why are you editing kerning if it is not displayed?'
 
 # log messages
-SET_CORRECTION_LOG = '%(leftGlyphName)s %(rightGlyphName)s from %(familyName)s %(styleName)s set to %(amount)s'
+SET_CORRECTION_LOG = '%(leftGlyphName)s%(rightGlyphName)s from %(familyName)s %(styleName)s set to %(amount)s'
 
 # ui
 LEFT_COLUMN = 200
@@ -138,7 +142,6 @@ class KerningController(BaseWindowController):
                         minSize=(PLUGIN_WIDTH, PLUGIN_HEIGHT))
         self.w.bind('resize', self.mainWindowResize)
 
-
         # load opened fonts
         self.initFontsOrder()
 
@@ -146,6 +149,10 @@ class KerningController(BaseWindowController):
         self.exceptionWindow = ChooseExceptionWindow(['group2glyph', 'glyph2group', 'glyph2glyph'],
                                                callback=self.exceptionWindowCallback)
         self.exceptionWindow.enable(False)
+
+        # jump to line window (will appear only if invoked)
+        self.jumpToLineWindow = JumpToLineWindow(callback=self.jumpToLineWindowCallback)
+        self.jumpToLineWindow.enable(False)
 
         self.jumping_Y = MARGIN_VER
         self.jumping_X = MARGIN_HOR
@@ -217,7 +224,7 @@ class KerningController(BaseWindowController):
         consoleHandler = logging.StreamHandler()
         consoleHandler.setLevel(logging.ERROR)
         # create formatter and add it to the handlers
-        formatter = logging.Formatter('%(asctime)s – %(message)s')
+        formatter = logging.Formatter(u'%(asctime)s – %(message)s')
         fileHandle.setFormatter(formatter)
         consoleHandler.setFormatter(formatter)
         # add the handlers to the logger
@@ -338,6 +345,16 @@ class KerningController(BaseWindowController):
         self.updateEditorAccordingToDiplayedWord()
         if isRecording is True:
             self.appendRecord('previousWord')
+
+    def jumpToLine(self, lineIndex, isRecording=True):
+        if isRecording is True:
+            self.appendRecord('jumpToLine', (self.w.wordListController.getActiveIndex(), lineIndex))
+
+        self.w.wordListController.jumpToLine(lineIndex)
+        self.displayedWord = self.w.wordListController.get()
+        self.isFlippedEditingOn = False
+        self.w.joystick.setFlippedEditing(self.isFlippedEditingOn)
+        self.updateEditorAccordingToDiplayedWord()
 
     def oneStepGroupSwitch(self, location):
         if self.isVerticalAlignedEditingOn is True:
@@ -566,6 +583,11 @@ class KerningController(BaseWindowController):
                     self.w.joystick.updateCorrectionValue()
             self.updateWordDisplays()
 
+    def jumpToLineWindowCallback(self, sender):
+        if sender.get() is not None:
+            self.jumpToLine(sender.get())
+        self.jumpToLineWindow.enable(False)
+
     def mainWindowResize(self, mainWindow):
         windowWidth, windowHeight = mainWindow.getPosSize()[2], mainWindow.getPosSize()[3]
         rightColumnWidth = windowWidth - LEFT_COLUMN
@@ -689,6 +711,9 @@ class KerningController(BaseWindowController):
                 self.showMessage('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)
                 self.w.joystick.updateCorrectionValue()
 
+        elif joystickEvent == 'jumpToLineTrigger':
+            self.jumpToLineWindow.enable(True)
+
         # from here on events are not archived in undo/redo stack
         elif joystickEvent == 'exceptionTrigger':
             self.exceptionTrigger()
@@ -730,7 +755,7 @@ class KerningController(BaseWindowController):
             self.pullRecordFromArchive('undo')
 
     def redo(self):
-        if self.recordIndex < -1:
+        if self.recordIndex < 0:
             self.recordIndex += 1
             self.pullRecordFromArchive('redo')
 
@@ -738,7 +763,10 @@ class KerningController(BaseWindowController):
         """we miss these methods: switchLftGlyph, switchRgtGlyph"""
 
         assert direction in ['redo', 'undo']
-        record = self.archive[self.recordIndex]
+        if direction == 'redo':
+            record = self.archive[self.recordIndex-1]   # othwerwise we won't get back to the initial status
+        else:
+            record = self.archive[self.recordIndex]
 
         # these records, we can simply invert (they related to events in UI)
         if isinstance(record, types.StringType) is True:
@@ -762,21 +790,25 @@ class KerningController(BaseWindowController):
                 self.switchSymmetricalEditing(isRecording=False)
             elif record == 'verticalAlignedEditing':
                 self.switchVerticalAlignedEditing(isRecording=False)
+
             elif record == 'cursorLeft':
                 if direction == 'undo':
                     self.cursorLeftRight('right', isRecording=False)
                 else:
                     self.cursorLeftRight('left', isRecording=False)
+
             elif record == 'cursorRight':
                 if direction == 'undo':
                     self.cursorLeftRight('left', isRecording=False)
                 else:
                     self.cursorLeftRight('right', isRecording=False)
+
             elif record == 'cursorUp':
                 if direction == 'undo':
                     self.cursorUpDown('down', isRecording=False)
                 else:
                     self.cursorUpDown('up', isRecording=False)
+
             elif record == 'cursorDown':
                 if direction == 'undo':
                     self.cursorUpDown('up', isRecording=False)
@@ -786,10 +818,16 @@ class KerningController(BaseWindowController):
         # these relate to data manipulation...
         else:
             recordTitle, data = record
-            pair, font, amount = data
+
             if recordTitle == 'setCorrection':
-                setCorrection(pair, font, amount)
+                pair, font, amount = data
+                setCorrection(pair, font, amount, isRecording=False)
                 self.updateWordDisplays()
 
-
+            elif recordTitle == 'jumpToLine':
+                previousIndex, nextIndex = data
+                if direction == 'undo':
+                    self.jumpToLine(previousIndex, isRecording=False)
+                else:
+                    self.jumpToLine(nextIndex, isRecording=False)
 

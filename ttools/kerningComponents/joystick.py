@@ -65,6 +65,8 @@ CURSOR_LEFT_SHORTCUT = 'leftarrow', []
 CURSOR_RIGHT_SHORTCUT = 'rightarrow', []
 CURSOR_DOWN_SHORTCUT = 'downarrow', []
 
+JUMP_TO_LINE_SHORTCUT = 'j', ['command']
+
 UNDO_SHORTCUT = 'z', ['command']
 REDO_SHORTCUT = 'z', ['command', 'shift']
 
@@ -206,6 +208,11 @@ class JoystickController(Group):
                                                    'hiddenSymmetriyEditingButton',
                                                    callback=self.hiddenFlippedEditingButtonCallback)
         self.hiddenFlippedEditingButton.bind(*FLIPPED_EDITING_SHORTCUT)
+
+        self.hiddenJumpToLineButton = Button((self.jumping_X, self.ctrlHeight+40, self.ctrlWidth, vanillaControlsSize['ButtonRegularHeight']),
+                                                   'hiddenJumpToLineButton',
+                                                   callback=self.hiddenJumpToLineButtonCallback)
+        self.hiddenJumpToLineButton.bind(*JUMP_TO_LINE_SHORTCUT)
 
         self.jumping_X = buttonSide
         self.jumping_Y += buttonSide
@@ -362,6 +369,10 @@ class JoystickController(Group):
         self.lastEvent = 'flippedEditing'
         self.isFlippedEditingOn = not self.isFlippedEditingOn
         self.flippedModeCheck.set(self.isFlippedEditingOn)
+        self.callback(self)
+
+    def hiddenJumpToLineButtonCallback(self, sender):
+        self.lastEvent = 'jumpToLineTrigger'
         self.callback(self)
 
     def previousWordCtrlCallback(self, sender):
