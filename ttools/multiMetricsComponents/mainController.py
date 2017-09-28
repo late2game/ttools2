@@ -128,7 +128,7 @@ class MultiFontMetricsWindow(BaseWindowController):
                                              self.unicodeMinimum,
                                              callback=self.typewriterCtrlCallback)
         self.w.typewriterCtrl.show(False)
-        
+
         # strings ctrls
         self.w.textStringsControls = TextStringsControls((textCtrlX, jumpingY, -(RIGHT_COLUMN+MARGIN_COL+MARGIN_RGT), vanillaControlsSize['PopUpButtonRegularHeight']+1),
                                                            self.editTexts,
