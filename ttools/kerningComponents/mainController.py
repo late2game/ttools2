@@ -821,13 +821,13 @@ class KerningController(BaseWindowController):
 
             if recordTitle == 'setCorrection':
                 pair, font, amount = data
-                setCorrection(pair, font, amount, isRecording=False)
+                setCorrection(pair, font, amount)
                 self.updateWordDisplays()
 
             elif recordTitle == 'jumpToLine':
                 previousIndex, nextIndex = data
                 if direction == 'undo':
-                    self.jumpToLine(previousIndex, isRecording=False)
+                    self.jumpToLine(previousIndex)
                 else:
                     self.jumpToLine(nextIndex, isRecording=False)
 
