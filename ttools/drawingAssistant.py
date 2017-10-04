@@ -713,7 +713,7 @@ class DrawingAssistant(BaseWindowController):
                 frameSize = int(visibleRect.size.width), int(visibleRect.size.height)
                 self._drawGrids(frameOrigin, frameSize, currentGlyph.getParent().info.italicAngle, scalingFactor)
 
-            if self.stemActive is True and 1 > scalingFactor:
+            if self.stemActive is True and 1.5 > scalingFactor:
                 self._drawStems(currentGlyph, scalingFactor)
                 if self.lftGlyph and self.lftNeighborActive is True:
                     self._drawStems(self.lftGlyph, scalingFactor, offset_X=-self.lftGlyph.width)
