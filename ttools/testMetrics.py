@@ -14,7 +14,7 @@ from datetime import datetime
 from robofab.interface.all.dialogs import PutFile
 from mojo.events import addObserver, removeObserver
 from mojo.roboFont import AllFonts, RFont
-from vanilla import Window, PopUpButton, HorizontalLine
+from vanilla import FloatingWindow, PopUpButton, HorizontalLine
 from vanilla import RadioGroup, TextBox, CheckBox, Button
 from defconAppKit.windows.baseWindow import BaseWindowController
 
@@ -35,13 +35,13 @@ from ui.userInterfaceValues import vanillaControlsSize
 RADIO_GROUP_HEIGHT = 40
 NAMES_TABLE_PATH = os.path.join(os.path.dirname(__file__), 'resources', 'tables', 'old_vs_new_names.csv')
 
-PLUGIN_WIDTH = 300
+PLUGIN_WIDTH = 240
 PLUGIN_HEIGHT = 600
 
 MARGIN_LFT = 15
 MARGIN_TOP = 15
-MARGIN_ROW = 15
-MARGIN_BTM = 20
+MARGIN_ROW = 8
+MARGIN_BTM = 15
 MARGIN_HALFROW = 7
 
 NET_WIDTH = PLUGIN_WIDTH - MARGIN_LFT*2
@@ -95,25 +95,20 @@ class TestMetrics(BaseWindowController):
 
     chosenTest = testOptions[0]
 
-    nameSchemeOptions = ['new', 'old']
-    nameScheme = nameSchemeOptions[0]
-
     showMissingGlyph = False
-
     fontOptions = None
     chosenFont = None
 
     def __init__(self):
 
         # load data
-        self.readNameTable()
         self.fontOptions = AllFonts()
         if self.fontOptions:
             self.chosenFont = self.fontOptions[0]
 
         # init win
-        self.w = Window((0,0, PLUGIN_WIDTH, PLUGIN_HEIGHT),
-                          "Metrics Tester")
+        self.w = FloatingWindow((0,0, PLUGIN_WIDTH, PLUGIN_HEIGHT),
+                                "Metrics Tester")
 
         # target pop up
         jumpingY = MARGIN_TOP
@@ -129,17 +124,9 @@ class TestMetrics(BaseWindowController):
 
         # separation line
         jumpingY += vanillaControlsSize['PopUpButtonRegularHeight'] + MARGIN_HALFROW
-        self.w.separationLine = HorizontalLine((MARGIN_LFT, jumpingY, NET_WIDTH, 1))
+        # self.w.separationLine = HorizontalLine((MARGIN_LFT, jumpingY, NET_WIDTH, 1))
 
-        # which name scheme
-        jumpingY += 1 + MARGIN_ROW
-        self.w.nameRadio = RadioGroup((MARGIN_LFT, jumpingY, NET_WIDTH, RADIO_GROUP_HEIGHT),
-                                        ['%s names' % name for name in self.nameSchemeOptions],
-                                        callback=self.nameRadioCallback)
-        self.w.nameRadio.set(0)
-        self.w.nameRadio.enable(False)
-
-        jumpingY += RADIO_GROUP_HEIGHT + MARGIN_ROW
+        # jumpingY += RADIO_GROUP_HEIGHT + MARGIN_ROW
         self.w.missingGlyphCheck = CheckBox((MARGIN_LFT, jumpingY, NET_WIDTH, vanillaControlsSize['CheckBoxRegularHeight']),
                                               'Show missing glyphs',
                                               callback=self.missingGlyphCheckCallback)
@@ -177,10 +164,6 @@ class TestMetrics(BaseWindowController):
         else:
             self.chosenFont = None
 
-    def readNameTable(self):
-        namesTable = [(cell.strip() for cell in row.split('\t')) for row in open(NAMES_TABLE_PATH, 'r').readlines()]
-        self.namesDict = {old: new for (new, old) in namesTable}
-
     def targetPopUpCallback(self, sender):
         self.chosenFont = self.fontOptions[sender.get()]
         assert isinstance(self.chosenFont, RFont), '%r is not a RFont instance' % self.chosenFont
@@ -188,35 +171,26 @@ class TestMetrics(BaseWindowController):
     def testChoiceCallback(self, sender):
         self.chosenTest = self.testOptions[sender.get()]
 
-    def nameRadioCallback(self, sender):
-        self.nameScheme = self.nameSchemeOptions[sender.get()]
-
     def missingGlyphCheckCallback(self, sender):
         self.showMissingGlyph = bool(sender.get())
 
     def runButtonCallback(self, sender):
-        progressWindow = self.startProgress('Running Tests')
 
-        try:
-            testsToRun = self.testFunctions[self.chosenTest]
-            rightNow = datetime.now()
-            reportFile = open(PutFile('Choose where to save the report',
-                              '%s%s%s_%s_%s.txt' % (rightNow.year, rightNow.month, rightNow.day,
-                              os.path.basename(self.chosenFont.path)[:-4],
-                              self.testOptionsAbbr[self.testOptions.index(self.chosenTest)])),
-                              'w')
+        testsToRun = self.testFunctions[self.chosenTest]
+        rightNow = datetime.now()
+        reportFile = open(PutFile('Choose where to save the report',
+                          '%s%s%s_%s_%s.txt' % (rightNow.year, rightNow.month, rightNow.day,
+                          os.path.basename(self.chosenFont.path)[:-4],
+                          self.testOptionsAbbr[self.testOptions.index(self.chosenTest)])),
+                          'w')
 
-            for eachFunc in testsToRun:
-                errorLines, missingGlyphs = eachFunc(self.chosenFont, self.nameScheme)
-                report = convertLinesToString(errorLines, missingGlyphs, self.showMissingGlyph)
-                reportFile.write(report)
-            reportFile.close()
-
-        except Exception:
-            exc_type, exc_value, exc_traceback = sys.exc_info()
-            traceback.print_tb(exc_traceback)
-
-        progressWindow.close()
+        # progressWindow = self.startProgress('Running Tests')
+        for eachFunc in testsToRun:
+            errorLines, missingGlyphs = eachFunc(self.chosenFont)
+            report = convertLinesToString(errorLines, missingGlyphs, self.showMissingGlyph)
+            reportFile.write(report)
+        reportFile.close()
+        # progressWindow.close()
 
 ### Instructions
 if __name__ == '__main__':
