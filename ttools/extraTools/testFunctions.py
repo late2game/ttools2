@@ -14,13 +14,13 @@ from itertools import product
 from mojo.tools import IntersectGlyphWithLine
 
 # custom
-import miscFunction
-reload(miscFunction)
-from miscFunction import loadGlyphNamesTable
+import miscFunctions
+reload(miscFunctions)
+from miscFunctions import loadGlyphNamesTable
 
 ### Constants
 # glyphLists
-BASIC_PATH = os.path.join(os.path.dirname(__file__), 'resources', 'tables')
+BASIC_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'resources', 'tables')
 
 DNOM_NUMR_SUBS_SUPS_PATH = os.path.join(BASIC_PATH, 'dnomNumrSubsSups.csv')
 DNOM_NUMR_SUBS_SUPS = loadGlyphNamesTable(DNOM_NUMR_SUBS_SUPS_PATH)
@@ -45,7 +45,7 @@ TABULAR_FIGURES_PATH = os.path.join(BASIC_PATH, 'tabularFigures.csv')
 TABULAR_FIGURES = loadGlyphNamesTable(TABULAR_FIGURES_PATH)
 TABULAR_LINING = [row[0] for row in TABULAR_FIGURES]
 TABULAR_OLDSTYLE = [row[1] for row in TABULAR_FIGURES]
-TABULAR_SC = [row[2] for row in TABULAR_FIGURES]
+TABULAR_SC = [row[2] for row in TABULAR_FIGURES if len(row) < 2]
 
 MATH_SC_PATH = os.path.join(BASIC_PATH, 'mathSC.csv')
 MATH_SC = [row[0] for row in loadGlyphNamesTable(MATH_SC_PATH)]
@@ -104,7 +104,7 @@ def areSidebearingsFlipped(glyph1, glyph2):
 
 def isSidebearingEqual(glyph1, glyph2, position, height):
     # checking arguments qualities
-    assert position == 'left' or position == 'right'
+    assert position == '*left' or position == '*right'
     assert type(height) is types.IntType
 
     intersections1 = IntersectGlyphWithLine(glyph1,
@@ -119,7 +119,7 @@ def isSidebearingEqual(glyph1, glyph2, position, height):
                                             addSideBearings=True)
     intersections2 = sorted(intersections2, key=lambda coor: coor[0])
 
-    if position == 'left':
+    if position == '*left':
         if int(intersections1[1][0]) != int(intersections2[1][0]):
             return False
         else:
@@ -186,7 +186,7 @@ def checkLCextra(sourceFont):
     missingGlyphs = []
 
     for subName, parentName, whichCheck in LC_EXTRA:
-        assert whichCheck == 'widthAndPosition' or whichCheck == 'width' or whichCheck == 'left' or whichCheck == 'right'
+        assert whichCheck == '*widthAndPosition' or whichCheck == '*width' or whichCheck == '*left' or whichCheck == '*right', whichCheck
 
         if subName not in sourceFont:
             missingGlyphs.append(subName)
@@ -195,29 +195,29 @@ def checkLCextra(sourceFont):
         subGlyph = sourceFont[subName]
         parentGlyph = sourceFont[parentName]
 
-        if whichCheck == 'widthAndPosition':
+        if whichCheck == '*widthAndPosition':
             if isWidthEqual(subGlyph, parentGlyph) is False:
                 errorLines.append(WIDTH_DIFFER_ERROR % {'glyphOne': parentGlyph.name,
                                                         'glyphTwo': subGlyph.name,
                                                         'widthOne': parentGlyph.width,
                                                         'widthTwo': subGlyph.width})
 
-            if isSidebearingEqual(subGlyph, parentGlyph, 'left', int(sourceFont.info.xHeight/4)) is False:
+            if isSidebearingEqual(subGlyph, parentGlyph, '*left', int(sourceFont.info.xHeight/4)) is False:
                 errorLines.append(LEFT_DIFFER_ERROR % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
 
             # check right
-            if isSidebearingEqual(subGlyph, parentGlyph, 'right', int(sourceFont.info.xHeight/4)) is False:
+            if isSidebearingEqual(subGlyph, parentGlyph, '*right', int(sourceFont.info.xHeight/4)) is False:
                 errorLines.append(RIGHT_DIFFER_ERROR % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
 
-        elif whichCheck == 'width':
+        elif whichCheck == '*width':
             if isWidthEqual(subGlyph, parentGlyph) is False:
                 errorLines.append(WIDTH_DIFFER_ERROR % {'glyphOne': parentGlyph.name,
                                                         'glyphTwo': subGlyph.name,
                                                         'widthOne': parentGlyph.width,
                                                         'widthTwo': subGlyph.width})
 
-        elif whichCheck == 'left':
-            if isSidebearingEqual(subGlyph, parentGlyph, 'left', int(10)) is False:
+        elif whichCheck == '*left':
+            if isSidebearingEqual(subGlyph, parentGlyph, '*left', int(10)) is False:
                 errorLines.append(LEFT_DIFFER_ERROR % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
 
         else:   # right
@@ -243,8 +243,8 @@ def checkUCextra(sourceFont):
         parentGlyph = sourceFont[parentName]
         subGlyph = sourceFont[subName]
 
-        assert position == 'middle' or position == 'bottom'
-        if position == 'middle':
+        assert position == '*middle' or position == '*bottom'
+        if position == '*middle':
             height = int(sourceFont.info.capHeight/2)
         else:
             height = int(2)
@@ -255,10 +255,10 @@ def checkUCextra(sourceFont):
                                               'widthOne': parentGlyph.width,
                                               'widthTwo': subGlyph.width})
 
-        if isSidebearingEqual(subGlyph, parentGlyph, 'left', height) is False:
+        if isSidebearingEqual(subGlyph, parentGlyph, '*left', height) is False:
             errorLines.append(LEFT_DIFFER_ERROR % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
 
-        if isSidebearingEqual(subGlyph, parentGlyph, 'right', height) is False:
+        if isSidebearingEqual(subGlyph, parentGlyph, '*right', height) is False:
             errorLines.append(RIGHT_DIFFER_ERROR % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
 
     errorLines.append(END_ERROR % {'sep': SEP})
@@ -338,10 +338,13 @@ def checkFigures(sourceFont):
     errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkFigures.__name__}]
     missingGlyphs = []
 
-    checksToBeDone = ['tabularLining', 'tabularOS', 'tabularSC', 'math', 'mathSC']
-    for eachCheck in checksToBeDone:
-        digitsNames = figuresDict[eachCheck]
+    checksToBeDone = {'tabularLining': TABULAR_LINING,
+                      'tabularOS': TABULAR_OLDSTYLE,
+                      'tabularSC': TABULAR_SC,
+                      'math': MATH,
+                      'mathSC': MATH_SC}
 
+    for eachCheckName, digitsNames in checksToBeDone.items():
         widths = {}
         for eachFigureName in digitsNames:
             if eachFigureName in sourceFont:
@@ -351,7 +354,7 @@ def checkFigures(sourceFont):
                 missingGlyphs.append(eachFigureName)
 
         if len(set(widths.values())) > 1:
-            subErrorLines = ['Some %s figures have different width' % eachCheck]
+            subErrorLines = ['Some %s figures have different width' % eachCheckName]
 
             # calc most frequent width
             widthsOccurrences = occurDict(widths.values())
@@ -548,12 +551,10 @@ def checkAccented(sourceFont):
     errorLines = [START_ERROR % {'sep': SEP, 'funcName': checkAccented.__name__}]
     missingGlyphs = []
 
-    for eachAccentedGlyphName, eachAccentedData in ACCENTED_LETTERS.items():
-        if eachAccentedGlyphName in sourceFont:
-            accentedName = eachAccentedGlyphName
-            parentName = eachAccentedData[0]
-            accentedGlyph = sourceFont[accentedName]
-            parentGlyph = sourceFont[parentName]
+    for eachAccentedName, eachParentName, eachAccentName, eachAnchor in ACCENTED_LETTERS:
+        if eachAccentedName in sourceFont:
+            accentedGlyph = sourceFont[eachAccentedName]
+            parentGlyph = sourceFont[eachParentName]
 
             # check set width
             if isWidthEqual(accentedGlyph, parentGlyph) is False:
@@ -563,11 +564,11 @@ def checkAccented(sourceFont):
                                                   'widthTwo': accentedGlyph.width})
 
             # check left
-            if isSidebearingEqual(accentedGlyph, parentGlyph, 'left', int(sourceFont.info.xHeight/2)) is False:
+            if isSidebearingEqual(accentedGlyph, parentGlyph, '*left', int(sourceFont.info.xHeight/2)) is False:
                 errorLines.append(LEFT_DIFFER_ERROR % {'glyphOne': parentGlyph.name, 'glyphTwo': accentedGlyph.name})
 
             # check right
-            if isSidebearingEqual(accentedGlyph, parentGlyph, 'right', int(sourceFont.info.xHeight/2)) is False:
+            if isSidebearingEqual(accentedGlyph, parentGlyph, '*right', int(sourceFont.info.xHeight/2)) is False:
                 errorLines.append(RIGHT_DIFFER_ERROR % {'glyphOne': parentGlyph.name, 'glyphTwo': accentedGlyph.name})
 
     errorLines.append(END_ERROR % {'sep': SEP})
