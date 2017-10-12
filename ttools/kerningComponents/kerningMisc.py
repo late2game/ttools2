@@ -172,6 +172,8 @@ def setRawCorrection(kerningReference, aFont, amount):
     """sometimes, we don't need any intelligence applied, this in mainly used to set exception"""
     aFont.kerning[kerningReference] = amount
 
+def deletePair(aPair, aFont):
+    aFont.kerning.remove(aPair)
 
 def setCorrection(aPair, aFont, correctionAmount):
     lftGlyphName, rgtGlyphName = aPair
