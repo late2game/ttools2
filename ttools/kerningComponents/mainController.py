@@ -48,8 +48,8 @@ import kerningMisc
 reload(kerningMisc)
 from kerningMisc import checkPairFormat, getCorrection, findSymmetricalPair
 from kerningMisc import buildPairsFromString, setCorrection, setRawCorrection
-from kerningMisc import MAJOR_STEP, MINOR_STEP
-from kerningMisc import MARGIN_VER, MARGIN_HOR, MARGIN_COL
+from kerningMisc import isPairException, deletePair, MAJOR_STEP
+from kerningMisc import MINOR_STEP, MARGIN_VER, MARGIN_HOR, MARGIN_COL
 from kerningMisc import CANVAS_SCALING_FACTOR_INIT
 
 import exceptionTools
@@ -83,6 +83,7 @@ KERNING_NOT_DISPLAYED_ERROR = 'Why are you editing kerning if it is not displaye
 
 # log messages
 SET_CORRECTION_LOG = '%(leftGlyphName)s%(rightGlyphName)s from %(familyName)s %(styleName)s set to %(amount)s'
+DELETE_PAIR_LOG = '%(leftGlyphName)s%(rightGlyphName)s from %(familyName)s %(styleName)s deleted from kerning dictionary'
 
 # ui
 LEFT_COLUMN = 200
@@ -439,15 +440,25 @@ class KerningController(BaseWindowController):
         selectedPair = self.getActiveWordDisplay().getActivePair()
         correction, kerningReference, pairKind = getCorrection(selectedPair, selectedFont)
 
-        if correction:
+        isException, doesExists, parentPair = isPairException(kerningReference, selectedFont)
+        if isException:
+            deletePair(kerningReference, selectedFont)
+            self.appendRecord('deletePair', (kerningReference, selectedFont, correction))
+
+        elif correction:
             exceptionOptions = possibleExceptions(selectedPair, kerningReference, selectedFont)
-            if exceptionOptions:
+            if len(exceptionOptions) == 1:
+                self.exceptionWindow.set(exceptionOptions[0])
+                self.exceptionWindow.trigger()
+            elif len(exceptionOptions) > 1:
                 self.exceptionWindow.setOptions(exceptionOptions)
                 self.exceptionWindow.enable(True)
             else:
                 self.showMessage('no possible exceptions', 'kerning exceptions can be triggered only starting from class kerning')
         else:
             self.showMessage('no kerning pair, no exception!', 'kerning exceptions can be triggered only starting from class kerning')
+
+        self.updateWordDisplays()
 
     # manipulate data
     def setPairCorrection(self, amount, isRecording=True):
@@ -579,6 +590,7 @@ class KerningController(BaseWindowController):
                 exceptionKey = sender.get()
                 correction, kerningReference, pairKind = getCorrection(selectedPair, eachFont)
                 setRawCorrection(exceptionKey, eachFont, correction)
+                self.appendRecord('createException', (exceptionKey, eachFont, correction))
                 if indexFont == self.navCursor_Y:
                     self.w.joystick.updateCorrectionValue()
             self.updateWordDisplays()
@@ -714,10 +726,10 @@ class KerningController(BaseWindowController):
         elif joystickEvent == 'jumpToLineTrigger':
             self.jumpToLineWindow.enable(True)
 
-        # from here on events are not archived in undo/redo stack
         elif joystickEvent == 'exceptionTrigger':
             self.exceptionTrigger()
 
+        # from here on events are not archived in undo/redo stack
         elif joystickEvent == 'undo':
             self.undo()
 
@@ -823,6 +835,20 @@ class KerningController(BaseWindowController):
                 pair, font, amount = data
                 setCorrection(pair, font, amount)
                 self.updateWordDisplays()
+
+            elif recordTitle == 'createException':
+                pair, font, amount = data
+                if direction == 'undo':
+                    deletePair(pair, font)
+                else:
+                    setRawCorrection(pair, font, amount)
+
+            elif recordTitle == 'deletePair':
+                pair, font, amount = data
+                if direction == 'undo':
+                    setRawCorrection(pair, font, amount)
+                else:
+                    deletePair(pair, font)
 
             elif recordTitle == 'jumpToLine':
                 previousIndex, nextIndex = data
