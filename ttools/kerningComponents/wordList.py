@@ -79,6 +79,9 @@ class WordListController(Group):
                                        'Save status',
                                        callback=self.saveButtonCallback)
 
+    def _filterDisplayList(self):
+        self.wordsDisplayList = [row for row in self.wordsWorkingList if self.wordFilter in row['word']]
+
     def _makeWordsDisplayList(self, textBaseName):
         self.wordsDisplayList = []
         for eachRow in self.kerningWordsDB[self.activeKerningTextBaseName]:
@@ -133,6 +136,7 @@ class WordListController(Group):
         self.wordsWorkingList = self.kerningWordsDB[self.activeKerningTextBaseName]
         self.activeWord = self.wordsWorkingList[0]['word']
         self._makeWordsDisplayList(self.activeKerningTextBaseName)
+        self._filterDisplayList()
         self.wordsListCtrl.set(self.wordsDisplayList)
         self.callback(self)
 
@@ -150,9 +154,10 @@ class WordListController(Group):
         self.activeWord = self.wordsDisplayList[sender.getSelection()[0]]['word']
         self.callback(self)
 
+
     def wordsFilterCtrlCallback(self, sender):
         self.wordFilter = sender.get()
-        self.wordsDisplayList = [row for row in self.wordsWorkingList if self.wordFilter in row['word']]
+        self._filterDisplayList()
         self.wordsListCtrl.set(self.wordsDisplayList)
         if len(self.wordsDisplayList) == 0:
             self.activeWord = None
