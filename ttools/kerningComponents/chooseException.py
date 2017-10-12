@@ -41,6 +41,13 @@ class ChooseExceptionWindow(BaseWindowController):
 
         self.w.open()
 
+    def set(self, exception):
+        self.whichException = exception
+        self.lastEvent = 'submit'
+
+    def trigger(self):
+        self.callback(self)
+
     def get(self):
         return self.whichException
 
@@ -58,8 +65,8 @@ class ChooseExceptionWindow(BaseWindowController):
     def setOptions(self, options):
         self.options = options
         optionsRepresentation = [', '.join(opt) for opt in self.options]
-
-        delattr(self.w, 'optionsRadio')
+        if hasattr(self.w, 'optionsRadio') is True:
+            delattr(self.w, 'optionsRadio')
         self.w.optionsRadio = RadioGroup((MARGIN, MARGIN, 140, len(options)*20),
                                     optionsRepresentation,
                                     callback=self.optionsCallback)
