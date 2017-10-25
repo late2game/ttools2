@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>kerningEditorManual</title>
+
+
+<style type="text/css">
+body {
+  font-family: Helvetica, arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: white;
+  padding: 30px; }
+
+body > *:first-child {
+  margin-top: 0 !important; }
+body > *:last-child {
+  margin-bottom: 0 !important; }
+
+a {
+  color: #4183C4; }
+a.absent {
+  color: #cc0000; }
+a.anchor {
+  display: block;
+  padding-left: 30px;
+  margin-left: -30px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  cursor: text;
+  position: relative; }
+
+h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA09pVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoMTMuMCAyMDEyMDMwNS5tLjQxNSAyMDEyLzAzLzA1OjIxOjAwOjAwKSAgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OUM2NjlDQjI4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OUM2NjlDQjM4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5QzY2OUNCMDg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5QzY2OUNCMTg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PsQhXeAAAABfSURBVHjaYvz//z8DJYCRUgMYQAbAMBQIAvEqkBQWXI6sHqwHiwG70TTBxGaiWwjCTGgOUgJiF1J8wMRAIUA34B4Q76HUBelAfJYSA0CuMIEaRP8wGIkGMA54bgQIMACAmkXJi0hKJQAAAABJRU5ErkJggg==) no-repeat 10px center;
+  text-decoration: none; }
+
+h1 tt, h1 code {
+  font-size: inherit; }
+
+h2 tt, h2 code {
+  font-size: inherit; }
+
+h3 tt, h3 code {
+  font-size: inherit; }
+
+h4 tt, h4 code {
+  font-size: inherit; }
+
+h5 tt, h5 code {
+  font-size: inherit; }
+
+h6 tt, h6 code {
+  font-size: inherit; }
+
+h1 {
+  font-size: 28px;
+  color: black; }
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #cccccc;
+  color: black; }
+
+h3 {
+  font-size: 18px; }
+
+h4 {
+  font-size: 16px; }
+
+h5 {
+  font-size: 14px; }
+
+h6 {
+  color: #777777;
+  font-size: 14px; }
+
+p, blockquote, ul, ol, dl, li, table, pre {
+  margin: 15px 0; }
+
+hr {
+  background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC) repeat-x 0 0;
+  border: 0 none;
+  color: #cccccc;
+  height: 4px;
+  padding: 0;
+}
+
+body > h2:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+body > h1:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+  body > h1:first-child + h2 {
+    margin-top: 0;
+    padding-top: 0; }
+body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0; }
+
+h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
+  margin-top: 0; }
+
+li p.first {
+  display: inline-block; }
+li {
+  margin: 0; }
+ul, ol {
+  padding-left: 30px; }
+
+ul :first-child, ol :first-child {
+  margin-top: 0; }
+
+dl {
+  padding: 0; }
+  dl dt {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+    padding: 0;
+    margin: 15px 0 5px; }
+    dl dt:first-child {
+      padding: 0; }
+    dl dt > :first-child {
+      margin-top: 0; }
+    dl dt > :last-child {
+      margin-bottom: 0; }
+  dl dd {
+    margin: 0 0 15px;
+    padding: 0 15px; }
+    dl dd > :first-child {
+      margin-top: 0; }
+    dl dd > :last-child {
+      margin-bottom: 0; }
+
+blockquote {
+  border-left: 4px solid #dddddd;
+  padding: 0 15px;
+  color: #777777; }
+  blockquote > :first-child {
+    margin-top: 0; }
+  blockquote > :last-child {
+    margin-bottom: 0; }
+
+table {
+  padding: 0;border-collapse: collapse; }
+  table tr {
+    border-top: 1px solid #cccccc;
+    background-color: white;
+    margin: 0;
+    padding: 0; }
+    table tr:nth-child(2n) {
+      background-color: #f8f8f8; }
+    table tr th {
+      font-weight: bold;
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr td {
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr th :first-child, table tr td :first-child {
+      margin-top: 0; }
+    table tr th :last-child, table tr td :last-child {
+      margin-bottom: 0; }
+
+img {
+  max-width: 100%; }
+
+span.frame {
+  display: block;
+  overflow: hidden; }
+  span.frame > span {
+    border: 1px solid #dddddd;
+    display: block;
+    float: left;
+    overflow: hidden;
+    margin: 13px 0 0;
+    padding: 7px;
+    width: auto; }
+  span.frame span img {
+    display: block;
+    float: left; }
+  span.frame span span {
+    clear: both;
+    color: #333333;
+    display: block;
+    padding: 5px 0 0; }
+span.align-center {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-center > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: center; }
+  span.align-center span img {
+    margin: 0 auto;
+    text-align: center; }
+span.align-right {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px 0 0;
+    text-align: right; }
+  span.align-right span img {
+    margin: 0;
+    text-align: right; }
+span.float-left {
+  display: block;
+  margin-right: 13px;
+  overflow: hidden;
+  float: left; }
+  span.float-left span {
+    margin: 13px 0 0; }
+span.float-right {
+  display: block;
+  margin-left: 13px;
+  overflow: hidden;
+  float: right; }
+  span.float-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: right; }
+
+code, tt {
+  margin: 0 2px;
+  padding: 0 5px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px; }
+
+pre code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent; }
+
+.highlight pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+  pre code, pre tt {
+    background-color: transparent;
+    border: none; }
+
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+
+kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font-size: 11px;
+  line-height: 10px;
+  color: #555;
+  vertical-align: middle;
+  background-color: #fcfcfc;
+  border: solid 1px #ccc;
+  border-bottom-color: #bbb;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #bbb
+}
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:0 auto;
+    }
+}
+@media print {
+	table, pre {
+		page-break-inside: avoid;
+	}
+	pre {
+		word-wrap: break-word;
+	}
+}
+</style>
+
+
+</head>
+
+<body>
+
+<h1 id="toc_0">Index</h1>
+
+<ol>
+<li>Editor components
+
+<ol>
+<li>the kerning view and its display options</li>
+<li>texts manager</li>
+<li>fonts order manager</li>
+<li>joystick</li>
+</ol></li>
+<li>Browse through pair and words
+
+<ol>
+<li>navigate the view</li>
+<li>navigate through the word list</li>
+<li>navigate through the text dictionaries</li>
+<li>filter words</li>
+</ol></li>
+<li>Make corrections
+
+<ol>
+<li>using keyboard</li>
+<li>typing exact value</li>
+<li>symmetrical</li>
+<li>flipped</li>
+<li>vertically</li>
+<li>mark correction as done</li>
+</ol></li>
+<li>Make exceptions
+
+<ol>
+<li>browse through groups</li>
+<li>trigger exception</li>
+<li>delete exception</li>
+</ol></li>
+<li>Undo and redo philosophy</li>
+<li>Save and load kerning status</li>
+<li>Shortcuts map</li>
+</ol>
+
+<h2 id="toc_1">1. Editor components</h2>
+
+<ol>
+<li><p><strong>The kerning view and its display options</strong>. This view displays the sequence of glyph provided by the texts in each opened font. Its appereance is controlled by the display option checkboxess in the lower left corner of the user interface</p>
+
+<p><img src="images/kerningView.png" alt="alt text" title="The kerning view and its display options"></p>
+
+<p>Let’s look in detail to what is displayed for each pair</p>
+
+<p><img src="images/pair.png" alt="alt text" title="The kerning pair"></p></li>
+<li><p><strong>Texts manager</strong>. This component handles the text data stored into the application. It is possible to swap between different lists, mark some words as done, filter the list according to letters combination and manage the status of the job (save and load). Each word is accompained by an index which can be used to refer easily to it.</p>
+
+<p><img src="images/texts-manager.png" alt="alt text" title="Texts manager"></p></li>
+<li><p><strong>Fonts order manager</strong>. This component handles the order of the fonts into the kerning view. Each opened font – if saved on the computer – is displayed in the view and its name in this component. Arrows are provided in order to change the order.</p></li>
+<li><p><strong>The joystick</strong>. This component contains buttons mostly related to data manipulation (display options are stored separately). These buttons are linked to a shortcut, keyboard is usually a faster way than mouse to kern pairs. The shortcuts are listed at the end of the documentation.</p>
+
+<p><img src="images/joystick-.png" alt="alt text" title="kerning editor joystick"></p></li>
+</ol>
+
+<h2 id="toc_2">2. Browse through pair and words</h2>
+
+<ol>
+<li><p><strong>Navigate the view</strong>. You can navigate the view using the cursors from the joystick or the text manager. Up and down arrows move the cursor vertically across the displayed fonts, left and right arrows move the cursor horizontally across the displayed pairs.</p>
+
+<p><video src="videos/moveCursor.mp4" controls width="840" type="video/mp4"></p></li>
+<li><p><strong>Navigate through the word list</strong>. Previous word (north west arrow button) and next word (south east arrow button) switch the kerning view to a different word. It is possible to double click on an element of the texts manager list and switch to a different word. If a word is marked as solved using the “solved” button, the kerning view switches automatically to the next word in the list. </p>
+
+<p><video src="videos/changeWord.mp4" controls width="840" type="video/mp4"></p>
+
+<p>It is possible to jump to a specific line into the list using the cmd+j shortcut.
+A floating window will appear, just type in the index of the line you are looking for and hit the Ok button.</p>
+
+<p><img src="images/jumpToLine.png" alt="alt text" title="jump to line"></p></li>
+<li><p><strong>Navigate through the texts</strong>. The kerning editor has text data store in itself. Different texts, organized for different kinds of kerning are accessible through the texts manager component. The pop up button on the top of the texts manager components allows the user to browse and switch between them.</p></li>
+<li><p><strong>Filter words</strong>. The texts manager component allows to filter temporarily the word list in order to find patterns across words. If you type any letter into the filter editor, the list will be filtered immediately.</p>
+
+<p><video src="videos/filterWords.mp4" controls width="840" type="video/mp4"></p></li>
+</ol>
+
+<h2 id="toc_3">3. Make corrections</h2>
+
+<ol>
+<li><p><strong>Using keyboard</strong>. It is possible to change the kerning value for a pair using the keyboard. Using the arrows you can place the cursor below the pair you would like to correct, and then using the combination cmd+leftArrow or cmd+rightArrow you can create a new kerning pair or change the value of an existing pair using the small step (+4 or -4). If you add alt the combination you can use the big step (+20 or -20).</p>
+
+<p><video src="videos/makeCorrections.mp4" controls width="840" type="video/mp4"></p></li>
+<li><p><strong>Typing exact value</strong>. It is possible to type the exact value of a correction into the edit component placed in the joystick near the arrows. It accepts positive and negative interger values.</p>
+
+<p><video src="videos/typeValue.mp4" controls width="840" type="video/mp4"></p></li>
+<li><p><strong>Symmetrical editing</strong>. Kerning pairs like \ and // often need to have the same kerning correction. They are not the same glyphs in a flipped order, they are different but symmetrical. There are two different kinds of symmetrical glyphs: pure symmetrical or symmetrical couples.</p>
+
+<p><video src="videos/symmetrical.mp4" controls width="840" type="video/mp4"></p>
+
+<p>Here the list the purely symmetrical glyphs:
+A, H, I, O, T, U, V, W, X, Y, period, colon, semicolon, ellipsis, underscore, hyphen, endash, emdash, bullet, periodcentered, exclam, exclamdown, bar, brokenbar, dagger, daggerdbl, quotesingle, quotedbl, asterisk, degree</p>
+
+<p>Here the list of the symmetrical couples:</p>
+
+<ul>
+<li>guilsinglleft, guilsinglright</li>
+<li>guillemotleft, guillemotright</li>
+<li>parenleft, parenright</li>
+<li>bracketleft, bracketright</li>
+<li>braceleft, braceright</li>
+<li>slash, backslash</li>
+</ul>
+
+<p>For example, if symmetrical mode is activated:</p>
+
+<ul>
+<li>A\ is corrected as /A</li>
+<li><em>A is corrected as A</em></li>
+<li>// is corrected as \</li>
+<li>(/ is corrected as )</li>
+</ul></li>
+<li><p><strong>Flipped editing</strong>. Kerning pairs like TA and AT often need to have the same kerning correction. In this case it is possible to activate the flipped editing mode on, and while correcting any pair, its flipped version will receive the same correction.</p>
+
+<p><video src="videos/flipped.mp4" controls width="840" type="video/mp4"></p></li>
+<li><p><strong>Vertically aligned editing</strong>. It is possible to correct the same pair across different fonts at once. Activating the vertically editing mode, a cursor will appear below each word set in each font. Only the horizontal axis will still be free, and the pairs across the fonts will be manipulated at once.</p>
+
+<p><video src="videos/vertical.mp4" controls width="840" type="video/mp4"></p></li>
+<li><p><strong>Mark correction as done</strong>. While kerning, it is possible to mark a word as done (or undone) in two ways:</p>
+
+<ul>
+<li>using cmd+return combination (in this case the next word will be immediately displayed)</li>
+<li>clicking the checkbox into the texts manager list</li>
+</ul></li>
+</ol>
+
+<h2 id="toc_4"> 4. Make exceptions</h2>
+
+<ol>
+<li><p><strong>browse through groups</strong>. If a glyph from the pair selected by the cursor is part of any class, it is possible to switch the foreground glyph (the one drawn in solid black) with another glyph from the class. As soon as the cursor is moved to another pair, the foreground glyphs will immediately switch to the original one. It is possible to switch foreground glyph using the keyboard:</p>
+
+<ul>
+<li>left glyph → cmd+a </li>
+<li>right glyph → cmd+s</li>
+</ul></li>
+<li><p><strong>Trigger exception</strong>. If a glyph from the pair selected by the cursor is part of any class it is possible to trigger an exception from the class kerning data. </p>
+
+<p>If the situation of a pair is left group vs right group it is possible to except in three different ways:</p>
+
+<ul>
+<li>left group vs right glyph</li>
+<li>left glyph vs right group</li>
+<li>left glyph vs right glyph</li>
+</ul>
+
+<p>In this case, once triggered an exception using the provided button or the cmd+e shortcut, an exception window will appear with the possible options.</p>
+
+<p><img src="images/exceptionWindow.png" alt="exception window"></p>
+
+<p>Differently, if the starting point is left group vs right glyph or left glyph vs right group it is only possible to except with a left glyph vs right glyph correction. In this case there is no exception window, because there is only one choice available.</p>
+
+<p>When a correction is detected as an exception, it is displayed differently for the normal pairs. A wiggle line is drawn below the letters.</p>
+
+<p><img src="images/wiggleLine.png" alt="exception wiggle line"></p></li>
+<li><p><strong>Delete exception</strong>. It is possible to delete an exception from the kerning data. You have to use the exception button (or the cmd+e shortcut) while selecting and excepted pair.</p></li>
+</ol>
+
+<h2 id="toc_5"> 5. Undo and redo philosophy</h2>
+
+<p>The kerning editor supports the undo and redo commands. They do not affect only the manipulation of kerning data, but also the user interface history. Meaning that cmd+z will browse into the history of your cursor AND your kerning data. </p>
+
+<p><video src="videos/undoRedo.mp4" controls width="840" type="video/mp4"></p>
+
+<p>These are the commands which are supported by undo/redo pattern:</p>
+
+<ul>
+<li>kerning correction</li>
+<li>create and delete exception</li>
+<li>delete pair </li>
+<li>jump to line</li>
+<li>next word and previous word</li>
+<li>preview mode</li>
+<li>word marked as solved or unsolved</li>
+<li>flipped editing</li>
+<li>symmetrical editing</li>
+<li>vertical editing</li>
+<li>cursor movements</li>
+</ul>
+
+<h2 id="toc_6">6. Save and load kerning status</h2>
+
+<p>It is possible to save the status of a kerning job from the texts manager component. Take into account that the kerning data is saved into the UFO files, this process only saves the status of the job. Meaning that the words along with info concerning their status (done or undone) are saved or loaded. Remember that the saved files needs a json suffix. </p>
+
+<h2 id="toc_7"> 7. Shortcuts map</h2>
+
+<p><img src="images/shortcuts.png" alt="the shortcuts"></p>
+
+
+
+
+</body>
+
+</html>
