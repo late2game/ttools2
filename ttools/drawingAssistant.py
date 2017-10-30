@@ -25,7 +25,7 @@ from extraTools.miscFunctions import getOpenedFontFromPath
 import os, sys
 import traceback
 from math import cos, sin, radians, tan, ceil
-from mojo.roboFont import CurrentGlyph, AllFonts
+from mojo.roboFont import CurrentGlyph, AllFonts, version
 from mojo.UI import UpdateCurrentGlyphView, AccordionView, CurrentGlyphWindow
 from vanilla import FloatingWindow, CheckBox, Group
 from vanilla import TextBox, EditText, ColorWell, SquareButton
@@ -329,8 +329,10 @@ class DistancesController(Group):
                     self.currentGlyph.prepareUndo(undoTitle='append a stem to %s lib' % STEM_KEY)
                     self.currentGlyph.lib[STEM_KEY].append(eachStem)
                     self.currentGlyph.performUndo()
-
-        self.currentGlyph.update()
+        if version[0] == '2':
+            self.currentGlyph.changed()
+        else:
+            self.currentGlyph.update()
 
     def addDiagonalsButtonCallback(self, sender):
         if self.currentGlyph and DIAGONALS_KEY not in self.currentGlyph.lib:
@@ -365,7 +367,10 @@ class DistancesController(Group):
                             self.currentGlyph.prepareUndo(undoTitle='remove a stem from %s lib' % DIAGONALS_KEY)
                             self.currentGlyph.lib[DIAGONALS_KEY].remove(eachStem)
                             self.currentGlyph.performUndo()
-            self.currentGlyph.update()
+            if version[0] == '2':
+                self.currentGlyph.changed()
+            else:
+                self.currentGlyph.update()
         else:
             return None
 
@@ -652,12 +657,18 @@ class DrawingAssistant(BaseWindowController):
         # double click
         if mouseDownClickCount == 2:
             if self.lftNeighborActive is True and self.lftGlyph:
-                xMin, yMin, xMax, yMax = self.lftGlyph.box
+                if version[0] == '2':
+                    xMin, yMin, xMax, yMax = self.lftGlyph.bounds
+                else:
+                    xMin, yMin, xMax, yMax = self.lftGlyph.box
                 if xMin < (mouseDownPoint.x+self.lftGlyph.width) < xMax and yMin < mouseDownPoint.y < yMax:
                     OpenGlyphWindow(glyph=self.lftGlyph, newWindow=True)
 
             if self.rgtNeighborActive is True and self.rgtGlyph:
-                xMin, yMin, xMax, yMax = self.rgtGlyph.box
+                if version[0] == '2':
+                    xMin, yMin, xMax, yMax = self.rgtGlyph.bounds
+                else:
+                    xMin, yMin, xMax, yMax = self.rgtGlyph.box
                 if xMin < (mouseDownPoint.x-self.currentGlyph.width) < xMax and yMin < mouseDownPoint.y < yMax:
                     OpenGlyphWindow(glyph=self.rgtGlyph, newWindow=True)
 

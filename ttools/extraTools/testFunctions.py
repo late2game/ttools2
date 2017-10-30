@@ -135,10 +135,15 @@ def areVerticalExtremesEqual(glyphs):
     glyphsData = {}
 
     for eachGlyph in glyphs:
-        if eachGlyph.box is None:
+        if version[0] == '2':
+            glyphBounds = eachGlyph.bounds
+        else:
+            glyphBounds = eachGlyph.box
+
+        if glyphBounds is None:
             glyphsData[eachGlyph.name] = 'empty'
         else:
-            xMin, yMin, xMax, yMax = eachGlyph.box
+            xMin, yMin, xMax, yMax = glyphBounds
             glyphsData[eachGlyph.name] = (yMin, yMax)
 
     if len(set(glyphsData.values())) <= 1:

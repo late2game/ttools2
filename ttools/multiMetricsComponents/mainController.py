@@ -32,7 +32,7 @@ import traceback
 from AppKit import NSColor, NSFont, NSCenterTextAlignment
 from mojo.UI import MultiLineView, OpenGlyphWindow
 from mojo.events import addObserver, removeObserver
-from mojo.roboFont import AllFonts, OpenFont, RFont
+from mojo.roboFont import AllFonts, OpenFont, RFont, version
 from vanilla import Window, EditText, CheckBox
 from vanilla import PopUpButton, HorizontalLine
 from vanilla.dialogs import message
@@ -54,7 +54,11 @@ RED = (1,0,0)
 BLACK = (0,0,0)
 
 TTOOLS_FOLDER = os.path.dirname(os.path.dirname(__file__))
-NOT_DEF_GLYPH = OpenFont(os.path.join(TTOOLS_FOLDER, 'resources', 'notdef.ufo'), showUI=False)['.notdef']
+
+if version[0] == '2':
+    NOT_DEF_GLYPH = OpenFont(os.path.join(TTOOLS_FOLDER, 'resources', 'notdef.ufo'), showInterface=False)['.notdef']
+else:
+    NOT_DEF_GLYPH = OpenFont(os.path.join(TTOOLS_FOLDER, 'resources', 'notdef.ufo'), showUI=False)['.notdef']
 
 # the control factory
 class MultiFontMetricsWindow(BaseWindowController):
