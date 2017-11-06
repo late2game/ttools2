@@ -16,7 +16,7 @@ import os
 import types
 import codecs
 from defconAppKit.tools.textSplitter import splitText
-from mojo.roboFont import RGlyph
+from mojo.roboFont import RGlyph, version
 from fontTools.misc.arrayTools import offsetRect, sectRect
 from lib.tools.bezierTools import intersectCubicCubic, intersectCubicLine, intersectLineLine
 from vanilla import Window, RadioGroup, Button
@@ -234,10 +234,16 @@ def checkIfPairOverlaps(g1, g2):
         return False
 
     # get the bounds and check them
-    bounds1 = g1.box
+    if version[0] == '2':
+        bounds1 = g1.bounds
+    else:
+        bounds1 = g1.box
     if bounds1 is None:
         return False
-    bounds2 = g2.box
+    if version[0] == '2':
+        bounds2 = g2.bounds
+    else:
+        bounds2 = g2.box
     if bounds2 is None:
         return False
 

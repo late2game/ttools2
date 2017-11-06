@@ -15,7 +15,7 @@ import sys
 import codecs
 import types
 from collections import OrderedDict
-from mojo.roboFont import CurrentFont, OpenFont
+from mojo.roboFont import CurrentFont, OpenFont, version
 from vanilla.dialogs import getFile
 
 ### Constants
@@ -113,7 +113,10 @@ def sortFontAccordingToSmartSets(aFont):
 def importFontInfoFromUFOtoCurrentFont():
     aFontPath = getFile(messageText='Please, choose a UFO file', fileTypes=['ufo'])[0]
     if aFontPath.endswith('.ufo'):
-        sourceFont = OpenFont(aFontPath, showUI=False)
+        if version[0] == '2':
+            sourceFont = OpenFont(aFontPath, showInterface=False)
+        else:
+            sourceFont = OpenFont(aFontPath, showUI=False)
         sourceFontInfos = sourceFont.info.asDict()
         for eachAttribute, eachValue in sourceFontInfos.items():
             setattr(CurrentFont().info, eachAttribute, eachValue)

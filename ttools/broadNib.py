@@ -33,7 +33,7 @@ from vanilla import EditText, SquareButton, RadioGroup
 from robofab.pens.filterPen import thresholdGlyph, flattenGlyph
 from mojo.events import addObserver, removeObserver
 from mojo.UI import UpdateCurrentGlyphView
-from mojo.roboFont import CurrentGlyph, RGlyph
+from mojo.roboFont import CurrentGlyph, RGlyph, version
 from lib.eventTools.eventManager import getActiveEventTool
 from lib.tools.defaults import getDefault
 from mojo.drawingTools import *
@@ -255,13 +255,19 @@ class BroadNib(object):
             CurrentGlyph().lib[PLUGIN_KEY][eachSelectedID] = {'width': self.nibWidth,
                                                               'height': self.nibHeight,
                                                               'angle': self.nibAngle}
-        CurrentGlyph().update()
+        if version[0] == '2':
+            CurrentGlyph().changed()
+        else:
+            CurrentGlyph().update()
         UpdateCurrentGlyphView()
 
     def clearLibCallback(self, sender):
         if PLUGIN_KEY in CurrentGlyph().lib:
             del CurrentGlyph().lib[PLUGIN_KEY]
-        CurrentGlyph().update()
+        if version[0] == '2':
+            CurrentGlyph().changed()
+        else:
+            CurrentGlyph().update()
         UpdateCurrentGlyphView()
 
     def expandToForegroundCallback(self, sender):
@@ -406,8 +412,10 @@ class BroadNib(object):
             phantomGlyph.removeOverlap()
             flattenGlyph(phantomGlyph, 20)
             thresholdGlyph(phantomGlyph, 5)
-            glyph.getLayer('foreground', clear=True).appendGlyph(phantomGlyph, (0, 0))
-
+            if version[0] == '2':
+                glyph.getLayer('public.default', clear=True).appendGlyph(phantomGlyph, (0, 0))
+            else:
+                glyph.getLayer('foreground', clear=True).appendGlyph(phantomGlyph, (0, 0))
 
     def closing(self, sender):
         removeObserver(self, "drawBackground")
