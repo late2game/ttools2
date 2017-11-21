@@ -101,7 +101,13 @@ def changeWidth(aGlyph, whichOperation, whereToAct, amount):
     elif whereToAct == u'←':
         aGlyph.leftMargin += newWidth-aGlyph.width
     else:               # center
-        blackWidth = aGlyph.box[2]-aGlyph.box[0]
+
+        if version[0] == '2':
+            xMin, yMin, xMax, yMax = aGlyph.bounds
+        else:
+            xMin, yMin, xMax, yMax = aGlyph.box
+
+        blackWidth = xMax-xMin
         whiteWidth = newWidth-blackWidth
         aGlyph.leftMargin = whiteWidth//2
         aGlyph.rightMargin = whiteWidth//2

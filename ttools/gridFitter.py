@@ -12,7 +12,7 @@ reload(ui.userInterfaceValues)
 from ui.userInterfaceValues import vanillaControlsSize
 
 # standard
-from mojo.roboFont import AllFonts, CurrentFont
+from mojo.roboFont import AllFonts, CurrentFont, version
 from vanilla import FloatingWindow, PopUpButton, EditText, TextBox, Button
 
 ### Constants
@@ -36,7 +36,10 @@ def gridFit(glyph, cellSide):
         for eachBcp in eachContour.bPoints:
             if eachBcp.anchor[0] % cellSide != 0 or eachBcp.anchor[1] % cellSide != 0:
                 distance = -(eachBcp.anchor[0] % cellSide), -(eachBcp.anchor[1] % cellSide)
-                eachBcp.move(distance)
+                if version[0] == '2':
+                    eachBcp.moveBy(distance)
+                else:
+                    eachBcp.move(distance)
 
     # bPoints
     for eachContour in glyph:
@@ -46,7 +49,10 @@ def gridFit(glyph, cellSide):
 
             if eachBcp.bcpOut[0] % cellSide != 0 or eachBcp.bcpOut[1] % cellSide != 0:
                 eachBcp.bcpOut = eachBcp.bcpOut[0]-(eachBcp.bcpOut[0] % cellSide), eachBcp.bcpOut[1]-(eachBcp.bcpOut[1] % cellSide)
-    glyph.update()
+    if version[0] == '2':
+        glyph.changed()
+    else:
+        glyph.update()
 
 
 class GridFitter(object):

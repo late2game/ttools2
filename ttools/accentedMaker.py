@@ -17,6 +17,7 @@ from extraTools.miscFunctions import selectAnchorByName
 
 # standard modules
 import os
+from mojo.roboFont import version
 from AppKit import NSColor
 from collections import OrderedDict
 from mojo.events import addObserver, removeObserver
@@ -146,7 +147,10 @@ class AccentedMaker(BaseWindowController):
 
                 eachGlyph = eachFont[eachGlyphName]
                 if self.markEditedGlyphs is True:
-                    eachGlyph.mark = self.markColor
+                    if version[0] == '2':
+                        eachGlyph.markColor = self.markColor
+                    else:
+                        eachGlyph.mark = self.markColor
 
                 for eachAnchor in eachGlyph.anchors:
                     eachGlyph.removeAnchor(eachAnchor)
@@ -171,7 +175,10 @@ class AccentedMaker(BaseWindowController):
             for eachGlyphName in self.whichGlyphList:
                 eachGlyph = eachFont[eachGlyphName]
                 if self.markEditedGlyphs is True:
-                    eachGlyph.mark = self.markColor
+                    if version[0] == '2':
+                        eachGlyph.markColor = self.markColor
+                    else:
+                        eachGlyph.mark = self.markColor
 
                 if selectAnchorByName(eachGlyph, self.anchorName):
                     anchorToDel = selectAnchorByName(eachGlyph, self.anchorName)
@@ -205,7 +212,10 @@ class AccentedMaker(BaseWindowController):
                         report.append(NO_ANCHORS % {'glyphName': eachBaseName})
                         if eachAccentedName not in toSkip:
                             toSkip.append(eachAccentedName)
-                        eachBaseGlyph.mark = ERROR_MARK_COLOR
+                        if version[0] == '2':
+                            eachBaseGlyph.markColor = ERROR_MARK_COLOR
+                        else:
+                            eachBaseGlyph.mark = ERROR_MARK_COLOR
                     else:
                         for eachAnchor in eachBaseGlyph.anchors:
                             if eachAnchor.name == eachAnchorName:
@@ -214,7 +224,10 @@ class AccentedMaker(BaseWindowController):
                             report.append(MISSING_ANCHOR % {'anchorName': eachAnchorName, 'glyphName': eachBaseName, 'accentedName': eachAccentedName})
                             if eachAccentedName not in toSkip:
                                 toSkip.append(eachAccentedName)
-                            eachBaseGlyph.mark = ERROR_MARK_COLOR
+                            if version[0] == '2':
+                                eachBaseGlyph.markColor = ERROR_MARK_COLOR
+                            else:
+                                eachBaseGlyph.mark = ERROR_MARK_COLOR
 
                 # accent
                 if eachFont.has_key(eachAccentName) is False:
@@ -227,7 +240,10 @@ class AccentedMaker(BaseWindowController):
                         report.append(NO_ANCHORS % {'glyphName': eachAccentName})
                         if eachAccentedName not in toSkip:
                             toSkip.append(eachAccentedName)
-                        eachAccentGlyph.mark = ERROR_MARK_COLOR
+                        if version[0] == '2':
+                            eachAccentGlyph.markColor = ERROR_MARK_COLOR
+                        else:
+                            eachAccentGlyph.mark = ERROR_MARK_COLOR
                     else:
                         for eachAnchor in eachAccentGlyph.anchors:
                             if eachAnchor.name == '_%s' % eachAnchorName:
@@ -236,7 +252,10 @@ class AccentedMaker(BaseWindowController):
                             report.append(MISSING_ANCHOR % {'anchorName': eachAnchorName, 'glyphName': eachAccentName, 'accentedName': eachAccentedName})
                             if eachAccentedName not in toSkip:
                                 toSkip.append(eachAccentedName)
-                            eachAccentGlyph.mark = ERROR_MARK_COLOR
+                            if version[0] == '2':
+                                eachAccentGlyph.markColor = ERROR_MARK_COLOR
+                            else:
+                                eachAccentGlyph.mark = ERROR_MARK_COLOR
 
             notReady['%s %s' % (eachFont.info.familyName, eachFont.info.styleName)] = toSkip
             report.append('End checking %s %s' % (eachFont.info.familyName, eachFont.info.styleName))
@@ -288,7 +307,10 @@ class AccentedMaker(BaseWindowController):
                     print BUILT_GLYPH % {'accentedName': eachAccentedName, 'baseName': eachBaseName, 'accentName': eachAccentName, 'anchorName': eachAnchorName}
 
                 if self.markEditedGlyphs is True:
-                    eachAccentedGlyph.mark = self.markColor
+                    if version[0] == '2':
+                        eachAccentedGlyph.markColor = self.markColor
+                    else:
+                        eachAccentedGlyph.mark = self.markColor
 
         if self.isVerbose is True:
             print END_FUNC % {'funcName': self.buildAccented.__name__}
