@@ -92,6 +92,7 @@ def loadGlyphNamesTable(aPath):
 def sortFontAccordingToSmartSets(aFont):
     # loading smart sets path
     smartSetsPaths = catchFilesAndFolders(SMART_SETS_FOLDER, '.txt')
+    smartSetsPaths.sort()
     # building a reference glyph order from smart sets
     smartSetsGlyphOrder = []
     for eachPath in smartSetsPaths:
