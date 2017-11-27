@@ -724,13 +724,6 @@ class DrawingAssistant(BaseWindowController):
                 frameSize = int(visibleRect.size.width), int(visibleRect.size.height)
                 self._drawGrids(frameOrigin, frameSize, currentGlyph.getParent().info.italicAngle, scalingFactor)
 
-            if self.stemActive is True and 1.5 > scalingFactor:
-                self._drawStems(currentGlyph, scalingFactor)
-                if self.lftGlyph and self.lftNeighborActive is True:
-                    self._drawStems(self.lftGlyph, scalingFactor, offset_X=-self.lftGlyph.width)
-                if self.rgtGlyph and self.rgtNeighborActive is True:
-                    self._drawStems(self.rgtGlyph, scalingFactor, offset_X=currentGlyph.width)
-
             if self.diagonalActive is True and 1 > scalingFactor:
                 self._drawDiagonals(currentGlyph, scalingFactor)
                 if self.lftGlyph and self.lftNeighborActive is True:
@@ -740,6 +733,13 @@ class DrawingAssistant(BaseWindowController):
 
             if self.cntNeighborActive is True:
                 self._drawCentralBackgroundGlyph(self.cntGlyph)
+
+            if self.stemActive is True and 1.5 > scalingFactor:
+                self._drawStems(currentGlyph, scalingFactor)
+                if self.lftGlyph and self.lftNeighborActive is True:
+                    self._drawStems(self.lftGlyph, scalingFactor, offset_X=-self.lftGlyph.width)
+                if self.rgtGlyph and self.rgtNeighborActive is True:
+                    self._drawStems(self.rgtGlyph, scalingFactor, offset_X=currentGlyph.width)
 
             if self.offgridActive is True:
                 self._drawOffgridPoints(currentGlyph, scalingFactor)
