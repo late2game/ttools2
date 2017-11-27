@@ -57,7 +57,7 @@ else:
     SYSTEM_FONT_NAME_BOLD = '.HelveticaNeueDeskInterface-Bold'
 
 BLACK_COLOR = (0, 0, 0)
-LIGHT_GRAY_COLOR = (.6, .6, .6)
+LIGHT_GRAY_COLOR = (.75, .75, .75)
 RED_COLOR = (1,0,0)
 WHITE_COLOR = (1, 1, 1)
 
