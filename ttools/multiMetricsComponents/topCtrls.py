@@ -25,7 +25,7 @@ def spitDecentString(someGlyphs, unicodeData):
     flippedUnicodeData = {eachV[0]: eachK for (eachK, eachV) in unicodeData.items()}
     decentString = ''
     for eachGlyphName in someGlyphs:
-        if eachGlyphName in flippedUnicodeData:
+        if eachGlyphName in flippedUnicodeData and flippedUnicodeData[eachGlyphName] is not None:
             decentString += unichr(flippedUnicodeData[eachGlyphName])
         else:
             decentString += '/%s ' % eachGlyphName

@@ -327,7 +327,8 @@ class MultiFontMetricsWindow(BaseWindowController):
                 if eachKey not in eachFont.naked().unicodeData:
                     # print '[WARNING] %s unicode value is not shared across the fonts' % eachKey
                     break
-            self.unicodeMinimum[eachKey] = eachValue
+            if eachValue:
+                self.unicodeMinimum[eachKey] = eachValue
 
     def collectEditTexts(self):
         editTextsPaths = catchFilesAndFolders(self.folderPath, '.txt')
