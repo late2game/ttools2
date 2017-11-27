@@ -26,7 +26,7 @@
 
 
 ## 1. Editor components
-1. **The kerning view and its display options**. This view displays the sequence of glyph provided by the texts in each opened font. Its appereance is controlled by the display option checkboxess in the lower left corner of the user interface
+1. **The kerning view and its display options**. This view displays the sequence of glyph provided by the texts in each opened font. Its appereance is controlled by the display option checkboxes in the lower left corner of the user interface
 
 	![alt text](images/kerningView.png "The kerning view and its display options")
 
