@@ -1,10 +1,11 @@
 hyphen hyphen hyphen L C space A c c e n t e d hyphen hyphen hyphen
 n ae n aeacute n o ae o aeacute o
-n a n aacute n abreve n acircumflex n adieresis n agrave n amacron n aring n atilde n o a o aacute o abreve o acircumflex o adieresis o agrave o amacron o aring o atilde o
+n a n aacute n abreve n acircumflex n adieresis n agrave n amacron n aring n atilde n aogonek n o a o aacute o abreve o acircumflex o adieresis o agrave o amacron o aring o atilde o aogonek o
 n c n cacute n ccaron n ccircumflex n cdotaccent n o c o cacute o ccaron o ccircumflex o cdotaccent o
-n e n eacute n ebreve n ecaron n ecircumflex n edieresis n edotaccent n egrave n emacron n o e o eacute o ebreve o ecaron o ecircumflex o edieresis o edotaccent o egrave o emacron o
+n e n eacute n ebreve n ecaron n ecircumflex n edieresis n edotaccent n egrave n emacron n eogonek n o e o eacute o ebreve o ecaron o ecircumflex o edieresis o edotaccent o egrave o emacron o eogonek o
 n g n gbreve n gcircumflex n gdotaccent n o g o gbreve o gcircumflex o gdotaccent o
 n h n hcircumflex n o h o hcircumflex o
+n iacute n ibreve n icircumflex n idieresis n igrave n imacron n itilde n iogonek n o iacute o ibreve o icircumflex o idieresis o igrave o imacron o itilde o iogonek o
 n k n uni0137 n o k o uni0137 o
 n l n lacute n ldot n ldot.latn_CAT n uni013C n o l o lacute o ldot o ldot.latn_CAT o uni013C o
 n n n nacute n ncaron n ntilde n uni0146 n o n o nacute o ncaron o ntilde o uni0146 o
@@ -13,14 +14,14 @@ n oslash n oslashacute n o oslash o oslashacute o
 n r n racute n rcaron n uni0157 n o r o racute o rcaron o uni0157 o
 n s n sacute n scaron n scircumflex n uni0219 n o s o sacute o scaron o scircumflex o uni0219 o
 n t n uni0163 n uni021B n o t o uni0163 o uni021B o
-n u n uacute n ubreve n ucircumflex n udieresis n ugrave n uhungarumlaut n umacron n uring n utilde n o u o uacute o ubreve o ucircumflex o udieresis o ugrave o uhungarumlaut o umacron o uring o utilde o
+n u n uacute n ubreve n ucircumflex n udieresis n ugrave n uhungarumlaut n umacron n uring n utilde n uogonek n o u o uacute o ubreve o ucircumflex o udieresis o ugrave o uhungarumlaut o umacron o uring o utilde o uogonek o
 n w n wacute n wcircumflex n wdieresis n wgrave n o w o wacute o wcircumflex o wdieresis o wgrave o
 n y n yacute n ycircumflex n ydieresis n ygrave n o y o yacute o ycircumflex o ydieresis o ygrave o
 n z n zacute n zcaron n zdotaccent n o z o zacute o zcaron o zdotaccent o
 n acute n aacute n aeacute n cacute n eacute n iacute n lacute n nacute n oacute n oslashacute n racute n sacute n uacute n wacute n yacute n zacute n o acute o aacute o aeacute o cacute o eacute o iacute o lacute o nacute o oacute o oslashacute o racute o sacute o uacute o wacute o yacute o zacute o
 n breve n abreve n ebreve n gbreve n ibreve n obreve n ubreve n o breve o abreve o ebreve o gbreve o ibreve o obreve o ubreve o
 n caron n ccaron n ecaron n ncaron n rcaron n scaron n zcaron n o caron o ccaron o ecaron o ncaron o rcaron o scaron o zcaron o
-n cedilla n uni0162 n uni0163 n o cedilla o uni0162 o uni0163 o
+n cedilla n uni0163 n o cedilla o uni0163 o
 n circumflex n acircumflex n ccircumflex n ecircumflex n gcircumflex n hcircumflex n icircumflex n jcircumflex n ocircumflex n scircumflex n ucircumflex n wcircumflex n ycircumflex n o circumflex o acircumflex o ccircumflex o ecircumflex o gcircumflex o hcircumflex o icircumflex o jcircumflex o ocircumflex o scircumflex o ucircumflex o wcircumflex o ycircumflex o
 n dieresis n adieresis n edieresis n idieresis n odieresis n udieresis n wdieresis n ydieresis n o dieresis o adieresis o edieresis o idieresis o odieresis o udieresis o wdieresis o ydieresis o
 n dotaccent n cdotaccent n edotaccent n gdotaccent n ldot n ldot.latn_CAT n zdotaccent n o dotaccent o cdotaccent o edotaccent o gdotaccent o ldot o ldot.latn_CAT o zdotaccent o
@@ -29,4 +30,5 @@ n hungarumlaut n ohungarumlaut n uhungarumlaut n o hungarumlaut o ohungarumlaut 
 n macron n amacron n emacron n imacron n omacron n umacron n uni02C9 n o macron o amacron o emacron o imacron o omacron o umacron o uni02C9 o
 n tilde n atilde n itilde n ntilde n otilde n utilde n o tilde o atilde o itilde o ntilde o otilde o utilde o
 n ring n aring n uring n o ring o aring o uring o
-n uni0326 n uni0122 n uni0136 n uni0137 n uni013B n uni013C n uni0145 n uni0146 n uni0156 n uni0157 n uni0218 n uni0219 n uni021A n uni021B n o uni0326 o uni0122 o uni0136 o uni0137 o uni013B o uni013C o uni0145 o uni0146 o uni0156 o uni0157 o uni0218 o uni0219 o uni021A o uni021B o
+n uni0326 n uni0137 n uni013C n uni0146 n uni0157 n uni0219 n uni021B n o uni0137 o uni013C o uni0146 o uni0157 o uni0219 o uni021B o
+n ogonek n aogonek n eogonek n iogonek n uogonek n o aogonek o eogonek o iogonek o uogonek o

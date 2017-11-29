@@ -33,3 +33,4 @@ H ogonek H Aogonek H Eogonek H Iogonek H Uogonek H O ogonek O Aogonek O Eogonek 
 H ring H Aring H Uring H O ring O Aring O Uring O
 H tilde H Atilde H Itilde H Ntilde H Otilde H Utilde H O tilde O Atilde O Itilde O Ntilde O Otilde O Utilde O
 H uni0326 H uni0145 H uni021A H uni0218 H uni0136 H uni0122 H uni0156 H uni013B H O uni0326 O uni0145 O uni021A O uni0218 O uni0136 O uni0122 O uni0156 O uni013B O
+H ogonek H Aogonek H Eogonek H Iogonek H Uogonek H O Aogonek O Eogonek O Iogonek O Uogonek O
