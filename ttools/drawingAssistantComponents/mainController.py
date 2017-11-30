@@ -452,24 +452,24 @@ class DrawingAssistant(BaseWindowController):
             for indexBPT, eachBPT in enumerate(eachContour.bPoints):
 
                 if eachBPT.bcpOut != (0, 0):
-                    nextBcp = eachContour.bPoints[(indexBPT+1) % len(eachContour.bPoints)]
+                    nextBPT = eachContour.bPoints[(indexBPT+1) % len(eachContour.bPoints)]
 
                     absBcpOut = (eachBPT.anchor[0]+eachBPT.bcpOut[0], eachBPT.anchor[1]+eachBPT.bcpOut[1])
                     angleOut = calcAngle(eachBPT.anchor, absBcpOut)
                     handleOutLen = calcDistance(eachBPT.anchor, absBcpOut)
 
-                    absBcpIn = (nextBcp.anchor[0]+nextBcp.bcpIn[0], nextBcp.anchor[1]+nextBcp.bcpIn[1])
-                    angleIn = calcAngle(nextBcp.anchor, absBcpIn)
-                    nextHandleInLen = calcDistance(nextBcp.anchor, absBcpIn)
+                    absBcpIn = (nextBPT.anchor[0]+nextBPT.bcpIn[0], nextBPT.anchor[1]+nextBPT.bcpIn[1])
+                    angleIn = calcAngle(nextBPT.anchor, absBcpIn)
+                    nextHandleInLen = calcDistance(nextBPT.anchor, absBcpIn)
 
                     handlesIntersection = intersectionBetweenSegments(eachBPT.anchor,
                                                                       absBcpOut,
                                                                       absBcpIn,
-                                                                      nextBcp.anchor)
+                                                                      nextBPT.anchor)
 
                     if handlesIntersection is not None:
                         maxOutLen = calcDistance(eachBPT.anchor, handlesIntersection)
-                        maxInLen = calcDistance(nextBcp.anchor, handlesIntersection)
+                        maxInLen = calcDistance(nextBPT.anchor, handlesIntersection)
 
                         sqrOut = handleOutLen/maxOutLen
                         sqrIn = nextHandleInLen/maxInLen
@@ -497,8 +497,8 @@ class DrawingAssistant(BaseWindowController):
                         dt.textBox(captionSqrOut, textRect, align='center')
                         dt.restore()
 
-                        projIn_X = nextBcp.anchor[0]+cos(radians(angleIn))*nextHandleInLen
-                        projIn_Y = nextBcp.anchor[1]+sin(radians(angleIn))*nextHandleInLen
+                        projIn_X = nextBPT.anchor[0]+cos(radians(angleIn))*nextHandleInLen
+                        projIn_Y = nextBPT.anchor[1]+sin(radians(angleIn))*nextHandleInLen
                         if angleIn != 0 and angleIn % 90 != 0:
                             captionSqrIn = u'%.2f%%, %d°' % (sqrIn, angleIn%180)
                         else:
