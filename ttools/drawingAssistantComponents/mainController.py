@@ -332,17 +332,17 @@ class DrawingAssistant(BaseWindowController):
 
         scaledRadius = OFFGRID_RADIUS*scalingFactor
         for eachContour in glyph:
-            for eachPt in eachContour.bPoints:
-                if eachPt.anchor[0] % 4 != 0 or eachPt.anchor[1] % 4 != 0:
-                    dt.oval(eachPt.anchor[0]-scaledRadius/2., eachPt.anchor[1]-scaledRadius/2., scaledRadius, scaledRadius)
+            for eachBPT in eachContour.bPoints:
+                if eachBPT.anchor[0] % 4 != 0 or eachBPT.anchor[1] % 4 != 0:
+                    dt.oval(eachBPT.anchor[0]-scaledRadius/2., eachBPT.anchor[1]-scaledRadius/2., scaledRadius, scaledRadius)
 
-                if eachPt.bcpIn != (0,0):
-                    bcpInAbs = eachPt.anchor[0]+eachPt.bcpIn[0], eachPt.anchor[1]+eachPt.bcpIn[1]
+                if eachBPT.bcpIn != (0,0):
+                    bcpInAbs = eachBPT.anchor[0]+eachBPT.bcpIn[0], eachBPT.anchor[1]+eachBPT.bcpIn[1]
                     if bcpInAbs[0] % 4 != 0 or bcpInAbs[1] % 4 != 0:
                         dt.oval(bcpInAbs[0]-scaledRadius/2., bcpInAbs[1]-scaledRadius/2., scaledRadius, scaledRadius)
 
-                if eachPt.bcpOut != (0,0):
-                    bcpOutAbs = eachPt.anchor[0]+eachPt.bcpOut[0], eachPt.anchor[1]+eachPt.bcpOut[1]
+                if eachBPT.bcpOut != (0,0):
+                    bcpOutAbs = eachBPT.anchor[0]+eachBPT.bcpOut[0], eachBPT.anchor[1]+eachBPT.bcpOut[1]
                     if bcpOutAbs[0] % 4 != 0 or bcpOutAbs[1] % 4 != 0:
                         dt.oval(bcpOutAbs[0]-scaledRadius/2., bcpOutAbs[1]-scaledRadius/2., scaledRadius, scaledRadius)
         dt.restore()
@@ -398,14 +398,14 @@ class DrawingAssistant(BaseWindowController):
 
     def _drawBcpLenght(self, glyph, scalingFactor, offset_X=0):
         for eachContour in glyph:
-            for indexBcp, eachBcp in enumerate(eachContour.bPoints):
-                if eachBcp.bcpOut != (0, 0):
-                    absBcpOut = eachBcp.anchor[0] + eachBcp.bcpOut[0], eachBcp.anchor[1] + eachBcp.bcpOut[1]
-                    bcpOutAngle = calcAngle(eachBcp.anchor, absBcpOut)
-                    bcpOutLenght = calcDistance(eachBcp.anchor, absBcpOut)
+            for indexBPT, eachBPT in enumerate(eachContour.bPoints):
+                if eachBPT.bcpOut != (0, 0):
+                    absBcpOut = eachBPT.anchor[0] + eachBPT.bcpOut[0], eachBPT.anchor[1] + eachBPT.bcpOut[1]
+                    bcpOutAngle = calcAngle(eachBPT.anchor, absBcpOut)
+                    bcpOutLenght = calcDistance(eachBPT.anchor, absBcpOut)
                     captionBcpOut = u'→%d' % bcpOutLenght
-                    projOut_X = eachBcp.anchor[0]+cos(radians(bcpOutAngle))*bcpOutLenght/2.
-                    projOut_Y = eachBcp.anchor[1]+sin(radians(bcpOutAngle))*bcpOutLenght/2.
+                    projOut_X = eachBPT.anchor[0]+cos(radians(bcpOutAngle))*bcpOutLenght/2.
+                    projOut_Y = eachBPT.anchor[1]+sin(radians(bcpOutAngle))*bcpOutLenght/2.
 
                     textQualities(BODYSIZE_CAPTION*scalingFactor, weight='bold')
                     textWidth, textHeight = dt.textSize(captionBcpOut)
@@ -422,14 +422,14 @@ class DrawingAssistant(BaseWindowController):
                     dt.textBox(captionBcpOut, textRect, align='center')
                     dt.restore()
 
-                if eachBcp.bcpIn != (0, 0):
-                    absBcpIn = eachBcp.anchor[0] + eachBcp.bcpIn[0], eachBcp.anchor[1] + eachBcp.bcpIn[1]
-                    bcpInAngle = calcAngle(eachBcp.anchor, absBcpIn)
-                    bcpInLenght = calcDistance(eachBcp.anchor, absBcpIn)
+                if eachBPT.bcpIn != (0, 0):
+                    absBcpIn = eachBPT.anchor[0] + eachBPT.bcpIn[0], eachBPT.anchor[1] + eachBPT.bcpIn[1]
+                    bcpInAngle = calcAngle(eachBPT.anchor, absBcpIn)
+                    bcpInLenght = calcDistance(eachBPT.anchor, absBcpIn)
                     captionBcpIn = u'→%d' % bcpInLenght
 
-                    projIn_X = eachBcp.anchor[0]+cos(radians(bcpInAngle))*bcpInLenght/2.
-                    projIn_Y = eachBcp.anchor[1]+sin(radians(bcpInAngle))*bcpInLenght/2.
+                    projIn_X = eachBPT.anchor[0]+cos(radians(bcpInAngle))*bcpInLenght/2.
+                    projIn_Y = eachBPT.anchor[1]+sin(radians(bcpInAngle))*bcpInLenght/2.
 
                     textQualities(BODYSIZE_CAPTION*scalingFactor, weight='bold')
                     textWidth, textHeight = dt.textSize(captionBcpIn)
@@ -449,33 +449,33 @@ class DrawingAssistant(BaseWindowController):
 
     def _drawSquarings(self, glyph, scalingFactor, offset_X=0):
         for eachContour in glyph:
-            for indexBcp, eachBcp in enumerate(eachContour.bPoints):
+            for indexBPT, eachBPT in enumerate(eachContour.bPoints):
 
-                if eachBcp.bcpOut != (0, 0):
-                    nextBcp = eachContour.bPoints[(indexBcp+1) % len(eachContour.bPoints)]
+                if eachBPT.bcpOut != (0, 0):
+                    nextBcp = eachContour.bPoints[(indexBPT+1) % len(eachContour.bPoints)]
 
-                    absBcpOut = (eachBcp.anchor[0]+eachBcp.bcpOut[0], eachBcp.anchor[1]+eachBcp.bcpOut[1])
-                    angleOut = calcAngle(eachBcp.anchor, absBcpOut)
-                    handleOutLen = calcDistance(eachBcp.anchor, absBcpOut)
+                    absBcpOut = (eachBPT.anchor[0]+eachBPT.bcpOut[0], eachBPT.anchor[1]+eachBPT.bcpOut[1])
+                    angleOut = calcAngle(eachBPT.anchor, absBcpOut)
+                    handleOutLen = calcDistance(eachBPT.anchor, absBcpOut)
 
                     absBcpIn = (nextBcp.anchor[0]+nextBcp.bcpIn[0], nextBcp.anchor[1]+nextBcp.bcpIn[1])
                     angleIn = calcAngle(nextBcp.anchor, absBcpIn)
                     nextHandleInLen = calcDistance(nextBcp.anchor, absBcpIn)
 
-                    handlesIntersection = intersectionBetweenSegments(eachBcp.anchor,
+                    handlesIntersection = intersectionBetweenSegments(eachBPT.anchor,
                                                                       absBcpOut,
                                                                       absBcpIn,
                                                                       nextBcp.anchor)
 
                     if handlesIntersection is not None:
-                        maxOutLen = calcDistance(eachBcp.anchor, handlesIntersection)
+                        maxOutLen = calcDistance(eachBPT.anchor, handlesIntersection)
                         maxInLen = calcDistance(nextBcp.anchor, handlesIntersection)
 
                         sqrOut = handleOutLen/maxOutLen
                         sqrIn = nextHandleInLen/maxInLen
 
-                        projOut_X = eachBcp.anchor[0]+cos(radians(angleOut))*handleOutLen
-                        projOut_Y = eachBcp.anchor[1]+sin(radians(angleOut))*handleOutLen
+                        projOut_X = eachBPT.anchor[0]+cos(radians(angleOut))*handleOutLen
+                        projOut_Y = eachBPT.anchor[1]+sin(radians(angleOut))*handleOutLen
                         if angleOut != 0 and angleOut % 90 != 0:
                             captionSqrOut = u'%.2f%%, %d°' % (sqrOut, angleOut%180)
                         else:
@@ -532,36 +532,36 @@ class DrawingAssistant(BaseWindowController):
         scaledRadius = BCP_RADIUS*scalingFactor
 
         for eachContour in glyph:
-            for eachPt in eachContour.bPoints:
+            for eachBPT in eachContour.bPoints:
                 dt.stroke(None)
                 dt.fill(*LIGHT_GRAY_COLOR)
-                dt.rect(eachPt.anchor[0]-scaledRadius/2., eachPt.anchor[1]-scaledRadius/2., scaledRadius, scaledRadius)
+                dt.rect(eachBPT.anchor[0]-scaledRadius/2., eachBPT.anchor[1]-scaledRadius/2., scaledRadius, scaledRadius)
 
-                if eachPt.bcpIn != (0, 0):
+                if eachBPT.bcpIn != (0, 0):
                     dt.stroke(None)
                     dt.fill(*LIGHT_GRAY_COLOR)
-                    dt.oval(eachPt.anchor[0]+eachPt.bcpIn[0]-scaledRadius/2.,
-                         eachPt.anchor[1]+eachPt.bcpIn[1]-scaledRadius/2.,
+                    dt.oval(eachBPT.anchor[0]+eachBPT.bcpIn[0]-scaledRadius/2.,
+                         eachBPT.anchor[1]+eachBPT.bcpIn[1]-scaledRadius/2.,
                          scaledRadius,
                          scaledRadius)
 
                     dt.stroke(*LIGHT_GRAY_COLOR)
                     dt.fill(None)
-                    dt.line((eachPt.anchor[0], eachPt.anchor[1]),
-                         (eachPt.anchor[0]+eachPt.bcpIn[0], eachPt.anchor[1]+eachPt.bcpIn[1]))
+                    dt.line((eachBPT.anchor[0], eachBPT.anchor[1]),
+                         (eachBPT.anchor[0]+eachBPT.bcpIn[0], eachBPT.anchor[1]+eachBPT.bcpIn[1]))
 
-                if eachPt.bcpOut != (0, 0):
+                if eachBPT.bcpOut != (0, 0):
                     dt.stroke(None)
                     dt.fill(*LIGHT_GRAY_COLOR)
-                    dt.oval(eachPt.anchor[0]+eachPt.bcpOut[0]-scaledRadius/2.,
-                         eachPt.anchor[1]+eachPt.bcpOut[1]-scaledRadius/2.,
+                    dt.oval(eachBPT.anchor[0]+eachBPT.bcpOut[0]-scaledRadius/2.,
+                         eachBPT.anchor[1]+eachBPT.bcpOut[1]-scaledRadius/2.,
                          scaledRadius,
                          scaledRadius)
 
                     dt.stroke(*LIGHT_GRAY_COLOR)
                     dt.fill(None)
-                    dt.line((eachPt.anchor[0], eachPt.anchor[1]),
-                         (eachPt.anchor[0]+eachPt.bcpOut[0], eachPt.anchor[1]+eachPt.bcpOut[1]))
+                    dt.line((eachBPT.anchor[0], eachBPT.anchor[1]),
+                         (eachBPT.anchor[0]+eachBPT.bcpOut[0], eachBPT.anchor[1]+eachBPT.bcpOut[1]))
 
         dt.restore()
 
