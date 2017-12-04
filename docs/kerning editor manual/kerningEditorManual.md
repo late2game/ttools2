@@ -13,7 +13,7 @@
 	1. using keyboard
 	1. typing exact value
 	1. symmetrical
-	1. flipped
+	1. swapped
 	1. vertically
 	1. mark correction as done
 1. Make exceptions
@@ -76,7 +76,7 @@
 
 	<video src="videos/typeValue.mp4" controls width="840" type="video/mp4">
 
-1. **Symmetrical editing**. Kerning pairs like \\ and // often need to have the same kerning correction. They are not the same glyphs in a flipped order, they are different but symmetrical. There are two different kinds of symmetrical glyphs: pure symmetrical or symmetrical couples.
+1. **Symmetrical editing**. Kerning pairs like \\ and // often need to have the same kerning correction. They are not the same glyphs in a swapped order, they are different but symmetrical. There are two different kinds of symmetrical glyphs: pure symmetrical or symmetrical couples.
 
 	<video src="videos/symmetrical.mp4" controls width="840" type="video/mp4">
 
@@ -98,9 +98,9 @@
 	* // is corrected as \\
 	* (/ is corrected as \)
 
-1. **Flipped editing**. Kerning pairs like TA and AT often need to have the same kerning correction. In this case it is possible to activate the flipped editing mode on, and while correcting any pair, its flipped version will receive the same correction.
+1. **Flipped editing**. Kerning pairs like TA and AT often need to have the same kerning correction. In this case it is possible to activate the swapped editing mode on, and while correcting any pair, its swapped version will receive the same correction.
 
-	<video src="videos/flipped.mp4" controls width="840" type="video/mp4">
+	<video src="videos/swapped.mp4" controls width="840" type="video/mp4">
 
 1. **Vertically aligned editing**. It is possible to correct the same pair across different fonts at once. Activating the vertically editing mode, a cursor will appear below each word set in each font. Only the horizontal axis will still be free, and the pairs across the fonts will be manipulated at once.
 
@@ -152,7 +152,7 @@ These are the commands which are supported by undo/redo pattern:
 * next word and previous word
 * preview mode
 * word marked as solved or unsolved
-* flipped editing
+* swapped editing
 * symmetrical editing
 * vertical editing
 * cursor movements

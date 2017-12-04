@@ -75,7 +75,7 @@ PLUGIN_TITLE = 'TT Kerning editor'
 # func
 JOYSTICK_EVENTS = ['exceptionTrigger', 'verticalAlignedEditing', 'minusMajor', 'minusMinor',
                    'plusMinor', 'plusMajor', 'preview', 'solved', 'symmetricalEditing',
-                   'flippedEditing', 'keyboardEdit', 'previousWord', 'cursorUp', 'cursorLeft',
+                   'swappedEditing', 'keyboardEdit', 'previousWord', 'cursorUp', 'cursorLeft',
                    'cursorRight', 'cursorDown', 'nextWord', 'deletePair', 'switchLftGlyph',
                    'switchRgtGlyph', 'undo', 'redo', 'autoSave', 'jumpToLineTrigger']
 
@@ -119,7 +119,7 @@ class KerningController(BaseWindowController):
     isColorsActive = True
 
     isSymmetricalEditingOn = False
-    isFlippedEditingOn = False
+    isSwappedEditingOn = False
     isVerticalAlignedEditingOn = False
 
     autoSave = True
@@ -176,7 +176,7 @@ class KerningController(BaseWindowController):
         self.w.joystick = JoystickController((self.jumping_X, self.jumping_Y, LEFT_COLUMN, 348),
                                              fontObj=self.fontsOrder[self.navCursor_Y],
                                              isSymmetricalEditingOn=self.isSymmetricalEditingOn,
-                                             isFlippedEditingOn=self.isFlippedEditingOn,
+                                             isSwappedEditingOn=self.isSwappedEditingOn,
                                              isVerticalAlignedEditingOn=self.isVerticalAlignedEditingOn,
                                              autoSave=self.autoSave,
                                              autoSaveSpan=self.autoSaveSpan,
@@ -310,7 +310,7 @@ class KerningController(BaseWindowController):
                                        isColorsActive=self.isColorsActive,
                                        isPreviewOn=self.isPreviewOn,
                                        isSymmetricalEditingOn=self.isSymmetricalEditingOn,
-                                       isFlippedEditingOn=self.isFlippedEditingOn,
+                                       isSwappedEditingOn=self.isSwappedEditingOn,
                                        indexPair=initPairIndex)
 
             except Exception:
@@ -323,7 +323,7 @@ class KerningController(BaseWindowController):
         for eachI in xrange(len(self.fontsOrder)):
             eachDisplay = getattr(self.w, 'wordCtrl_%#02d' % (eachI+1))
             eachDisplay.setSymmetricalEditingMode(self.isSymmetricalEditingOn)
-            eachDisplay.setFlippedEditingMode(self.isFlippedEditingOn)
+            eachDisplay.setSwappedEditingMode(self.isSwappedEditingOn)
             eachDisplay.setScalingFactor(self.canvasScalingFactor)
             eachDisplay.setGraphicsBooleans(self.isKerningDisplayActive, self.areVerticalLettersDrawn, self.areGroupsShown, self.areCollisionsShown, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive)
             eachDisplay.setPreviewMode(self.isPreviewOn)
@@ -332,8 +332,8 @@ class KerningController(BaseWindowController):
     def nextWord(self, isRecording=True):
         self.w.wordListController.nextWord()
         self.displayedWord = self.w.wordListController.get()
-        self.isFlippedEditingOn = False
-        self.w.joystick.setFlippedEditing(self.isFlippedEditingOn)
+        self.isSwappedEditingOn = False
+        self.w.joystick.setSwappedEditing(self.isSwappedEditingOn)
         self.updateEditorAccordingToDiplayedWord()
         if isRecording is True:
             self.appendRecord('nextWord')
@@ -341,8 +341,8 @@ class KerningController(BaseWindowController):
     def previousWord(self, isRecording=True):
         self.w.wordListController.previousWord()
         self.displayedWord = self.w.wordListController.get()
-        self.isFlippedEditingOn = False
-        self.w.joystick.setFlippedEditing(self.isFlippedEditingOn)
+        self.isSwappedEditingOn = False
+        self.w.joystick.setSwappedEditing(self.isSwappedEditingOn)
         self.updateEditorAccordingToDiplayedWord()
         if isRecording is True:
             self.appendRecord('previousWord')
@@ -353,8 +353,8 @@ class KerningController(BaseWindowController):
 
         self.w.wordListController.jumpToLine(lineIndex)
         self.displayedWord = self.w.wordListController.get()
-        self.isFlippedEditingOn = False
-        self.w.joystick.setFlippedEditing(self.isFlippedEditingOn)
+        self.isSwappedEditingOn = False
+        self.w.joystick.setSwappedEditing(self.isSwappedEditingOn)
         self.updateEditorAccordingToDiplayedWord()
 
     def oneStepGroupSwitch(self, location):
@@ -404,20 +404,20 @@ class KerningController(BaseWindowController):
         if isRecording is True:
             self.appendRecord('solved')
 
-    def switchFlippedEditing(self, isRecording=True):
-        self.isFlippedEditingOn = not self.isFlippedEditingOn
-        if self.isFlippedEditingOn is True and self.isSymmetricalEditingOn is True:
+    def switchSwappedEditing(self, isRecording=True):
+        self.isSwappedEditingOn = not self.isSwappedEditingOn
+        if self.isSwappedEditingOn is True and self.isSymmetricalEditingOn is True:
             self.isSymmetricalEditingOn = False
             self.w.joystick.setSymmetricalEditing(self.isSymmetricalEditingOn)
         self.updateWordDisplays()
         if isRecording is True:
-            self.appendRecord('flippedEditing')
+            self.appendRecord('swappedEditing')
 
     def switchSymmetricalEditing(self, isRecording=True):
         self.isSymmetricalEditingOn = not self.isSymmetricalEditingOn
-        if self.isFlippedEditingOn is True and self.isSymmetricalEditingOn is True:
-            self.isFlippedEditingOn = False
-            self.w.joystick.setFlippedEditing(self.isFlippedEditingOn)
+        if self.isSwappedEditingOn is True and self.isSymmetricalEditingOn is True:
+            self.isSwappedEditingOn = False
+            self.w.joystick.setSwappedEditing(self.isSwappedEditingOn)
         self.updateWordDisplays()
         if isRecording is True:
             self.appendRecord('symmetricalEditing')
@@ -478,13 +478,13 @@ class KerningController(BaseWindowController):
             setCorrection(selectedPair, eachFont, amount)
             self.kerningLogger.info(SET_CORRECTION_LOG % {'leftGlyphName': selectedPair[0], 'rightGlyphName': selectedPair[1], 'familyName': eachFont.info.familyName, 'styleName': eachFont.info.styleName, 'amount': amount})
 
-            if self.isFlippedEditingOn is True:
-                flippedCorrectionKey = selectedPair[1], selectedPair[0]
+            if self.isSwappedEditingOn is True:
+                swappedCorrectionKey = selectedPair[1], selectedPair[0]
                 if isRecording is True:
-                    previousAmount = getCorrection(flippedCorrectionKey, eachFont)[0]
-                    self.appendRecord('setCorrection', (flippedCorrectionKey, eachFont, previousAmount))
-                setCorrection(flippedCorrectionKey, eachFont, amount)
-                self.kerningLogger.info(SET_CORRECTION_LOG % {'leftGlyphName': flippedCorrectionKey[0], 'rightGlyphName': flippedCorrectionKey[1], 'familyName': eachFont.info.familyName, 'styleName': eachFont.info.styleName, 'amount': amount})
+                    previousAmount = getCorrection(swappedCorrectionKey, eachFont)[0]
+                    self.appendRecord('setCorrection', (swappedCorrectionKey, eachFont, previousAmount))
+                setCorrection(swappedCorrectionKey, eachFont, amount)
+                self.kerningLogger.info(SET_CORRECTION_LOG % {'leftGlyphName': swappedCorrectionKey[0], 'rightGlyphName': swappedCorrectionKey[1], 'familyName': eachFont.info.familyName, 'styleName': eachFont.info.styleName, 'amount': amount})
 
             if self.isSymmetricalEditingOn is True:
                 symmetricalCorrectionKey = findSymmetricalPair(selectedPair)
@@ -516,13 +516,13 @@ class KerningController(BaseWindowController):
             setCorrection(selectedPair, eachFont, correction+amount)
             self.kerningLogger.info(SET_CORRECTION_LOG % {'leftGlyphName': selectedPair[0], 'rightGlyphName': selectedPair[1], 'familyName': eachFont.info.familyName, 'styleName': eachFont.info.styleName, 'amount': amount})
 
-            if self.isFlippedEditingOn is True:
-                flippedPair = selectedPair[1], selectedPair[0]
+            if self.isSwappedEditingOn is True:
+                swappedPair = selectedPair[1], selectedPair[0]
                 if isRecording is True:
                     previousAmount = getCorrection(selectedPair, eachFont)[0]
-                    self.appendRecord('setCorrection', (flippedPair, eachFont, previousAmount))
-                setCorrection(flippedPair, eachFont, correction+amount)
-                self.kerningLogger.info(SET_CORRECTION_LOG % {'leftGlyphName': flippedPair[0], 'rightGlyphName': flippedPair[1], 'familyName': eachFont.info.familyName, 'styleName': eachFont.info.styleName, 'amount': amount})
+                    self.appendRecord('setCorrection', (swappedPair, eachFont, previousAmount))
+                setCorrection(swappedPair, eachFont, correction+amount)
+                self.kerningLogger.info(SET_CORRECTION_LOG % {'leftGlyphName': swappedPair[0], 'rightGlyphName': swappedPair[1], 'familyName': eachFont.info.familyName, 'styleName': eachFont.info.styleName, 'amount': amount})
 
             if self.isSymmetricalEditingOn is True:
                 symmetricalCorrectionKey = findSymmetricalPair(selectedPair)
@@ -679,8 +679,8 @@ class KerningController(BaseWindowController):
         elif joystickEvent == 'symmetricalEditing':
             self.switchSymmetricalEditing()
             
-        elif joystickEvent == 'flippedEditing':
-            self.switchFlippedEditing()
+        elif joystickEvent == 'swappedEditing':
+            self.switchSwappedEditing()
 
         elif joystickEvent == 'verticalAlignedEditing':
             self.switchVerticalAlignedEditing()
@@ -796,8 +796,8 @@ class KerningController(BaseWindowController):
                 self.switchPreviewAttribute(isRecording=False)
             elif record == 'solved':
                 self.switchSolvedAttribute(isRecording=False)
-            elif record == 'flippedEditing':
-                self.switchFlippedEditing(isRecording=False)
+            elif record == 'swappedEditing':
+                self.switchSwappedEditing(isRecording=False)
             elif record == 'symmetricalEditing':
                 self.switchSymmetricalEditing(isRecording=False)
             elif record == 'verticalAlignedEditing':

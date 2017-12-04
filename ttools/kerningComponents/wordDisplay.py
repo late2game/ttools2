@@ -71,7 +71,7 @@ class WordDisplay(Group):
                        isColorsActive,
                        isPreviewOn,
                        isSymmetricalEditingOn,
-                       isFlippedEditingOn,
+                       isSwappedEditingOn,
                        indexPair):
 
         super(WordDisplay, self).__init__(posSize)
@@ -97,7 +97,7 @@ class WordDisplay(Group):
         self.isPreviewOn = isPreviewOn
 
         self.isSymmetricalEditingOn = isSymmetricalEditingOn
-        self.isFlippedEditingOn = isFlippedEditingOn
+        self.isSwappedEditingOn = isSwappedEditingOn
 
         self.ctrlWidth, self.ctrlHeight = posSize[2], posSize[3]
 
@@ -135,8 +135,8 @@ class WordDisplay(Group):
                 self.activePair = otherElem, self.fontObj.groups[groupReference][nextElemIndex]
             self.wordCanvasGroup.update()
 
-    def setFlippedEditingMode(self, value):
-        self.isFlippedEditingOn = value
+    def setSwappedEditingMode(self, value):
+        self.isSwappedEditingOn = value
 
     def setSymmetricalEditingMode(self, value):
         self.isSymmetricalEditingOn = value
@@ -442,7 +442,7 @@ class WordDisplay(Group):
             dt.save()
 
             # this is for safety reason, user should be notified about possible unwanted kerning corrections
-            if self.isFlippedEditingOn is True:
+            if self.isSwappedEditingOn is True:
                 dt.save()
                 dt.fill(*FLIPPED_BACKGROUND_COLOR)
                 dt.rect(0, 0, self.ctrlWidth, self.ctrlHeight)

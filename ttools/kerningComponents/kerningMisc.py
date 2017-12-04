@@ -61,11 +61,11 @@ def findSymmetricalPair(aPair):
     if lftGlyph == rgtGlyph:
         return None
 
-    # only flipped
+    # only swapped
     elif lftGlyph in SYMMETRICAL_GLYPHS and rgtGlyph in SYMMETRICAL_GLYPHS:
         symmetricalPair = rgtGlyph, lftGlyph
 
-    # flipped glyphs + couples
+    # swapped glyphs + couples
     elif lftGlyph in SYMMETRICAL_GLYPHS and rgtGlyph in SYMMETRICAL_COUPLES_POS:
         symmetricalPair = SYMMETRICAL_COUPLES_POS[rgtGlyph], lftGlyph
 

@@ -17,28 +17,6 @@ from vanilla import Group, SquareButton, CheckBox, EditText
 from vanilla import Button, PopUpButton
 import traceback
 
-"""
--20: cmd+alt+leftArrow
--04: cmd+leftArrow
-+04: cmd+rightArrow
-+20: cmd+alt+rightArrow 
-delete pair: fn+backspace
-
-lft group switch: cmd+a
-rgt group switch: cmd+s
-
-exception: cmd+e
-toggle preview: cmd+p
-solved word: cmd+enter
-flipped mode: cmd+f
-vertical mode: cmd+v
-
-up: upArrow
-down: downArrow
-left: leftArrow
-right: rightArrow
-"""
-
 # Constants
 MINUS_MAJOR_SHORTCUT = 'leftarrow', ['option', 'command']
 MINUS_MINOR_SHORTCUT = 'leftarrow', ['command']
@@ -82,7 +60,7 @@ class JoystickController(Group):
     def __init__(self, posSize,
                        fontObj,
                        isSymmetricalEditingOn,
-                       isFlippedEditingOn,
+                       isSwappedEditingOn,
                        isVerticalAlignedEditingOn,
                        autoSave,
                        autoSaveSpan,
@@ -94,7 +72,7 @@ class JoystickController(Group):
         self.activePair = activePair
 
         self.isSymmetricalEditingOn = isSymmetricalEditingOn
-        self.isFlippedEditingOn = isFlippedEditingOn
+        self.isSwappedEditingOn = isSwappedEditingOn
         self.isVerticalAlignedEditingOn = isVerticalAlignedEditingOn
         self.autoSave = autoSave
         self.autoSaveSpan = autoSaveSpan
@@ -188,14 +166,14 @@ class JoystickController(Group):
         self.jumping_Y += buttonSide*.75+2
         self.symmetricalModeCheck = CheckBox((self.jumping_X, self.jumping_Y, self.ctrlWidth, vanillaControlsSize['CheckBoxRegularHeight']),
                                           'symmetrical editing',
-                                          value=self.isFlippedEditingOn,
+                                          value=self.isSwappedEditingOn,
                                           callback=self.symmetricalModeCallback)
 
         self.jumping_Y += buttonSide*.6
-        self.flippedModeCheck = CheckBox((self.jumping_X, self.jumping_Y, self.ctrlWidth, vanillaControlsSize['CheckBoxRegularHeight']),
-                                          'flipped editing',
-                                          value=self.isFlippedEditingOn,
-                                          callback=self.flippedModeCallback)
+        self.swappedModeCheck = CheckBox((self.jumping_X, self.jumping_Y, self.ctrlWidth, vanillaControlsSize['CheckBoxRegularHeight']),
+                                          'swapped editing',
+                                          value=self.isSwappedEditingOn,
+                                          callback=self.swappedModeCallback)
 
         self.jumping_Y += buttonSide*.6
         self.verticalAlignedModeCheck = CheckBox((self.jumping_X, self.jumping_Y, self.ctrlWidth, vanillaControlsSize['CheckBoxRegularHeight']),
@@ -204,10 +182,10 @@ class JoystickController(Group):
                                                  callback=self.verticalAlignedModeCheckCallback)
         self.verticalAlignedModeCheck.bind(*VERTICAL_MODE_SHORTCUT)
 
-        self.hiddenFlippedEditingButton = Button((self.jumping_X, self.ctrlHeight+40, self.ctrlWidth, vanillaControlsSize['ButtonRegularHeight']),
+        self.hiddenSwappedEditingButton = Button((self.jumping_X, self.ctrlHeight+40, self.ctrlWidth, vanillaControlsSize['ButtonRegularHeight']),
                                                    'hiddenSymmetriyEditingButton',
-                                                   callback=self.hiddenFlippedEditingButtonCallback)
-        self.hiddenFlippedEditingButton.bind(*FLIPPED_EDITING_SHORTCUT)
+                                                   callback=self.hiddenSwappedEditingButtonCallback)
+        self.hiddenSwappedEditingButton.bind(*FLIPPED_EDITING_SHORTCUT)
 
         self.hiddenJumpToLineButton = Button((self.jumping_X, self.ctrlHeight+40, self.ctrlWidth, vanillaControlsSize['ButtonRegularHeight']),
                                                    'hiddenJumpToLineButton',
@@ -293,9 +271,9 @@ class JoystickController(Group):
         self.activePair = activePair
         self.updateCorrectionValue()
 
-    def setFlippedEditing(self, value):
-        self.isFlippedEditingOn = value
-        self.flippedModeCheck.set(self.isFlippedEditingOn)
+    def setSwappedEditing(self, value):
+        self.isSwappedEditingOn = value
+        self.swappedModeCheck.set(self.isSwappedEditingOn)
 
     def setSymmetricalEditing(self, value):
         self.isSymmetricalEditingOn = value
@@ -350,9 +328,9 @@ class JoystickController(Group):
         self.lastEvent = 'solved'
         self.callback(self)
 
-    def flippedModeCallback(self, sender):
-        self.lastEvent = 'flippedEditing'
-        self.isFlippedEditingOn = bool(sender.get())
+    def swappedModeCallback(self, sender):
+        self.lastEvent = 'swappedEditing'
+        self.isSwappedEditingOn = bool(sender.get())
         self.callback(self)
 
     def symmetricalModeCallback(self, sender):
@@ -365,10 +343,10 @@ class JoystickController(Group):
         self.isVerticalAlignedEditingOn = bool(sender.get())
         self.callback(self)
 
-    def hiddenFlippedEditingButtonCallback(self, sender):
-        self.lastEvent = 'flippedEditing'
-        self.isFlippedEditingOn = not self.isFlippedEditingOn
-        self.flippedModeCheck.set(self.isFlippedEditingOn)
+    def hiddenSwappedEditingButtonCallback(self, sender):
+        self.lastEvent = 'swappedEditing'
+        self.isSwappedEditingOn = not self.isSwappedEditingOn
+        self.swappedModeCheck.set(self.isSwappedEditingOn)
         self.callback(self)
 
     def hiddenJumpToLineButtonCallback(self, sender):
