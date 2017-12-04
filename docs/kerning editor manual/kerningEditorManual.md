@@ -17,6 +17,7 @@
 	1. vertically
 	1. mark correction as done
 1. Make exceptions
+	1. how class names work 	
 	1. browse through groups
 	1. trigger exception
 	1. delete exception
@@ -26,7 +27,10 @@
 
 
 ## 1. Editor components
-1. **The kerning view and its display options**. This view displays the sequence of glyph provided by the texts in each opened font. Its appereance is controlled by the display option checkboxes in the lower left corner of the user interface
+
+![editor overview](images/overview.png)
+
+1. **The kerning view and its display options**. This view displays the sequence of glyph provided by the texts in each opened font. It is possible to look at as many fonts as you like, but take into account that the view is optimized for a total amount of 4 masters. The view appereance is controlled by the display option checkboxes in the lower left corner of the user interface
 
 	![alt text](images/kerningView.png "The kerning view and its display options")
 
@@ -35,7 +39,7 @@
 	![alt text](images/pair.png "The kerning pair")
 
 
-1. **Texts manager**. This component handles the text data stored into the application. It is possible to swap between different lists, mark some words as done, filter the list according to letters combination and manage the status of the job (save and load). Each word is accompained by an index which can be used to refer easily to it.
+1. **Texts manager**. This component handles the text data stored into the application. It is possible to swap between different lists, mark some words as done, filter the list according to letters combination and manage the status of the job (save and load). Each word is accompained by an index which can be used to refer easily to it. It is possible to jump to a specific line using cmd+j shortcut, which will trigger the "jump to line" window.
 
 	![alt text](images/texts-manager.png "Texts manager")
 
@@ -76,7 +80,7 @@
 
 	<video src="videos/typeValue.mp4" controls width="840" type="video/mp4">
 
-1. **Symmetrical editing**. Kerning pairs like \\ and // often need to have the same kerning correction. They are not the same glyphs in a swapped order, they are different but symmetrical. There are two different kinds of symmetrical glyphs: pure symmetrical or symmetrical couples.
+1. **Symmetrical editing**. Kerning pairs like \\ and // often need to have the same kerning correction. They are not the same glyphs in a swapped order, they are different but symmetrical. There are two different kinds of symmetrical glyphs: pure symmetrical or symmetrical couples. Symmetrical editing can be used only in combination with vertical editing. Symmmetrical and swapped together are not allowed.
 
 	<video src="videos/symmetrical.mp4" controls width="840" type="video/mp4">
 
@@ -98,7 +102,7 @@
 	* // is corrected as \\
 	* (/ is corrected as \)
 
-1. **Flipped editing**. Kerning pairs like TA and AT often need to have the same kerning correction. In this case it is possible to activate the swapped editing mode on, and while correcting any pair, its swapped version will receive the same correction.
+1. **Swapped editing**. Kerning pairs like TA and AT often need to have the same kerning correction. In this case it is possible to activate the swapped editing mode on, and while correcting any pair, its swapped version will receive the same correction. Swapped editing can be used only in combination with vertical editing. Swapped and symmmetrical together are not allowed.
 
 	<video src="videos/swapped.mp4" controls width="840" type="video/mp4">
 
@@ -112,7 +116,11 @@
 	* clicking the checkbox into the texts manager list
 
 ## 4. Make exceptions
-1. **browse through groups**. If a glyph from the pair selected by the cursor is part of any class, it is possible to switch the foreground glyph (the one drawn in solid black) with another glyph from the class. As soon as the cursor is moved to another pair, the foreground glyphs will immediately switch to the original one. It is possible to switch foreground glyph using the keyboard:
+
+1. **How class names work**. The class name syntax is inherited from MetricsMachine by Tal Leming. Each class name should start with @MMK (@ defines the beginning of a class in openType features syntax, MMK is the abbreviation for MetricsMachine), then is followed by the glyph position (L or R), then the leading glyph name of the class. Each element is separated by an underscore "_".
+![class names](images/classNames.png)
+
+1. **Browse through groups**. If a glyph from the pair selected by the cursor is part of any class, it is possible to switch the foreground glyph (the one drawn in solid black) with another glyph from the class. As soon as the cursor is moved to another pair, the foreground glyphs will immediately switch to the original one. It is possible to switch foreground glyph using the keyboard:
 
 	* left glyph → cmd+a 
 	* right glyph → cmd+s
@@ -158,7 +166,9 @@ These are the commands which are supported by undo/redo pattern:
 * cursor movements
 
 ## 6. Save and load kerning status
-It is possible to save the status of a kerning job from the texts manager component. Take into account that the kerning data is saved into the UFO files, this process only saves the status of the job. Meaning that the words along with info concerning their status (done or undone) are saved or loaded. Remember that the saved files needs a json suffix. 
+It is possible to save the status of a kerning job from the texts manager component. Take into account that the kerning data is saved into the UFO files, this process only saves the status of the job. Meaning that the words along with info concerning their status (done or undone) are saved or loaded. Remember that the saved files needs a json suffix. A json (JavaScript Object Notation) file is a standard file format that uses human-readable text to transmit any kind of data. While saving, the kerning editor will suggest "kerningStatus.json" as file name. Edit "kerningStatus" with whatever could suit your archiving purposes.
+
+I often go for something like "20171103_Kreon_round2.json". Meaning: file created November 3rd 2017, Kreon typeface, 2nd round of corrections.
 
 ## 7. Shortcuts map
 

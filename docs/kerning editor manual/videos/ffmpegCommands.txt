@@ -1,0 +1,4 @@
+ffmpeg -i changeWord.mp4 -i swapped.png -filter_complex "[0:v][1:v] overlay=16:356" -pix_fmt yuv420p -c:a copy changeWord_patch.mp4
+
+
+ffmpeg -i changeWord.mp4 -filter:v "setpts=1.5*PTS" changeWord_slow.mp4 && ffmpeg -i filterWords.mp4 -filter:v "setpts=1.5*PTS" filterWords_slow.mp4 && ffmpeg -i flipped.mp4 -filter:v "setpts=1.5*PTS" flipped_slow.mp4 && ffmpeg -i makeCorrections.mp4 -filter:v "setpts=1.5*PTS" makeCorrections_slow.mp4 && ffmpeg -i moveCursor.mp4 -filter:v "setpts=1.5*PTS" moveCursor_slow.mp4 && ffmpeg -i symmetrical.mp4 -filter:v "setpts=1.5*PTS" symmetrical_slow.mp4 && ffmpeg -i typeValue.mp4 -filter:v "setpts=1.5*PTS" typeValue_slow.mp4 && ffmpeg -i undoRedo.mp4 -filter:v "setpts=1.5*PTS" undoRedo_slow.mp4 && ffmpeg -i vertical.mp4 -filter:v "setpts=1.5*PTS" vertical_slow.mp4

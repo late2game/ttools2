@@ -353,13 +353,14 @@ kbd {
 <li>using keyboard</li>
 <li>typing exact value</li>
 <li>symmetrical</li>
-<li>flipped</li>
+<li>swapped</li>
 <li>vertically</li>
 <li>mark correction as done</li>
 </ol></li>
 <li>Make exceptions
 
 <ol>
+<li>how class names work<br></li>
 <li>browse through groups</li>
 <li>trigger exception</li>
 <li>delete exception</li>
@@ -371,15 +372,17 @@ kbd {
 
 <h2 id="toc_1">1. Editor components</h2>
 
+<p><img src="images/overview.png" alt="editor overview"></p>
+
 <ol>
-<li><p><strong>The kerning view and its display options</strong>. This view displays the sequence of glyph provided by the texts in each opened font. Its appereance is controlled by the display option checkboxess in the lower left corner of the user interface</p>
+<li><p><strong>The kerning view and its display options</strong>. This view displays the sequence of glyph provided by the texts in each opened font. It is possible to look at as many fonts as you like, but take into account that the view is optimized for a total amount of 4 masters. The view appereance is controlled by the display option checkboxes in the lower left corner of the user interface</p>
 
 <p><img src="images/kerningView.png" alt="alt text" title="The kerning view and its display options"></p>
 
 <p>Let’s look in detail to what is displayed for each pair</p>
 
 <p><img src="images/pair.png" alt="alt text" title="The kerning pair"></p></li>
-<li><p><strong>Texts manager</strong>. This component handles the text data stored into the application. It is possible to swap between different lists, mark some words as done, filter the list according to letters combination and manage the status of the job (save and load). Each word is accompained by an index which can be used to refer easily to it.</p>
+<li><p><strong>Texts manager</strong>. This component handles the text data stored into the application. It is possible to swap between different lists, mark some words as done, filter the list according to letters combination and manage the status of the job (save and load). Each word is accompained by an index which can be used to refer easily to it. It is possible to jump to a specific line using cmd+j shortcut, which will trigger the &quot;jump to line&quot; window.</p>
 
 <p><img src="images/texts-manager.png" alt="alt text" title="Texts manager"></p></li>
 <li><p><strong>Fonts order manager</strong>. This component handles the order of the fonts into the kerning view. Each opened font – if saved on the computer – is displayed in the view and its name in this component. Arrows are provided in order to change the order.</p></li>
@@ -417,7 +420,7 @@ A floating window will appear, just type in the index of the line you are lookin
 <li><p><strong>Typing exact value</strong>. It is possible to type the exact value of a correction into the edit component placed in the joystick near the arrows. It accepts positive and negative interger values.</p>
 
 <p><video src="videos/typeValue.mp4" controls width="840" type="video/mp4"></p></li>
-<li><p><strong>Symmetrical editing</strong>. Kerning pairs like \ and // often need to have the same kerning correction. They are not the same glyphs in a flipped order, they are different but symmetrical. There are two different kinds of symmetrical glyphs: pure symmetrical or symmetrical couples.</p>
+<li><p><strong>Symmetrical editing</strong>. Kerning pairs like \ and // often need to have the same kerning correction. They are not the same glyphs in a swapped order, they are different but symmetrical. There are two different kinds of symmetrical glyphs: pure symmetrical or symmetrical couples. Symmetrical editing can be used only in combination with vertical editing. Symmmetrical and swapped together are not allowed.</p>
 
 <p><video src="videos/symmetrical.mp4" controls width="840" type="video/mp4"></p>
 
@@ -443,9 +446,9 @@ A, H, I, O, T, U, V, W, X, Y, period, colon, semicolon, ellipsis, underscore, hy
 <li>// is corrected as \</li>
 <li>(/ is corrected as )</li>
 </ul></li>
-<li><p><strong>Flipped editing</strong>. Kerning pairs like TA and AT often need to have the same kerning correction. In this case it is possible to activate the flipped editing mode on, and while correcting any pair, its flipped version will receive the same correction.</p>
+<li><p><strong>Swapped editing</strong>. Kerning pairs like TA and AT often need to have the same kerning correction. In this case it is possible to activate the swapped editing mode on, and while correcting any pair, its swapped version will receive the same correction. Swapped editing can be used only in combination with vertical editing. Swapped and symmmetrical together are not allowed.</p>
 
-<p><video src="videos/flipped.mp4" controls width="840" type="video/mp4"></p></li>
+<p><video src="videos/swapped.mp4" controls width="840" type="video/mp4"></p></li>
 <li><p><strong>Vertically aligned editing</strong>. It is possible to correct the same pair across different fonts at once. Activating the vertically editing mode, a cursor will appear below each word set in each font. Only the horizontal axis will still be free, and the pairs across the fonts will be manipulated at once.</p>
 
 <p><video src="videos/vertical.mp4" controls width="840" type="video/mp4"></p></li>
@@ -460,7 +463,9 @@ A, H, I, O, T, U, V, W, X, Y, period, colon, semicolon, ellipsis, underscore, hy
 <h2 id="toc_4"> 4. Make exceptions</h2>
 
 <ol>
-<li><p><strong>browse through groups</strong>. If a glyph from the pair selected by the cursor is part of any class, it is possible to switch the foreground glyph (the one drawn in solid black) with another glyph from the class. As soon as the cursor is moved to another pair, the foreground glyphs will immediately switch to the original one. It is possible to switch foreground glyph using the keyboard:</p>
+<li><p><strong>How class names work</strong>. The class name syntax is inherited from MetricsMachine by Tal Leming. Each class name should start with @MMK (@ defines the beginning of a class in openType features syntax, MMK is the abbreviation for MetricsMachine), then is followed by the glyph position (L or R), then the leading glyph name of the class. Each element is separated by an underscore &quot;_&quot;.
+<img src="images/classNames.png" alt="class names"></p></li>
+<li><p><strong>Browse through groups</strong>. If a glyph from the pair selected by the cursor is part of any class, it is possible to switch the foreground glyph (the one drawn in solid black) with another glyph from the class. As soon as the cursor is moved to another pair, the foreground glyphs will immediately switch to the original one. It is possible to switch foreground glyph using the keyboard:</p>
 
 <ul>
 <li>left glyph → cmd+a </li>
@@ -504,7 +509,7 @@ A, H, I, O, T, U, V, W, X, Y, period, colon, semicolon, ellipsis, underscore, hy
 <li>next word and previous word</li>
 <li>preview mode</li>
 <li>word marked as solved or unsolved</li>
-<li>flipped editing</li>
+<li>swapped editing</li>
 <li>symmetrical editing</li>
 <li>vertical editing</li>
 <li>cursor movements</li>
