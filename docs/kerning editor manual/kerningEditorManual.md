@@ -133,6 +133,8 @@
 	* left glyph vs right group
 	* left glyph vs right glyph
 
+	<video src="videos/makeExceptions.mp4" controls width="840" type="video/mp4">
+
 	In this case, once triggered an exception using the provided button or the cmd+e shortcut, an exception window will appear with the possible options.
 	
 	![exception window](images/exceptionWindow.png)
