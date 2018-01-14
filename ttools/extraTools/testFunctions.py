@@ -9,7 +9,7 @@
 # standard
 import os
 import types
-from mojo.roboFont import RFont, RGlyph
+from mojo.roboFont import RFont, RGlyph, version
 from itertools import product
 from mojo.tools import IntersectGlyphWithLine
 
