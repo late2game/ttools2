@@ -12,7 +12,7 @@ reload(ui.userInterfaceValues)
 from ui.userInterfaceValues import vanillaControlsSize
 
 # standard
-from mojo.roboFont import AllFonts, CurrentFont, version
+from mojo.roboFont import AllFonts, CurrentFont, CurrentGlyph, version
 from vanilla import FloatingWindow, PopUpButton, EditText, TextBox, Button
 
 ### Constants
