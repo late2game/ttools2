@@ -17,6 +17,7 @@ from extraTools.miscFunctions import loadGlyphNamesTable
 # standard
 import os
 import types
+from math import tan, radians
 from mojo.roboFont import AllFonts, CurrentFont
 from vanilla import FloatingWindow, PopUpButton, TextBox, EditText, Button
 
@@ -163,7 +164,14 @@ class CopyAndMove(object):
 
                 if isinstance(eachSource, types.ListType) is False:
                     targetGlyph.width = eachFont[eachSource].width
-                    targetGlyph.appendComponent(eachSource, (0, self.verticalOffset))
+
+                    if eachFont.info.italicAngle:
+                        anchorAngle = radians(-eachFont.info.italicAngle)
+                    else:
+                        anchorAngle = radians(0)
+
+                    tangentOffset = tan(anchorAngle)*self.verticalOffset
+                    targetGlyph.appendComponent(eachSource, (tangentOffset, self.verticalOffset))
                 else:
                     offsetX = 0
                     for eachSourceGlyphName in eachSource:
