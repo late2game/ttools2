@@ -16,12 +16,13 @@ reload(extraTools.miscFunctions)
 from extraTools.miscFunctions import selectAnchorByName
 
 # standard modules
-import os
+import os, logging
 from mojo.roboFont import version
 from AppKit import NSColor
+from math import radians, tan
 from collections import OrderedDict
 from mojo.events import addObserver, removeObserver
-from mojo.roboFont import AllFonts, CurrentFont
+from mojo.roboFont import AllFonts, CurrentFont, version
 from defconAppKit.windows.baseWindow import BaseWindowController
 from vanilla import FloatingWindow, Group, PopUpButton, ColorWell
 from vanilla import CheckBox, TextBox, EditText, ComboBox, Button
@@ -46,19 +47,19 @@ TABLE_PATH = os.path.join(os.path.dirname(__file__),
                           'accentedLettersTable.csv')
 
 # message templates
-MISSING_GLYPH = '\t[WARNING] we need {glyphName} in order to make {accentedName}' # {'glyphName': None, 'accentedName': None}
-MISSING_ANCHOR = '\t[WARNING] we need {anchorName} in {glyphName} in order to make {accentedName}' # {'anchorName': None, 'glyphName': None, 'accentedName': None}
-NO_ANCHORS = '\t[WARNING] there are no anchors in {glyphName}' # {'glyphName': None}
+BUILD_MISSING_GLYPH = u'we need "{glyphName}" in order to make {accentedName}'
+BUILD_MISSING_ANCHOR = u'we need {anchorName} in "{glyphName}" in order to make {accentedName}'
+NO_ANCHORS = u'there are no anchors in "{glyphName}"'
 
-NOT_READY = '\t\t[WARNING] {accentedName} from {fontName} has been skipped because is not ready yet' # {'accentedName': None, 'fontName': None}
+GLYPH_NOT_IN_FONT = u'"{glyphName}" not in {familyName} {styleName}'
+NOT_READY = u'{accentedName} from {fontName} has been skipped because is not ready yet'
 
-START_FUNC = 'Starting {funcName}'
-END_FUNC = 'Ending {funcName}'
-START_FONT = '\tStarting font {fontName}' # {'fontName': None}
-APPEND_ANCHOR = '\t\t"{anchorName}" anchor placed at x: {anchorX} y: {anchorHeight} in {glyphName}' # {'anchorName': None, 'anchorX': None, 'anchorHeight': None, 'glyphName': None}
-REMOVE_ANCHOR = '\t\tremoved "{anchorName}" anchor from {glyphName}' # {'anchorName': None, 'glyphName': None}
-BUILT_GLYPH = '\t\t{accentedName} built using {baseName} and {accentName} thanks to {anchorName} anchor'
-
+START_FUNC = u'Starting {funcName}'
+END_FUNC = u'Ending {funcName}'
+START_FONT = u'Starting font {familyName} {styleName}'
+APPEND_ANCHOR = u'"{anchorName}" anchor placed at x: {anchorX} y: {anchorHeight} in "{glyphName}"'
+REMOVE_ANCHOR = u'removed "{anchorName}" anchor from "{glyphName}"'
+BUILT_GLYPH = u'{accentedName} built using {baseName} and {accentName} thanks to {anchorName} anchor'
 
 ### Classes and functions
 class AccentedMaker(BaseWindowController):
@@ -68,7 +69,6 @@ class AccentedMaker(BaseWindowController):
     actions = ['Place Anchors', 'Build Accents']
     whichAction = actions[0]
     whichGlyphList = None
-    isVerbose = False
     markEditedGlyphs = False
     markColor = glyphCollectionColors[glyphCollectionColors.keys()[0]]
 
@@ -76,6 +76,7 @@ class AccentedMaker(BaseWindowController):
 
     def __init__(self):
         super(AccentedMaker, self).__init__()
+        self.initLogger()
 
         self.fontOptions = ['All Fonts', 'Current Font'] + AllFonts()
         self.whichFont = self.fontOptions[0]
@@ -90,14 +91,13 @@ class AccentedMaker(BaseWindowController):
         self.w = FloatingWindow((0, 0, PLUGIN_WIDTH, self.pluginHeight),
                                 PLUGIN_TITLE)
 
-        self.w.sharedCtrls = SharedCtrls((MARGIN_HOR, MARGIN_VER, NET_WIDTH, 136),
+        self.w.sharedCtrls = SharedCtrls((MARGIN_HOR, MARGIN_VER, NET_WIDTH, 104),
                                          fontOptions=self.fontOptions,
                                          whichFont=self.whichFont,
                                          actions=self.actions,
                                          whichAction=self.whichAction,
                                          glyphLists=self.glyphLists,
                                          whichGlyphList=self.whichGlyphList,
-                                         isVerbose=self.isVerbose,
                                          markColor=self.markColor,
                                          markEditedGlyphs=self.markEditedGlyphs,
                                          callback=self.sharedCtrlsCallback)
@@ -119,10 +119,27 @@ class AccentedMaker(BaseWindowController):
         addObserver(self, 'updateFontOptions', "newFontDidOpen")
         addObserver(self, 'updateFontOptions', "fontDidOpen")
         addObserver(self, 'updateFontOptions', "fontWillClose")
-        # self.w.bind("close", self.closingPlugin)
+        self.w.bind("close", self.windowCloseCallback)
         self.setUpBaseWindowBehavior()
         self.adjustPluginHeight()
         self.w.open()
+
+    def initLogger(self):
+        # create a logger
+        self.accentedLogger = logging.getLogger('accentedLogger')
+        # create file handler which logs info messages
+        fileBasedHandler = logging.FileHandler('accentedLettersMaker.log')
+        fileBasedHandler.setLevel(logging.INFO)
+        # create console handler with a higher log level, only errors
+        consoleHandler = logging.StreamHandler()
+        consoleHandler.setLevel(logging.ERROR)
+        # create formatter and add it to the handlers
+        formatter = logging.Formatter(u'%(asctime)s | %(levelname)s | line: %(lineno)d | %(funcName)s | %(message)s')
+        fileBasedHandler.setFormatter(formatter)
+        consoleHandler.setFormatter(formatter)
+        # add the handlers to the logger
+        self.accentedLogger.addHandler(fileBasedHandler)
+        self.accentedLogger.addHandler(consoleHandler)
 
     # deal with font data
     def prepareFontsToAction(self):
@@ -135,16 +152,12 @@ class AccentedMaker(BaseWindowController):
         return fontsToProcess
 
     def deleteAnchors(self):
-        if self.isVerbose is True:
-            print START_FUNC.format(funcName=self.deleteAnchors.__name__)
-
+        self.accentedLogger.info(START_FUNC.format(funcName=self.deleteAnchors.__name__))
         fontsToProcess = self.prepareFontsToAction()
         for eachFont in fontsToProcess:
-            if self.isVerbose is True:
-                print START_FONT.format(fontName='{} {}'.format(eachFont.info.familyName, eachFont.info.styleName))
-
+            self.accentedLogger.info(START_FONT.format(familyName=eachFont.info.familyName,
+                                                       styleName=eachFont.info.styleName))
             for eachGlyphName in self.whichGlyphList:
-
                 eachGlyph = eachFont[eachGlyphName]
                 if self.markEditedGlyphs is True:
                     if version[0] == '2':
@@ -154,46 +167,54 @@ class AccentedMaker(BaseWindowController):
 
                 for eachAnchor in eachGlyph.anchors:
                     eachGlyph.removeAnchor(eachAnchor)
-                    if self.isVerbose is True:
-                        print REMOVE_ANCHOR.format(anchorName=self.anchorName,
-                                                   glyphName=eachGlyphName)
-
-        if self.isVerbose is True:
-            print END_FUNC.format(funcName=self.deleteAnchors.__name__)
+                    self.accentedLogger.info(REMOVE_ANCHOR.format(anchorName=self.anchorName,
+                                                             glyphName=eachGlyphName))
+        self.accentedLogger.info(END_FUNC.format(funcName=self.deleteAnchors.__name__))
 
     def placeAnchors(self):
         assert self.anchorName is not None, '[WARNING] no anchor name provided'
         assert self.anchorHeight is not None, '[WARNING] no anchor height provided'
-
-        if self.isVerbose is True:
-            print START_FUNC.format(funcName=self.placeAnchors.__name__)
+        self.accentedLogger.info(START_FUNC.format(funcName=self.placeAnchors.__name__))
 
         fontsToProcess = self.prepareFontsToAction()
         for eachFont in fontsToProcess:
-            if self.isVerbose is True:
-                print START_FONT.format(fontName='{} {}'.format(eachFont.info.familyName, eachFont.info.styleName))
-
+            self.accentedLogger.info(START_FONT.format(familyName=eachFont.info.familyName,
+                                                       styleName=eachFont.info.styleName))
             for eachGlyphName in self.whichGlyphList:
-                eachGlyph = eachFont[eachGlyphName]
-                if self.markEditedGlyphs is True:
+                if eachGlyphName in eachFont:
+                    eachGlyph = eachFont[eachGlyphName]
+                    if self.markEditedGlyphs is True:
+                        if version[0] == '2':
+                            eachGlyph.markColor = self.markColor
+                        else:
+                            eachGlyph.mark = self.markColor
+
+                    if selectAnchorByName(eachGlyph, self.anchorName):
+                        anchorToDel = selectAnchorByName(eachGlyph, self.anchorName)
+                        eachGlyph.removeAnchor(anchorToDel)
+
                     if version[0] == '2':
-                        eachGlyph.markColor = self.markColor
+                        xMin, yMin, xMax, yMax = eachGlyph.bounds
                     else:
-                        eachGlyph.mark = self.markColor
+                        xMin, yMin, xMax, yMax = eachGlyph.box
 
-                if selectAnchorByName(eachGlyph, self.anchorName):
-                    anchorToDel = selectAnchorByName(eachGlyph, self.anchorName)
-                    eachGlyph.removeAnchor(anchorToDel)
-                eachGlyph.appendAnchor(self.anchorName, (eachGlyph.width/2., self.anchorHeight))
+                    if eachFont.info.italicAngle:
+                        anchorAngle = radians(-eachFont.info.italicAngle)
+                    else:
+                        anchorAngle = radians(0)
 
-                if self.isVerbose is True:
-                    print APPEND_ANCHOR.format(anchorName=self.anchorName,
-                                               anchorX=eachGlyph.width/2.,
-                                               anchorHeight=self.anchorHeight,
-                                               glyphName=eachGlyphName)
-
-        if self.isVerbose is True:
-            print END_FUNC.format(funcName=self.placeAnchors.__name__)
+                    tangentOffset = tan(anchorAngle)*self.anchorHeight
+                    anchorX = (eachGlyph.width - eachGlyph.angledLeftMargin - eachGlyph.angledRightMargin)/2 + eachGlyph.angledLeftMargin + tangentOffset
+                    eachGlyph.appendAnchor(self.anchorName, (anchorX, self.anchorHeight))
+                    self.accentedLogger.info(APPEND_ANCHOR.format(anchorName=self.anchorName,
+                                                                  anchorX=anchorX,
+                                                                  anchorHeight=self.anchorHeight,
+                                                                  glyphName=eachGlyphName))
+                else:
+                    self.accentedLogger.error(GLYPH_NOT_IN_FONT.format(glyphName=eachGlyphName,
+                                                                    familyName=eachFont.info.familyName,
+                                                                    styleName=eachFont.info.styleName))
+        self.accentedLogger.info(END_FUNC.format(funcName=self.placeAnchors.__name__))
 
     def checkAccented(self, isPrinting=True):
         report = []
@@ -202,12 +223,12 @@ class AccentedMaker(BaseWindowController):
         fontsToProcess = self.prepareFontsToAction()
         for eachFont in fontsToProcess:
             toSkip = []
-            report.append('Checking %s %s' % (eachFont.info.familyName, eachFont.info.styleName))
+            report.append('Checking {} {}'.format(eachFont.info.familyName, eachFont.info.styleName))
             for eachAccentedName, eachBaseName, eachAccentName, eachAnchorName in self.whichGlyphList:
 
                 # base glyph
                 if eachFont.has_key(eachBaseName) is False:
-                    report.append(MISSING_GLYPH.format(glyphName=eachBaseName,
+                    report.append(BUILD_MISSING_GLYPH.format(glyphName=eachBaseName,
                                                        accentedName=eachAccentedName))
                     if eachAccentedName not in toSkip:
                         toSkip.append(eachAccentedName)
@@ -226,7 +247,7 @@ class AccentedMaker(BaseWindowController):
                             if eachAnchor.name == eachAnchorName:
                                 break
                         else:
-                            report.append(MISSING_ANCHOR.format(anchorName=eachAnchorName,
+                            report.append(BUILD_MISSING_ANCHOR.format(anchorName=eachAnchorName,
                                                                 glyphName=eachBaseName,
                                                                 accentedName=eachAccentedName))
                             if eachAccentedName not in toSkip:
@@ -238,7 +259,7 @@ class AccentedMaker(BaseWindowController):
 
                 # accent
                 if eachFont.has_key(eachAccentName) is False:
-                    report.append(MISSING_GLYPH.format(glyphName=eachAccentName,
+                    report.append(BUILD_MISSING_GLYPH.format(glyphName=eachAccentName,
                                                        accentedName=eachAccentedName))
                     if eachAccentedName not in toSkip:
                         toSkip.append(eachAccentedName)
@@ -254,10 +275,10 @@ class AccentedMaker(BaseWindowController):
                             eachAccentGlyph.mark = ERROR_MARK_COLOR
                     else:
                         for eachAnchor in eachAccentGlyph.anchors:
-                            if eachAnchor.name == '_%s' % eachAnchorName:
+                            if eachAnchor.name == '_{}'.format(eachAnchorName):
                                 break
                         else:
-                            report.append(MISSING_ANCHOR.format(anchorName=eachAnchorName,
+                            report.append(BUILD_MISSING_ANCHOR.format(anchorName=eachAnchorName,
                                                                 glyphName=eachAccentName,
                                                                 accentedName=eachAccentedName))
                             if eachAccentedName not in toSkip:
@@ -267,40 +288,35 @@ class AccentedMaker(BaseWindowController):
                             else:
                                 eachAccentGlyph.mark = ERROR_MARK_COLOR
 
-            notReady['%s %s' % (eachFont.info.familyName, eachFont.info.styleName)] = toSkip
-            report.append('End checking %s %s' % (eachFont.info.familyName, eachFont.info.styleName))
+            notReady['{} {}'.format(eachFont.info.familyName, eachFont.info.styleName)] = toSkip
+            report.append('End checking {} {}'.format(eachFont.info.familyName, eachFont.info.styleName))
             report.append('\n\n')
 
         if isPrinting is True:
-            print '\n'.join(report)
+            self.accentedLogger.error('\n'.join(report))
 
         return notReady
 
 
     def buildAccented(self):
         notReady = self.checkAccented(isPrinting=False)
-
-        if self.isVerbose is True:
-            print START_FUNC.format(funcName=self.buildAccented.__name__)
+        self.accentedLogger.info(START_FUNC.format(funcName=self.buildAccented.__name__))
 
         fontsToProcess = self.prepareFontsToAction()
         for eachFont in fontsToProcess:
-            
-            if self.isVerbose is True:
-                print START_FONT.format(fontName='{} {}'.format(eachFont.info.familyName, eachFont.info.styleName))
-
+            self.accentedLogger.info(START_FONT.format(familyName=eachFont.info.familyName,
+                                                       styleName=eachFont.info.styleName))
             for eachAccentedName, eachBaseName, eachAccentName, eachAnchorName in self.whichGlyphList:
-
-                if eachAccentedName in notReady['%s %s' % (eachFont.info.familyName, eachFont.info.styleName)]:
-                    print NOT_READY.format(fontName='{} {}'.format(eachFont.info.familyName, eachFont.info.styleName),
-                                           accentedName=eachAccentedName)
+                if eachAccentedName in notReady['{} {}'.format(eachFont.info.familyName, eachFont.info.styleName)]:
+                    self.accentedLogger.error(NOT_READY.format(fontName='{} {}'.format(eachFont.info.familyName, eachFont.info.styleName),
+                                                                 accentedName=eachAccentedName))
                     continue
 
                 eachBaseGlyph = eachFont[eachBaseName]
                 eachBaseAnchor = selectAnchorByName(eachBaseGlyph, eachAnchorName)
 
                 eachAccentGlyph = eachFont[eachAccentName]
-                eachAccentAnchor = selectAnchorByName(eachAccentGlyph, '_%s' % eachAnchorName)
+                eachAccentAnchor = selectAnchorByName(eachAccentGlyph, '_{}'.format(eachAnchorName))
 
                 if eachFont.has_key(eachAccentedName) is False:
                     eachAccentedGlyph = eachFont.newGlyph(eachAccentedName)
@@ -314,11 +330,10 @@ class AccentedMaker(BaseWindowController):
                 accentOffsetX, accentOffsetY = eachBaseAnchor.x-eachAccentAnchor.x, eachBaseAnchor.y-eachAccentAnchor.y
                 eachAccentedGlyph.appendComponent(eachAccentName, (accentOffsetX, accentOffsetY), (1,1))
 
-                if self.isVerbose is True:
-                    print BUILT_GLYPH.format(accentedName=eachAccentedName,
-                                             baseName=eachBaseName,
-                                             accentName=eachAccentName,
-                                             anchorName=eachAnchorName)
+                self.accentedLogger.info(BUILT_GLYPH.format(accentedName=eachAccentedName,
+                                                            baseName=eachBaseName,
+                                                            accentName=eachAccentName,
+                                                            anchorName=eachAnchorName))
 
                 if self.markEditedGlyphs is True:
                     if version[0] == '2':
@@ -326,8 +341,7 @@ class AccentedMaker(BaseWindowController):
                     else:
                         eachAccentedGlyph.mark = self.markColor
 
-        if self.isVerbose is True:
-            print END_FUNC.format(funcName=self.buildAccented.__name__)
+        self.accentedLogger.info(END_FUNC.format(funcName=self.buildAccented.__name__))
 
     # deal with table data
     def loadAccentedData(self):
@@ -347,26 +361,26 @@ class AccentedMaker(BaseWindowController):
         _ = [accentsBtm.append(row[2]) for row in self.accentedData if row[3] == 'bottom' and row[2] not in accentsBtm]
         self.glyphLists['Place Anchors']['ACC BTM'] = accentsBtm
 
-        accentsCaseTop = ['%s.case' % name for name in accentsTop]
+        accentsCaseTop = ['{}.case'.format(name) for name in accentsTop]
         self.glyphLists['Place Anchors']['ACC CASE TOP'] = accentsCaseTop
         
-        accentsCaseBtm = ['%s.case' % name for name in accentsBtm]
+        accentsCaseBtm = ['{}.case'.format(name) for name in accentsBtm]
         self.glyphLists['Place Anchors']['ACC CASE BTM'] = accentsCaseBtm
 
         ucBaseTop = []
-        _ = [ucBaseTop.append(row[1]) for row in self.accentedData if row[1][0].isupper() and row[3] == 'top']
+        _ = [ucBaseTop.append(row[1]) for row in self.accentedData if row[1][0].isupper() and row[3] == 'top' and row[1] not in ucBaseTop]
         self.glyphLists['Place Anchors']['UC TOP'] = ucBaseTop
         
         ucBaseBtm = []
-        _ = [ucBaseBtm.append(row[1]) for row in self.accentedData if row[1][0].isupper() and row[3] == 'bottom']
+        _ = [ucBaseBtm.append(row[1]) for row in self.accentedData if row[1][0].isupper() and row[3] == 'bottom' and row[1] not in ucBaseBtm]
         self.glyphLists['Place Anchors']['UC BTM'] = ucBaseBtm
 
         lcBaseTop = []
-        _ = [lcBaseTop.append(row[1]) for row in self.accentedData if row[1][0].islower() and row[3] == 'top']
+        _ = [lcBaseTop.append(row[1]) for row in self.accentedData if row[1][0].islower() and row[3] == 'top' and row[1] not in lcBaseTop]
         self.glyphLists['Place Anchors']['LC TOP'] = lcBaseTop
 
         lcBaseBtm = []
-        _ = [lcBaseBtm.append(row[1]) for row in self.accentedData if row[1][0].islower() and row[3] == 'bottom']
+        _ = [lcBaseBtm.append(row[1]) for row in self.accentedData if row[1][0].islower() and row[3] == 'bottom' and row[1] not in lcBaseBtm]
         self.glyphLists['Place Anchors']['LC BTM'] = lcBaseBtm
 
         # build
@@ -377,14 +391,14 @@ class AccentedMaker(BaseWindowController):
         buildLC = [row for row in self.accentedData if row[1][0].islower() is True]
         self.glyphLists['Build Accents']['LC'] = buildLC
 
-
     # ui
     def adjustPluginHeight(self):
         if self.whichAction == 'Place Anchors':
             self.pluginHeight = MARGIN_VER+self.w.sharedCtrls.getPosSize()[3]+MARGIN_ROW+self.w.anchorsCtrls.getPosSize()[3]+MARGIN_VER
         else:
             self.pluginHeight = MARGIN_VER+self.w.sharedCtrls.getPosSize()[3]+MARGIN_ROW+self.w.buildingCtrls.getPosSize()[3]+MARGIN_VER
-        self.w.resize(PLUGIN_WIDTH, self.pluginHeight)
+        lft, top, wdt, hgt = self.w.getPosSize()
+        self.w.resize(wdt, self.pluginHeight)
 
     def switchDependantCtrl(self):
         if self.whichAction == 'Place Anchors':
@@ -407,7 +421,6 @@ class AccentedMaker(BaseWindowController):
         self.adjustPluginHeight()
 
         self.whichGlyphList = sender.getWhichGlyphList()
-        self.isVerbose = sender.getIsVerbose()
         self.markEditedGlyphs, self.markColor = sender.getMarkEditedGlyphs()
 
     def anchorsVarsCallback(self, sender):
@@ -438,19 +451,18 @@ class AccentedMaker(BaseWindowController):
 class SharedCtrls(Group):
 
     def __init__(self, posSize, fontOptions, whichFont, actions,
-                 whichAction, glyphLists, whichGlyphList, isVerbose,
+                 whichAction, glyphLists, whichGlyphList,
                  markColor, markEditedGlyphs, callback):
         super(SharedCtrls, self).__init__(posSize)
 
         x, y, width, height = posSize
         self.fontOptions = fontOptions
-        self.fontOptionsRepr = ['All Fonts', 'Current Font'] + ['%s %s' % (ff.info.familyName, ff.info.styleName) for ff in self.fontOptions[2:]]
+        self.fontOptionsRepr = ['All Fonts', 'Current Font'] + ['{} {}'.format(ff.info.familyName, ff.info.styleName) for ff in self.fontOptions[2:]]
         self.whichFont = whichFont
         self.actions = actions
         self.whichAction = whichAction
         self.glyphLists = glyphLists
         self.whichGlyphList = whichGlyphList
-        self.isVerbose = isVerbose
         self.markColor = markColor
         self.markEditedGlyphs = markEditedGlyphs
         self.callback = callback
@@ -470,12 +482,7 @@ class SharedCtrls(Group):
                                         self.glyphLists[self.whichAction].keys(),
                                         callback=self.popGlyphListCallback)
 
-        jumpinY += vanillaControlsSize['PopUpButtonRegularHeight'] + MARGIN_ROW*2
-        self.checkVerbose = CheckBox((0, jumpinY, width, vanillaControlsSize['CheckBoxRegularHeight']),
-                                     "Verbose",
-                                     callback=self.checkVerboseCallback)
-
-        jumpinY += vanillaControlsSize['PopUpButtonRegularHeight'] + MARGIN_ROW
+        jumpinY += vanillaControlsSize['PopUpButtonRegularHeight'] + MARGIN_ROW +2
         self.checkMarkEditedColors = CheckBox((0, jumpinY, width*.35, vanillaControlsSize['CheckBoxRegularHeight']),
                                               "Color",
                                               value=self.markEditedGlyphs,
@@ -490,7 +497,7 @@ class SharedCtrls(Group):
     def setFontOptions(self, fontOptions):
         originalIndex = self.fontOptions.index(self.whichFont)
         self.fontOptions = fontOptions
-        self.fontOptionsRepr = ['All Fonts', 'Current Font'] + ['%s %s' % (ff.info.familyName, ff.info.styleName) for ff in self.fontOptions[2:]]
+        self.fontOptionsRepr = ['All Fonts', 'Current Font'] + ['{} {}'.format(ff.info.familyName, ff.info.styleName) for ff in self.fontOptions[2:]]
         self.popFonts.setItems(self.fontOptionsRepr)
 
         if self.whichFont not in self.fontOptions:
@@ -509,9 +516,6 @@ class SharedCtrls(Group):
 
     def getWhichGlyphList(self):
         return self.whichGlyphList
-
-    def getIsVerbose(self):
-        return self.isVerbose
 
     def getMarkEditedGlyphs(self):
         return self.markEditedGlyphs, self.markColor
@@ -534,10 +538,6 @@ class SharedCtrls(Group):
     def popGlyphListCallback(self, sender):
         rightKey = self.glyphLists[self.whichAction].keys()[sender.get()]
         self.whichGlyphList = self.glyphLists[self.whichAction][rightKey]
-        self.callback(self)
-
-    def checkVerboseCallback(self, sender):
-        self.isVerbose = bool(sender.get())
         self.callback(self)
 
     def checkMarkEditedColorsCallback(self, sender):
