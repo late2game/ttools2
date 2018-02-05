@@ -1,21 +1,21 @@
-M A T H
-hyphen period zero plus minus multiply divide equal less greater plusminus lessequal greaterequal notequal logicalnot asciicircum asciitilde approxequal
-infinity numbersign radical lozenge Delta Omega summation partialdiff integral product pi uni03BC eight slash minus I O Z Y o H U
-zero zero plus zero zero minus zero zero multiply zero zero divide zero zero
-zero zero plusminus zero zero logicalnot zero zero asciicircum zero zero numbersign zero zero
-zero zero equal zero zero notequal zero zero asciitilde zero zero approxequal zero zero
-zero zero less zero zero greater zero zero lessequal zero zero greaterequal zero zero
-zero zero infinity zero zero radical zero zero partialdiff zero zero integral zero zero
-zero zero lozenge zero zero Delta zero zero Omega zero zero summation zero zero
-zero zero product zero zero pi zero zero uni03BC zero zero
-zero plus plusminus zero less lessequal zero greater greaterequal zero
-zero zero plus.case H H zero zero minus.case H H zero zero multiply.case H H zero zero divide.case H H
-zero zero equal.case H H zero zero less.case H H zero zero greater.case H H zero zero plusminus.case H H
-zero zero lessequal.case H H zero zero greaterequal.case H H zero zero notequal.case H H zero zero logicalnot.case H H zero zero asciitilde.case H H zero zero approxequal.case H H zero zero infinity.case H H
-zero zero lessequal.case H H zero zero greaterequal.case H H zero zero notequal.case H H zero zero logicalnot.case H H
-H H zero zero asciitilde.case H H zero zero approxequal.case H H zero zero infinity.case H H
-a plus b equal c space space o lessequal e
-x greaterequal z space space n plusminus i
-A plus B equal C space space O lessequal E
-X greaterequal Z space space N plusminus I
-H plus n equal eight
+MATH
+-.0+/minus /multiply /divide =/less /greater /plusminus /lessequal /greaterequal /notequal /logicalnot /asciicircum /asciitilde /approxequal
+/infinity #/radical /lozenge /Delta /Omega /summation /partialdiff /integral /product /pi /uni03BC 8/slash /minus IOZYoHU
+00+00/minus 00/multiply 00/divide 00
+00/plusminus 00/logicalnot 00/asciicircum 00#00
+00=00/notequal 00/asciitilde 00/approxequal 00
+00/less 00/greater 00/lessequal 00/greaterequal 00
+00/infinity 00/radical 00/partialdiff 00/integral 00
+00/lozenge 00/Delta 00/Omega 00/summation 00
+00/product 00/pi 00/uni03BC 00
+0+/plusminus 0/less /lessequal 0/greater /greaterequal 0
+00/plus.case HH00/minus.case HH00/multiply.case HH00/divide.case HH
+00/equal.case HH00/less.case HH00/greater.case HH00/plusminus.case HH
+00/lessequal.case HH00/greaterequal.case HH00/notequal.case HH00/logicalnot.case HH00/asciitilde.case HH00/approxequal.case HH00/infinity.case HH
+00/lessequal.case HH00/greaterequal.case HH00/notequal.case HH00/logicalnot.case HH
+HH00/asciitilde.case HH00/approxequal.case HH00/infinity.case HH
+a+b=c o/lessequal e
+x/greaterequal z n/plusminus i
+A+B=C O/lessequal E
+X/greaterequal Z N/plusminus I
+H+n=8
