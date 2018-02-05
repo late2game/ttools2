@@ -1,73 +1,73 @@
-LC words
-abschreiber achtzigjahrig
-algorithmus analyse
-anarchie architectural
-argwohn aufzug
-autokolonne beefsteak
-behauptung bicycle
-bleioxyd botanik
-boxer boxverband
-boykott briefcase
-bungalowstil butler
-butter buzzword
-cactus cars
-chaos chevying
-contextual defencive
-diamant distanz
-ehrfurcht electronic
-embryonal enzymatic
-erfolglos ernstfall
-erwartung eurocard
-examen exorzist
-facette farben
-fezzed flaxseed
-flitchen forstverein
-galaempfang garten
-gefahrlich geisterjager
-gluckwunsch glykol
-goldverlust grenzverkehr
-grizzlies guiltyness
-halsabschneider handwerk
-hotelverbot humunkulus
-idealwelt idyll
-ikarus implikation
-indexwert inlays
-inovation jazzband
-jetzt klangvoll
-kollektivschuld konjunktur
-kraftwerk krieg
-langmut lawyer
-liebevoll locomotive
-macara maggiolo
-maiwoche malaysias
-marxismus marzocchi
-maskotchen messer
-modebewugermandblst musikverein
-nektar netze
-newton ozonloch
-ostjude ostsee
-packchen pagermandblst
-peyote pfortner
-pfutze pipefish
-pistole playsuit
-position postoffice
-postscript problem
-programm provinz
-pythagoras rangfolge
-rauschgift recorder
-recycling reserve
-rivale sakrament
-saucy schreibtisch
-seebad sexappeal
-showgirl skylab
-sportful start
-stiefvater stoffwechsel
-system teriyaki
-textil thunderhead
-trafficway uglyfying
-unexcited unterschied
-verkehr verlag
-versklavter vertrag
-volkswagen wirkung
-zeugnis zugvieh
-zitadelle zyniker
+L C space w o r d s
+a b s c h r e i b e r space space a c h t z i g j a h r i g
+a l g o r i t h m u s space space a n a l y s e
+a n a r c h i e space space a r c h i t e c t u r a l
+a r g w o h n space space a u f z u g
+a u t o k o l o n n e space space b e e f s t e a k
+b e h a u p t u n g space space b i c y c l e
+b l e i o x y d space space b o t a n i k
+b o x e r space space b o x v e r b a n d
+b o y k o t t space space b r i e f c a s e
+b u n g a l o w s t i l space space b u t l e r
+b u t t e r space space b u z z w o r d
+c a c t u s space space c a r s
+c h a o s space space c h e v y i n g
+c o n t e x t u a l space space d e f e n c i v e
+d i a m a n t space space d i s t a n z
+e h r f u r c h t space space e l e c t r o n i c
+e m b r y o n a l space space e n z y m a t i c
+e r f o l g l o s space space e r n s t f a l l
+e r w a r t u n g space space e u r o c a r d
+e x a m e n space space e x o r z i s t
+f a c e t t e space space f a r b e n
+f e z z e d space space f l a x s e e d
+f l i t c h e n space space f o r s t v e r e i n
+g a l a e m p f a n g space space g a r t e n
+g e f a h r l i c h space space g e i s t e r j a g e r
+g l u c k w u n s c h space space g l y k o l
+g o l d v e r l u s t space space g r e n z v e r k e h r
+g r i z z l i e s space space g u i l t y n e s s
+h a l s a b s c h n e i d e r space space h a n d w e r k
+h o t e l v e r b o t space space h u m u n k u l u s
+i d e a l w e l t space space i d y l l
+i k a r u s space space i m p l i k a t i o n
+i n d e x w e r t space space i n l a y s
+i n o v a t i o n space space j a z z b a n d
+j e t z t space space k l a n g v o l l
+k o l l e k t i v s c h u l d space space k o n j u n k t u r
+k r a f t w e r k space space k r i e g
+l a n g m u t space space l a w y e r
+l i e b e v o l l space space l o c o m o t i v e
+m a c a r a space space m a g g i o l o
+m a i w o c h e space space m a l a y s i a s
+m a r x i s m u s space space m a r z o c c h i
+m a s k o t c h e n space space m e s s e r
+m o d e b e w u germandbls t space space m u s i k v e r e i n
+n e k t a r space n e t z e
+n e w t o n space space o z o n l o c h
+o s t j u d e space space o s t s e e
+p a c k c h e n space p a germandbls t
+p e y o t e space space p f o r t n e r
+p f u t z e space space p i p e f i s h
+p i s t o l e space space p l a y s u i t
+p o s i t i o n space space p o s t o f f space i c e
+p o s t s c r i p t space space p r o b l e m
+p r o g r a m m space space p r o v i n z
+p y t h a g o r a s space space r a n g f o l g e
+r a u s c h g i f t space r e c o r d e r
+r e c y c l i n g space r e s e r v e
+r i v a l e space s a k r a m e n t
+s a u c y space s c h r e i b t i s c h
+s e e b a d space s e x a p p e a l
+s h o w g i r l space s k y l a b
+s p o r t f u l space space s t a r t
+s t i e f v a t e r space space s t o f f w e c h s e l
+s y s t e m space space t e r i y a k i
+t e x t i l space t h u n d e r h e a d
+t r a f f i c w a y space u g l y f y i n g
+u n e x c i t e d space space u n t e r s c h i e d
+v e r k e h r space v e r l a g
+v e r s k l a v t e r space v e r t r a g
+v o l k s w a g e n space space w i r k u n g
+z e u g n i s space z u g v i e h
+z i t a d e l l e space z y n i k e r
