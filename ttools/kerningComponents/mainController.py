@@ -634,7 +634,10 @@ class KerningController(BaseWindowController):
 
     def fontsOrderControllerCallback(self, sender):
         self.deleteWordDisplays()
-        self.fontsOrder = sender.getFontsOrder()
+        self.fontsOrder = []
+        for indexFont, eachFont in enumerate(sender.getFontsOrder()):
+            if sender.getIsDisplayedOrder()[indexFont] is True:
+                self.fontsOrder.append(eachFont)
         self.initWordDisplays()
 
     def graphicsManagerCallback(self, sender):

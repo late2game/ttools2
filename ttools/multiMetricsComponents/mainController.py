@@ -117,10 +117,6 @@ class MultiFontMetricsWindow(BaseWindowController):
                         minSize=(800, 400))
         self.w.bind('resize', self.mainWindowResize)
 
-        # if not self.fontsOrder:
-        #     # no fonts, no party
-        #     return None
-
         self.w.switchButton = PopUpButton((MARGIN_LFT, jumpingY, netWidth*.2, vanillaControlsSize['PopUpButtonRegularHeight']),
                                             self.textModeOptions,
                                             sizeStyle='regular',
@@ -477,8 +473,13 @@ class MultiFontMetricsWindow(BaseWindowController):
         self.updateLineView()
 
     def fontsOrderControllerCallback(self, sender):
-        self.fontsOrder = sender.getFontsOrder()
+        self.fontsOrder = []
+        for indexFont, eachFont in enumerate(sender.getFontsOrder()):
+            if sender.getIsDisplayedOrder()[indexFont] is True:
+                self.fontsOrder.append(eachFont)
+
         self.w.spacingMatrix.setFontsOrder(self.fontsOrder)
+        self.adjustSpacingMatrixHeight()
         self.updateLineView()
 
     def fontCtrlCallback(self, sender):
