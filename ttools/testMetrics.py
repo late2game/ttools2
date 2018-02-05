@@ -48,24 +48,28 @@ NET_WIDTH = PLUGIN_WIDTH - MARGIN_LFT*2
 
 ### Functions
 def convertLinesToString(errorLines, missingGlyphs, missingGlyphsMode):
-    report = ''
-    for indexErrorLine, eachErrorLine in enumerate(errorLines[:-1]):
+    report = []
+    contentReport, lastLine = errorLines[:-1], errorLines[-1]
+    for indexErrorLine, eachErrorLine in enumerate(contentReport):
         if isinstance(eachErrorLine, types.StringType) is True:
-            report += eachErrorLine + '\n'
+            report.append(eachErrorLine)
 
         else:   # list
             if indexErrorLine != 1:
-                report += '\n'
+                report.append('') # empty line
 
             for eachSubErrorLine in eachErrorLine:
-                report += eachSubErrorLine + '\n'
+                report.append(eachSubErrorLine)
 
     if missingGlyphsMode is True and missingGlyphs:
-        report += '\nThe following glyphs are missing: %s\n' % ', '.join(missingGlyphs)
+        report.append('')         # empty line
+        report.append('The following glyphs are missing: {}'.format(', '.join(missingGlyphs)))
+        report.extend(('', ''))   # two empty lines
 
-    report += errorLines[-1]
-    report += '\n\n'
-    return report
+    report.append(lastLine)
+    report.extend(('', ''))       # two empty lines
+
+    return '\n'.join(report)
 
 
 ### Classes
@@ -113,7 +117,7 @@ class TestMetrics(BaseWindowController):
         # target pop up
         jumpingY = MARGIN_TOP
         self.w.targetPopUp = PopUpButton((MARGIN_LFT, jumpingY, NET_WIDTH, vanillaControlsSize['PopUpButtonRegularHeight']),
-                                           ['%s %s' % (font.info.familyName, font.info.styleName) for font in self.fontOptions],
+                                           ['{} {}'.format(font.info.familyName, font.info.styleName) for font in self.fontOptions],
                                            callback=self.targetPopUpCallback)
 
         # test choice
@@ -157,7 +161,7 @@ class TestMetrics(BaseWindowController):
 
     def updateFontList(self, sender):
         self.fontOptions = AllFonts()
-        self.w.targetPopUp.setItems(['%s %s' % (font.info.familyName, font.info.styleName) for font in self.fontOptions])
+        self.w.targetPopUp.setItems(['{} {}'.format(font.info.familyName, font.info.styleName) for font in self.fontOptions])
 
         if self.fontOptions:
             self.chosenFont = self.fontOptions
@@ -166,7 +170,7 @@ class TestMetrics(BaseWindowController):
 
     def targetPopUpCallback(self, sender):
         self.chosenFont = self.fontOptions[sender.get()]
-        assert isinstance(self.chosenFont, RFont), '%r is not a RFont instance' % self.chosenFont
+        assert isinstance(self.chosenFont, RFont), '{0!r} is not a RFont instance'.format(self.chosenFont)
 
     def testChoiceCallback(self, sender):
         self.chosenTest = self.testOptions[sender.get()]
@@ -178,19 +182,18 @@ class TestMetrics(BaseWindowController):
 
         testsToRun = self.testFunctions[self.chosenTest]
         rightNow = datetime.now()
-        reportFile = open(PutFile('Choose where to save the report',
-                          '%s%s%s_%s_%s.txt' % (rightNow.year, rightNow.month, rightNow.day,
-                          os.path.basename(self.chosenFont.path)[:-4],
-                          self.testOptionsAbbr[self.testOptions.index(self.chosenTest)])),
-                          'w')
 
-        # progressWindow = self.startProgress('Running Tests')
-        for eachFunc in testsToRun:
-            errorLines, missingGlyphs = eachFunc(self.chosenFont)
-            report = convertLinesToString(errorLines, missingGlyphs, self.showMissingGlyph)
-            reportFile.write(report)
-        reportFile.close()
-        # progressWindow.close()
+        fileNameProposal = '{}{}{}_{}_{}.txt'.format(rightNow.year, rightNow.month, rightNow.day,
+                                                     os.path.basename(self.chosenFont.path)[:-4],
+                                                     self.testOptionsAbbr[self.testOptions.index(self.chosenTest)])
+
+        progressWindow = self.startProgress('Running Tests')
+        with open(PutFile('Choose where to save the report', fileNameProposal), 'w') as reportFile:
+            for eachFunc in testsToRun:
+                errorLines, missingGlyphs = eachFunc(self.chosenFont)
+                report = convertLinesToString(errorLines, missingGlyphs, self.showMissingGlyph)
+                reportFile.write(report)
+        progressWindow.close()
 
 ### Instructions
 if __name__ == '__main__':
