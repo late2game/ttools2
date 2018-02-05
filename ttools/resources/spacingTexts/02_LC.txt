@@ -1,25 +1,25 @@
-L C
-a b c d e f g h i j k l m n o p q r s t u v w x y z
-a b c d e f g h i j k l m
-n o p q r s t u v w x y z
-n n o n n space l l o l l
-o o o o o space v v o v v
-n n n n n space l l n l l
-o o n o o space v v n v v
-n n l n n space l l l l l
-o o l o o space v v l v v
-n n v n n space l l v l l
-o o v o o space v v v v v
-n a n h n m n u n r n o a o h o m o u o r o
-n o n c n e n g n n b n d n p n q n
-n v n w n y n o v o w o y o
-n f n t n r n g n o f o t o r o g o
-n i n j n l n o i o j o l o
-n a n g n s n z n o a o g o s o z o
-n k n x n o k o x o
-a e ae space o e oe
-f s germandbls
-f f space f_f space f i space f_i space f l space f_l f f n f_f n f i n f_i n f l n f_l f f o f_f o f i o f_i o f l o f_l
-n f_f n f i n f_i n f l n f_l f f n
-o f_f o f i o f_i o f l o f_l f f o
-f r e d at o u r t y p e
+LC
+abcdefghijklmnopqrstuvwxyz
+abcdefghijklm
+nopqrstuvwxyz
+nnonn lloll
+ooooo vvovv
+nnnnn llnll
+oonoo vvnvv
+nnlnn lllll
+ooloo vvlvv
+nnvnn llvll
+oovoo vvvvv
+nanhnmnunrnoaohomouoro
+noncnengnnbndnpnqn
+nvnwnynovowoyo
+nfntnrngnofotorogo
+ninjnlnoiojolo
+nangnsnznoaogosozo
+nknxnokoxo
+aeæ oeœ
+fsß
+ff ﬀ fi ﬁ fl ﬂffnﬀnfinﬁnflnﬂffoﬀofioﬁofloﬂ
+nﬀnfinﬁnflnﬂffn
+oﬀofioﬁofloﬂffo
+fred@ourtype

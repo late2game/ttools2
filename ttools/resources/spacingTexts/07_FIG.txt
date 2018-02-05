@@ -1,27 +1,27 @@
-F I G
-hyphen hyphen hyphen T a b u l a r space L i n i n g hyphen hyphen hyphen
-zero one two three four five six seven eight nine zero.zero H O B
-H uni2007 H zero H one H two H three H four H H five H six H seven H eight H nine H zero.zero H
-zero uni2007 zero zero zero one zero two zero three zero four zero zero five zero six zero seven zero eight zero nine zero zero.zero zero
-H uni2007 H zero H one H two H three H four H H five H six H seven H eight H nine H zero.zero H zero uni2007 zero zero zero one zero two zero three zero four zero zero five zero six zero seven zero eight zero nine zero zero.zero zero
-H uni2007 H zero H one H two H three H four H H five H six H seven H eight H nine H zero.zero H zero
-zero zero one zero two zero three zero four zero zero five zero six zero seven zero eight zero nine zero zero.zero zero
-currency dollar cent Euro yen sterling florin uni20A9 uni20BA S C Y L c
-H currency H dollar H cent H Euro H yen H sterling H florin H uni20A9 H uni20BA H
-zero currency zero dollar zero cent zero Euro zero yen zero sterling zero florin zero uni20A9 zero uni20BA zero
-H currency H dollar H cent H Euro H yen H sterling H H
-H florin H zero currency zero dollar zero cent zero Euro zero yen zero sterling zero florin zero
-hyphen hyphen hyphen P r o p o r t i o n a l space L i n i n g hyphen hyphen hyphen
-zero one two three four five six seven eight nine zero.zero currency dollar cent Euro yen sterling florin uni20A9 uni20BA zero.lf one.lf two.lf three.lf four.lf five.lf six.lf seven.lf eight.lf nine.lf zero.lf.zero currency.lf dollar.lf cent.lf Euro.lf yen.lf sterling.lf florin.lf uni20A9.lf uni20BA.lf
-zero one two three four five six seven eight nine zero.zero currency dollar cent Euro yen sterling florin uni20A9 uni20BA
-zero.lf one.lf two.lf three.lf four.lf five.lf six.lf seven.lf eight.lf nine.lf zero.lf.zero currency.lf dollar.lf cent.lf Euro.lf yen.lf sterling.lf florin.lf uni20A9.lf uni20BA.lf
-hyphen hyphen hyphen T a b u l a r space M e d i e v a l hyphen hyphen hyphen
-zero one two three four five six seven eight nine zero.zero zero.tosf one.tosf two.tosf three.tosf four.tosf five.tosf six.tosf seven.tosf eight.tosf nine.tosf zero.tosf.zero
-hyphen hyphen hyphen P r o p o r t i o n a l space M e d i e v a l hyphen hyphen hyphen
-zero.tosf one.tosf two.tosf three.tosf four.tosf five.tosf six.tosf seven.tosf eight.tosf nine.tosf zero.tosf.zero zero.osf one.osf two.osf three.osf four.osf five.osf six.osf seven.osf eight.osf nine.osf zero.osf.zero
-n n zero.osf n n one.osf n n two.osf n n three.osf n n four.osf n n
-n n five.osf n n six.osf n n seven.osf n n eight.osf n n nine.osf n n zero.osf.zero n n
-o o zero.osf o o one.osf o o two.osf o o three.osf o o four.osf o o
-o o five.osf o o six.osf o o seven.osf o o eight.osf o o nine.osf o o zero.osf.zero o o
-n n zero.osf n n one.osf n n two.osf n n three.osf n n four.osf n n n n five.osf n n six.osf n n seven.osf n n eight.osf n n nine.osf n n zero.osf.zero n n o o zero.osf o o one.osf o o two.osf o o three.osf o o four.osf o o o o five.osf o o six.osf o o seven.osf o o eight.osf o o nine.osf o o zero.osf.zero o o
-uni2007 zero.tosf one.tosf two.tosf three.tosf four.tosf five.tosf six.tosf seven.tosf eight.tosf nine.tosf zero.tosf.zero
+FIG
+---Tabular Lining---
+0123456789/zero.zero HOB
+H H0H1H2H3H4HH5H6H7H8H9H/zero.zero H
+0 0001020304005060708090/zero.zero 0
+H H0H1H2H3H4HH5H6H7H8H9H/zero.zero H0 0001020304005060708090/zero.zero 0
+H H0H1H2H3H4HH5H6H7H8H9H/zero.zero H0
+001020304005060708090/zero.zero 0
+¤$¢€¥£ƒ₩₺SCYLc
+H¤H$H¢H€H¥H£HƒH₩H₺H
+0¤0$0¢0€0¥0£0ƒ0₩0₺0
+H¤H$H¢H€H¥H£HH
+HƒH0¤0$0¢0€0¥0£0ƒ0
+---Proportional Lining---
+0123456789/zero.zero ¤$¢€¥£ƒ₩₺/zero.lf /one.lf /two.lf /three.lf /four.lf /five.lf /six.lf /seven.lf /eight.lf /nine.lf /zero.lf.zero /currency.lf /dollar.lf /cent.lf /Euro.lf /yen.lf /sterling.lf /florin.lf /uni20A9.lf /uni20BA.lf 
+0123456789/zero.zero ¤$¢€¥£ƒ₩₺
+/zero.lf /one.lf /two.lf /three.lf /four.lf /five.lf /six.lf /seven.lf /eight.lf /nine.lf /zero.lf.zero /currency.lf /dollar.lf /cent.lf /Euro.lf /yen.lf /sterling.lf /florin.lf /uni20A9.lf /uni20BA.lf 
+---Tabular Medieval---
+0123456789/zero.zero /zero.tosf /one.tosf /two.tosf /three.tosf /four.tosf /five.tosf /six.tosf /seven.tosf /eight.tosf /nine.tosf /zero.tosf.zero 
+---Proportional Medieval---
+/zero.tosf /one.tosf /two.tosf /three.tosf /four.tosf /five.tosf /six.tosf /seven.tosf /eight.tosf /nine.tosf /zero.tosf.zero /zero.osf /one.osf /two.osf /three.osf /four.osf /five.osf /six.osf /seven.osf /eight.osf /nine.osf /zero.osf.zero 
+nn/zero.osf nn/one.osf nn/two.osf nn/three.osf nn/four.osf nn
+nn/five.osf nn/six.osf nn/seven.osf nn/eight.osf nn/nine.osf nn/zero.osf.zero nn
+oo/zero.osf oo/one.osf oo/two.osf oo/three.osf oo/four.osf oo
+oo/five.osf oo/six.osf oo/seven.osf oo/eight.osf oo/nine.osf oo/zero.osf.zero oo
+nn/zero.osf nn/one.osf nn/two.osf nn/three.osf nn/four.osf nnnn/five.osf nn/six.osf nn/seven.osf nn/eight.osf nn/nine.osf nn/zero.osf.zero nnoo/zero.osf oo/one.osf oo/two.osf oo/three.osf oo/four.osf oooo/five.osf oo/six.osf oo/seven.osf oo/eight.osf oo/nine.osf oo/zero.osf.zero oo
+ /zero.tosf /one.tosf /two.tosf /three.tosf /four.tosf /five.tosf /six.tosf /seven.tosf /eight.tosf /nine.tosf /zero.tosf.zero 

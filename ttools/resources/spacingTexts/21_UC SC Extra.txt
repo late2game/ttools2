@@ -1,4 +1,4 @@
-U C space S C space E x t r a
-Eth Dcroat Hbar IJ Lslash Ldot Lcaron Eng Oslash Tbar Thorn D H I J L N O T P f j hyphen yen sterling dcroat comma uni0326 period i periodcentered
-Eth Dcroat Hbar IJ Lslash Ldot Lcaron Eng Oslash Tbar Thorn eth.sc dcroat.sc hbar.sc ij.sc lslash.sc ldot.sc lcaron.sc eng.sc oslash.sc tbar.sc thorn.sc fi.sc fl.sc d.sc h.sc i.sc j.sc l.sc n.sc o.sc t.sc p.sc f.sc
-eth.sc dcroat.sc hbar.sc ij.sc lslash.sc ldot.sc lcaron.sc eng.sc oslash.sc tbar.sc thorn.sc fi.sc fl.sc d.sc h.sc i.sc j.sc l.sc n.sc o.sc t.sc p.sc f.sc
+UC SC Extra
+ÐĐĦĲŁĿĽŊØŦÞDHIJLNOTPfj-¥£đ,̦.i·
+ÐĐĦĲŁĿĽŊØŦÞ/eth.sc /dcroat.sc /hbar.sc /ij.sc /lslash.sc /ldot.sc /lcaron.sc /eng.sc /oslash.sc /tbar.sc /thorn.sc /fi.sc /fl.sc /d.sc /h.sc /i.sc /j.sc /l.sc /n.sc /o.sc /t.sc /p.sc /f.sc 
+/eth.sc /dcroat.sc /hbar.sc /ij.sc /lslash.sc /ldot.sc /lcaron.sc /eng.sc /oslash.sc /tbar.sc /thorn.sc /fi.sc /fl.sc /d.sc /h.sc /i.sc /j.sc /l.sc /n.sc /o.sc /t.sc /p.sc /f.sc 

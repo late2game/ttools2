@@ -1,36 +1,36 @@
-hyphen hyphen hyphen U C space A c c e n t e d hyphen hyphen hyphen
-H AE H AEacute H O AE O AEacute O
-H A H Aacute H Abreve H Acircumflex H Adieresis H AEacute H Agrave H Amacron H Aogonek H Aring H Atilde H O A O Aacute O Abreve O Acircumflex O Adieresis O AEacute O Agrave O Amacron O Aogonek O Aring O Atilde O
-H C H Cacute H Ccaron H Ccedilla H Ccircumflex H Cdotaccent H O C O Cacute O Ccaron O Ccedilla O Ccircumflex O Cdotaccent O
-H D H Dcaron H O D O Dcaron O
-H E H Eacute H Ebreve H Ecaron H Ecircumflex H Edieresis H Edotaccent H Egrave H Emacron H Eogonek H O E O Eacute O Ebreve O Ecaron O Ecircumflex O Edieresis O Edotaccent O Egrave O Emacron O Eogonek O
-H G H Gbreve H uni0122 H Gcircumflex H Gdotaccent H Hcircumflex H O G O Gbreve O uni0122 O Gcircumflex O Gdotaccent O Hcircumflex O
-H I H Iacute H Ibreve H Icircumflex H Idieresis H Idotaccent H Igrave H Imacron H Iogonek H Itilde H O I O Iacute O Ibreve O Icircumflex O Idieresis O Idotaccent O Igrave O Imacron O Iogonek O Itilde O
-H J H Jcircumflex H O J O Jcircumflex O
-H K H uni0136 H O K O uni0136 O
-H L H Lacute H uni013B H O L O Lacute O uni013B O
-H N H Nacute H Ncaron H uni0145 H Ntilde H O N O Nacute O Ncaron O uni0145 O Ntilde O
-H O H Oacute H Obreve H Ocircumflex H Odieresis H Ograve H Ohungarumlaut H Omacron H Otilde H O O O Oacute O Obreve O Ocircumflex O Odieresis O Ograve O Ohungarumlaut O Omacron O Otilde O
-H Oslash H Oslashacute H O Oslash O Oslashacute O
-H R H Racute H Rcaron H uni0156 H O R O Racute O Rcaron O uni0156 O
-H S H Sacute H Scaron H Scircumflex H uni0218 H uni015E H O S O Sacute O Scaron O Scircumflex O uni0218 O uni015E O
-H T H Tcaron H uni0162 H uni021A H O T O Tcaron O uni0162 O uni021A O
-H U H Uacute H Ubreve H Ucircumflex H Udieresis H Ugrave H Uhungarumlaut H Umacron H Uogonek H Uring H Utilde H O U O Uacute O Ubreve O Ucircumflex O Udieresis O Ugrave O Uhungarumlaut O Umacron O Uogonek O Uring O Utilde O
-H W H Wacute H Wcircumflex H Wdieresis H Wgrave H O W O Wacute O Wcircumflex O Wdieresis O Wgrave O
-H Y H Yacute H Ycircumflex H Ydieresis H Ygrave H O Y O Yacute O Ycircumflex O Ydieresis O Ygrave O
-H Z H Zacute H Zcaron H Zdotaccent H O Z O Zacute O Zcaron O Zdotaccent O
-H acute H AEacute H Aacute H AEacute H Cacute H Eacute H Iacute H Lacute H Nacute H Oacute H Oslashacute H Racute H Sacute H Uacute H Wacute H Yacute H Zacute H O acute O AEacute O Aacute O AEacute O Cacute O Eacute O Iacute O Lacute O Nacute O Oacute O Oslashacute O Racute O Sacute O Uacute O Wacute O Yacute O Zacute O
-H breve H Abreve H Ebreve H Gbreve H Ibreve H Obreve H Ubreve H O breve O Abreve O Ebreve O Gbreve O Ibreve O Obreve O Ubreve O
-H caron H Ccaron H Dcaron H Ecaron H Ncaron H Rcaron H Scaron H Tcaron H Zcaron H O caron O Ccaron O Dcaron O Ecaron O Ncaron O Rcaron O Scaron O Tcaron O Zcaron O
-H cedilla H Ccedilla H uni0162 H O cedilla O Ccedilla O uni0162 O
-H circumflex H Acircumflex H Ccircumflex H Ecircumflex H Gcircumflex H Hcircumflex H Icircumflex H Jcircumflex H Ocircumflex H Scircumflex H Ucircumflex H Wcircumflex H Ycircumflex H O circumflex O Acircumflex O Ccircumflex O Ecircumflex O Gcircumflex O Hcircumflex O Icircumflex O Jcircumflex O Ocircumflex O Scircumflex O Ucircumflex O Wcircumflex O Ycircumflex O
-H dieresis H Adieresis H Edieresis H Idieresis H Odieresis H Udieresis H Wdieresis H Ydieresis H O dieresis O Adieresis O Edieresis O Idieresis O Odieresis O Udieresis O Wdieresis O Ydieresis O
-H dotaccent H Cdotaccent H Edotaccent H Gdotaccent H Idotaccent H Zdotaccent H O dotaccent O Cdotaccent O Edotaccent O Gdotaccent O Idotaccent O Zdotaccent O
-H hungarumlaut H Ohungarumlaut H Uhungarumlaut H O hungarumlaut O Ohungarumlaut O Uhungarumlaut O
-H grave H Agrave H Egrave H Igrave H Ograve H Ugrave H Wgrave H Ygrave H O grave O Agrave O Egrave O Igrave O Ograve O Ugrave O Wgrave O Ygrave O
-H macron H Amacron H Emacron H Imacron H Omacron H Umacron H O macron O Amacron O Emacron O Imacron O Omacron O Umacron O
-H ogonek H Aogonek H Eogonek H Iogonek H Uogonek H O ogonek O Aogonek O Eogonek O Iogonek O Uogonek O
-H ring H Aring H Uring H O ring O Aring O Uring O
-H tilde H Atilde H Itilde H Ntilde H Otilde H Utilde H O tilde O Atilde O Itilde O Ntilde O Otilde O Utilde O
-H uni0326 H uni0145 H uni021A H uni0218 H uni0136 H uni0122 H uni0156 H uni013B H O uni0326 O uni0145 O uni021A O uni0218 O uni0136 O uni0122 O uni0156 O uni013B O
-H ogonek H Aogonek H Eogonek H Iogonek H Uogonek H O Aogonek O Eogonek O Iogonek O Uogonek O
+---UC Accented---
+HÆHǼHOÆOǼO
+HAHÁHĂHÂHÄHǼHÀHĀHĄHÅHÃHOAOÁOĂOÂOÄOǼOÀOĀOĄOÅOÃO
+HCHĆHČHÇHĈHĊHOCOĆOČOÇOĈOĊO
+HDHĎHODOĎO
+HEHÉHĔHĚHÊHËHĖHÈHĒHĘHOEOÉOĔOĚOÊOËOĖOÈOĒOĘO
+HGHĞHĢHĜHĠHĤHOGOĞOĢOĜOĠOĤO
+HIHÍHĬHÎHÏHİHÌHĪHĮHĨHOIOÍOĬOÎOÏOİOÌOĪOĮOĨO
+HJHĴHOJOĴO
+HKHĶHOKOĶO
+HLHĹHĻHOLOĹOĻO
+HNHŃHŇHŅHÑHONOŃOŇOŅOÑO
+HOHÓHŎHÔHÖHÒHŐHŌHÕHOOOÓOŎOÔOÖOÒOŐOŌOÕO
+HØHǾHOØOǾO
+HRHŔHŘHŖHOROŔOŘOŖO
+HSHŚHŠHŜHȘHŞHOSOŚOŠOŜOȘOŞO
+HTHŤHŢHȚHOTOŤOŢOȚO
+HUHÚHŬHÛHÜHÙHŰHŪHŲHŮHŨHOUOÚOŬOÛOÜOÙOŰOŪOŲOŮOŨO
+HWHẂHŴHẄHẀHOWOẂOŴOẄOẀO
+HYHÝHŶHŸHỲHOYOÝOŶOŸOỲO
+HZHŹHŽHŻHOZOŹOŽOŻO
+H´HǼHÁHǼHĆHÉHÍHĹHŃHÓHǾHŔHŚHÚHẂHÝHŹHO´OǼOÁOǼOĆOÉOÍOĹOŃOÓOǾOŔOŚOÚOẂOÝOŹO
+H˘HĂHĔHĞHĬHŎHŬHO˘OĂOĔOĞOĬOŎOŬO
+HˇHČHĎHĚHŇHŘHŠHŤHŽHOˇOČOĎOĚOŇOŘOŠOŤOŽO
+H¸HÇHŢHO¸OÇOŢO
+HˆHÂHĈHÊHĜHĤHÎHĴHÔHŜHÛHŴHŶHOˆOÂOĈOÊOĜOĤOÎOĴOÔOŜOÛOŴOŶO
+H¨HÄHËHÏHÖHÜHẄHŸHO¨OÄOËOÏOÖOÜOẄOŸO
+H˙HĊHĖHĠHİHŻHO˙OĊOĖOĠOİOŻO
+H˝HŐHŰHO˝OŐOŰO
+H`HÀHÈHÌHÒHÙHẀHỲHO`OÀOÈOÌOÒOÙOẀOỲO
+H¯HĀHĒHĪHŌHŪHO¯OĀOĒOĪOŌOŪO
+H˛HĄHĘHĮHŲHO˛OĄOĘOĮOŲO
+H˚HÅHŮHO˚OÅOŮO
+H˜HÃHĨHÑHÕHŨHO˜OÃOĨOÑOÕOŨO
+H̦HŅHȚHȘHĶHĢHŖHĻHO̦OŅOȚOȘOĶOĢOŖOĻO
+H˛HĄHĘHĮHŲHOĄOĘOĮOŲO

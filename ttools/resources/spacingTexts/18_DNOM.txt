@@ -1,8 +1,8 @@
-D e n o m i n a t o r
-H H a.dnom H b.dnom H c.dnom H d.dnom H e.dnom H f.dnom H g.dnom H h.dnom H i.dnom H j.dnom H k.dnom H l.dnom H m.dnom H n.dnom H o.dnom H p.dnom H q.dnom H r.dnom H s.dnom H t.dnom H u.dnom H v.dnom H w.dnom H x.dnom H y.dnom H z.dnom H H
-H H a.dnom H b.dnom H c.dnom H d.dnom H e.dnom H f.dnom H g.dnom H H
-H H h.dnom H i.dnom H j.dnom H k.dnom H l.dnom H m.dnom H n.dnom H H
-H H o.dnom H p.dnom H q.dnom H r.dnom H s.dnom H t.dnom H u.dnom H H
-H H v.dnom H w.dnom H x.dnom H y.dnom H z.dnom H H
-H H zero.dnom H one.dnom H two.dnom H three.dnom H four.dnom H five.dnom H six.dnom H seven.dnom H eight.dnom H nine.dnom H H
-H H dollar.dnom H cent.dnom H Euro.dnom H plus.dnom H minus.dnom H equal.dnom H period.dnom H comma.dnom H hyphen.dnom H parenleft.dnom H parenright.dnom H H
+Denominator
+HH/a.dnom H/b.dnom H/c.dnom H/d.dnom H/e.dnom H/f.dnom H/g.dnom H/h.dnom H/i.dnom H/j.dnom H/k.dnom H/l.dnom H/m.dnom H/n.dnom H/o.dnom H/p.dnom H/q.dnom H/r.dnom H/s.dnom H/t.dnom H/u.dnom H/v.dnom H/w.dnom H/x.dnom H/y.dnom H/z.dnom HH
+HH/a.dnom H/b.dnom H/c.dnom H/d.dnom H/e.dnom H/f.dnom H/g.dnom HH
+HH/h.dnom H/i.dnom H/j.dnom H/k.dnom H/l.dnom H/m.dnom H/n.dnom HH
+HH/o.dnom H/p.dnom H/q.dnom H/r.dnom H/s.dnom H/t.dnom H/u.dnom HH
+HH/v.dnom H/w.dnom H/x.dnom H/y.dnom H/z.dnom HH
+HH/zero.dnom H/one.dnom H/two.dnom H/three.dnom H/four.dnom H/five.dnom H/six.dnom H/seven.dnom H/eight.dnom H/nine.dnom HH
+HH/dollar.dnom H/cent.dnom H/Euro.dnom H/plus.dnom H/minus.dnom H/equal.dnom H/period.dnom H/comma.dnom H/hyphen.dnom H/parenleft.dnom H/parenright.dnom HH

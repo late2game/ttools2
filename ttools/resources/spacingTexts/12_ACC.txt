@@ -1,4 +1,4 @@
-A C C
-grave acute hungarumlaut dotaccent dieresis circumflex caron macron tilde breve ring uni0312 uni0313 uni0326 cedilla ogonek o
-grave.case acute.case hungarumlaut.case dotaccent.case dieresis.case circumflex.case caron.case macron.case tilde.case breve.case ring.case uni0326.case cedilla.case ogonek.case O
-grave acute hungarumlaut dotaccent dieresis circumflex caron macron tilde breve ring uni0312 uni0313 uni0326 cedilla ogonek o grave.case acute.case hungarumlaut.case dotaccent.case dieresis.case circumflex.case caron.case macron.case tilde.case breve.case ring.case uni0326.case cedilla.case ogonek.case O
+ACC
+`´˝˙¨ˆˇ¯˜˘˚̦̒̓¸˛o
+/grave.case /acute.case /hungarumlaut.case /dotaccent.case /dieresis.case /circumflex.case /caron.case /macron.case /tilde.case /breve.case /ring.case /uni0326.case /cedilla.case /ogonek.case O
+`´˝˙¨ˆˇ¯˜˘˚̦̒̓¸˛o/grave.case /acute.case /hungarumlaut.case /dotaccent.case /dieresis.case /circumflex.case /caron.case /macron.case /tilde.case /breve.case /ring.case /uni0326.case /cedilla.case /ogonek.case O

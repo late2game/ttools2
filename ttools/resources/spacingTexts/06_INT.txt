@@ -1,31 +1,31 @@
-I N T
-period comma colon semicolon ellipsis exclam question exclamdown questiondown hyphen endash emdash underscore bar brokenbar dagger daggerdbl parenleft parenright bracketleft bracketright braceleft braceright bullet periodcentered i
-n n period n comma n colon n semicolon n ellipsis n exclam n question n exclamdown n questiondown n hyphen n endash n emdash n underscore n bar n brokenbar n dagger n daggerdbl n parenleft n parenright n bracketleft n bracketright n braceleft n braceright n bullet n periodcentered n n
-n n period n comma n colon n semicolon n ellipsis n exclam n question n exclamdown n questiondown n hyphen n endash n emdash n underscore n n
-n n bar n brokenbar n dagger n daggerdbl n parenleft n parenright n bracketleft n bracketright n braceleft n braceright n bullet n periodcentered n n
-o o period o comma o colon o semicolon o ellipsis o exclam o question o exclamdown o questiondown o hyphen o endash o emdash o underscore o bar o brokenbar o dagger o daggerdbl o parenleft o parenright o bracketleft o bracketright o braceleft o braceright o bullet o periodcentered o o
-o o period o comma o colon o semicolon o ellipsis o exclam o question o exclamdown o questiondown o hyphen o endash o emdash o underscore o o
-o o bar o brokenbar o dagger o daggerdbl o parenleft o parenright o bracketleft o bracketright o braceleft o braceright o bullet o periodcentered o o
-n n period n comma n colon n semicolon n ellipsis n exclam n question n exclamdown n questiondown n hyphen n endash n emdash n underscore n bar n brokenbar n dagger n daggerdbl n parenleft n parenright n bracketleft n bracketright n braceleft n braceright n bullet n periodcentered n n o o period o comma o colon o semicolon o ellipsis o exclam o question o exclamdown o questiondown o hyphen o endash o emdash o underscore o bar o brokenbar o dagger o daggerdbl o parenleft o parenright o bracketleft o bracketright o braceleft o braceright o bullet o periodcentered o o
-H H period H comma H colon H semicolon H ellipsis H exclam H question H exclamdown H questiondown H hyphen H endash H emdash H underscore H H
-H H bar H brokenbar H dagger H daggerdbl H parenleft H parenright H bracketleft H bracketright H braceleft H braceright H bullet H periodcentered H H
-O O period O comma O colon O semicolon O ellipsis O exclam O question O exclamdown O questiondown O hyphen O endash O emdash O underscore O O
-O O bar O brokenbar O dagger O daggerdbl O parenleft O parenright O bracketleft O bracketright O braceleft O braceright O bullet O periodcentered O O
-H H period H comma H colon H semicolon H ellipsis H exclam H question H exclamdown H questiondown H hyphen H endash H emdash H underscore H bar H brokenbar H dagger H daggerdbl H parenleft H parenright H bracketleft H bracketright H braceleft H braceright H bullet H periodcentered H H O O period O comma O colon O semicolon O ellipsis O exclam O question O exclamdown O questiondown O hyphen O endash O emdash O underscore O bar O brokenbar O dagger O daggerdbl O parenleft O parenright O bracketleft O bracketright O braceleft O braceright O bullet O periodcentered O O
-comma slash backslash quotesinglbase quotedblbase quoteleft quotedblleft quoteright quotedblright guilsinglleft guilsinglright guillemotleft guillemotright quotesingle quotedbl asterisk degree paragraph section
-n n comma n slash n backslash n quotesinglbase n quotedblbase n quoteleft n quotedblleft n quoteright n quotedblright n n
-n n guilsinglleft n guilsinglright n guillemotleft n guillemotright n quotesingle n quotedbl n asterisk n degree n paragraph n section n n
-o o comma o slash o backslash o quotesinglbase o quotedblbase o quoteleft o quotedblleft o quoteright o quotedblright o guilsinglleft o o
-o o guilsinglright o guillemotleft o guillemotright o quotesingle o quotedbl o asterisk o degree o paragraph o section o o
-n n comma n slash n backslash n quotesinglbase n quotedblbase n quoteleft n quotedblleft n quoteright n quotedblright n guilsinglleft n guilsinglright n guillemotleft n guillemotright n quotesingle n quotedbl n asterisk n degree n paragraph n section n n o o comma o slash o backslash o quotesinglbase o quotedblbase o quoteleft o quotedblleft o quoteright o quotedblright o guilsinglleft o guilsinglright o guillemotleft o guillemotright o quotesingle o quotedbl o asterisk o degree o paragraph o section o o
-H H comma H slash H backslash H quotesinglbase H quotedblbase H quoteleft H quotedblleft H quoteright H quotedblright H H
-H H guilsinglleft H guilsinglright H guillemotleft H guillemotright H quotesingle H quotedbl H asterisk H degree H paragraph H section H H
-O O comma O slash O backslash O quotesinglbase O quotedblbase O quoteleft O quotedblleft O quoteright O quotedblright O O
-O O guilsinglleft O guilsinglright O guillemotleft O guillemotright O quotesingle O quotedbl O asterisk O degree O paragraph O section O O
-H H comma H slash H backslash H quotesinglbase H quotedblbase H quoteleft H quotedblleft H quoteright H quotedblright H guilsinglleft H guilsinglright H guillemotleft H guillemotright H quotesingle H quotedbl H asterisk H degree H paragraph H section H H O O comma O slash O backslash O quotesinglbase O quotedblbase O quoteleft O quotedblleft O quoteright O quotedblright O guilsinglleft O guilsinglright O guillemotleft O guillemotright O quotesingle O quotedbl O asterisk O degree O paragraph O section O O
-parenleft T parenright space bracketleft T bracketright space braceleft T braceright space parenleft V parenright space bracketleft V bracketright space braceleft V braceright
-parenleft p g parenright space bracketleft p g bracketright space braceleft p g braceright parenleft g q parenright space bracketleft g q bracketright space braceleft g q braceright
-parenleft j f parenright space bracketleft j f bracketright space braceleft j f braceright
-hyphen hyphen hyphen C a p i t a l s space I N T hyphen hyphen hyphen
-exclamdown questiondown hyphen endash emdash bullet periodcentered guilsinglleft guilsinglright guillemotleft guillemotright parenleft parenright bracketleft bracketright braceleft braceright exclamdown.case questiondown.case hyphen.case endash.case emdash.case bullet.case periodcentered.case guilsinglleft.case guilsinglright.case guillemotleft.case guillemotright.case parenleft.case parenright.case bracketleft.case bracketright.case braceleft.case braceright.case
-H H exclamdown H questiondown H hyphen H endash H emdash H bullet H periodcentered H H H H exclamdown.case H questiondown.case H hyphen.case H endash.case H emdash.case H bullet.case H periodcentered.case H H H H guilsinglleft H guilsinglright H guillemotleft H guillemotright H parenleft H parenright H bracketleft H bracketright H braceleft H braceright H H H H guilsinglleft.case H guilsinglright.case H guillemotleft.case H guillemotright.case H parenleft.case H parenright.case H bracketleft.case H bracketright.case H braceleft.case H braceright.case H H
+INT
+.,:;…!?¡¿-–—_|¦†‡()[]{}•·i
+nn.n,n:n;n…n!n?n¡n¿n-n–n—n_n|n¦n†n‡n(n)n[n]n{n}n•n·nn
+nn.n,n:n;n…n!n?n¡n¿n-n–n—n_nn
+nn|n¦n†n‡n(n)n[n]n{n}n•n·nn
+oo.o,o:o;o…o!o?o¡o¿o-o–o—o_o|o¦o†o‡o(o)o[o]o{o}o•o·oo
+oo.o,o:o;o…o!o?o¡o¿o-o–o—o_oo
+oo|o¦o†o‡o(o)o[o]o{o}o•o·oo
+nn.n,n:n;n…n!n?n¡n¿n-n–n—n_n|n¦n†n‡n(n)n[n]n{n}n•n·nnoo.o,o:o;o…o!o?o¡o¿o-o–o—o_o|o¦o†o‡o(o)o[o]o{o}o•o·oo
+HH.H,H:H;H…H!H?H¡H¿H-H–H—H_HH
+HH|H¦H†H‡H(H)H[H]H{H}H•H·HH
+OO.O,O:O;O…O!O?O¡O¿O-O–O—O_OO
+OO|O¦O†O‡O(O)O[O]O{O}O•O·OO
+HH.H,H:H;H…H!H?H¡H¿H-H–H—H_H|H¦H†H‡H(H)H[H]H{H}H•H·HHOO.O,O:O;O…O!O?O¡O¿O-O–O—O_O|O¦O†O‡O(O)O[O]O{O}O•O·OO
+,/\‚„‘“’”‹›«»'"*°¶§
+nn,n/n\n‚n„n‘n“n’n”nn
+nn‹n›n«n»n'n"n*n°n¶n§nn
+oo,o/o\o‚o„o‘o“o’o”o‹oo
+oo›o«o»o'o"o*o°o¶o§oo
+nn,n/n\n‚n„n‘n“n’n”n‹n›n«n»n'n"n*n°n¶n§nnoo,o/o\o‚o„o‘o“o’o”o‹o›o«o»o'o"o*o°o¶o§oo
+HH,H/H\H‚H„H‘H“H’H”HH
+HH‹H›H«H»H'H"H*H°H¶H§HH
+OO,O/O\O‚O„O‘O“O’O”OO
+OO‹O›O«O»O'O"O*O°O¶O§OO
+HH,H/H\H‚H„H‘H“H’H”H‹H›H«H»H'H"H*H°H¶H§HHOO,O/O\O‚O„O‘O“O’O”O‹O›O«O»O'O"O*O°O¶O§OO
+(T) [T] {T} (V) [V] {V}
+(pg) [pg] {pg}(gq) [gq] {gq}
+(jf) [jf] {jf}
+---Capitals INT---
+¡¿-–—•·‹›«»()[]{}/exclamdown.case /questiondown.case /hyphen.case /endash.case /emdash.case /bullet.case /periodcentered.case /guilsinglleft.case /guilsinglright.case /guillemotleft.case /guillemotright.case /parenleft.case /parenright.case /bracketleft.case /bracketright.case /braceleft.case /braceright.case 
+HH¡H¿H-H–H—H•H·HHHH/exclamdown.case H/questiondown.case H/hyphen.case H/endash.case H/emdash.case H/bullet.case H/periodcentered.case HHHH‹H›H«H»H(H)H[H]H{H}HHHH/guilsinglleft.case H/guilsinglright.case H/guillemotleft.case H/guillemotright.case H/parenleft.case H/parenright.case H/bracketleft.case H/bracketright.case H/braceleft.case H/braceright.case HH

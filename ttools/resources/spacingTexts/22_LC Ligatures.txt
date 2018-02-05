@@ -1,8 +1,8 @@
-L C space L i g a t u r e s
-n n f_j n n f_b n n f_h n n f_k n n f_t n n t_t n n t_f n n n n f_f_i n n f_f_j n n f_f_l n n f_f_b n n f_f_h n n f_f_k n n f_f_t n n
-n n f_j n n f_b n n f_h n n f_k n n f_t n n t_t n n t_f n n
-n n f_f_i n n f_f_j n n f_f_l n n f_f_b n n f_f_h n n f_f_k n n f_f_t n n
-o o f_j o o f_b o o f_h o o f_k o o f_t o o t_t o o t_f o o o o n f_f_i o o f_f_j o o f_f_l o o f_f_b o o f_f_h o o f_f_k o o f_f_t o o
-o o f_j o o f_b o o f_h o o f_k o o f_t o o t_t o o t_f o o
-o o n f_f_i o o f_f_j o o f_f_l o o f_f_b o o f_f_h o o f_f_k o o f_f_t o o
-n n f_j n n f_b n n f_h n n f_k n n f_t n n t_t n n t_f n n o o f_j o o f_b o o f_h o o f_k o o f_t o o t_t o o t_f o o n n f_f_i n n f_f_j n n f_f_l n n f_f_b n n f_f_h n n f_f_k n n f_f_t n n o o n f_f_i o o f_f_j o o f_f_l o o f_f_b o o f_f_h o o f_f_k o o f_f_t o o
+LC Ligatures
+nn/f_j nn/f_b nn/f_h nn/f_k nn/f_t nn/t_t nn/t_f nnnnﬃnn/f_f_j nnﬄnn/f_f_b nn/f_f_h nn/f_f_k nn/f_f_t nn
+nn/f_j nn/f_b nn/f_h nn/f_k nn/f_t nn/t_t nn/t_f nn
+nnﬃnn/f_f_j nnﬄnn/f_f_b nn/f_f_h nn/f_f_k nn/f_f_t nn
+oo/f_j oo/f_b oo/f_h oo/f_k oo/f_t oo/t_t oo/t_f oooonﬃoo/f_f_j ooﬄoo/f_f_b oo/f_f_h oo/f_f_k oo/f_f_t oo
+oo/f_j oo/f_b oo/f_h oo/f_k oo/f_t oo/t_t oo/t_f oo
+oonﬃoo/f_f_j ooﬄoo/f_f_b oo/f_f_h oo/f_f_k oo/f_f_t oo
+nn/f_j nn/f_b nn/f_h nn/f_k nn/f_t nn/t_t nn/t_f nnoo/f_j oo/f_b oo/f_h oo/f_k oo/f_t oo/t_t oo/t_f oonnﬃnn/f_f_j nnﬄnn/f_f_b nn/f_f_h nn/f_f_k nn/f_f_t nnoonﬃoo/f_f_j ooﬄoo/f_f_b oo/f_f_h oo/f_f_k oo/f_f_t oo
