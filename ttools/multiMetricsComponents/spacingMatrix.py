@@ -145,7 +145,7 @@ class SpacingMatrix(Group):
             self.canvas.activeEdit = CustomEditText((activeEditX, activeEditY, activeEditWidth, vanillaControlsSize['EditTextSmallHeight']),
                                                     sizeStyle='small',
                                                     continuous=False,
-                                                    text='%d' % activeValue,
+                                                    text='{:d}'.format(activeValue),
                                                     callback=self.activeEditCallback)
             self.canvas.activeEdit.centerAlignment()
 
@@ -238,25 +238,25 @@ class SpacingMatrix(Group):
             self._setBoxQualities()
             dt.line((0, vanillaControlsSize['EditTextSmallHeight']), (SPACING_COL_WIDTH, vanillaControlsSize['EditTextSmallHeight']))
 
-            textWidth, textHeight = dt.textSize('%d' % eachGlyph.width)
+            textWidth, textHeight = dt.textSize('{:d}'.format(eachGlyph.width))
             self._setTypeQualities(color)
-            dt.text('%d' % eachGlyph.width, (SPACING_COL_WIDTH/2.-textWidth/2., BASELINE_CORRECTION))
+            dt.text('{:d}'.format(eachGlyph.width), (SPACING_COL_WIDTH/2.-textWidth/2., BASELINE_CORRECTION))
 
             # line over sidebearings
             self._setBoxQualities()
             dt.line((0, 0), (SPACING_COL_WIDTH, 0))
             dt.translate(0, -vanillaControlsSize['EditTextSmallHeight'])
 
-            textWidth, textHeight = dt.textSize('%d' % eachGlyph.leftMargin)
+            textWidth, textHeight = dt.textSize('{:d}'.format(eachGlyph.leftMargin))
             self._setTypeQualities(color)
-            dt.text('%d' % eachGlyph.leftMargin, (SPACING_COL_WIDTH/4.-textWidth/2., BASELINE_CORRECTION))
+            dt.text('{:d}'.format(eachGlyph.leftMargin), (SPACING_COL_WIDTH/4.-textWidth/2., BASELINE_CORRECTION))
 
             self._setBoxQualities()
             dt.line((SPACING_COL_WIDTH/2., 0), (SPACING_COL_WIDTH/2., vanillaControlsSize['EditTextSmallHeight']))
 
-            textWidth, textHeight = dt.textSize('%d' % eachGlyph.rightMargin)
+            textWidth, textHeight = dt.textSize('{:d}'.format(eachGlyph.rightMargin))
             self._setTypeQualities(color)
-            dt.text('%d' % eachGlyph.rightMargin, (SPACING_COL_WIDTH*3/4.-textWidth/2., BASELINE_CORRECTION))
+            dt.text('{:d}'.format(eachGlyph.rightMargin), (SPACING_COL_WIDTH*3/4.-textWidth/2., BASELINE_CORRECTION))
             
             dt.translate(0, -vanillaControlsSize['EditTextSmallHeight'])
 
