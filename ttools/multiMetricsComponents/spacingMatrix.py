@@ -51,6 +51,10 @@ class SpacingMatrix(Group):
 
     def setGlyphNamesToDisplay(self, glyphNamesToDisplay):
         self.glyphNamesToDisplay = glyphNamesToDisplay
+        self.refreshActiveElements()
+
+        if hasattr(self.canvas, 'activeEdit') is True:
+            self.canvas.activeEdit.show(False)
 
     def setFontsOrder(self, fontsOrder):
         self.fontsOrder = fontsOrder
@@ -60,18 +64,20 @@ class SpacingMatrix(Group):
         x, y = self.getPosSize()[0:2]
         self.setPosSize((x, y, width, height))
         self.canvas.resize(width, height)
-        self.canvas.update()
+        self.update()
 
     def refreshActiveElements(self):
         self.activeGlyph = None
         self.activeSide = None
         self.activeElement = None
-        self.canvas.update()
+        self.update()
 
-    def mouseDown(self, notification):
-        # I have to kill the old one, if present
+    def _killActiveEdit(self):
         if hasattr(self.canvas, 'activeEdit') is True:
             delattr(self.canvas, 'activeEdit')
+
+    def mouseDown(self, notification):
+        self._killActiveEdit()
 
         # origin is bottom left of the window, here we adjust the coordinates to the canvas
         pointerX, pointerY = notification.locationInWindow().x-MARGIN_LFT, notification.locationInWindow().y-MARGIN_HALFROW
@@ -158,8 +164,10 @@ class SpacingMatrix(Group):
 
             except ValueError:
                 self.canvas.activeEdit.set('')   # temp
-        self.canvas.update()
+
+        self._killActiveEdit()
         self.callback(self)
+        self.update()
 
     def update(self):
         self.canvas.update()

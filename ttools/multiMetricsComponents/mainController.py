@@ -457,14 +457,15 @@ class MultiFontMetricsWindow(BaseWindowController):
         self.w.spacingMatrix.canvas.update()
 
     def lineViewDoubleClickCallback(self, sender):
-        doodleGlyph = sender.getSelectedGlyph()
-        doodleFont = doodleGlyph.getParent()
-        for indexFont, eachFont in enumerate(self.fontsOrder):
-            if eachFont.path == doodleFont.path:
-                roboGlyph = self.fontsOrder[indexFont][doodleGlyph.name]
-                break
-        if roboGlyph is not None:
-            OpenGlyphWindow(glyph=roboGlyph, newWindow=False)
+        if sender.getSelectedGlyph():
+            doodleGlyph = sender.getSelectedGlyph()
+            doodleFont = doodleGlyph.getParent()
+            for indexFont, eachFont in enumerate(self.fontsOrder):
+                if eachFont.path == doodleFont.path:
+                    roboGlyph = self.fontsOrder[indexFont][doodleGlyph.name]
+                    break
+            if roboGlyph is not None:
+                OpenGlyphWindow(glyph=roboGlyph, newWindow=False)
 
     def showMetricsCheckCallback(self, sender):
         self.showMetrics = bool(sender.get())
