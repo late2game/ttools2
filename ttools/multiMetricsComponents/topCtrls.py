@@ -19,17 +19,17 @@ MARGIN_RGT = 15
 MARGIN_COL = 10
 
 ### Classes and functions
-def spitDecentString(someGlyphs, unicodeData):
-    assert isinstance(someGlyphs, types.ListType)
-    assert isinstance(unicodeData, types.DictType)
-    flippedUnicodeData = {eachV[0]: eachK for (eachK, eachV) in unicodeData.items()}
-    decentString = ''
-    for eachGlyphName in someGlyphs:
-        if eachGlyphName in flippedUnicodeData and flippedUnicodeData[eachGlyphName] is not None:
-            decentString += unichr(flippedUnicodeData[eachGlyphName])
-        else:
-            decentString += '/%s ' % eachGlyphName
-    return decentString
+# def spitDecentString(someGlyphs, unicodeData):
+#     assert isinstance(someGlyphs, types.ListType)
+#     assert isinstance(unicodeData, types.DictType)
+#     flippedUnicodeData = {eachV[0]: eachK for (eachK, eachV) in unicodeData.items()}
+#     decentString = ''
+#     for eachGlyphName in someGlyphs:
+#         if eachGlyphName in flippedUnicodeData and flippedUnicodeData[eachGlyphName] is not None:
+#             decentString += unichr(flippedUnicodeData[eachGlyphName])
+#         else:
+#             decentString += '/%s ' % eachGlyphName
+#     return decentString
 
 
 class Typewriter(Group):
@@ -119,7 +119,7 @@ class TextStringsControls(Group):
 
         self.chosenTxt = self.editTexts[self.editTextSortedKeys[0]]
         self.stringIndex = 0
-        self.chosenLine = self.chosenTxt[self.stringIndex].split(' ')
+        self.chosenLine = self.chosenTxt[self.stringIndex]
 
         textModePopUpWidth = 120
         self.textModePopUp = PopUpButton((1, 0, textModePopUpWidth, vanillaControlsSize['PopUpButtonRegularHeight']),
@@ -153,16 +153,15 @@ class TextStringsControls(Group):
 
         jumpingX += arrowWidth + MARGIN_COL
 
-        pseudoUniString = spitDecentString(self.chosenLine, self.unicodeMinimum)
         self.selectedLine = TextBox((jumpingX, 0, -MARGIN_RGT, vanillaControlsSize['TextBoxRegularHeight']),
-                                    pseudoUniString)
+                                    self.chosenLine)
 
     def setUnicodeMinimum(self, unicodeMinimum):
         assert isinstance(unicodeMinimum, DictType), 'unicode minimum is not a dict'
         self.unicodeMinimum = unicodeMinimum
 
     def get(self):
-        return self.chosenStringOption, self.chosenLine
+        return self.chosenStringOption, splitText(self.chosenLine, self.unicodeMinimum)
 
     def show(self, onOff):
         assert onOff in [True, False]
@@ -180,16 +179,16 @@ class TextStringsControls(Group):
     def textFilePopUpCallback(self, sender):
         self.chosenTxt = self.editTexts[self.editTextSortedKeys[sender.get()]]
         self.stringIndex = 0
-        self.chosenLine = self.chosenTxt[self.stringIndex].split(' ')
+        self.chosenLine = self.chosenTxt[self.stringIndex]
 
         self.textLinePopUp.setItems(['%#02d' % item for item in xrange(1, len(self.chosenTxt)+1)])
-        self.selectedLine.set(spitDecentString(self.chosenLine, self.unicodeMinimum))
+        self.selectedLine.set(self.chosenLine)
         self.callback(self)
 
     def textLinePopUpCallback(self, sender):
         self.stringIndex = sender.get()
-        self.chosenLine = self.chosenTxt[self.stringIndex].split(' ')
-        self.selectedLine.set(spitDecentString(self.chosenLine, self.unicodeMinimum))
+        self.chosenLine = self.chosenTxt[self.stringIndex]
+        self.selectedLine.set(self.chosenLine)
         self.callback(self)
 
     def arrowUpCallback(self, sender):
@@ -199,9 +198,9 @@ class TextStringsControls(Group):
         else:
             self.stringIndex = self.stringIndex % len(self.chosenTxt)
 
-        self.chosenLine = self.chosenTxt[self.stringIndex].split(' ')
-        self.selectedLine.set(spitDecentString(self.chosenLine, self.unicodeMinimum))
-        self.textLinePopUp.set(self.chosenTxt.index(' '.join(self.chosenLine)))
+        self.chosenLine = self.chosenTxt[self.stringIndex]
+        self.selectedLine.set(self.chosenLine)
+        self.textLinePopUp.set(self.chosenTxt.index(self.chosenLine))
         self.callback(self)
 
     def arrowDwCallback(self, sender):
@@ -211,7 +210,7 @@ class TextStringsControls(Group):
         else:
             self.stringIndex = self.stringIndex % len(self.chosenTxt)
 
-        self.chosenLine = self.chosenTxt[self.stringIndex].split(' ')
-        self.selectedLine.set(spitDecentString(self.chosenLine, self.unicodeMinimum))
-        self.textLinePopUp.set(self.chosenTxt.index(' '.join(self.chosenLine)))
+        self.chosenLine = self.chosenTxt[self.stringIndex]
+        self.selectedLine.set(self.chosenLine)
+        self.textLinePopUp.set(self.chosenTxt.index(self.chosenLine))
         self.callback(self)

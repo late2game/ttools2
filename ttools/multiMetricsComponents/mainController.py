@@ -27,6 +27,8 @@ from spacingMatrix import SpacingMatrix
 
 # standard
 import os
+import codecs
+from collections import OrderedDict
 from math import floor, ceil
 import traceback
 from AppKit import NSColor, NSFont, NSCenterTextAlignment
@@ -37,6 +39,7 @@ from vanilla import Window, EditText, CheckBox
 from vanilla import PopUpButton, HorizontalLine
 from vanilla.dialogs import message
 from defconAppKit.windows.baseWindow import BaseWindowController
+from defconAppKit.tools.textSplitter import splitText
 
 ### Constants
 LIGHT_YELLOW = (255./255, 248./255, 216./255, 1)
@@ -53,12 +56,20 @@ RIGHT_COLUMN = 180
 RED = (1,0,0)
 BLACK = (0,0,0)
 
-TTOOLS_FOLDER = os.path.dirname(os.path.dirname(__file__))
-
 if version[0] == '2':
     NOT_DEF_GLYPH = OpenFont(os.path.join(TTOOLS_FOLDER, 'resources', 'notdef.ufo'), showInterface=False)['.notdef']
 else:
     NOT_DEF_GLYPH = OpenFont(os.path.join(TTOOLS_FOLDER, 'resources', 'notdef.ufo'), showUI=False)['.notdef']
+
+def loadSpacingTexts(folderName):
+    spacingTextDB = OrderedDict()
+    spacingTextPaths = [os.path.join(folderName, pth) for pth in os.listdir(folderName) if pth.endswith('.txt')]
+    spacingTextPaths.sort()
+    for eachPath in spacingTextPaths:
+        with codecs.open(eachPath, 'r', 'utf-8') as spacingText:
+            spacingRows = [word.strip() for word in spacingText if word]
+        spacingTextDB[os.path.basename(eachPath).replace('.txt', '')] = spacingRows
+    return spacingTextDB
 
 # the control factory
 class MultiFontMetricsWindow(BaseWindowController):
@@ -87,7 +98,7 @@ class MultiFontMetricsWindow(BaseWindowController):
     bodySize = bodySizeOptions[10]
     lineHeight = lineHeightOptions[0]
 
-    folderPath = os.path.join(TTOOLS_FOLDER, 'resources', 'spacingTexts')
+    textFolderPath = os.path.join(TTOOLS_FOLDER, 'resources', 'spacingTexts')
     fontsAmountOptions = range(1, 9)
 
     def __init__(self):
@@ -325,11 +336,9 @@ class MultiFontMetricsWindow(BaseWindowController):
             if eachValue:
                 self.unicodeMinimum[eachKey] = eachValue
 
+
     def collectEditTexts(self):
-        editTextsPaths = catchFilesAndFolders(self.folderPath, '.txt')
-        for eachPath in editTextsPaths:
-            editTextRows = [item.replace('\n', '') for item in open(eachPath, 'r').readlines()]
-            self.editTexts[os.path.basename(eachPath)[:-4]] = editTextRows
+        self.editTexts = loadSpacingTexts(self.textFolderPath)
 
     def updateLineView(self):
         try:

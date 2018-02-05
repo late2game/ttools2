@@ -65,7 +65,6 @@ from datetime import datetime
 from mojo.roboFont import AllFonts
 from mojo.events import addObserver, removeObserver
 from defconAppKit.windows.baseWindow import BaseWindowController
-from defconAppKit.tools.textSplitter import splitText
 from vanilla import Window, TextBox, HorizontalLine
 from vanilla.dialogs import message
 

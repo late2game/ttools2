@@ -111,7 +111,7 @@ def buildPairsFromString(uniString, aFont):
     pairs = []
     splittedText = splitText(uniString, aFont.naked().unicodeData)
     for eachI in range(1, len(splittedText)):
-        myPair = (u'%s' % splittedText[eachI-1], u'%s' % splittedText[eachI])
+        myPair = (u'{}'.format(splittedText[eachI-1]), u'{}'.format(splittedText[eachI]))
         pairs.append(myPair)
     return pairs
 
@@ -125,19 +125,15 @@ def loadKerningTexts(kerningTextFolder):
 
         kerningWords = []
         for rawWord in kerningWordsDoc:
-            if '#' in rawWord:
-                word = u'%s' % rawWord[:rawWord.index('#')].strip()
-            else:
-                word = u'%s' % rawWord.strip()
-
+            word = u'{}'.format(rawWord.strip())
             if word:
                 kerningWords.append(word)
 
         uniqueKerningWords = []
         _ = [uniqueKerningWords.append(word) for word in kerningWords if word not in uniqueKerningWords]
-        
+
         kerningWordsList = [{'#': index, 'word': word, 'done?': 0} for (index, word) in enumerate(uniqueKerningWords)]
-        kerningWordDB[eachKerningTextBaseName[3:]] = kerningWordsList
+        kerningWordDB[eachKerningTextBaseName.replace('.txt', '')] = kerningWordsList
     return kerningWordDB
 
 
