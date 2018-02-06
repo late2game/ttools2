@@ -112,20 +112,27 @@ def isSidebearingEqual(glyph1, glyph2, position, height):
                                             canHaveComponent=True,
                                             addSideBearings=True)
     intersections1 = sorted(intersections1, key=lambda coor: coor[0])
+    intersections1 = [xx for (xx, yy) in intersections1]
+    intersections1.sort()
 
     intersections2 = IntersectGlyphWithLine(glyph2,
                                             ((0, height), (glyph2.width, height)),
                                             canHaveComponent=True,
                                             addSideBearings=True)
-    intersections2 = sorted(intersections2, key=lambda coor: coor[0])
+    intersections2 = [xx for (xx, yy) in intersections2]
+    intersections2.sort()
 
     if position == '*left':
-        if int(intersections1[1][0]) != int(intersections2[1][0]):
+        left1 = int(intersections1[1])
+        left2 = int(intersections2[1])
+        if left1 != left2:
             return False
         else:
             return True
     else:
-        if int(intersections1[-2][0]) != int(intersections2[-2][0]):
+        right1 = int(intersections1[-1]-intersections1[-2])
+        right2 = int(intersections2[-1]-intersections2[-2])
+        if right1 != right2:
             return False
         else:
             return True
@@ -207,11 +214,11 @@ def checkLCextra(sourceFont):
                                                             widthOne=parentGlyph.width,
                                                             widthTwo=subGlyph.width))
 
-            if isSidebearingEqual(subGlyph, parentGlyph, '*left', int(sourceFont.info.xHeight/4)) is False:
+            if isSidebearingEqual(subGlyph, parentGlyph, '*left', sourceFont.info.xHeight//4) is False:
                 errorLines.append(LEFT_DIFFER_ERROR.format(glyphOne=parentGlyph.name, glyphTwo=subGlyph.name))
 
             # check right
-            if isSidebearingEqual(subGlyph, parentGlyph, '*right', int(sourceFont.info.xHeight/4)) is False:
+            if isSidebearingEqual(subGlyph, parentGlyph, '*right', sourceFont.info.xHeight//4) is False:
                 errorLines.append(RIGHT_DIFFER_ERROR.format(glyphOne=parentGlyph.name, glyphTwo=subGlyph.name))
 
         elif whichCheck == '*width':
@@ -222,7 +229,7 @@ def checkLCextra(sourceFont):
                                                             widthTwo=subGlyph.width))
 
         elif whichCheck == '*left':
-            if isSidebearingEqual(subGlyph, parentGlyph, '*left', int(10)) is False:
+            if isSidebearingEqual(subGlyph, parentGlyph, '*left', 10) is False:
                 errorLines.append(LEFT_DIFFER_ERROR.format(glyphOne=parentGlyph.name, glyphTwo=subGlyph.name))
 
         else:   # right
@@ -277,7 +284,6 @@ def checkLCligatures(sourceFont):
     missingGlyphs = []
 
     for leftParentName, ligatureName, rightParentName in LC_LIGATURES:
-
         if ligatureName not in sourceFont:
             missingGlyphs.append(ligatureName)
             continue
@@ -286,10 +292,9 @@ def checkLCligatures(sourceFont):
         ligature = sourceFont[ligatureName]
         rightParent = sourceFont[rightParentName]
 
-        if leftParent.leftMargin != ligature.leftMargin:
+        if isSidebearingEqual(leftParent, ligature, '*left', sourceFont.info.xHeight//4) is False:
             errorLines.append(LEFT_DIFFER_ERROR.format(glyphOne=ligature.name, glyphTwo=leftParent.name))
-
-        if rightParent.rightMargin != ligature.rightMargin:
+        if isSidebearingEqual(rightParent, ligature, '*right', sourceFont.info.xHeight//4) is False:
             errorLines.append(RIGHT_DIFFER_ERROR.format(glyphOne=ligature.name, glyphTwo=rightParent.name))
 
     errorLines.append(END_ERROR.format(sep=SEP))
@@ -576,11 +581,11 @@ def checkAccented(sourceFont):
                                                             widthTwo=accentedGlyph.width))
 
             # check left
-            if isSidebearingEqual(accentedGlyph, parentGlyph, '*left', int(sourceFont.info.xHeight/2)) is False:
+            if isSidebearingEqual(accentedGlyph, parentGlyph, '*left', sourceFont.info.xHeight//2) is False:
                 errorLines.append(LEFT_DIFFER_ERROR.format(glyphOne=parentGlyph.name, glyphTwo=accentedGlyph.name))
 
             # check right
-            if isSidebearingEqual(accentedGlyph, parentGlyph, '*right', int(sourceFont.info.xHeight/2)) is False:
+            if isSidebearingEqual(accentedGlyph, parentGlyph, '*right', sourceFont.info.xHeight//2) is False:
                 errorLines.append(RIGHT_DIFFER_ERROR.format(glyphOne=parentGlyph.name, glyphTwo=accentedGlyph.name))
 
         elif eachAccentedName in sourceFont:
@@ -595,4 +600,3 @@ def checkAccented(sourceFont):
 
     errorLines.append(END_ERROR.format(sep=SEP))
     return errorLines, missingGlyphs
-
