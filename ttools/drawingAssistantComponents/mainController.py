@@ -219,20 +219,22 @@ class DrawingAssistant(BaseWindowController):
         # double click
         if mouseDownClickCount == 2:
             if self.lftNeighborActive is True and self.lftGlyphName:
+                lftGlyph = chooseRightGlyph(self.lftFontPath, self.lftGlyphName)
                 if version[0] == '2':
-                    xMin, yMin, xMax, yMax = self.lftGlyph.bounds
+                    xMin, yMin, xMax, yMax = lftGlyph.bounds
                 else:
-                    xMin, yMin, xMax, yMax = self.lftGlyph.box
-                if xMin < (mouseDownPoint.x+self.lftGlyph.width) < xMax and yMin < mouseDownPoint.y < yMax:
-                    OpenGlyphWindow(glyph=self.lftGlyphName, newWindow=True)
+                    xMin, yMin, xMax, yMax = lftGlyph.box
+                if xMin < (mouseDownPoint.x+lftGlyph.width) < xMax and yMin < mouseDownPoint.y < yMax:
+                    OpenGlyphWindow(glyph=lftGlyph, newWindow=True)
 
             if self.rgtNeighborActive is True and self.rgtGlyphName:
+                rgtGlyph = chooseRightGlyph(self.rgtFontPath, self.rgtGlyphName)
                 if version[0] == '2':
-                    xMin, yMin, xMax, yMax = self.rgtGlyph.bounds
+                    xMin, yMin, xMax, yMax = rgtGlyph.bounds
                 else:
-                    xMin, yMin, xMax, yMax = self.rgtGlyph.box
+                    xMin, yMin, xMax, yMax = rgtGlyph.box
                 if xMin < (mouseDownPoint.x-self.currentGlyph.width) < xMax and yMin < mouseDownPoint.y < yMax:
-                    OpenGlyphWindow(glyph=self.rgtGlyph, newWindow=True)
+                    OpenGlyphWindow(glyph=rgtGlyph, newWindow=True)
 
 
     def _draw(self, infoDict):
