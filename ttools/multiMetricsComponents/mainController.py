@@ -56,10 +56,13 @@ RIGHT_COLUMN = 180
 RED = (1,0,0)
 BLACK = (0,0,0)
 
+RESOURCES_FOLDER = os.path.join(os.path.dirname(__file__), '..', 'resources')
+
+
 if version[0] == '2':
-    NOT_DEF_GLYPH = OpenFont(os.path.join(TTOOLS_FOLDER, 'resources', 'notdef.ufo'), showInterface=False)['.notdef']
+    NOT_DEF_GLYPH = OpenFont(os.path.join(RESOURCES_FOLDER, 'notdef.ufo'), showInterface=False)['.notdef']
 else:
-    NOT_DEF_GLYPH = OpenFont(os.path.join(TTOOLS_FOLDER, 'resources', 'notdef.ufo'), showUI=False)['.notdef']
+    NOT_DEF_GLYPH = OpenFont(os.path.join(RESOURCES_FOLDER, 'notdef.ufo'), showUI=False)['.notdef']
 
 def loadSpacingTexts(folderName):
     spacingTextDB = OrderedDict()
@@ -98,7 +101,7 @@ class MultiFontMetricsWindow(BaseWindowController):
     bodySize = bodySizeOptions[10]
     lineHeight = lineHeightOptions[0]
 
-    textFolderPath = os.path.join(TTOOLS_FOLDER, 'resources', 'spacingTexts')
+    textFolderPath = os.path.join(RESOURCES_FOLDER, 'spacingTexts')
     fontsAmountOptions = range(1, 9)
 
     def __init__(self):
