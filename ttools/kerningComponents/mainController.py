@@ -489,17 +489,27 @@ class KerningController(BaseWindowController):
             self.appendRecord('verticalAlignedEditing')
 
     def exceptionTrigger(self):
-        selectedFont = self.fontsOrder[self.navCursor_Y]
+        activeFont = self.fontsOrder[self.navCursor_Y]
         selectedPair = self.getActiveWordDisplay().getActivePair()
-        correction, kerningReference, pairKind = getCorrection(selectedPair, selectedFont)
+        correction, kerningReference, pairKind = getCorrection(selectedPair, activeFont)
+        isException, doesExists, parentPair = isPairException(kerningReference, activeFont)
 
-        isException, doesExists, parentPair = isPairException(kerningReference, selectedFont)
+        # delete exception
         if isException:
-            deletePair(kerningReference, selectedFont)
-            self.appendRecord('deletePair', (kerningReference, selectedFont, correction))
+            if self.isVerticalAlignedEditingOn is True:
+                selectedFonts = self.fontsOrder
+            else:
+                selectedFonts = [self.fontsOrder[self.navCursor_Y]]
 
+            for eachFont in selectedFonts:
+                isException, doesExists, parentPair = isPairException(kerningReference, eachFont)
+                if isException:
+                    deletePair(kerningReference, eachFont)
+                    self.appendRecord('deletePair', (kerningReference, eachFont, correction))
+
+        # trigger exception window
         elif correction:
-            exceptionOptions = possibleExceptions(selectedPair, kerningReference, selectedFont)
+            exceptionOptions = possibleExceptions(selectedPair, kerningReference, activeFont)
             if len(exceptionOptions) == 1:
                 self.exceptionWindow.set(exceptionOptions[0])
                 self.exceptionWindow.trigger()
