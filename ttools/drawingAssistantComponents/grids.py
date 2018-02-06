@@ -39,7 +39,7 @@ class MultipleGridController(Group):
         self.ctrlsAmount = ctrlsAmount
         self.activeCtrls = activeCtrls
         self.offgridActive = offgridActive
-        self.gridIndexes = ['%d' % integ for integ in range(1, ctrlsAmount+1)]
+        self.gridIndexes = ['{:d}'.format(integer) for integer in range(1, ctrlsAmount+1)]
         self.callback = callback
 
         self.gridsDB = [{'horizontal': False, 'vertical': False, 'step': None, 'color': color} for color in GRID_COLOR_INIT]
@@ -60,7 +60,7 @@ class MultipleGridController(Group):
                                             gridColor=GRID_COLOR_INIT[eachI-1],
                                             callback=self.gridCtrlCallback)
             gridCtrl.enable(self.gridActive)
-            setattr(self, 'grid%#02d' % eachI, gridCtrl)
+            setattr(self, 'grid{:0>2}'.format(eachI), gridCtrl)
 
         jumpin_Y += vanillaControlsSize['EditTextRegularHeight'] + MARGIN_VER
         self.showOffgridCheck = CheckBox((0, jumpin_Y, NET_WIDTH, vanillaControlsSize['CheckBoxRegularHeight']),
@@ -79,7 +79,7 @@ class MultipleGridController(Group):
     def gridActiveCheckCallback(self, sender):
         self.gridActive = bool(sender.get())
         for eachI in range(1, self.ctrlsAmount+1):
-            gridCtrl = getattr(self, 'grid%#02d' % eachI)
+            gridCtrl = getattr(self, 'grid{:0>2}'.format(eachI))
             gridCtrl.enable(self.gridActive)
         self.callback(self)
 
@@ -105,7 +105,7 @@ class SingleGridController(Group):
 
         # ctrls
         jumpin_X = 12
-        self.indexText = TextBox((jumpin_X, 0, 16, vanillaControlsSize['TextBoxRegularHeight']), '%d)' % index)
+        self.indexText = TextBox((jumpin_X, 0, 16, vanillaControlsSize['TextBoxRegularHeight']), '{:d})'.format(index))
         jumpin_X += self.indexText.getPosSize()[2]
 
         self.stepCtrl = EditText((jumpin_X, 0, 38, vanillaControlsSize['EditTextRegularHeight']),

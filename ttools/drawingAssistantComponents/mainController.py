@@ -403,7 +403,7 @@ class DrawingAssistant(BaseWindowController):
                     absBcpOut = eachBPT.anchor[0] + eachBPT.bcpOut[0], eachBPT.anchor[1] + eachBPT.bcpOut[1]
                     bcpOutAngle = calcAngle(eachBPT.anchor, absBcpOut)
                     bcpOutLenght = calcDistance(eachBPT.anchor, absBcpOut)
-                    captionBcpOut = u'→%d' % bcpOutLenght
+                    captionBcpOut = u'→{:d}'.format(bcpOutLenght)
                     projOut_X = eachBPT.anchor[0]+cos(radians(bcpOutAngle))*bcpOutLenght/2.
                     projOut_Y = eachBPT.anchor[1]+sin(radians(bcpOutAngle))*bcpOutLenght/2.
 
@@ -426,7 +426,7 @@ class DrawingAssistant(BaseWindowController):
                     absBcpIn = eachBPT.anchor[0] + eachBPT.bcpIn[0], eachBPT.anchor[1] + eachBPT.bcpIn[1]
                     bcpInAngle = calcAngle(eachBPT.anchor, absBcpIn)
                     bcpInLenght = calcDistance(eachBPT.anchor, absBcpIn)
-                    captionBcpIn = u'→%d' % bcpInLenght
+                    captionBcpIn = u'→{}'.format(bcpInLenght)
 
                     projIn_X = eachBPT.anchor[0]+cos(radians(bcpInAngle))*bcpInLenght/2.
                     projIn_Y = eachBPT.anchor[1]+sin(radians(bcpInAngle))*bcpInLenght/2.
@@ -477,9 +477,9 @@ class DrawingAssistant(BaseWindowController):
                         projOut_X = eachBPT.anchor[0]+cos(radians(angleOut))*handleOutLen
                         projOut_Y = eachBPT.anchor[1]+sin(radians(angleOut))*handleOutLen
                         if angleOut != 0 and angleOut % 90 != 0:
-                            captionSqrOut = u'%.2f%%, %d°' % (sqrOut, angleOut%180)
+                            captionSqrOut = u'{:.0%}, {:d}°'.format(sqrOut, angleOut%180)
                         else:
-                            captionSqrOut = '%.2f%%' % sqrOut
+                            captionSqrOut = '{:.0%}'.format(sqrOut)
                         captionSqrOut = captionSqrOut.replace('0.', '')
 
                         dt.save()
@@ -500,9 +500,9 @@ class DrawingAssistant(BaseWindowController):
                         projIn_X = nextBPT.anchor[0]+cos(radians(angleIn))*nextHandleInLen
                         projIn_Y = nextBPT.anchor[1]+sin(radians(angleIn))*nextHandleInLen
                         if angleIn != 0 and angleIn % 90 != 0:
-                            captionSqrIn = u'%.2f%%, %d°' % (sqrIn, angleIn%180)
+                            captionSqrIn = u'{:.0%}, {:d}°'.format(sqrIn, angleIn%180)
                         else:
-                            captionSqrIn = '%.2f%%' % sqrIn
+                            captionSqrIn = '{:.0%}'.format(sqrIn)
                         captionSqrIn = captionSqrIn.replace('0.', '')
 
                         dt.save()
@@ -610,7 +610,7 @@ class DrawingAssistant(BaseWindowController):
             dt.save()
             dt.translate(offset_X, 0)
             textQualities(BODYSIZE_CAPTION*scalingFactor)
-            dataToPlot = u'↑%d\n→%d' % (verDiff, horDiff)
+            dataToPlot = u'↑{:d}\n→{:d}'.format(verDiff, horDiff)
             textWidth, textHeight = dt.textSize(dataToPlot)
             textRect = (middlePoint[0]-textWidth/2., middlePoint[1]-textHeight/2., textWidth, textHeight)
             dt.textBox(dataToPlot, textRect, align='center')
@@ -658,7 +658,7 @@ class DrawingAssistant(BaseWindowController):
                 dt.rotate(angle)
                 textBoxY = 0
 
-            dataToPlot = u'∡%.1f ↗%d' % (angle%180, distance)
+            dataToPlot = u'∡{:.1f} ↗{:d}'.format(angle%180, distance)
             textWidth, textHeight = dt.textSize(dataToPlot)
             dt.textBox(dataToPlot, (-textWidth/2., textBoxY, textWidth, BODYSIZE_CAPTION*1.2*scalingFactor), align='center')
             dt.restore()
@@ -690,14 +690,14 @@ class DrawingAssistant(BaseWindowController):
     def pushFontAttr(self, attrName):
         fontToBePushed = getattr(self, attrName)
         self.neighborsController.neighborsDB[attrName][1] = fontToBePushed
-        setattr(self.neighborsController, '%sController.activeFont' % attrName[:3], fontToBePushed)
-        getattr(self.neighborsController, '%sController' % attrName[:3]).updateGlyphList()
+        setattr(self.neighborsController, '{}Controller.activeFont'.format(attrName[:3], fontToBePushed))
+        getattr(self.neighborsController, '{}Controller'.format(attrName[:3]).updateGlyphList())
 
     def pushGlyphAttr(self, attrName):
         glyphToBePushed = getattr(self, attrName)
         self.neighborsController.neighborsDB[attrName][2] = glyphToBePushed
-        setattr(self.neighborsController, '%sController.activeGlyph' % attrName[:3], glyphToBePushed)
-        getattr(self.neighborsController, '%sController' % attrName[:3]).updateGlyphList()
+        setattr(self.neighborsController, '{}Controller.activeGlyph'.format(attrName[:3], glyphToBePushed))
+        getattr(self.neighborsController, '{}Controller'.format(attrName[:3]).updateGlyphList())
 
     def aFontIsOpening(self, infoDict):
         originalState = list(self.openedFontPaths)

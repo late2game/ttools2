@@ -113,7 +113,7 @@ class DistancesController(Group):
 
     def addStemButtonCallback(self, sender):
         if self.currentGlyph and STEM_KEY not in self.currentGlyph.lib:
-            self.currentGlyph.prepareUndo(undoTitle='create a %s lib' % STEM_KEY)
+            self.currentGlyph.prepareUndo(undoTitle='create a {} lib'.format(STEM_KEY))
             self.currentGlyph.lib[STEM_KEY] = []
             self.currentGlyph.performUndo()
 
@@ -123,7 +123,7 @@ class DistancesController(Group):
 
         elif len(selectedPointsIDs) == 2:
             if tuple(selectedPointsIDs) not in self.currentGlyph.lib[STEM_KEY]:
-                self.currentGlyph.prepareUndo(undoTitle='append a stem to %s lib' % STEM_KEY)
+                self.currentGlyph.prepareUndo(undoTitle='append a stem to {} lib'.format(STEM_KEY))
                 self.currentGlyph.lib[STEM_KEY].append(tuple(selectedPointsIDs))
                 self.currentGlyph.performUndo()
 
@@ -131,7 +131,7 @@ class DistancesController(Group):
             guessedStems = guessStemPoints(self.currentGlyph)
             for eachStem in guessedStems:
                 if eachStem not in self.currentGlyph.lib[STEM_KEY]:
-                    self.currentGlyph.prepareUndo(undoTitle='append a stem to %s lib' % STEM_KEY)
+                    self.currentGlyph.prepareUndo(undoTitle='append a stem to {} lib'.format(STEM_KEY))
                     self.currentGlyph.lib[STEM_KEY].append(eachStem)
                     self.currentGlyph.performUndo()
         if version[0] == '2':
@@ -141,14 +141,14 @@ class DistancesController(Group):
 
     def addDiagonalsButtonCallback(self, sender):
         if self.currentGlyph and DIAGONALS_KEY not in self.currentGlyph.lib:
-            self.currentGlyph.prepareUndo(undoTitle='create a %s lib' % DIAGONALS_KEY)
+            self.currentGlyph.prepareUndo(undoTitle='create a {} lib'.format(DIAGONALS_KEY))
             self.currentGlyph.lib[DIAGONALS_KEY] = []
             self.currentGlyph.performUndo()
 
         selectedPointsIDs = collectIDsFromSelectedPoints(self.currentGlyph)
         if len(selectedPointsIDs) == 2:
             if tuple(selectedPointsIDs) not in self.currentGlyph.lib[DIAGONALS_KEY]:
-                self.currentGlyph.prepareUndo(undoTitle='append a stem to %s lib' % DIAGONALS_KEY)
+                self.currentGlyph.prepareUndo(undoTitle='append a stem to {} lib'.format(DIAGONALS_KEY))
                 self.currentGlyph.lib[DIAGONALS_KEY].append(tuple(selectedPointsIDs))
                 self.currentGlyph.performUndo()
 
@@ -160,7 +160,7 @@ class DistancesController(Group):
                     originalStemStatus = self.currentGlyph.lib[STEM_KEY]
                     for eachStem in originalStemStatus:
                         if eachID in eachStem:
-                            self.currentGlyph.prepareUndo(undoTitle='remove a stem from %s lib' % STEM_KEY)
+                            self.currentGlyph.prepareUndo(undoTitle='remove a stem from {} lib'.format(STEM_KEY))
                             self.currentGlyph.lib[STEM_KEY].remove(eachStem)
                             self.currentGlyph.performUndo()
 
@@ -169,7 +169,7 @@ class DistancesController(Group):
                     originalStemStatus = self.currentGlyph.lib[DIAGONALS_KEY]
                     for eachStem in originalStemStatus:
                         if eachID in eachStem:
-                            self.currentGlyph.prepareUndo(undoTitle='remove a stem from %s lib' % DIAGONALS_KEY)
+                            self.currentGlyph.prepareUndo(undoTitle='remove a stem from {} lib'.format(DIAGONALS_KEY))
                             self.currentGlyph.lib[DIAGONALS_KEY].remove(eachStem)
                             self.currentGlyph.performUndo()
             if version[0] == '2':
