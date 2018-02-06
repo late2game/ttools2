@@ -101,6 +101,10 @@ def checkPairConflicts(aPair, aFont):
 
 def isPairException(kerningReference, aFont):
     """here kerningReference could be made by classes"""
+    if kerningReference is None:
+        doesExists = False
+        return False, doesExists, None
+
     lftReference, rgtReference = kerningReference
 
     if aFont.kerning.get(kerningReference) is not None:

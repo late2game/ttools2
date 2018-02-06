@@ -24,6 +24,7 @@ class GraphicsManager(Group):
                        areCollisionsShown,
                        isKerningDisplayActive,
                        areVerticalLettersDrawn,
+                       isCorrectionActive,
                        isMetricsActive,
                        isColorsActive,
                        callback):
@@ -34,6 +35,7 @@ class GraphicsManager(Group):
         self.areGroupsShown = areGroupsShown
         self.areCollisionsShown = areCollisionsShown
         self.isSidebearingsActive = isSidebearingsActive
+        self.isCorrectionActive = isCorrectionActive
         self.isMetricsActive = isMetricsActive
         self.isColorsActive = isColorsActive
         self.callback = callback
@@ -64,12 +66,6 @@ class GraphicsManager(Group):
                                         callback=self.showGroupsCheckCallback)
 
         jumping_Y += vanillaControlsSize['CheckBoxRegularHeight']
-        self.verticalLettersCheck = CheckBox((indent, jumping_Y, self.ctrlWidth-indent, vanillaControlsSize['CheckBoxRegularHeight']),
-                                        'show vertical letters',
-                                        value=self.areGroupsShown,
-                                        callback=self.verticalLettersCheckCallback)
-
-        jumping_Y += vanillaControlsSize['CheckBoxRegularHeight']
         self.showCollisionsCheck = CheckBox((indent, jumping_Y, self.ctrlWidth-indent, vanillaControlsSize['CheckBoxRegularHeight']),
                                         'show pair collision',
                                         value=self.areCollisionsShown,
@@ -82,29 +78,81 @@ class GraphicsManager(Group):
                                           callback=self.showSidebearingsCheckCallback)
 
         jumping_Y += vanillaControlsSize['CheckBoxRegularHeight']
+        self.showCorrectionCheck = CheckBox((indent, jumping_Y, self.ctrlWidth-indent, vanillaControlsSize['CheckBoxRegularHeight']),
+                                     'show corrections amount',
+                                     value=self.isCorrectionActive,
+                                     callback=self.showCorrectionCheckCallback)
+
+        jumping_Y += vanillaControlsSize['CheckBoxRegularHeight']
+        self.showColorsCheck = CheckBox((indent, jumping_Y, self.ctrlWidth-indent, vanillaControlsSize['CheckBoxRegularHeight']),
+                                    'show color bars',
+                                    value=self.isColorsActive,
+                                    callback=self.showColorsCheckCallback)
+
+        jumping_Y += vanillaControlsSize['CheckBoxRegularHeight']
         self.showMetricsCheck = CheckBox((indent, jumping_Y, self.ctrlWidth-indent, vanillaControlsSize['CheckBoxRegularHeight']),
                                      'show metrics',
                                      value=self.isMetricsActive,
                                      callback=self.showMetricsCheckCallback)
 
         jumping_Y += vanillaControlsSize['CheckBoxRegularHeight']
-        self.showColorsCheck = CheckBox((indent, jumping_Y, self.ctrlWidth-indent, vanillaControlsSize['CheckBoxRegularHeight']),
-                                    'show corrections',
-                                    value=self.isColorsActive,
-                                    callback=self.showColorsCheckCallback)
+        self.verticalLettersCheck = CheckBox((indent, jumping_Y, self.ctrlWidth-indent, vanillaControlsSize['CheckBoxRegularHeight']),
+                                        'show vertical letters',
+                                        value=self.areGroupsShown,
+                                        callback=self.verticalLettersCheckCallback)
+
+    def set(self, isKerningDisplayActive,
+                  areVerticalLettersDrawn,
+                  areGroupsShown,
+                  areCollisionsShown,
+                  isSidebearingsActive,
+                  isCorrectionActive,
+                  isMetricsActive,
+                  isColorsActive):
+
+        # update attributes
+        self.isKerningDisplayActive = isKerningDisplayActive
+        self.areVerticalLettersDrawn = areVerticalLettersDrawn
+        self.areGroupsShown = areGroupsShown
+        self.areCollisionsShown = areCollisionsShown
+        self.isSidebearingsActive = isSidebearingsActive
+        self.isCorrectionActive = isCorrectionActive
+        self.isMetricsActive = isMetricsActive
+        self.isColorsActive = isColorsActive
+
+        # aligning controls
+        self.showKerningCheck.set(self.isKerningDisplayActive)
+        self.showGroupsCheck.set(self.areGroupsShown)
+        self.showCollisionsCheck.set(self.areCollisionsShown)
+        self.showSidebearingsCheck.set(self.isSidebearingsActive)
+        self.showCorrectionCheck.set(self.isCorrectionActive)
+        self.showColorsCheck.set(self.isColorsActive)
+        self.showMetricsCheck.set(self.isMetricsActive)
+        self.verticalLettersCheck.set(self.areVerticalLettersDrawn)
+
 
     def get(self):
-        return self.isKerningDisplayActive, self.areVerticalLettersDrawn, self.areGroupsShown, self.areCollisionsShown, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive
+        return (self.isKerningDisplayActive,
+                self.areVerticalLettersDrawn,
+                self.areGroupsShown,
+                self.areCollisionsShown,
+                self.isSidebearingsActive,
+                self.isCorrectionActive,
+                self.isMetricsActive,
+                self.isColorsActive)
 
     def switchControls(self, value):
+        self.showKerningCheck.enable(value)
         self.showSidebearingsCheck.enable(value)
+        self.showGroupsCheck.enable(value)
+        self.showCorrectionCheck.enable(value)
         self.showMetricsCheck.enable(value)
         self.showColorsCheck.enable(value)
         self.showCollisionsCheck.enable(value)
+        self.verticalLettersCheck.enable(value)
 
     def showKerningCheckCallback(self, sender):
         self.isKerningDisplayActive = bool(sender.get())
-        self.showColorsCheck.enable(bool(sender.get()))
         self.callback(self)
 
     def showGroupsCheckCallback(self, sender):
@@ -126,6 +174,10 @@ class GraphicsManager(Group):
 
     def showSidebearingsCheckCallback(self, sender):
         self.isSidebearingsActive = bool(sender.get())
+        self.callback(self)
+
+    def showCorrectionCheckCallback(self, sender):
+        self.isCorrectionActive = bool(sender.get())
         self.callback(self)
 
     def showMetricsCheckCallback(self, sender):

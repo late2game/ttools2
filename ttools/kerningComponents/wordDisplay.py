@@ -67,9 +67,9 @@ class WordDisplay(Group):
                        areGroupsShown,
                        areCollisionsShown,
                        isSidebearingsActive,
+                       isCorrectionActive,
                        isMetricsActive,
                        isColorsActive,
-                       isPreviewOn,
                        isSymmetricalEditingOn,
                        isSwappedEditingOn,
                        indexPair):
@@ -92,9 +92,9 @@ class WordDisplay(Group):
         self.areGroupsShown = areGroupsShown
         self.areCollisionsShown = areCollisionsShown
         self.isSidebearingsActive = isSidebearingsActive
+        self.isCorrectionActive = isCorrectionActive
         self.isMetricsActive = isMetricsActive
         self.isColorsActive = isColorsActive
-        self.isPreviewOn = isPreviewOn
 
         self.isSymmetricalEditingOn = isSymmetricalEditingOn
         self.isSwappedEditingOn = isSwappedEditingOn
@@ -141,15 +141,21 @@ class WordDisplay(Group):
     def setSymmetricalEditingMode(self, value):
         self.isSymmetricalEditingOn = value
 
-    def setPreviewMode(self, value):
-        self.isPreviewOn = value
-
-    def setGraphicsBooleans(self, isKerningDisplayActive, areVerticalLettersDrawn, areGroupsShown, areCollisionsShown, isSidebearingsActive, isMetricsActive, isColorsActive):
+    def setGraphicsBooleans(self,
+                            isKerningDisplayActive,
+                            areVerticalLettersDrawn,
+                            areGroupsShown,
+                            areCollisionsShown,
+                            isSidebearingsActive,
+                            isCorrectionActive,
+                            isMetricsActive,
+                            isColorsActive):
         self.isKerningDisplayActive = isKerningDisplayActive
         self.areVerticalLettersDrawn = areVerticalLettersDrawn
         self.areGroupsShown = areGroupsShown
         self.areCollisionsShown = areCollisionsShown
         self.isSidebearingsActive = isSidebearingsActive
+        self.isCorrectionActive = isCorrectionActive
         self.isMetricsActive = isMetricsActive
         self.isColorsActive = isColorsActive
 
@@ -204,8 +210,8 @@ class WordDisplay(Group):
         dt.scale(1/(self.ctrlHeight/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm)))
         dt.font(SYSTEM_FONT_NAME)
         dt.fontSize(BODY_SIZE)
-        textWidth, textHeight = dt.textSize('{}'.format(correction))
-        dt.textBox('{}'.format(correction), (-textWidth/2., -textHeight/2., textWidth, textHeight), align='center')
+        textWidth, textHeight = dt.textSize('{:+d}'.format(correction))
+        dt.textBox('{:+d}'.format(correction), (-textWidth/2., -textHeight/2., textWidth, textHeight), align='center')
 
         dt.restore()
 
@@ -472,7 +478,7 @@ class WordDisplay(Group):
 
                         if kerningReference:
                             exceptionStatus, doesExists, exceptionParents = isPairException(kerningReference, self.fontObj)
-                            if exceptionStatus is True and self.isPreviewOn is False:
+                            if exceptionStatus is True:
                                 self._drawException((prevGlyphName, eachGlyphName), correction)
 
                         if (indexChar-1) == self.indexPair:
@@ -496,10 +502,12 @@ class WordDisplay(Group):
                 if indexChar > 0:
                     correction, kerningReference, pairKind = getCorrection((prevGlyphName, eachGlyphName), self.fontObj)
                     if correction and correction != 0 and self.isKerningDisplayActive:
-                        if self.isColorsActive is True and self.isPreviewOn is False:
+                        if self.isColorsActive is True:
                             self._drawColoredCorrection(correction)
-                        if self.isMetricsActive is True and self.isPreviewOn is False:
+
+                        if self.isCorrectionActive is True:
                             self._drawMetricsCorrection(correction)
+
                         dt.translate(correction, 0)
                         glyphsToDisplayTotalWidth += correction
 
@@ -507,10 +515,10 @@ class WordDisplay(Group):
                         self._drawCursor(correction, pairKind)
 
                 # # draw metrics info
-                if self.isMetricsActive is True and self.isPreviewOn is False:
+                if self.isMetricsActive is True:
                     self._drawMetricsData(eachGlyphName, 52)
 
-                if self.isSidebearingsActive is True and self.isPreviewOn is False:
+                if self.isSidebearingsActive is True:
                     self._drawBaseline(eachGlyphName)
                     self._drawSidebearings(eachGlyphName)
 

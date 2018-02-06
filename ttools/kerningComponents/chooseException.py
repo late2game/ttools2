@@ -26,7 +26,7 @@ class ChooseExceptionWindow(BaseWindowController):
         self.w = FloatingWindow((300, 120),
                         'Choose exception')
 
-        self.w.optionsRadio = RadioGroup((MARGIN, MARGIN, 140, len(options)*20),
+        self.w.optionsRadio = RadioGroup((MARGIN, MARGIN, -MARGIN, len(options)*20),
                                     options,
                                     callback=self.optionsCallback)
         self.w.optionsRadio.set(0)

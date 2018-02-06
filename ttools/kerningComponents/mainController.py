@@ -114,8 +114,10 @@ class KerningController(BaseWindowController):
     areCollisionsShown = False
     isKerningDisplayActive = True
     isSidebearingsActive = True
+    isCorrectionActive = True
     isMetricsActive = True
     isColorsActive = True
+    prevGraphicsValues = None
 
     isSymmetricalEditingOn = False
     isSwappedEditingOn = False
@@ -183,12 +185,13 @@ class KerningController(BaseWindowController):
                                              callback=self.joystickCallback)
 
         self.jumping_Y += self.w.joystick.getPosSize()[3] + MARGIN_VER
-        self.w.graphicsManager = GraphicsManager((self.jumping_X, -184, LEFT_COLUMN, 184),
+        self.w.graphicsManager = GraphicsManager((self.jumping_X, -202, LEFT_COLUMN, 202),
                                                  isKerningDisplayActive=self.isKerningDisplayActive,
                                                  areVerticalLettersDrawn=self.areVerticalLettersDrawn,
                                                  areGroupsShown=self.areGroupsShown,
                                                  areCollisionsShown=self.areCollisionsShown,
                                                  isSidebearingsActive=self.isSidebearingsActive,
+                                                 isCorrectionActive=self.isCorrectionActive,
                                                  isMetricsActive=self.isMetricsActive,
                                                  isColorsActive=self.isColorsActive,
                                                  callback=self.graphicsManagerCallback)
@@ -305,9 +308,9 @@ class KerningController(BaseWindowController):
                                        areGroupsShown=self.areGroupsShown,
                                        areCollisionsShown=self.areCollisionsShown,
                                        isSidebearingsActive=self.isSidebearingsActive,
+                                       isCorrectionActive=self.isCorrectionActive,
                                        isMetricsActive=self.isMetricsActive,
                                        isColorsActive=self.isColorsActive,
-                                       isPreviewOn=self.isPreviewOn,
                                        isSymmetricalEditingOn=self.isSymmetricalEditingOn,
                                        isSwappedEditingOn=self.isSwappedEditingOn,
                                        indexPair=initPairIndex)
@@ -324,8 +327,14 @@ class KerningController(BaseWindowController):
             eachDisplay.setSymmetricalEditingMode(self.isSymmetricalEditingOn)
             eachDisplay.setSwappedEditingMode(self.isSwappedEditingOn)
             eachDisplay.setScalingFactor(self.canvasScalingFactor)
-            eachDisplay.setGraphicsBooleans(self.isKerningDisplayActive, self.areVerticalLettersDrawn, self.areGroupsShown, self.areCollisionsShown, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive)
-            eachDisplay.setPreviewMode(self.isPreviewOn)
+            eachDisplay.setGraphicsBooleans(self.isKerningDisplayActive,
+                                            self.areVerticalLettersDrawn,
+                                            self.areGroupsShown,
+                                            self.areCollisionsShown,
+                                            self.isSidebearingsActive,
+                                            self.isCorrectionActive,
+                                            self.isMetricsActive,
+                                            self.isColorsActive)
             eachDisplay.wordCanvasGroup.update()
 
     def nextWord(self, isRecording=True):
@@ -387,13 +396,58 @@ class KerningController(BaseWindowController):
     def getActiveWordDisplay(self):
         return getattr(self.w, 'wordCtrl_{:0>2d}'.format(self.navCursor_Y+1))
 
+    def setGraphicsManagerForPreviewMode(self):
+
+        self.prevGraphicsValues = (self.isKerningDisplayActive,
+                                   self.areVerticalLettersDrawn,
+                                   self.areGroupsShown,
+                                   self.areCollisionsShown,
+                                   self.isSidebearingsActive,
+                                   self.isCorrectionActive,
+                                   self.isMetricsActive,
+                                   self.isColorsActive)
+
+        # set preview mode variables
+        self.isKerningDisplayActive = True
+        self.areVerticalLettersDrawn = False
+        self.areGroupsShown = False
+        self.areCollisionsShown = False
+        self.isSidebearingsActive = False
+        self.isCorrectionActive = False
+        self.isMetricsActive = False
+        self.isColorsActive = False
+        self.w.graphicsManager.set(self.isKerningDisplayActive,
+                                   self.areVerticalLettersDrawn,
+                                   self.areGroupsShown,
+                                   self.areCollisionsShown,
+                                   self.isSidebearingsActive,
+                                   self.isCorrectionActive,
+                                   self.isMetricsActive,
+                                   self.isColorsActive)
+
+    def restoreGraphicsManagerValues(self):
+        self.isKerningDisplayActive, self.areVerticalLettersDrawn, self.areGroupsShown, self.areCollisionsShown, self.isSidebearingsActive, self.isCorrectionActive, self.isMetricsActive, self.isColorsActive = self.prevGraphicsValues
+        self.prevGraphicsValues = None
+        self.w.graphicsManager.set(self.isKerningDisplayActive,
+                                   self.areVerticalLettersDrawn,
+                                   self.areGroupsShown,
+                                   self.areCollisionsShown,
+                                   self.isSidebearingsActive,
+                                   self.isCorrectionActive,
+                                   self.isMetricsActive,
+                                   self.isColorsActive)
+
     def switchPreviewAttribute(self, isRecording=True):
         if self.isPreviewOn is True:
             self.isPreviewOn = False
+            self.restoreGraphicsManagerValues()
             self.w.graphicsManager.switchControls(True)
         else:
             self.isPreviewOn = True
+            self.setGraphicsManagerForPreviewMode()
             self.w.graphicsManager.switchControls(False)
+        self.updateWordDisplays()
+
         self.updateWordDisplays()
         if isRecording is True:
             self.appendRecord('preview')
@@ -453,9 +507,9 @@ class KerningController(BaseWindowController):
                 self.exceptionWindow.setOptions(exceptionOptions)
                 self.exceptionWindow.enable(True)
             else:
-                self.showMessage('no possible exceptions', 'kerning exceptions can be triggered only starting from class kerning')
+                self.showMessage('no possible exceptions', 'kerning exceptions can be triggered only starting from class kerning corrections')
         else:
-            self.showMessage('no kerning pair, no exception!', 'kerning exceptions can be triggered only starting from class kerning')
+            self.showMessage('no kerning pair, no exception!', 'kerning exceptions can be triggered only starting from class kerning corrections')
 
         self.updateWordDisplays()
 
@@ -664,7 +718,7 @@ class KerningController(BaseWindowController):
         self.initWordDisplays()
 
     def graphicsManagerCallback(self, sender):
-        self.isKerningDisplayActive, self.areVerticalLettersDrawn, self.areGroupsShown, self.areCollisionsShown, self.isSidebearingsActive, self.isMetricsActive, self.isColorsActive = sender.get()
+        self.isKerningDisplayActive, self.areVerticalLettersDrawn, self.areGroupsShown, self.areCollisionsShown, self.isSidebearingsActive, self.isCorrectionActive, self.isMetricsActive, self.isColorsActive = sender.get()
         self.updateWordDisplays()
 
     def joystickCallback(self, sender):
