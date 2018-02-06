@@ -24,7 +24,7 @@ class FactorController(Group):
 
         jumpingX = 0
         self.caption = TextBox((jumpingX, 0, 30, vanillaControlsSize['TextBoxRegularHeight']),
-                               '%.1f' % self.canvasScalingFactor)
+                               '{:.1f}'.format(self.canvasScalingFactor))
 
         jumpingX += 30+MARGIN_COL
         self.upButton = SquareButton((jumpingX, 0, 16, 16),
@@ -43,10 +43,10 @@ class FactorController(Group):
 
     def upButtonCallback(self, sender):
         self.canvasScalingFactor += .1
-        self.caption.set('%.1f' % self.canvasScalingFactor)
+        self.caption.set('{:.1f}'.format(self.canvasScalingFactor))
         self.callback(self)
 
     def dwButtonCallback(self, sender):
         self.canvasScalingFactor -= .1
-        self.caption.set('%.1f' % self.canvasScalingFactor)
+        self.caption.set('{:.1f}'.format(self.canvasScalingFactor))
         self.callback(self)

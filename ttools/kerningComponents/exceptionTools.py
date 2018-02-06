@@ -26,7 +26,7 @@ def checkGlyphPresenceInMultipleGroups(glyphName, location, aFont):
     if len(whichAreTheGroups) == 1:
         return True, None
     else:
-        return False, '%s in the following groups: %s' % (glyphName, ' '.join(whichAreTheGroups))
+        return False, '{} in the following groups: {}'.format(glyphName, ' '.join(whichAreTheGroups))
 
 def checkGroupConflicts(aFont):
     glyphsInvolvedInLft = []

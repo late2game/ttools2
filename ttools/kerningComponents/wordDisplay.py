@@ -204,8 +204,8 @@ class WordDisplay(Group):
         dt.scale(1/(self.ctrlHeight/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm)))
         dt.font(SYSTEM_FONT_NAME)
         dt.fontSize(BODY_SIZE)
-        textWidth, textHeight = dt.textSize('%s' % correction)
-        dt.textBox('%s' % correction, (-textWidth/2., -textHeight/2., textWidth, textHeight), align='center')
+        textWidth, textHeight = dt.textSize('{}'.format(correction))
+        dt.textBox('{}'.format(correction), (-textWidth/2., -textHeight/2., textWidth, textHeight), align='center')
 
         dt.restore()
 
@@ -240,10 +240,10 @@ class WordDisplay(Group):
         dt.font(SYSTEM_FONT_NAME)
         dt.fontSize(BODY_SIZE*reverseScalingFactor)
 
-        textWidth, textHeight = dt.textSize(u'%s' % glyphToDisplay.width)
-        dt.textBox(u'%d' % glyphToDisplay.width, (0, 0, glyphToDisplay.width, textHeight*2), align='center')
-        dt.textBox(u'\n%d' % glyphToDisplay.leftMargin, (0, 0, glyphToDisplay.width/2., textHeight*2), align='center')
-        dt.textBox(u'\n%d' % glyphToDisplay.rightMargin, (glyphToDisplay.width/2., 0, glyphToDisplay.width/2., textHeight*2), align='center')
+        textWidth, textHeight = dt.textSize(u'{}'.format(glyphToDisplay.width))
+        dt.textBox(u'{:d}'.format(glyphToDisplay.width), (0, 0, glyphToDisplay.width, textHeight*2), align='center')
+        dt.textBox(u'\n{:d}'.format(glyphToDisplay.leftMargin), (0, 0, glyphToDisplay.width/2., textHeight*2), align='center')
+        dt.textBox(u'\n{:d}'.format(glyphToDisplay.rightMargin), (glyphToDisplay.width/2., 0, glyphToDisplay.width/2., textHeight*2), align='center')
         dt.restore()
 
     def _drawBaseline(self, glyphName):
