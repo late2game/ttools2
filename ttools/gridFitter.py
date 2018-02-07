@@ -13,7 +13,8 @@ from ui.userInterfaceValues import vanillaControlsSize
 
 # standard
 from mojo.roboFont import AllFonts, CurrentFont, CurrentGlyph, version
-from vanilla import FloatingWindow, PopUpButton, EditText, TextBox, Button
+from vanilla import FloatingWindow, PopUpButton, EditText
+from vanilla import CheckBox, TextBox, Button
 
 ### Constants
 FONT_TARGET_OPTIONS = ['All Fonts', 'Current Font']
@@ -30,25 +31,28 @@ MARGIN_VER = 8
 NET_WIDTH = PLUGIN_WIDTH - MARGIN_HOR*2
 
 ### Functions & Procedures
-def gridFit(glyph, cellSide):
+def gridFit(glyph, cellSide, bcpHandlesFit=False):
     # points
     for eachContour in glyph:
         for eachBcp in eachContour.bPoints:
             if eachBcp.anchor[0] % cellSide != 0 or eachBcp.anchor[1] % cellSide != 0:
                 distance = -(eachBcp.anchor[0] % cellSide), -(eachBcp.anchor[1] % cellSide)
+
                 if version[0] == '2':
                     eachBcp.moveBy(distance)
                 else:
                     eachBcp.move(distance)
 
     # bPoints
-    for eachContour in glyph:
-        for eachBcp in eachContour.bPoints:
-            if eachBcp.bcpIn[0] % cellSide != 0 or eachBcp.bcpIn[1] % cellSide != 0:
-                eachBcp.bcpIn = eachBcp.bcpIn[0]-(eachBcp.bcpIn[0] % cellSide), eachBcp.bcpIn[1]-(eachBcp.bcpIn[1] % cellSide)
+    if bcpHandlesFit is True:
+        for eachContour in glyph:
+            for eachBcp in eachContour.bPoints:
+                if eachBcp.bcpIn[0] % cellSide != 0 or eachBcp.bcpIn[1] % cellSide != 0:
+                    eachBcp.bcpIn = eachBcp.bcpIn[0]-(eachBcp.bcpIn[0] % cellSide), eachBcp.bcpIn[1]-(eachBcp.bcpIn[1] % cellSide)
 
-            if eachBcp.bcpOut[0] % cellSide != 0 or eachBcp.bcpOut[1] % cellSide != 0:
-                eachBcp.bcpOut = eachBcp.bcpOut[0]-(eachBcp.bcpOut[0] % cellSide), eachBcp.bcpOut[1]-(eachBcp.bcpOut[1] % cellSide)
+                if eachBcp.bcpOut[0] % cellSide != 0 or eachBcp.bcpOut[1] % cellSide != 0:
+                    eachBcp.bcpOut = eachBcp.bcpOut[0]-(eachBcp.bcpOut[0] % cellSide), eachBcp.bcpOut[1]-(eachBcp.bcpOut[1] % cellSide)
+
     if version[0] == '2':
         glyph.changed()
     else:
@@ -56,6 +60,8 @@ def gridFit(glyph, cellSide):
 
 
 class GridFitter(object):
+
+    bcpHandlesFit = False
 
     def __init__(self):
         self.fontTarget = FONT_TARGET_OPTIONS[0]
@@ -83,9 +89,15 @@ class GridFitter(object):
 
         # grid size edit
         self.w.gridSizeEdit = EditText((MARGIN_HOR+NET_WIDTH*.32, jumpingY, NET_WIDTH*.3, vanillaControlsSize['EditTextRegularHeight']),
-                                       text='%d' % self.gridSize,
+                                       text='{:d}'.format(self.gridSize),
                                        callback=self.gridSizeEditCallback)
         jumpingY += vanillaControlsSize['EditTextRegularHeight'] + MARGIN_VER
+
+        self.w.moveBcpHandlesCheck = CheckBox((MARGIN_HOR, jumpingY, NET_WIDTH, vanillaControlsSize['CheckBoxRegularHeight']),
+                                              'move bcp handles',
+                                              value=self.bcpHandlesFit,
+                                              callback=self.moveBcpHandlesCheckCallback)
+        jumpingY += vanillaControlsSize['CheckBoxRegularHeight'] + MARGIN_VER
 
         # fit button
         self.w.fitButton = Button((MARGIN_HOR, jumpingY, NET_WIDTH, vanillaControlsSize['ButtonRegularHeight']),
@@ -107,7 +119,10 @@ class GridFitter(object):
         try:
             self.gridSize = int(sender.get())
         except ValueError:
-            self.w.gridSizeEdit.set('%d' % self.gridSize)
+            self.w.gridSizeEdit.set('{:d}'.format(self.gridSize))
+
+    def moveBcpHandlesCheckCallback(self, sender):
+        self.bcpHandlesFit = bool(sender.get())
 
     def fitButtonCallback(self, sender):
         if self.fontTarget == 'All Fonts':
@@ -125,8 +140,12 @@ class GridFitter(object):
 
             for eachName in glyphNamesToProcess:
                 eachGlyph = eachFont[eachName]
-                gridFit(eachGlyph, self.gridSize)
+                gridFit(eachGlyph, self.gridSize, bcpHandlesFit=self.bcpHandlesFit)
 
 
 if __name__ == '__main__':
     gf = GridFitter()
+
+
+
+
