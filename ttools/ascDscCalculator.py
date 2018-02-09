@@ -87,6 +87,7 @@ class AscenderDescenderCalculator(BaseWindowController):
     is_usWin = False
 
     def __init__(self):
+        super(AscenderDescenderCalculator, self).__init__()
         self.w = FloatingWindow((0, 0, PLUGIN_WIDTH, PLUGIN_HEIGHT),
                                 PLUGIN_TITLE)
 
