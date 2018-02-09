@@ -13,7 +13,7 @@ from extraTools.miscFunctions import collectIDsFromSelectedPoints
 
 import extraTools.calcFunctions
 reload(extraTools.calcFunctions)
-from extraTools.calcFunctions import interpolateValue, calcDistance
+from extraTools.calcFunctions import lerp, calcDistance
 
 import extraTools.bezierTools
 reload(extraTools.bezierTools)
@@ -381,9 +381,9 @@ class BroadNib(object):
                     bezPoints = collectsPointsOnBezierCurveWithFixedDistance(pt1, pt2, pt3, pt4, distance)
                     for indexBezPt, eachBezPt in enumerate(bezPoints):
                         factor = indexBezPt/float(len(bezPoints))
-                        width = interpolateValue(startLib['width'], endLib['width'], factor)
-                        height = interpolateValue(startLib['height'], endLib['height'], factor)
-                        angle = interpolateValue(startLib['angle'], endLib['angle'], factor)
+                        width = lerp(startLib['width'], endLib['width'], factor)
+                        height = lerp(startLib['height'], endLib['height'], factor)
+                        angle = lerp(startLib['angle'], endLib['angle'], factor)
 
                         if mode == 'canvas':
                             save()
