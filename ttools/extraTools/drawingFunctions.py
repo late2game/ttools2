@@ -3,6 +3,9 @@
 
 from math import radians, cos, sin
 from calcFunctions import calcDistance, calcAngle, calcMidPoint
+from collections import namedtuple
+
+Point = namedtuple('Point', ['x', 'y'])
 
 def calcWavyLine(pt1, pt2, waveLength, waveHeight, pseudoSquaring=.57):
     diagonal = calcDistance(pt1, pt2)
@@ -40,3 +43,38 @@ def calcWavyLine(pt1, pt2, waveLength, waveHeight, pseudoSquaring=.57):
     wavePoints.append((bcpOut, bcpIn, pt2))
 
     return wavePoints
+
+
+def drawCircle(aGlyph, posSize, squaring=.58, label=None):
+    centerX, centerY, diameter = posSize
+    bcpLength = diameter/2*squaring
+
+    pt1 =     Point(centerX, centerY-diameter/2)
+    pt1_in  = Point(pt1.x-bcpLength, pt1.y)
+    pt1_out = Point(pt1.x+bcpLength, pt1.y)
+
+    pt2 =     Point(centerX+diameter/2, centerY)
+    pt2_in  = Point(pt2.x, pt2.y-bcpLength)
+    pt2_out = Point(pt2.x, pt2.y+bcpLength)
+
+    pt3 =     Point(centerX, centerY+diameter/2)
+    pt3_in  = Point(pt3.x+bcpLength, pt3.y)
+    pt3_out = Point(pt3.x-bcpLength, pt3.y)
+
+    pt4 =     Point(centerX-diameter/2, centerY)
+    pt4_in  = Point(pt4.x, pt4.y+bcpLength)
+    pt4_out = Point(pt4.x, pt4.y-bcpLength)
+
+    pen = aGlyph.getPen()
+    pen.moveTo(pt1)
+    pen.curveTo(pt1_out, pt2_in, pt2)
+    pen.curveTo(pt2_out, pt3_in, pt3)
+    pen.curveTo(pt3_out, pt4_in, pt4)
+    pen.curveTo(pt4_out, pt1_in, pt1)
+    pen.closePath()
+
+    if label:
+        for eachPt in aGlyph[-1].points:
+            if eachPt.type != 'offCurve':
+                eachPt.name = label
+
