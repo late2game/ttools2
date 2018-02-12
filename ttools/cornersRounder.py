@@ -45,7 +45,7 @@ def loadRoundingsDataFromFont(aFont):
 
 
 ### Classes
-class CornerRounders(BaseWindowController):
+class CornersRounder(BaseWindowController):
 
     LABELS_AMOUNT = 4
     labels = ['standard', 'small', None, None]
@@ -57,7 +57,7 @@ class CornerRounders(BaseWindowController):
     roundingsData = None
 
     def __init__(self):
-        super(CornerRounders, self).__init__()
+        super(CornersRounder, self).__init__()
 
         if CurrentFont():
             self.layerNames = ['foreground'] + CurrentFont().layerOrder
@@ -374,5 +374,5 @@ class Label(Group):
 
 
 ### Instructions
-cr = CornerRounders()
+cr = CornersRounder()
 
