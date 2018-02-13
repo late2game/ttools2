@@ -164,7 +164,7 @@ class TestMetrics(BaseWindowController):
         self.w.targetPopUp.setItems(['{} {}'.format(font.info.familyName, font.info.styleName) for font in self.fontOptions])
 
         if self.fontOptions:
-            self.chosenFont = self.fontOptions
+            self.chosenFont = self.fontOptions[0]
         else:
             self.chosenFont = None
 
