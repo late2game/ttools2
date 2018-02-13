@@ -16,6 +16,7 @@ reload(extraTools.roundingTools)
 from extraTools.roundingTools import attachLabelToSelectedPoints, makeGlyphRound
 
 # standard
+from mojo.roboFont import CurrentFont
 from mojo.events import addObserver, removeObserver
 from mojo.UI import UpdateCurrentGlyphView
 from defconAppKit.windows.baseWindow import BaseWindowController
