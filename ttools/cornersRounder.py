@@ -16,7 +16,8 @@ reload(extraTools.roundingTools)
 from extraTools.roundingTools import attachLabelToSelectedPoints, makeGlyphRound
 
 # standard
-from mojo.roboFont import CurrentFont
+import json
+from mojo.roboFont import CurrentFont, CurrentGlyph, version
 from mojo.events import addObserver, removeObserver
 from mojo.UI import UpdateCurrentGlyphView
 from defconAppKit.windows.baseWindow import BaseWindowController
@@ -36,13 +37,19 @@ NET_WIDTH = PLUGIN_WIDTH - MARGIN_HOR*2
 
 PLUGIN_LIB_NAME = 'com.ttools.roundCornersData'
 
+
 ### Functions
-def pushRoudingsDataIntoFont(aFont, roundingsData):
-    aFont.lib[PLUGIN_LIB_NAME] = roundingsData
+def pushRoudingsDataIntoFont(aFont, someData):
+    aFont.lib[PLUGIN_LIB_NAME] = [dict(aDict) for aDict in someData]
+    if version[0] == '2':
+        aFont.changed()
+    else:
+        aFont.update()
+
 
 def loadRoundingsDataFromFont(aFont):
     if PLUGIN_LIB_NAME in aFont.lib:
-        return aFont.lib[PLUGIN_LIB_NAME]
+        return [dict(aDict) for aDict in aFont.lib[PLUGIN_LIB_NAME]]
 
 
 ### Classes
@@ -60,7 +67,7 @@ class CornersRounder(BaseWindowController):
     def __init__(self):
         super(CornersRounder, self).__init__()
 
-        if CurrentFont():
+        if CurrentFont() is not None:
             self.layerNames = ['foreground'] + CurrentFont().layerOrder
             self.sourceLayerName = self.layerNames[1]
             self.targetLayerName = self.layerNames[0]
@@ -88,8 +95,8 @@ class CornersRounder(BaseWindowController):
         jumpingY += MARGIN_ROW*2
 
         # tables
-        labelListWdt = 80
-        marginTable = 2
+        labelListWdt = 74
+        marginTable = 1
         angleListWdt = (NET_WIDTH-labelListWdt-marginTable*3)//3
         tableLineHeight = 16
         tableHgt = 89
@@ -109,6 +116,7 @@ class CornersRounder(BaseWindowController):
                                     rowHeight=tableLineHeight,
                                     drawHorizontalLines=True,
                                     drawVerticalLines=True,
+                                    autohidesScrollers=True,
                                     allowsMultipleSelection=False)
 
         anglesColumnDesc = [{"title": "rad", 'editable': True},
@@ -128,6 +136,7 @@ class CornersRounder(BaseWindowController):
                                     editCallback=self.fortyFiveListCallback,
                                     drawHorizontalLines=True,
                                     drawVerticalLines=True,
+                                    autohidesScrollers=True,
                                     allowsMultipleSelection=False)
 
         jumpingX += angleListWdt+marginTable
@@ -144,6 +153,7 @@ class CornersRounder(BaseWindowController):
                                  editCallback=self.ninetyListCallback,
                                  drawHorizontalLines=True,
                                  drawVerticalLines=True,
+                                 autohidesScrollers=True,
                                  allowsMultipleSelection=False)
 
         jumpingX += angleListWdt+marginTable
@@ -157,9 +167,10 @@ class CornersRounder(BaseWindowController):
                                             columnDescriptions=anglesColumnDesc,
                                             showColumnTitles=True,
                                             rowHeight=tableLineHeight,
-                                            editCallback=self.hundredThirtyFiveListCallack,
+                                            editCallback=self.hundredThirtyFiveListCallback,
                                             drawHorizontalLines=True,
                                             drawVerticalLines=True,
+                                            autohidesScrollers=True,
                                             allowsMultipleSelection=False)
         self._alignListsToRoundingsData()
         jumpingY += tableHgt+MARGIN_ROW*2
@@ -206,7 +217,7 @@ class CornersRounder(BaseWindowController):
                                               callback=self.roundFontButtonCallback)
         jumpingY += vanillaControlsSize['ButtonRegularHeight']*1.5 + MARGIN_VER*2
 
-        addObserver(self, '_updateCurrentFontData', 'fontBecameCurrent')
+        # addObserver(self, '_updateCurrentFontData', 'fontBecameCurrent')
 
         self.w.resize(PLUGIN_WIDTH, jumpingY)
         self.w.bind('close', self.windowCloseCallback)
@@ -247,9 +258,9 @@ class CornersRounder(BaseWindowController):
                  hundredThirtyFiveRad='',
                  hundredThirtyFiveBcp='')]
 
-    def _updateCurrentFontData(self):
-        self._updateRoundingsData()
-        self._updateLayersData()
+    # def _updateCurrentFontData(self):
+    #     self._updateRoundingsData()
+    #     self._updateLayersData()
 
     def _updateLayersData(self):
         self.layerNames = ['foreground'] + CurrentFont().layerOrder
@@ -258,6 +269,7 @@ class CornersRounder(BaseWindowController):
 
     def _updateRoundingsData(self, data, keyStart):
         for indexRow, eachRow in enumerate(data):
+
             try:
                 self.roundingsData[indexRow]['{}Rad'.format(keyStart)] = int(eachRow['rad'])
             except ValueError:
@@ -298,23 +310,23 @@ class CornersRounder(BaseWindowController):
     def ninetyListCallback(self, sender):
         self._updateRoundingsData(sender.get(), 'ninety')
 
-    def hundredThirtyFiveListCallack(self, sender):
+    def hundredThirtyFiveListCallback(self, sender):
         self._updateRoundingsData(sender.get(), 'hundredThirtyFive')
 
     def saveButtonCallback(self, sender):
-        current = CurrentFont()
-        if current is not None:
-            pushRoudingsDataIntoFont(current, self.roundingsData)
-            message('Data saved into {} {}'.format(current.info.family, current.info.styleName))
+        thisFont = CurrentFont()
+        if thisFont is not None:
+            pushRoudingsDataIntoFont(thisFont, self.roundingsData)
+            message('Data saved into {} {}'.format(thisFont.info.familyName, thisFont.info.styleName))
         else:
             message('I do not know where to save these values ¯\_(ツ)_/¯')
 
     def loadButtonCallback(self, sender):
-        current = CurrentFont()
-        if current is not None:
-            self.roundingsData =loadRoundingsDataFromFont(current)
+        thisFont = CurrentFont()
+        if thisFont is not None:
+            self.roundingsData = loadRoundingsDataFromFont(thisFont)
             self._alignListsToRoundingsData()
-            message('Data loaded from {} {}'.format(current.info.family, current.info.styleName))
+            message('Data loaded from {} {}'.format(thisFont.info.familyName, thisFont.info.styleName))
         else:
             message('I see no fonts opened, sorry ¯\_(ツ)_/¯')
 
@@ -375,5 +387,6 @@ class Label(Group):
 
 
 ### Instructions
-cr = CornersRounder()
+if __name__ == '__main__':
+    cr = CornersRounder()
 
