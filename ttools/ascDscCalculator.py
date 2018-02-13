@@ -145,8 +145,8 @@ class AscenderDescenderCalculator(BaseWindowController):
         self.updateCaptions()
 
     def updateCaptions(self):
-        self.w.topCaption.set('Higher: {ex.y} ({ex.glyphName}, {ex.styleName})'.format(ex=self.higherExtreme))
-        self.w.btmCaption.set('Lower: {ex.y} ({ex.glyphName}, {ex.styleName})'.format(ex=self.lowerExtreme))
+        self.w.topCaption.set('Highest: {ex.y} ({ex.glyphName}, {ex.styleName})'.format(ex=self.higherExtreme))
+        self.w.btmCaption.set('Lowest: {ex.y} ({ex.glyphName}, {ex.styleName})'.format(ex=self.lowerExtreme))
 
     def check_hheaCallback(self, sender):
         self.is_hhea = bool(sender.get())
@@ -186,4 +186,5 @@ class AscenderDescenderCalculator(BaseWindowController):
 
 
 ### Instructions
-adc = AscenderDescenderCalculator()
+if __name__ == '__main__':
+    adc = AscenderDescenderCalculator()
