@@ -179,6 +179,7 @@ class TextStringsControls(Group):
         self.textModePopUp.show(onOff)
         self.textFilePopUp.show(onOff)
         self.textLinePopUp.show(onOff)
+        self.openTextsFolderButton.show(onOff)
         self.arrowUp.show(onOff)
         self.arrowDw.show(onOff)
         self.selectedLine.show(onOff)
