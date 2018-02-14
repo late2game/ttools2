@@ -28,7 +28,6 @@ from spacingMatrix import SpacingMatrix
 # standard
 import os
 import codecs
-from collections import OrderedDict
 from math import floor, ceil
 import traceback
 from AppKit import NSColor, NSFont, NSCenterTextAlignment
@@ -58,21 +57,11 @@ BLACK = (0,0,0)
 
 RESOURCES_FOLDER = os.path.join(os.path.dirname(__file__), '..', 'resources')
 
-
 if version[0] == '2':
     NOT_DEF_GLYPH = OpenFont(os.path.join(RESOURCES_FOLDER, 'notdef.ufo'), showInterface=False)['.notdef']
 else:
     NOT_DEF_GLYPH = OpenFont(os.path.join(RESOURCES_FOLDER, 'notdef.ufo'), showUI=False)['.notdef']
 
-def loadSpacingTexts(folderName):
-    spacingTextDB = OrderedDict()
-    spacingTextPaths = [os.path.join(folderName, pth) for pth in os.listdir(folderName) if pth.endswith('.txt')]
-    spacingTextPaths.sort()
-    for eachPath in spacingTextPaths:
-        with codecs.open(eachPath, 'r', 'utf-8') as spacingText:
-            spacingRows = [word.strip() for word in spacingText if word]
-        spacingTextDB[os.path.basename(eachPath).replace('.txt', '')] = spacingRows
-    return spacingTextDB
 
 # the control factory
 class MultiFontMetricsWindow(BaseWindowController):
@@ -101,7 +90,6 @@ class MultiFontMetricsWindow(BaseWindowController):
     bodySize = bodySizeOptions[10]
     lineHeight = lineHeightOptions[0]
 
-    textFolderPath = os.path.join(RESOURCES_FOLDER, 'spacingTexts')
     fontsAmountOptions = range(1, 9)
 
     def __init__(self):
@@ -116,11 +104,6 @@ class MultiFontMetricsWindow(BaseWindowController):
         netWidth = width - MARGIN_LFT - MARGIN_RGT
         jumpingY = MARGIN_TOP
 
-        # load edit text
-        self.editTexts = {}
-        self.collectEditTexts()
-        self.editTextSortedKeys = self.editTexts.keys().sort()
-
         # let's see if there are opened fonts (fontDB, ctrlFontsList, fontsOrder)
         self.loadFontsOrder()
         self.updateUnicodeMinimum()
@@ -131,13 +114,14 @@ class MultiFontMetricsWindow(BaseWindowController):
                         minSize=(800, 400))
         self.w.bind('resize', self.mainWindowResize)
 
-        self.w.switchButton = PopUpButton((MARGIN_LFT, jumpingY, netWidth*.2, vanillaControlsSize['PopUpButtonRegularHeight']),
+        switchButtonWdt = 140
+        self.w.switchButton = PopUpButton((MARGIN_LFT, jumpingY, switchButtonWdt, vanillaControlsSize['PopUpButtonRegularHeight']),
                                             self.textModeOptions,
                                             sizeStyle='regular',
                                             callback=self.switchButtonCallback)
 
         # free text
-        textCtrlX = MARGIN_LFT+MARGIN_COL+netWidth*.2
+        textCtrlX = MARGIN_LFT+MARGIN_COL+switchButtonWdt
         self.w.typewriterCtrl = Typewriter((textCtrlX, jumpingY, -(RIGHT_COLUMN+MARGIN_COL+MARGIN_RGT), vanillaControlsSize['EditTextRegularHeight']),
                                              self.unicodeMinimum,
                                              callback=self.typewriterCtrlCallback)
@@ -145,9 +129,8 @@ class MultiFontMetricsWindow(BaseWindowController):
 
         # strings ctrls
         self.w.textStringsControls = TextStringsControls((textCtrlX, jumpingY, -(RIGHT_COLUMN+MARGIN_COL+MARGIN_RGT), vanillaControlsSize['PopUpButtonRegularHeight']+1),
-                                                           self.editTexts,
-                                                           self.unicodeMinimum,
-                                                           callback=self.textStringsControlsCallback)
+                                                         self.unicodeMinimum,
+                                                         callback=self.textStringsControlsCallback)
         self.stringDisplayMode, self.glyphNamesToDisplay = self.w.textStringsControls.get()
 
         # multi line
@@ -338,10 +321,6 @@ class MultiFontMetricsWindow(BaseWindowController):
                     break
             if eachValue:
                 self.unicodeMinimum[eachKey] = eachValue
-
-
-    def collectEditTexts(self):
-        self.editTexts = loadSpacingTexts(self.textFolderPath)
 
     def updateLineView(self):
         try:

@@ -17,10 +17,10 @@ import os
 import json
 from vanilla import Group, PopUpButton, List, EditText, TextBox
 from vanilla import SquareButton, CheckBoxListCell
-from vanilla.dialogs import getFile, putFile
+from vanilla.dialogs import getFile, putFile, getFolder
 
 ### Constants
-KERNING_TEXT_FOLDER = os.path.join(os.path.dirname(__file__), '..', 'resources', 'kerningTexts')
+STANDARD_KERNING_TEXT_FOLDER = os.path.join(os.path.dirname(__file__), '..', 'resources', 'kerningTexts')
 
 ### Classes
 class WordListController(Group):
@@ -32,7 +32,7 @@ class WordListController(Group):
         self.callback = callback
 
         # handling kerning words
-        self.kerningWordsDB = loadKerningTexts(KERNING_TEXT_FOLDER)
+        self.kerningWordsDB = loadKerningTexts(STANDARD_KERNING_TEXT_FOLDER)
         self.kerningTextBaseNames = self.kerningWordsDB.keys()
         self.activeKerningTextBaseName = self.kerningTextBaseNames[0]
         # this is the list used for data manipulation
@@ -43,16 +43,21 @@ class WordListController(Group):
         self.wordFilter = ''
 
         jumping_Y = 0
-        self.kerningVocabularyPopUp = PopUpButton((0, jumping_Y, self.ctrlWidth, vanillaControlsSize['PopUpButtonRegularHeight']),
+        self.kerningVocabularyPopUp = PopUpButton((0, jumping_Y, self.ctrlWidth*.6, vanillaControlsSize['PopUpButtonRegularHeight']),
                                                   self.kerningTextBaseNames,
                                                   callback=self.kerningVocabularyPopUpCallback)
+
+        self.openTextsFolderButton = SquareButton((self.ctrlWidth*.62, jumping_Y, self.ctrlWidth*.38, vanillaControlsSize['PopUpButtonRegularHeight']+1),
+                                                  'Load texts...',
+                                                  sizeStyle='small',
+                                                  callback=self.openTextsFolderButtonCallback)
 
         wordsColumnDescriptors = [
             {'title': '#', 'width': 30, 'editable': False},
             {'title': 'word', 'width': self.ctrlWidth-80, 'editable': False},
             {'title': 'done?', 'width': 35, 'cell': CheckBoxListCell(), 'editable': False}]
 
-        jumping_Y += self.kerningVocabularyPopUp.getPosSize()[3] + MARGIN_VER
+        jumping_Y += self.openTextsFolderButton.getPosSize()[3] + MARGIN_VER
         self.wordsListCtrl = List((0, jumping_Y, self.ctrlWidth, 170),
                                   self.wordsDisplayList,
                                   enableDelete=False,
@@ -87,6 +92,9 @@ class WordListController(Group):
         for eachRow in self.kerningWordsDB[self.activeKerningTextBaseName]:
             fixedWord = eachRow['word'].replace('//', '/')
             self.wordsDisplayList.append({'#': eachRow['#'], 'word': fixedWord, 'done?': eachRow['done?']})
+
+    def _updateInfoCaption(self):
+        self.infoCaption.set('done: {:d}/{:d}'.format(self.wordsDone, len(self.wordsWorkingList)))
 
     def get(self):
         return self.activeWord
@@ -127,9 +135,6 @@ class WordListController(Group):
         self.wordsListCtrl.set(self.wordsDisplayList)
         self.wordsListCtrl.setSelection([activeWordIndex])
 
-    def updateInfoCaption(self):
-        self.infoCaption.set('done: {:d}/{:d}'.format(self.wordsDone, len(self.wordsWorkingList)))
-
     # ctrls callbacks
     def kerningVocabularyPopUpCallback(self, sender):
         self.activeKerningTextBaseName = self.kerningTextBaseNames[sender.get()]
@@ -140,6 +145,26 @@ class WordListController(Group):
         self.wordsListCtrl.set(self.wordsDisplayList)
         self.callback(self)
 
+    def openTextsFolderButtonCallback(self, sender):
+        textFolder = u'{}'.format(getFolder('Choose a folder for texts files')[0])
+        # handling kerning words
+        self.kerningWordsDB = loadKerningTexts(textFolder)
+        self.kerningTextBaseNames = self.kerningWordsDB.keys()
+        self.activeKerningTextBaseName = self.kerningTextBaseNames[0]
+        # this is the list used for data manipulation
+        self.wordsWorkingList = self.kerningWordsDB[self.activeKerningTextBaseName]
+        # this list instead is used for data visualization in the ctrl
+        self._makeWordsDisplayList(self.activeKerningTextBaseName)
+        self.activeWord = self.wordsWorkingList[0]['word']
+        self.wordFilter = ''
+        self._filterDisplayList()
+        self._updateInfoCaption()
+        # ctrls to be updated
+        self.kerningVocabularyPopUp.setItems(self.kerningTextBaseNames)
+        self.wordsListCtrl.set(self.wordsDisplayList)
+        self.wordsFilterCtrl.set(self.wordFilter)
+        self.callback(self)
+
     def wordsListCtrlSelectionCallback(self, sender):
         """this takes care of word count"""
         self.wordsDisplayList = [{'#': row['#'], 'word': row['word'], 'done?': row['done?']} for row in sender.get()]
@@ -148,7 +173,7 @@ class WordListController(Group):
                 if eachWorkingRow['word'] == eachDisplayedRow['word']:
                     self.wordsWorkingList[indexWorkingRow] = eachDisplayedRow
         self.wordsDone = len([row['done?'] for row in self.wordsWorkingList if row['done?'] != 0])
-        self.updateInfoCaption()
+        self._updateInfoCaption()
 
     def wordsListCtrlDoubleClickCallback(self, sender):
         self.activeWord = self.wordsDisplayList[sender.getSelection()[0]]['word']
@@ -194,7 +219,7 @@ class WordListController(Group):
                     self.wordsListCtrl.setSelection([indexRow])
                     break
 
-            self.updateInfoCaption()
+            self._updateInfoCaption()
             self.callback(self)
 
         else:

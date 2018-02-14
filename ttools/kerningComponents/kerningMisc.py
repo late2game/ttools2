@@ -118,7 +118,7 @@ def buildPairsFromString(uniString, aFont):
 
 def loadKerningTexts(kerningTextFolder):
     kerningWordDB = OrderedDict()
-    kerningTextBaseNames = [pth for pth in os.listdir(kerningTextFolder) if pth.endswith('.txt')]
+    kerningTextBaseNames = [name for name in os.listdir(kerningTextFolder) if name.endswith('.txt')]
     kerningTextBaseNames.sort()
     for eachKerningTextBaseName in kerningTextBaseNames:
         kerningWordsDoc = codecs.open(os.path.join(kerningTextFolder, eachKerningTextBaseName), 'r', 'utf-8').readlines()
@@ -132,8 +132,12 @@ def loadKerningTexts(kerningTextFolder):
         uniqueKerningWords = []
         _ = [uniqueKerningWords.append(word) for word in kerningWords if word not in uniqueKerningWords]
 
+        cleanKerningTextBaseName = eachKerningTextBaseName.replace('.txt', '')
+        if cleanKerningTextBaseName[0:2].isdigit() and cleanKerningTextBaseName[2] == '_':
+            cleanKerningTextBaseName = cleanKerningTextBaseName[3:]
+
         kerningWordsList = [{'#': index, 'word': word, 'done?': 0} for (index, word) in enumerate(uniqueKerningWords)]
-        kerningWordDB[eachKerningTextBaseName.replace('.txt', '')] = kerningWordsList
+        kerningWordDB[cleanKerningTextBaseName] = kerningWordsList
     return kerningWordDB
 
 

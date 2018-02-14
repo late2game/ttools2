@@ -10,27 +10,32 @@ reload(userInterfaceValues)
 from ..ui.userInterfaceValues import vanillaControlsSize
 
 # standard
-import types
+import os, codecs, types
+from collections import OrderedDict
 from defconAppKit.tools.textSplitter import splitText
 from vanilla import Group, EditText, PopUpButton, SquareButton, TextBox
+from vanilla.dialogs import getFolder
 
 ### Constants
 MARGIN_RGT = 15
 MARGIN_COL = 10
 
-### Classes and functions
-# def spitDecentString(someGlyphs, unicodeData):
-#     assert isinstance(someGlyphs, types.ListType)
-#     assert isinstance(unicodeData, types.DictType)
-#     flippedUnicodeData = {eachV[0]: eachK for (eachK, eachV) in unicodeData.items()}
-#     decentString = ''
-#     for eachGlyphName in someGlyphs:
-#         if eachGlyphName in flippedUnicodeData and flippedUnicodeData[eachGlyphName] is not None:
-#             decentString += unichr(flippedUnicodeData[eachGlyphName])
-#         else:
-#             decentString += '/%s ' % eachGlyphName
-#     return decentString
+RESOURCES_FOLDER = os.path.join(os.path.dirname(__file__), '..', 'resources')
+SPACING_TEXTS_FOLDER_PATH = os.path.join(RESOURCES_FOLDER, 'spacingTexts')
 
+### Classes and functions
+def loadSpacingTexts(folderName):
+    spacingTextDB = OrderedDict()
+    spacingTextPaths = [os.path.join(folderName, pth) for pth in os.listdir(folderName) if pth.endswith('.txt')]
+    spacingTextPaths.sort()
+    for eachPath in spacingTextPaths:
+        with codecs.open(eachPath, 'r', 'utf-8') as spacingText:
+            spacingRows = [word.strip() for word in spacingText if word]
+        cleanTextName = os.path.basename(eachPath).replace('.txt', '')
+        if cleanTextName[0:2].isdigit() and cleanTextName[2] == '_':
+            cleanTextName = cleanTextName[3:]
+        spacingTextDB[cleanTextName] = spacingRows
+    return spacingTextDB
 
 class Typewriter(Group):
 
@@ -94,7 +99,7 @@ class Typewriter(Group):
         return self.typewriterGlyphNames
 
     def show(self, onOff):
-        assert onOff in [True, False]
+        assert onOff in (True, False)
         self.leftSiblingEdit.show(onOff)
         self.typewriterEdit.show(onOff)
         self.rightSiblingEdit.show(onOff)
@@ -106,36 +111,35 @@ class TextStringsControls(Group):
     stringOptions = ('Waterfall', 'Shuffled')
     title = 'Loaded Strings'
 
-    def __init__(self, posSize, editTexts, unicodeMinimum, callback):
+    def __init__(self, posSize, unicodeMinimum, callback):
         Group.__init__(self, posSize)
         self.unicodeMinimum = unicodeMinimum
         self.callback = callback
+        self._initTexts(SPACING_TEXTS_FOLDER_PATH)
 
-        self.editTexts = editTexts
-        self.editTextSortedKeys = self.editTexts.keys()
-        self.editTextSortedKeys.sort()
-
-        self.chosenStringOption = self.stringOptions[0]
-
-        self.chosenTxt = self.editTexts[self.editTextSortedKeys[0]]
-        self.stringIndex = 0
-        self.chosenLine = self.chosenTxt[self.stringIndex]
-
-        textModePopUpWidth = 120
-        self.textModePopUp = PopUpButton((1, 0, textModePopUpWidth, vanillaControlsSize['PopUpButtonRegularHeight']),
+        jumpingX = 1
+        textModePopUpWidth = 86
+        self.textModePopUp = PopUpButton((jumpingX, 0, textModePopUpWidth, vanillaControlsSize['PopUpButtonRegularHeight']),
                                          self.stringOptions,
                                          callback=self.textModePopUpCallback)
 
-        jumpingX = textModePopUpWidth + MARGIN_COL
-        textFilePopUpWidth = 180
+        openTextsFolderButtonWdt = 86
+        jumpingX += textModePopUpWidth + MARGIN_COL
+        self.openTextsFolderButton = SquareButton((jumpingX, 0, openTextsFolderButtonWdt, vanillaControlsSize['PopUpButtonRegularHeight']+1),
+                                                  'Load texts...',
+                                                  sizeStyle='small',
+                                                  callback=self.openTextsFolderButtonCallback)
+
+        jumpingX += textModePopUpWidth + MARGIN_COL
+        textFilePopUpWidth = 120
         self.textFilePopUp = PopUpButton((jumpingX, 0, textFilePopUpWidth, vanillaControlsSize['PopUpButtonRegularHeight']),
-                                         self.editTextSortedKeys,
+                                         self.editTexts.keys(),
                                          callback=self.textFilePopUpCallback)
 
         jumpingX += textFilePopUpWidth + MARGIN_COL
-        textLinePopUpWidth = 60
+        textLinePopUpWidth = 50
         self.textLinePopUp = PopUpButton((jumpingX, 0, textLinePopUpWidth, vanillaControlsSize['PopUpButtonRegularHeight']),
-                                         ['%#02d' % item for item in xrange(1, len(self.chosenTxt)+1)],
+                                         ['{:0>2d}'.format(item) for item in range(1, len(self.chosenTxt)+1)],
                                          callback=self.textLinePopUpCallback)
 
         jumpingX += textLinePopUpWidth + MARGIN_COL
@@ -156,6 +160,13 @@ class TextStringsControls(Group):
         self.selectedLine = TextBox((jumpingX, 0, -MARGIN_RGT, vanillaControlsSize['TextBoxRegularHeight']),
                                     self.chosenLine)
 
+    def _initTexts(self, folderName):
+        self.editTexts = loadSpacingTexts(folderName)
+        self.chosenStringOption = self.stringOptions[0]
+        self.chosenTxt = self.editTexts[self.editTexts.keys()[0]]
+        self.stringIndex = 0
+        self.chosenLine = self.chosenTxt[self.stringIndex]
+
     def setUnicodeMinimum(self, unicodeMinimum):
         assert isinstance(unicodeMinimum, DictType), 'unicode minimum is not a dict'
         self.unicodeMinimum = unicodeMinimum
@@ -164,7 +175,7 @@ class TextStringsControls(Group):
         return self.chosenStringOption, splitText(self.chosenLine, self.unicodeMinimum)
 
     def show(self, onOff):
-        assert onOff in [True, False]
+        assert onOff in (True, False)
         self.textModePopUp.show(onOff)
         self.textFilePopUp.show(onOff)
         self.textLinePopUp.show(onOff)
@@ -176,12 +187,19 @@ class TextStringsControls(Group):
         self.chosenStringOption = self.stringOptions[sender.get()]
         self.callback(self)
 
+    def openTextsFolderButtonCallback(self, sender):
+        textFolder = u'{}'.format(getFolder('Choose a folder for texts files')[0])
+        self._initTexts(textFolder)
+        self.textFilePopUp.setItems(self.editTexts.keys())
+        self.textLinePopUp.setItems(['{:0>2d}'.format(item) for item in range(1, len(self.chosenTxt)+1)])
+        self.callback(self)
+
     def textFilePopUpCallback(self, sender):
-        self.chosenTxt = self.editTexts[self.editTextSortedKeys[sender.get()]]
+        self.chosenTxt = self.editTexts[self.editTexts.keys()[sender.get()]]
         self.stringIndex = 0
         self.chosenLine = self.chosenTxt[self.stringIndex]
 
-        self.textLinePopUp.setItems(['%#02d' % item for item in xrange(1, len(self.chosenTxt)+1)])
+        self.textLinePopUp.setItems(['{:0>2d}'.format(item) for item in range(1, len(self.chosenTxt)+1)])
         self.selectedLine.set(self.chosenLine)
         self.callback(self)
 
