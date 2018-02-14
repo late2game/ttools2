@@ -38,7 +38,6 @@ from vanilla import Window, EditText, CheckBox
 from vanilla import PopUpButton, HorizontalLine
 from vanilla.dialogs import message
 from defconAppKit.windows.baseWindow import BaseWindowController
-from defconAppKit.tools.textSplitter import splitText
 
 ### Constants
 LIGHT_YELLOW = (255./255, 248./255, 216./255, 1)
@@ -81,6 +80,8 @@ class MultiFontMetricsWindow(BaseWindowController):
 
     showMetrics = False
     applyKerning = False
+    leftToRight = True
+
     multiLineOptions = {}
 
     bodySizeOptions = [10, 11, 12, 13, 18, 24, 30, 36, 48, 60, 72,
@@ -155,7 +156,7 @@ class MultiFontMetricsWindow(BaseWindowController):
             'Show Metrics': self.showMetrics,
             'Show Control glyphs': True,
             'Fill': True,
-            'Left to Right': True}
+            'Left to Right': self.leftToRight}
         self.w.lineView = MultiLineView((MARGIN_LFT, jumpingY, -(RIGHT_COLUMN+MARGIN_COL+MARGIN_RGT), -MARGIN_BTM-MARGIN_HALFROW-self.spacingMatrixHeight),
                                         pointSize=self.bodySize,
                                         lineHeight=self.lineHeight,
@@ -189,22 +190,29 @@ class MultiFontMetricsWindow(BaseWindowController):
 
             # show metrics
         jumpingY += vanillaControlsSize['ComboBoxSmallHeight'] + MARGIN_ROW
-        self.w.showMetricsCheck = CheckBox((-(RIGHT_COLUMN+MARGIN_RGT), jumpingY, RIGHT_COLUMN, vanillaControlsSize['ComboBoxSmallHeight']),
+        self.w.showMetricsCheck = CheckBox((-(RIGHT_COLUMN+MARGIN_RGT), jumpingY, RIGHT_COLUMN, vanillaControlsSize['CheckBoxSmallHeight']),
                                              "Show Metrics",
                                              value=self.showMetrics,
                                              sizeStyle='small',
                                              callback=self.showMetricsCheckCallback)
 
             # show kerning checkbox
-        jumpingY += vanillaControlsSize['ComboBoxSmallHeight'] + MARGIN_ROW*.3
-        self.w.applyKerningCheck = CheckBox((-(RIGHT_COLUMN+MARGIN_RGT), jumpingY, RIGHT_COLUMN, vanillaControlsSize['ComboBoxSmallHeight']),
+        jumpingY += vanillaControlsSize['CheckBoxSmallHeight'] + MARGIN_ROW*.3
+        self.w.applyKerningCheck = CheckBox((-(RIGHT_COLUMN+MARGIN_RGT), jumpingY, RIGHT_COLUMN, vanillaControlsSize['CheckBoxSmallHeight']),
                                          "Show Kerning",
                                          value=self.applyKerning,
                                          sizeStyle='small',
                                          callback=self.applyKerningCheckCallback)
 
+        jumpingY += vanillaControlsSize['CheckBoxSmallHeight'] + MARGIN_ROW*.3
+        self.w.leftToRightCheck = CheckBox((-(RIGHT_COLUMN+MARGIN_RGT), jumpingY, RIGHT_COLUMN, vanillaControlsSize['CheckBoxSmallHeight']),
+                                           "Left to right",
+                                           value=self.leftToRight,
+                                           sizeStyle='small',
+                                           callback=self.leftToRightCheckCallback)
+
         # separationLine
-        jumpingY += vanillaControlsSize['ComboBoxSmallHeight'] + int(MARGIN_HALFROW)
+        jumpingY += vanillaControlsSize['CheckBoxSmallHeight'] + int(MARGIN_HALFROW)
         self.w.separationLine = HorizontalLine((-(RIGHT_COLUMN+MARGIN_RGT), jumpingY, RIGHT_COLUMN, 1))
 
         jumpingY += int(MARGIN_HALFROW)
@@ -456,11 +464,19 @@ class MultiFontMetricsWindow(BaseWindowController):
     def showMetricsCheckCallback(self, sender):
         self.showMetrics = bool(sender.get())
         self.multiLineOptions['Show Metrics'] = self.showMetrics
-        self.multiLineOptions['Show Kerning'] = self.showMetrics
         self.w.lineView.setDisplayStates(self.multiLineOptions)
 
     def applyKerningCheckCallback(self, sender):
         self.applyKerning = bool(sender.get())
+        self.multiLineOptions['Show Kerning'] = self.applyKerning
+        self.w.lineView.setDisplayStates(self.multiLineOptions)
+        self.updateLineView()
+
+    def leftToRightCheckCallback(self, sender):
+        self.leftToRight = bool(sender.get())
+        self.multiLineOptions['Left to Right'] = self.leftToRight
+        self.w.lineView.setDisplayStates(self.multiLineOptions)
+        self.w.lineView.setLeftToRight(self.leftToRight)
         self.updateLineView()
 
     def fontsOrderControllerCallback(self, sender):
