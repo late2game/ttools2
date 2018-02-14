@@ -247,9 +247,9 @@ class WordDisplay(Group):
         dt.fontSize(BODY_SIZE*reverseScalingFactor)
 
         textWidth, textHeight = dt.textSize(u'{}'.format(glyphToDisplay.width))
-        dt.textBox(u'{:d}'.format(glyphToDisplay.width), (0, 0, glyphToDisplay.width, textHeight*2), align='center')
-        dt.textBox(u'\n{:d}'.format(glyphToDisplay.leftMargin), (0, 0, glyphToDisplay.width/2., textHeight*2), align='center')
-        dt.textBox(u'\n{:d}'.format(glyphToDisplay.rightMargin), (glyphToDisplay.width/2., 0, glyphToDisplay.width/2., textHeight*2), align='center')
+        dt.textBox(u'{:d}'.format(int(glyphToDisplay.width)), (0, 0, glyphToDisplay.width, textHeight*2), align='center')
+        dt.textBox(u'\n{:d}'.format(int(glyphToDisplay.leftMargin)), (0, 0, glyphToDisplay.width/2., textHeight*2), align='center')
+        dt.textBox(u'\n{:d}'.format(int(glyphToDisplay.rightMargin)), (glyphToDisplay.width/2., 0, glyphToDisplay.width/2., textHeight*2), align='center')
         dt.restore()
 
     def _drawBaseline(self, glyphName):

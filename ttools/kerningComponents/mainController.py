@@ -133,7 +133,7 @@ class KerningController(BaseWindowController):
         # init time for the autosave
         self.initTime = datetime.now()
         # init logging
-        self.initLogger()
+        self._initLogger()
         # init fonts
         if AllFonts() == []:
             message('No fonts, no party!', 'Please, open some fonts before starting the mighty MultiFont Kerning Controller')
@@ -216,7 +216,7 @@ class KerningController(BaseWindowController):
         self.setUpBaseWindowBehavior()
         self.w.open()
 
-    def initLogger(self):
+    def _initLogger(self):
         # create a logger
         self.kerningLogger = logging.getLogger('kerningLogger')
         self.kerningLogger.setLevel(logging.INFO)
