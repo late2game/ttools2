@@ -7,52 +7,15 @@
 
 ### Modules
 # custom
-# from ..ui import userInterfaceValues
-# reload(userInterfaceValues)
-# from ..ui.userInterfaceValues import vanillaControlsSize
+from ..ui import userInterfaceValues
+reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
 
 # standard
 from vanilla import FloatingWindow, TextBox, EditText, Button
 from defconAppKit.windows.baseWindow import BaseWindowController
 
 ### Constants
-vanillaControlsSize = {
-    'HorizontalLineThickness': 1,
-    'VerticalLineThickness': 1,
-
-    'ButtonRegularHeight': 20,
-    'ButtonSmallHeight': 17,
-    'ButtonMiniHeight': 14,
-
-    'TextBoxRegularHeight': 17,
-    'TextBoxSmallHeight': 14,
-    'TextBoxMiniHeight': 12,
-
-    'EditTextRegularHeight': 22,
-    'EditTextSmallHeight': 19,
-    'EditTextMiniHeight': 16,
-
-    'CheckBoxRegularHeight': 22,
-    'CheckBoxSmallHeight': 18,
-    'CheckBoxMiniHeight': 10,
-
-    'ComboBoxRegularHeight': 21,
-    'ComboBoxSmallHeight': 17,
-    'ComboBoxMiniHeight': 14,
-
-    'PopUpButtonRegularHeight': 20,
-    'PopUpButtonSmallHeight': 17,
-    'PopUpButtonMiniHeight': 15,
-
-    'SliderWithoutTicksRegularHeight': 15,
-    'SliderWithoutTicksSmallHeight': 11,
-    'SliderWithoutTicksMiniHeight': 10,
-
-    'SliderWithTicksRegularHeight': 23,
-    'SliderWithTicksSmallHeight': 17,
-    'SliderWithTicksMiniHeight': 16,
-    }
-
 WINDOW_WIDTH = 180
 
 MARGIN_INT = 8
@@ -82,23 +45,19 @@ class JumpToLineWindow(BaseWindowController):
                                'Jump to line:')
 
         self.w.lineEdit = EditText((MARGIN_LFT+NET_WIDTH*.6, jumpingY, -MARGIN_RGT, vanillaControlsSize['EditTextRegularHeight']),
-                                   continuous=False) #,
-                                   # callback=self.lineEditCallback)
-        
+                                   continuous=False)
+
         jumpingY += vanillaControlsSize['EditTextRegularHeight'] + MARGIN_INT
         self.w.cancelButton = Button((-(BUTTON_WIDTH*2+MARGIN_INT+MARGIN_RGT), jumpingY, BUTTON_WIDTH, vanillaControlsSize['ButtonRegularHeight']),
-                                   'Cancel',
-                                   callback=self.cancelButtonCallback)
+                                     'Cancel',
+                                     callback=self.cancelButtonCallback)
 
         self.w.okButton = Button((-(BUTTON_WIDTH+MARGIN_RGT), jumpingY, BUTTON_WIDTH, vanillaControlsSize['ButtonRegularHeight']),
-                               'Ok',
-                               callback=self.okButtonCallback)
+                                 'Ok',
+                                 callback=self.okButtonCallback)
 
         jumpingY += vanillaControlsSize['ButtonRegularHeight'] + MARGIN_BTM
         self.w.resize(WINDOW_WIDTH, jumpingY)
-
-        # open the window
-        self.w.open()
 
     def get(self):
         try:

@@ -39,8 +39,6 @@ class ChooseExceptionWindow(BaseWindowController):
                                'Submit',
                                callback=self.submitCallback)
 
-        self.w.open()
-
     def set(self, exception):
         self.whichException = exception
         self.lastEvent = 'submit'
