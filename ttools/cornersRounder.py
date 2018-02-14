@@ -95,7 +95,7 @@ class CornersRounder(BaseWindowController):
         jumpingY += MARGIN_ROW*2
 
         # tables
-        labelListWdt = 74
+        labelListWdt = 78
         marginTable = 1
         angleListWdt = (NET_WIDTH-labelListWdt-marginTable*3)//3
         tableLineHeight = 16
