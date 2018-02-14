@@ -27,7 +27,7 @@ from vanilla.dialogs import message
 
 ### Constants
 PLUGIN_TITLE = 'TT Round Corners'
-PLUGIN_WIDTH = 280
+PLUGIN_WIDTH = 320
 PLUGIN_HEIGHT = 600
 
 MARGIN_VER = 8
