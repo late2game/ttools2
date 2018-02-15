@@ -64,6 +64,7 @@ MARGIN_HOR = 10
 MARGIN_VER = 8
 NET_WIDTH = PLUGIN_WIDTH - MARGIN_HOR*2
 
+
 ### Classes
 class CopyAndMove(object):
 
@@ -79,8 +80,8 @@ class CopyAndMove(object):
 
         # target fonts
         self.w.targetFontsPopUp = PopUpButton((MARGIN_HOR, jumpingY, NET_WIDTH, vanillaControlsSize['PopUpButtonRegularHeight']),
-                                        TARGET_OPTIONS,
-                                        callback=self.targetFontsPopUpCallback)
+                                              TARGET_OPTIONS,
+                                              callback=self.targetFontsPopUpCallback)
         jumpingY += vanillaControlsSize['PopUpButtonRegularHeight']+MARGIN_VER
 
         # transfer lists pop up
@@ -112,7 +113,6 @@ class CopyAndMove(object):
 
         self.w.setPosSize((0, 0, PLUGIN_WIDTH, jumpingY))
         self.w.open()
-
 
     def targetFontsPopUpCallback(self, sender):
         self.target = TARGET_OPTIONS[sender.get()]
@@ -150,7 +150,7 @@ class CopyAndMove(object):
 
         for eachFont in fontsToProcess:
             for eachRow in self.transferList:
-                
+
                 if len(eachRow) == 2:
                     eachTarget, eachSource = eachRow
                 else:

@@ -16,7 +16,8 @@ reload(extraTools.miscFunctions)
 from extraTools.miscFunctions import selectAnchorByName
 
 # standard modules
-import os, logging
+import os
+import logging
 from mojo.roboFont import version
 from AppKit import NSColor
 from math import radians, tan
@@ -39,7 +40,7 @@ MARGIN_HOR = 8
 MARGIN_ROW = 4
 NET_WIDTH = PLUGIN_WIDTH - MARGIN_HOR*2
 
-ERROR_MARK_COLOR = (1,0,0,1)
+ERROR_MARK_COLOR = (1, 0, 0, 1)
 
 TABLE_PATH = os.path.join(os.path.dirname(__file__),
                           'resources',
@@ -60,6 +61,7 @@ START_FONT = u'Starting font {familyName} {styleName}'
 APPEND_ANCHOR = u'"{anchorName}" anchor placed at x: {anchorX} y: {anchorHeight} in "{glyphName}"'
 REMOVE_ANCHOR = u'removed "{anchorName}" anchor from "{glyphName}"'
 BUILT_GLYPH = u'{accentedName} built using {baseName} and {accentName} thanks to {anchorName} anchor'
+
 
 ### Classes and functions
 class AccentedMaker(BaseWindowController):
@@ -356,21 +358,21 @@ class AccentedMaker(BaseWindowController):
         accentsTop = []
         _ = [accentsTop.append(row[2]) for row in self.accentedData if row[3] == 'top' and row[2] not in accentsTop]
         self.glyphLists['Place Anchors']['ACC TOP'] = accentsTop
-        
+
         accentsBtm = []
         _ = [accentsBtm.append(row[2]) for row in self.accentedData if row[3] == 'bottom' and row[2] not in accentsBtm]
         self.glyphLists['Place Anchors']['ACC BTM'] = accentsBtm
 
         accentsCaseTop = ['{}.case'.format(name) for name in accentsTop]
         self.glyphLists['Place Anchors']['ACC CASE TOP'] = accentsCaseTop
-        
+
         accentsCaseBtm = ['{}.case'.format(name) for name in accentsBtm]
         self.glyphLists['Place Anchors']['ACC CASE BTM'] = accentsCaseBtm
 
         ucBaseTop = []
         _ = [ucBaseTop.append(row[1]) for row in self.accentedData if row[1][0].isupper() and row[3] == 'top' and row[1] not in ucBaseTop]
         self.glyphLists['Place Anchors']['UC TOP'] = ucBaseTop
-        
+
         ucBaseBtm = []
         _ = [ucBaseBtm.append(row[1]) for row in self.accentedData if row[1][0].isupper() and row[3] == 'bottom' and row[1] not in ucBaseBtm]
         self.glyphLists['Place Anchors']['UC BTM'] = ucBaseBtm
@@ -447,6 +449,7 @@ class AccentedMaker(BaseWindowController):
         removeObserver(self, "fontDidOpen")
         removeObserver(self, "fontWillClose")
         super(AccentedMaker, self).windowCloseCallback(sender)
+
 
 class SharedCtrls(Group):
 
