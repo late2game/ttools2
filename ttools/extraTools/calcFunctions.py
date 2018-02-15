@@ -18,7 +18,10 @@ def intersectionBetweenSegments((ax, ay), (bx, by), (cx, cy), (dx, dy)):
 
 def calcAngle(pt1, pt2, mode='degrees', makePositive=False):
     assert mode == 'degrees' or mode == 'radians'
-    ang = atan2((pt2.y - pt1.y), (pt2.x - pt1.x))
+    if hasattr(pt1, 'x') and hasattr(pt1, 'y') and hasattr(pt2, 'x') and hasattr(pt2, 'y'):
+        ang = atan2((pt2.y - pt1.y), (pt2.x - pt1.x))
+    else:
+        ang = atan2((pt2[1] - pt1[1]), (pt2[0] - pt1[0]))
     if mode == 'radians':
         return ang
     else:
