@@ -151,16 +151,32 @@ class SpacingMatrix(Group):
 
     def activeEditCallback(self, sender):
         if self.activeGlyph and self.activeSide and self.activeElement:
-            try:
-                value = int(sender.get())
+            ctrlValue = sender.get()
 
-                if self.activeElement == 'width':
-                    self.activeGlyph.width = value
-                else:
-                    if self.activeSide == 'lft':
-                        self.activeGlyph.leftMargin = value
+            try:
+                # using glyph reference
+                if ctrlValue in self.activeGlyph.getParent().glyphOrder:
+                    sourceGlyph = self.activeGlyph.getParent()[ctrlValue]
+
+                    if self.activeElement == 'width':
+                        self.activeGlyph.width = sourceGlyph.width
                     else:
-                        self.activeGlyph.rightMargin = value
+                        if self.activeSide == 'lft':
+                            self.activeGlyph.leftMargin = sourceGlyph.leftMargin
+                        else:
+                            self.activeGlyph.rightMargin = sourceGlyph.rightMargin
+
+                # using a numerical value
+                else:
+                    value = int(ctrlValue)
+
+                    if self.activeElement == 'width':
+                        self.activeGlyph.width = value
+                    else:
+                        if self.activeSide == 'lft':
+                            self.activeGlyph.leftMargin = value
+                        else:
+                            self.activeGlyph.rightMargin = value
 
             except ValueError:
                 self.canvas.activeEdit.set('')   # temp
