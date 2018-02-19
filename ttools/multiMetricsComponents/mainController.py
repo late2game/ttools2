@@ -343,6 +343,9 @@ class MultiFontMetricsWindow(BaseWindowController):
                     for eachGlyphName in self.glyphNamesToDisplay:
                         if eachFont.has_key(eachGlyphName):
                             displayedGlyphs.append(eachFont[eachGlyphName])
+                        elif eachGlyphName == '.newLine':
+                            newLineGlyph = self.w.lineView.createNewLineGlyph()
+                            displayedGlyphs.append(newLineGlyph)
                         else:
                             if eachFont.has_key('.notdef'):
                                 displayedGlyphs.append(eachFont['.notdef'])
@@ -451,7 +454,7 @@ class MultiFontMetricsWindow(BaseWindowController):
         self.w.spacingMatrix.canvas.update()
 
     def lineViewDoubleClickCallback(self, sender):
-        if sender.getSelectedGlyph():
+        if sender.getSelectedGlyph() is not None:
             doodleGlyph = sender.getSelectedGlyph()
             doodleFont = doodleGlyph.getParent()
             for indexFont, eachFont in enumerate(self.fontsOrder):

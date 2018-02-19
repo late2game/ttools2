@@ -112,6 +112,10 @@ class SpacingMatrix(Group):
             self.activeGlyph = None
             return None
 
+        elif self.fontsOrder[indexFont-1].has_key([self.glyphNamesToDisplay[indexGlyphName]]) is False:
+            self.activeGlyph = None
+            return None
+
         else:
             # this is the glyph which should be addressed by the active ctrl
             self.activeGlyph = self.fontsOrder[indexFont-1][self.glyphNamesToDisplay[indexGlyphName]]

@@ -73,8 +73,20 @@ class Typewriter(Group):
         self.callback(self)
 
     def typewriterEditCallback(self, sender):
-        if sender.get() is not None:
-            self.centerGlyphNames = splitText(sender.get(), self.unicodeMinimum)
+        centerText = u'{}'.format(sender.get())
+
+        if centerText is not None:
+            # we try to support new line chars
+            if r'\n ' in centerText:
+                self.centerGlyphNames = []
+                someLines = centerText.split(r'\n ')
+                for indexLine, eachLine in enumerate(someLines):
+                    glyphNames = splitText(eachLine, self.unicodeMinimum)
+                    self.centerGlyphNames.extend(glyphNames)
+                    if indexLine != len(someLines)-1:
+                        self.centerGlyphNames.append('.newLine')
+            else:
+                self.centerGlyphNames = splitText(centerText, self.unicodeMinimum)
         else:
             self.centerGlyphNames = []
         self.callback(self)
@@ -93,9 +105,9 @@ class Typewriter(Group):
     def get(self):
         self.typewriterGlyphNames = []
         for eachGlyphName in self.centerGlyphNames:
-            self.typewriterGlyphNames += self.leftGlyphNames
-            self.typewriterGlyphNames += [eachGlyphName]
-            self.typewriterGlyphNames += self.rightGlyphNames
+            self.typewriterGlyphNames.extend(self.leftGlyphNames)
+            self.typewriterGlyphNames.extend([eachGlyphName])
+            self.typewriterGlyphNames.extend(self.rightGlyphNames)
         return self.typewriterGlyphNames
 
     def show(self, onOff):
