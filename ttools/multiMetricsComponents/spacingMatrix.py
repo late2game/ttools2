@@ -42,10 +42,11 @@ class SpacingMatrix(Group):
     activeSide = None
     activeElement = None
 
-    def __init__(self, posSize, glyphNamesToDisplay, fontsOrder, callback):
+    def __init__(self, posSize, glyphNamesToDisplay, verticalMode, fontsOrder, callback):
         super(SpacingMatrix, self).__init__(posSize)
         self.glyphNamesToDisplay = glyphNamesToDisplay
         self.fontsOrder = fontsOrder
+        self.verticalMode = verticalMode
         self.callback = callback
         self.canvas = CanvasGroup((0,0,0,0), delegate=self)
 
@@ -55,6 +56,9 @@ class SpacingMatrix(Group):
 
         if hasattr(self.canvas, 'activeEdit') is True:
             self.canvas.activeEdit.show(False)
+
+    def setVerticalMode(self, verticalMode):
+        self.verticalMode = verticalMode
 
     def setFontsOrder(self, fontsOrder):
         self.fontsOrder = fontsOrder
@@ -112,11 +116,11 @@ class SpacingMatrix(Group):
             self.activeGlyph = None
             return None
 
-        elif self.fontsOrder[indexFont-1].has_key([self.glyphNamesToDisplay[indexGlyphName]]) is False:
-            self.activeGlyph = None
-            return None
-
         else:
+            # we skip the fake .newLine glyphs
+            if self.glyphNamesToDisplay[indexGlyphName] == '.newLine':
+                return None
+
             # this is the glyph which should be addressed by the active ctrl
             self.activeGlyph = self.fontsOrder[indexFont-1][self.glyphNamesToDisplay[indexGlyphName]]
 
@@ -157,30 +161,35 @@ class SpacingMatrix(Group):
         if self.activeGlyph and self.activeSide and self.activeElement:
             ctrlValue = sender.get()
 
+            if self.verticalMode is False:
+                glyphsToModify = [self.activeGlyph]
+            else:
+                glyphsToModify = [ff[self.activeGlyph.name] for ff in self.fontsOrder if ff[self.activeGlyph.name].name == self.activeGlyph.name]
+
             try:
                 # using glyph reference
                 if ctrlValue in self.activeGlyph.getParent().glyphOrder:
-                    sourceGlyph = self.activeGlyph.getParent()[ctrlValue]
-
-                    if self.activeElement == 'width':
-                        self.activeGlyph.width = sourceGlyph.width
-                    else:
-                        if self.activeSide == 'lft':
-                            self.activeGlyph.leftMargin = sourceGlyph.leftMargin
+                    for eachGlyph in glyphsToModify:
+                        sourceGlyph = eachGlyph.getParent()[ctrlValue]
+                        if self.activeElement == 'width':
+                            eachGlyph.width = sourceGlyph.width
                         else:
-                            self.activeGlyph.rightMargin = sourceGlyph.rightMargin
+                            if self.activeSide == 'lft':
+                                eachGlyph.leftMargin = sourceGlyph.leftMargin
+                            else:
+                                eachGlyph.rightMargin = sourceGlyph.rightMargin
 
                 # using a numerical value
                 else:
                     value = int(ctrlValue)
-
-                    if self.activeElement == 'width':
-                        self.activeGlyph.width = value
-                    else:
-                        if self.activeSide == 'lft':
-                            self.activeGlyph.leftMargin = value
+                    for eachGlyph in glyphsToModify:
+                        if self.activeElement == 'width':
+                            eachGlyph.width = value
                         else:
-                            self.activeGlyph.rightMargin = value
+                            if self.activeSide == 'lft':
+                                eachGlyph.leftMargin = value
+                            else:
+                                eachGlyph.rightMargin = value
 
             except ValueError:
                 self.canvas.activeEdit.set('')   # temp

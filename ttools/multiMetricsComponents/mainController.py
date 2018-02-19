@@ -17,13 +17,16 @@ from ..ui.userInterfaceValues import vanillaControlsSize
 reload(uiControllers)
 from ..ui.uiControllers import FontsOrderController, FONT_ROW_HEIGHT
 
-import topCtrls, sidebar, spacingMatrix
+import topCtrls, sidebar, spacingMatrix, joystick
 reload(topCtrls)
 from topCtrls import Typewriter, TextStringsControls
 reload(sidebar)
 from sidebar import ComboBoxWithCaption
 reload(spacingMatrix)
 from spacingMatrix import SpacingMatrix
+reload(joystick)
+from joystick import SpacingJoystick
+
 
 # standard
 import os
@@ -81,6 +84,7 @@ class MultiFontMetricsWindow(BaseWindowController):
     showMetrics = False
     applyKerning = False
     leftToRight = True
+    verticalMode = False
 
     multiLineOptions = {}
 
@@ -100,7 +104,7 @@ class MultiFontMetricsWindow(BaseWindowController):
         originLeft = 0
         originRight = 0
         width = 956
-        height = 600
+        height = 640
 
         netWidth = width - MARGIN_LFT - MARGIN_RGT
         jumpingY = MARGIN_TOP
@@ -213,18 +217,29 @@ class MultiFontMetricsWindow(BaseWindowController):
 
         # separationLine
         jumpingY += vanillaControlsSize['CheckBoxSmallHeight'] + int(MARGIN_HALFROW)
-        self.w.separationLine = HorizontalLine((-(RIGHT_COLUMN+MARGIN_RGT), jumpingY, RIGHT_COLUMN, 1))
+        self.w.separationLineOne = HorizontalLine((-(RIGHT_COLUMN+MARGIN_RGT), jumpingY, RIGHT_COLUMN, 1))
 
         jumpingY += int(MARGIN_HALFROW)
-        fontsOrderControllerHeight = FONT_ROW_HEIGHT*len(self.fontsOrder)+MARGIN_COL
+        fontsOrderControllerHeight = FONT_ROW_HEIGHT*len(self.fontsOrder)+2
         self.w.fontsOrderController = FontsOrderController((-(RIGHT_COLUMN+MARGIN_RGT), jumpingY, RIGHT_COLUMN, fontsOrderControllerHeight),
                                                            self.fontsOrder,
                                                            callback=self.fontsOrderControllerCallback)
 
+        jumpingY += fontsOrderControllerHeight
+        self.w.separationLineTwo = HorizontalLine((-(RIGHT_COLUMN+MARGIN_RGT), jumpingY, RIGHT_COLUMN, 1))
+
+        # joystick
+        jumpingY += MARGIN_HALFROW
+        self.w.joystick = SpacingJoystick((-(RIGHT_COLUMN+MARGIN_RGT), jumpingY, RIGHT_COLUMN, fontsOrderControllerHeight+6),
+                                          verticalMode=self.verticalMode,
+                                          marginCallback=self.joystickMarginCallback,
+                                          verticalCallback=self.joystickVerticalCallback)
+
         # edit metrics
         self.w.spacingMatrix = SpacingMatrix((MARGIN_LFT, -(MARGIN_BTM+self.spacingMatrixHeight), self.w.getPosSize()[2]-MARGIN_LFT-MARGIN_RGT, self.spacingMatrixHeight),
-                                             self.glyphNamesToDisplay,
-                                             self.fontsOrder,
+                                             glyphNamesToDisplay=self.glyphNamesToDisplay,
+                                             verticalMode=self.verticalMode,
+                                             fontsOrder=self.fontsOrder,
                                              callback=self.spacingMatrixCallback)
 
         # add observer
@@ -492,8 +507,27 @@ class MultiFontMetricsWindow(BaseWindowController):
         self.adjustSpacingMatrixHeight()
         self.updateLineView()
 
-    def fontCtrlCallback(self, sender):
-        fontIndex, fontName = sender.get()
-        self.fontsOrder[int(fontIndex)] = fontName
-        self.updateLineView()
+    def joystickMarginCallback(self, sender):
+        selectedGlyph = self.w.lineView.getSelectedGlyph()
+        whichMargin, amount = sender.get()
+        assert whichMargin in ['LEFT', 'RIGHT']
+
+        if selectedGlyph is not None:
+            if self.verticalMode is False:
+                glyphsToModify = [selectedGlyph]
+            else:
+                glyphsToModify = [ff[selectedGlyph.name] for ff in self.fontsOrder if ff[selectedGlyph.name].name == selectedGlyph.name]
+
+            for eachGlyph in glyphsToModify:
+                if whichMargin == 'LEFT':
+                    eachGlyph.leftMargin += amount
+                else:
+                    eachGlyph.rightMargin += amount
+
+        self.w.lineView.update()
+        self.w.spacingMatrix.update()
+
+    def joystickVerticalCallback(self, sender):
+        self.verticalMode = sender.getVerticalMode()
+        self.w.spacingMatrix.setVerticalMode(self.verticalMode)
 
