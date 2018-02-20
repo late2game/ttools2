@@ -39,7 +39,7 @@ PLUGIN_LIB_NAME = 'com.ttools.roundCornersData'
 
 
 ### Functions
-def pushRoudingsDataIntoFont(aFont, someData):
+def pushRoundingsDataIntoFont(aFont, someData):
     aFont.lib[PLUGIN_LIB_NAME] = [dict(aDict) for aDict in someData]
     if version[0] == '2':
         aFont.changed()
@@ -105,14 +105,15 @@ class CornersRounder(BaseWindowController):
         captionOffset = 12
         jumpingY += vanillaControlsSize['TextBoxSmallHeight']+MARGIN_ROW
 
-        labelColumnDesc = [{"title": "label", 'editable': True}]
+        labelColumnDesc = [{"title": "labelName", 'editable': True}]
         jumpingX = MARGIN_HOR
 
-        labelNameListData = [{'label': aDict['labelName']} for aDict in self.roundingsData]
+        labelNameListData = [{'labelName': aDict['labelName']} for aDict in self.roundingsData]
         self.w.labelNameList = List((jumpingX, jumpingY, labelListWdt, tableHgt),
                                     labelNameListData,
                                     columnDescriptions=labelColumnDesc,
                                     showColumnTitles=True,
+                                    editCallback=self.labelNameListCallback,
                                     rowHeight=tableLineHeight,
                                     drawHorizontalLines=True,
                                     drawVerticalLines=True,
@@ -217,57 +218,34 @@ class CornersRounder(BaseWindowController):
                                               callback=self.roundFontButtonCallback)
         jumpingY += vanillaControlsSize['ButtonRegularHeight']*1.5 + MARGIN_VER*2
 
-        # addObserver(self, '_updateCurrentFontData', 'fontBecameCurrent')
-
         self.w.resize(PLUGIN_WIDTH, jumpingY)
-        self.w.bind('close', self.windowCloseCallback)
+
+        self.setUpBaseWindowBehavior()
+        addObserver(self, '_updateLayersData', 'fontBecameCurrent')
+
         self.w.open()
 
     # private methods
     def _initRoundingsData(self):
         self.roundingsData = [
-            dict(labelName='standard',
-                 fortyFiveRad=32,
-                 fortyFiveBcp=16,
-                 ninetyRad=24,
-                 ninetyBcp=16,
-                 hundredThirtyFiveRad=32,
-                 hundredThirtyFiveBcp=26),
-
-            dict(labelName='small',
-                 fortyFiveRad=24,
-                 fortyFiveBcp=12,
-                 ninetyRad=18,
-                 ninetyBcp=12,
-                 hundredThirtyFiveRad=24,
-                 hundredThirtyFiveBcp=16),
-
             dict(labelName='',
-                 fortyFiveRad='',
-                 fortyFiveBcp='',
-                 ninetyRad='',
-                 ninetyBcp='',
-                 hundredThirtyFiveRad='',
-                 hundredThirtyFiveBcp=''),
-
-            dict(labelName='',
-                 fortyFiveRad='',
-                 fortyFiveBcp='',
-                 ninetyRad='',
-                 ninetyBcp='',
-                 hundredThirtyFiveRad='',
-                 hundredThirtyFiveBcp='')]
-
-    # def _updateCurrentFontData(self):
-    #     self._updateRoundingsData()
-    #     self._updateLayersData()
+                 fortyFiveRad=None,
+                 fortyFiveBcp=None,
+                 ninetyRad=None,
+                 ninetyBcp=None,
+                 hundredThirtyFiveRad=None,
+                 hundredThirtyFiveBcp=None)]*4
 
     def _updateLayersData(self):
         self.layerNames = ['foreground'] + CurrentFont().layerOrder
         self.w.sourceLayerPopUp.setItems(self.layers)
         self.w.targetLayerCombo.setItems(self.layers)
 
-    def _updateRoundingsData(self, data, keyStart):
+    def _updateRoundingsLabels(self, labels):
+        for indexLabel, eachLabel in enumerate(labels):
+            self.roundingsData[indexLabel]['labelName'] = '{}'.format(eachLabel['labelName'])
+
+    def _updateRoundingsNumbers(self, data, keyStart):
         for indexRow, eachRow in enumerate(data):
 
             try:
@@ -285,6 +263,8 @@ class CornersRounder(BaseWindowController):
         return listData
 
     def _alignListsToRoundingsData(self):
+        labelNameListData = [{'labelName': aDict['labelName']} for aDict in self.roundingsData]
+        self.w.labelNameList.set(labelNameListData)
         fortyFiveListData = self._extractDataFromRoundings('fortyFive')
         self.w.fortyFiveList.set(fortyFiveListData)
         ninetyListData = self._extractDataFromRoundings('ninety')
@@ -304,31 +284,34 @@ class CornersRounder(BaseWindowController):
         _, labelName = sender.get()
         attachLabelToSelectedPoints(labelName)
 
+    def labelNameListCallback(self, sender):
+        self._updateRoundingsLabels(sender.get())
+
     def fortyFiveListCallback(self, sender):
-        self._updateRoundingsData(sender.get(), 'fortyFive')
+        self._updateRoundingsNumbers(sender.get(), 'fortyFive')
 
     def ninetyListCallback(self, sender):
-        self._updateRoundingsData(sender.get(), 'ninety')
+        self._updateRoundingsNumbers(sender.get(), 'ninety')
 
     def hundredThirtyFiveListCallback(self, sender):
-        self._updateRoundingsData(sender.get(), 'hundredThirtyFive')
+        self._updateRoundingsNumbers(sender.get(), 'hundredThirtyFive')
 
     def saveButtonCallback(self, sender):
         thisFont = CurrentFont()
         if thisFont is not None:
-            pushRoudingsDataIntoFont(thisFont, self.roundingsData)
-            message('Data saved into {} {}'.format(thisFont.info.familyName, thisFont.info.styleName))
+            pushRoundingsDataIntoFont(thisFont, self.roundingsData)
+            message(u'Data saved into {} {}'.format(thisFont.info.familyName, thisFont.info.styleName))
         else:
-            message('I do not know where to save these values ¯\_(ツ)_/¯')
+            message(u'I do not know where to save these values ¯\_(ツ)_/¯')
 
     def loadButtonCallback(self, sender):
         thisFont = CurrentFont()
         if thisFont is not None:
             self.roundingsData = loadRoundingsDataFromFont(thisFont)
             self._alignListsToRoundingsData()
-            message('Data loaded from {} {}'.format(thisFont.info.familyName, thisFont.info.styleName))
+            message(u'Data loaded from {} {}'.format(thisFont.info.familyName, thisFont.info.styleName))
         else:
-            message('I see no fonts opened, sorry ¯\_(ツ)_/¯')
+            message(u'I see no fonts opened, sorry ¯\_(ツ)_/¯')
 
     def sourceLayerPopUpCallback(self, sender):
         self.sourceLayerName = self.layerNames[sender.get()]
@@ -344,7 +327,7 @@ class CornersRounder(BaseWindowController):
                            targetLayerName=self.targetLayerName)
             UpdateCurrentGlyphView()
         else:
-            message('No Current Glyph to round!')
+            message(u'No Current Glyph to round!')
 
     def roundFontButtonCallback(self, sender):
         if CurrentFont() is not None:
@@ -354,7 +337,7 @@ class CornersRounder(BaseWindowController):
                                sourceLayerName=self.sourceLayerName,
                                targetLayerName=self.targetLayerName)
         else:
-            message('No Current Glyph to round!')
+            message(u'No Current Glyph to round!')
 
 
 class Label(Group):
