@@ -230,7 +230,7 @@ class MultiFontMetricsWindow(BaseWindowController):
 
         # joystick
         jumpingY += MARGIN_HALFROW
-        self.w.joystick = SpacingJoystick((-(RIGHT_COLUMN+MARGIN_RGT), jumpingY, RIGHT_COLUMN, fontsOrderControllerHeight+6),
+        self.w.joystick = SpacingJoystick((-(RIGHT_COLUMN+MARGIN_RGT), jumpingY, RIGHT_COLUMN, 0),
                                           verticalMode=self.verticalMode,
                                           marginCallback=self.joystickMarginCallback,
                                           verticalCallback=self.joystickVerticalCallback)

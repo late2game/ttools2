@@ -40,18 +40,22 @@ class SpacingJoystick(Group):
 
         singleMarginCtrlHeight = SQUARE_SIDE*2 + vanillaControlsSize['TextBoxRegularHeight'] + MARGIN_ROW
         jumpingX = 0
-        self.leftMarginCtrl = SingleMargin((jumpingX, 0, SQUARE_SIDE*2, singleMarginCtrlHeight),
+        jumpingY = 0
+        self.leftMarginCtrl = SingleMargin((jumpingX, jumpingY, SQUARE_SIDE*2, singleMarginCtrlHeight),
                                             whichMargin='LEFT',
                                             callback=self.leftMarginCtrlCallback)
 
         jumpingX += SQUARE_SIDE*2 + MARGIN_COL*2
-        self.rightMarginCtrl = SingleMargin((jumpingX, 0, SQUARE_SIDE*2, singleMarginCtrlHeight),
+        self.rightMarginCtrl = SingleMargin((jumpingX, jumpingY, SQUARE_SIDE*2, singleMarginCtrlHeight),
                                             whichMargin='RIGHT',
                                             callback=self.rightMarginCtrlCallback)
 
-        self.verticalModeCheck = CheckBox((0, singleMarginCtrlHeight+4, width, vanillaControlsSize['CheckBoxRegularHeight']),
+        jumpingY += singleMarginCtrlHeight+4
+        self.verticalModeCheck = CheckBox((0, jumpingY, width, vanillaControlsSize['CheckBoxRegularHeight']),
                                           'vertical mode',
                                           callback=self.verticalModeCheckCallback)
+        jumpingY += vanillaControlsSize['CheckBoxRegularHeight']
+        self.resize(width, jumpingY)
 
     def get(self):
         return self.lastMargin, self.howMuch
