@@ -7,6 +7,10 @@
 
 ### Modules
 # custom
+import constants
+reload(constants)
+from constants import MODIFIERS
+
 import ui.userInterfaceValues
 reload(ui.userInterfaceValues)
 from ui.userInterfaceValues import vanillaControlsSize
@@ -74,8 +78,7 @@ class CornersRounder(BaseWindowController):
 
             if PLUGIN_LIB_NAME in CurrentFont().lib:
                 self.roundingsData = loadRoundingsDataFromFont(CurrentFont())
-            else:
-                self._initRoundingsData()
+        self._initRoundingsData()
 
         self.w = FloatingWindow((0, 0, PLUGIN_WIDTH, PLUGIN_HEIGHT), PLUGIN_TITLE)
 
@@ -222,6 +225,7 @@ class CornersRounder(BaseWindowController):
 
         self.setUpBaseWindowBehavior()
         addObserver(self, '_updateLayersData', 'fontBecameCurrent')
+        addObserver(self, '_keyDown', 'keyDown')
 
         self.w.open()
 
@@ -272,9 +276,27 @@ class CornersRounder(BaseWindowController):
         hundredThirtyFiveListData = self._extractDataFromRoundings('hundredThirtyFive')
         self.w.hundredThirtyFiveList.set(hundredThirtyFiveListData)
 
+    def _roundCurrentGlyph(self):
+        if CurrentGlyph() is not None:
+            makeGlyphRound(CurrentGlyph(),
+                           self.roundingsData,
+                           sourceLayerName=self.sourceLayerName,
+                           targetLayerName=self.targetLayerName)
+            UpdateCurrentGlyphView()
+        else:
+            message(u'No Current Glyph to round!')
+
     # callbacks
+    def _keyDown(self, notification):
+        glyph = notification['glyph']
+        pressedKeys = notification['event'].charactersIgnoringModifiers()
+        modifierFlags = notification['event'].modifierFlags()
+        if modifierFlags in MODIFIERS and MODIFIERS[modifierFlags] == 'CMD_LEFT' and pressedKeys == 'r':
+            self._roundCurrentGlyph()
+
     def windowCloseCallback(self, sender):
         removeObserver(self, 'fontBecameCurrent')
+        removeObserver(self, 'keyDown')
 
     def labelCallback(self, sender):
         index, labelName = sender.get()
@@ -320,14 +342,7 @@ class CornersRounder(BaseWindowController):
         self.targetLayerName = sender.get()
 
     def roundGlyphButtonCallback(self, sender):
-        if CurrentGlyph() is not None:
-            makeGlyphRound(CurrentGlyph(),
-                           self.roundingsData,
-                           sourceLayerName=self.sourceLayerName,
-                           targetLayerName=self.targetLayerName)
-            UpdateCurrentGlyphView()
-        else:
-            message(u'No Current Glyph to round!')
+        self._roundCurrentGlyph()
 
     def roundFontButtonCallback(self, sender):
         if CurrentFont() is not None:
