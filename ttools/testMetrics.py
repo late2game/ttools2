@@ -104,6 +104,7 @@ class TestMetrics(BaseWindowController):
     chosenFont = None
 
     def __init__(self):
+        super(TestMetrics, self).__init__()
 
         # load data
         self.fontOptions = AllFonts()

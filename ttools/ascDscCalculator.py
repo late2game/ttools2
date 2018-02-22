@@ -138,6 +138,7 @@ class AscenderDescenderCalculator(BaseWindowController):
 
         jumpingY += vanillaControlsSize['ButtonRegularHeight']*1.5+MARGIN_VER*1.5
         self.w.resize(PLUGIN_WIDTH, jumpingY)
+        self.setUpBaseWindowBehavior()
         self.w.open()
 
     def calcButtonCallback(self, sender):

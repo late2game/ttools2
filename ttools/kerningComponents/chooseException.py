@@ -19,6 +19,7 @@ class ChooseExceptionWindow(BaseWindowController):
     lastEvent = None
 
     def __init__(self, options, callback):
+        super(ChooseExceptionWindow, self).__init__()
         self.options = options
         self.callback = callback
         self.whichException = options[0]
@@ -38,6 +39,7 @@ class ChooseExceptionWindow(BaseWindowController):
         self.w.submit = Button((-(90+MARGIN), -(vanillaControlsSize['ButtonRegularHeight']+MARGIN), 90, vanillaControlsSize['ButtonRegularHeight']),
                                'Submit',
                                callback=self.submitCallback)
+        self.setUpBaseWindowBehavior()
 
     def set(self, exception):
         self.whichException = exception

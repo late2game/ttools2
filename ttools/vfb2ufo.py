@@ -67,6 +67,7 @@ class VFB2UFO(BaseWindowController):
         self.jumpingY += vanillaControlsSize['ButtonRegularHeight'] + MARGIN_HOR
 
         self.w.resize(PLUGIN_WIDTH, self.jumpingY)
+        self.setUpBaseWindowBehavior()
         self.w.open()
 
     def optionsPopUpCallback(self, sender):

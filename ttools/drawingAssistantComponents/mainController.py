@@ -135,6 +135,7 @@ class DrawingAssistant(BaseWindowController):
     gridsDB = []
 
     def __init__(self):
+        super(DrawingAssistant, self).__init__()
 
         # collect currentGlyph (if available)
         self.currentGlyph = CurrentGlyph()
@@ -206,7 +207,7 @@ class DrawingAssistant(BaseWindowController):
         addObserver(self, "aFontIsOpening", "newFontDidOpen")
         addObserver(self, "aFontIsOpening", "fontDidOpen")
         addObserver(self, "aFontIsClosing", "fontWillClose")
-        self.w.bind('close', self.windowCloseCallback)
+        self.setUpBaseWindowBehavior()
 
         # open window
         self.w.open()

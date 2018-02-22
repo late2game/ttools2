@@ -34,6 +34,7 @@ class JumpToLineWindow(BaseWindowController):
     lineNumber = None
 
     def __init__(self, callback):
+        super(JumpToLineWindow, self).__init__()
         self.callback = callback
         
         # init the window
@@ -57,6 +58,7 @@ class JumpToLineWindow(BaseWindowController):
                                  callback=self.okButtonCallback)
 
         jumpingY += vanillaControlsSize['ButtonRegularHeight'] + MARGIN_BTM
+        self.setUpBaseWindowBehavior()
         self.w.resize(WINDOW_WIDTH, jumpingY)
 
     def get(self):
