@@ -254,13 +254,13 @@ class CornersRounder(BaseWindowController):
 
             try:
                 self.roundingsData[indexRow]['{}Rad'.format(keyStart)] = int(eachRow['rad'])
-            except ValueError:
-                self.roundingsData[indexRow]['{}Rad'.format(keyStart)] = ''
+            except TypeError:
+                self.roundingsData[indexRow]['{}Rad'.format(keyStart)] = None
 
             try:
                 self.roundingsData[indexRow]['{}Bcp'.format(keyStart)] = int(eachRow['bcp'])
-            except ValueError:
-                self.roundingsData[indexRow]['{}Bcp'.format(keyStart)] = ''
+            except TypeError:
+                self.roundingsData[indexRow]['{}Bcp'.format(keyStart)] = None
 
     def _extractDataFromRoundings(self, keyTitle):
         listData = [{'rad': aDict['{}Rad'.format(keyTitle)], 'bcp': aDict['{}Bcp'.format(keyTitle)]} for aDict in self.roundingsData]
