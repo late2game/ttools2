@@ -78,7 +78,8 @@ class CornersRounder(BaseWindowController):
 
             if PLUGIN_LIB_NAME in CurrentFont().lib:
                 self.roundingsData = loadRoundingsDataFromFont(CurrentFont())
-        self._initRoundingsData()
+        else:
+            self._initRoundingsData()
 
         self.w = FloatingWindow((0, 0, PLUGIN_WIDTH, PLUGIN_HEIGHT), PLUGIN_TITLE)
 
@@ -111,9 +112,8 @@ class CornersRounder(BaseWindowController):
         labelColumnDesc = [{"title": "labelName", 'editable': True}]
         jumpingX = MARGIN_HOR
 
-        labelNameListData = [{'labelName': aDict['labelName']} for aDict in self.roundingsData]
         self.w.labelNameList = List((jumpingX, jumpingY, labelListWdt, tableHgt),
-                                    labelNameListData,
+                                    [],
                                     columnDescriptions=labelColumnDesc,
                                     showColumnTitles=True,
                                     editCallback=self.labelNameListCallback,
@@ -131,9 +131,8 @@ class CornersRounder(BaseWindowController):
                                         u'45°',
                                         sizeStyle='small')
 
-        fortyFiveListData = self._extractDataFromRoundings('fortyFive')
         self.w.fortyFiveList = List((jumpingX, jumpingY, angleListWdt, tableHgt),
-                                    fortyFiveListData,
+                                    [],
                                     columnDescriptions=anglesColumnDesc,
                                     showColumnTitles=True,
                                     rowHeight=tableLineHeight,
@@ -148,9 +147,8 @@ class CornersRounder(BaseWindowController):
                                      u'90°',
                                      sizeStyle='small')
 
-        ninetyListData = self._extractDataFromRoundings('ninety')
         self.w.ninetyList = List((jumpingX, jumpingY, angleListWdt, tableHgt),
-                                 ninetyListData,
+                                 [],
                                  columnDescriptions=anglesColumnDesc,
                                  showColumnTitles=True,
                                  rowHeight=tableLineHeight,
@@ -165,9 +163,8 @@ class CornersRounder(BaseWindowController):
                                                   u'135°',
                                                   sizeStyle='small')
 
-        hundredThirtyFiveListData = self._extractDataFromRoundings('hundredThirtyFive')
         self.w.hundredThirtyFiveList = List((jumpingX, jumpingY, angleListWdt, tableHgt),
-                                            hundredThirtyFiveListData,
+                                            [],
                                             columnDescriptions=anglesColumnDesc,
                                             showColumnTitles=True,
                                             rowHeight=tableLineHeight,
@@ -230,15 +227,20 @@ class CornersRounder(BaseWindowController):
         self.w.open()
 
     # private methods
+    def _makeEmptyDict(self):
+        return dict(labelName='',
+                    fortyFiveRad='',
+                    fortyFiveBcp='',
+                    ninetyRad='',
+                    ninetyBcp='',
+                    hundredThirtyFiveRad='',
+                    hundredThirtyFiveBcp='')
+
     def _initRoundingsData(self):
-        self.roundingsData = [
-            dict(labelName='',
-                 fortyFiveRad=None,
-                 fortyFiveBcp=None,
-                 ninetyRad=None,
-                 ninetyBcp=None,
-                 hundredThirtyFiveRad=None,
-                 hundredThirtyFiveBcp=None)]*4
+        self.roundingsData = [self._makeEmptyDict(),
+                              self._makeEmptyDict(),
+                              self._makeEmptyDict(),
+                              self._makeEmptyDict()]
 
     def _updateLayersData(self):
         self.layerNames = ['foreground'] + CurrentFont().layerOrder
@@ -254,13 +256,13 @@ class CornersRounder(BaseWindowController):
 
             try:
                 self.roundingsData[indexRow]['{}Rad'.format(keyStart)] = int(eachRow['rad'])
-            except TypeError:
-                self.roundingsData[indexRow]['{}Rad'.format(keyStart)] = None
+            except ValueError:
+                self.roundingsData[indexRow]['{}Rad'.format(keyStart)] = ''
 
             try:
                 self.roundingsData[indexRow]['{}Bcp'.format(keyStart)] = int(eachRow['bcp'])
-            except TypeError:
-                self.roundingsData[indexRow]['{}Bcp'.format(keyStart)] = None
+            except ValueError:
+                self.roundingsData[indexRow]['{}Bcp'.format(keyStart)] = ''
 
     def _extractDataFromRoundings(self, keyTitle):
         listData = [{'rad': aDict['{}Rad'.format(keyTitle)], 'bcp': aDict['{}Bcp'.format(keyTitle)]} for aDict in self.roundingsData]
