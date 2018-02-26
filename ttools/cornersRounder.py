@@ -25,7 +25,7 @@ from mojo.roboFont import CurrentFont, CurrentGlyph, version
 from mojo.events import addObserver, removeObserver
 from mojo.UI import UpdateCurrentGlyphView
 from defconAppKit.windows.baseWindow import BaseWindowController
-from vanilla import FloatingWindow, Group, EditText, SquareButton
+from vanilla import Window, Group, EditText, SquareButton
 from vanilla import List, HorizontalLine, TextBox, PopUpButton, ComboBox
 from vanilla.dialogs import message
 
@@ -40,7 +40,6 @@ MARGIN_ROW = 4
 NET_WIDTH = PLUGIN_WIDTH - MARGIN_HOR*2
 
 PLUGIN_LIB_NAME = 'com.ttools.roundCornersData'
-
 
 ### Functions
 def pushRoundingsDataIntoFont(aFont, someData):
@@ -81,7 +80,7 @@ class CornersRounder(BaseWindowController):
         else:
             self._initRoundingsData()
 
-        self.w = FloatingWindow((0, 0, PLUGIN_WIDTH, PLUGIN_HEIGHT), PLUGIN_TITLE)
+        self.w = Window((0, 0, PLUGIN_WIDTH, PLUGIN_HEIGHT), PLUGIN_TITLE)
 
         jumpingY = MARGIN_VER
         for eachI in range(self.LABELS_AMOUNT):
@@ -210,8 +209,9 @@ class CornersRounder(BaseWindowController):
 
         jumpingY += vanillaControlsSize['PopUpButtonRegularHeight']+ MARGIN_ROW*4
         self.w.roundGlyphButton = SquareButton((MARGIN_HOR, jumpingY, midWdt, vanillaControlsSize['ButtonRegularHeight']*1.5),
-                                               'Round Glyph',
+                                               u'Round Glyph (⌘+R)',
                                                callback=self.roundGlyphButtonCallback)
+        self.w.roundGlyphButton.bind('r', ['command'])
 
         self.w.roundFontButton = SquareButton((rgtX, jumpingY, midWdt, vanillaControlsSize['ButtonRegularHeight']*1.5),
                                               'Round Font',
