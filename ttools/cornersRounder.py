@@ -20,7 +20,6 @@ reload(extraTools.roundingTools)
 from extraTools.roundingTools import attachLabelToSelectedPoints, makeGlyphRound
 
 # standard
-import json
 from mojo.roboFont import CurrentFont, CurrentGlyph, version
 from mojo.events import addObserver, removeObserver
 from mojo.UI import UpdateCurrentGlyphView
@@ -40,6 +39,7 @@ MARGIN_ROW = 4
 NET_WIDTH = PLUGIN_WIDTH - MARGIN_HOR*2
 
 PLUGIN_LIB_NAME = 'com.ttools.roundCornersData'
+
 
 ### Functions
 def pushRoundingsDataIntoFont(aFont, someData):
@@ -127,8 +127,8 @@ class CornersRounder(BaseWindowController):
 
         jumpingX += labelListWdt+marginTable
         self.w.fortyFiveCaption = TextBox((jumpingX+captionOffset, captionY, angleListWdt, vanillaControlsSize['TextBoxSmallHeight']),
-                                        u'45°',
-                                        sizeStyle='small')
+                                          u'45°',
+                                          sizeStyle='small')
 
         self.w.fortyFiveList = List((jumpingX, jumpingY, angleListWdt, tableHgt),
                                     [],
@@ -143,8 +143,8 @@ class CornersRounder(BaseWindowController):
 
         jumpingX += angleListWdt+marginTable
         self.w.ninetyCaption = TextBox((jumpingX+captionOffset, captionY, angleListWdt, vanillaControlsSize['TextBoxSmallHeight']),
-                                     u'90°',
-                                     sizeStyle='small')
+                                       u'90°',
+                                       sizeStyle='small')
 
         self.w.ninetyList = List((jumpingX, jumpingY, angleListWdt, tableHgt),
                                  [],
@@ -207,7 +207,7 @@ class CornersRounder(BaseWindowController):
         if self.layerNames and self.targetLayerName:
             self.w.targetLayerCombo.set(self.targetLayerName)
 
-        jumpingY += vanillaControlsSize['PopUpButtonRegularHeight']+ MARGIN_ROW*4
+        jumpingY += vanillaControlsSize['PopUpButtonRegularHeight'] + MARGIN_ROW*4
         self.w.roundGlyphButton = SquareButton((MARGIN_HOR, jumpingY, midWdt, vanillaControlsSize['ButtonRegularHeight']*1.5),
                                                u'Round Glyph (⌘+R)',
                                                callback=self.roundGlyphButtonCallback)
@@ -389,4 +389,3 @@ class Label(Group):
 ### Instructions
 if __name__ == '__main__':
     cr = CornersRounder()
-
