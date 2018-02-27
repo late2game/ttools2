@@ -70,6 +70,8 @@ class CornersRounder(BaseWindowController):
     def __init__(self):
         super(CornersRounder, self).__init__()
 
+        self._initRoundingsData()
+
         if CurrentFont() is not None:
             self.layerNames = ['foreground'] + CurrentFont().layerOrder
             self.sourceLayerName = self.layerNames[1]
@@ -77,8 +79,6 @@ class CornersRounder(BaseWindowController):
 
             if PLUGIN_LIB_NAME in CurrentFont().lib:
                 self.roundingsData = loadRoundingsDataFromFont(CurrentFont())
-        else:
-            self._initRoundingsData()
 
         self.w = Window((0, 0, PLUGIN_WIDTH, PLUGIN_HEIGHT), PLUGIN_TITLE)
 
