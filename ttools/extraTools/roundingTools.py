@@ -24,7 +24,7 @@ Point = namedtuple('Point', ['x', 'y'])
 BPT = namedtuple('BPT', ['bcpIn', 'anchor', 'bcpOut', 'anchorName'])
 Cubic = namedtuple('Cubic', ['pt1', 'bcp1', 'bcp2', 'pt2'])
 
-Segment = namedtuple('Segment', ['bcp1', 'bcp2', 'anchor', 'anchorName', 'isCurve'])
+Segment = namedtuple('Segment', ['bcp1', 'bcp2', 'anchor', 'labels', 'isCurve'])
 
 
 ### Functions & Procedures
@@ -112,9 +112,9 @@ def makeGlyphRound(aGlyph, roundingsData, sourceLayerName, targetLayerName, circ
             if eachSegment.offCurve:
                 bcp1 = Point(eachSegment.offCurve[0].x, eachSegment.offCurve[0].y)
                 bcp2 = Point(eachSegment.offCurve[1].x, eachSegment.offCurve[1].y)
-                mySegment = Segment(bcp1=bcp1, bcp2=bcp2, anchor=anchor, anchorName=eachSegment.onCurve.name, isCurve=True)
+                mySegment = Segment(bcp1=bcp1, bcp2=bcp2, anchor=anchor, labels=eachSegment.onCurve.labels, isCurve=True)
             else:
-                mySegment = Segment(bcp1=None, bcp2=None, anchor=anchor, anchorName=eachSegment.onCurve.name, isCurve=False)
+                mySegment = Segment(bcp1=None, bcp2=None, anchor=anchor, labels=eachSegment.onCurve.labels, isCurve=False)
             segments[indexSegment] = mySegment
             prevAnchor = anchor
 
@@ -129,10 +129,10 @@ def makeGlyphRound(aGlyph, roundingsData, sourceLayerName, targetLayerName, circ
             nextSegment = segments[indexKeys[(indexSegment+1) % len(indexKeys)]]
 
             # if they have to be rounded...
-            if eachSegment.anchorName in possibleLabels:
-                thisCorner = (aDict for aDict in roundingsData if aDict["labelName"] == eachSegment.anchorName).next()
+            if set(eachSegment.labels) & set(possibleLabels):
+                thisCorner = (aDict for aDict in roundingsData if aDict["labelName"] in eachSegment.labels).next()
                 if thisCorner is None:
-                    print 'no data for this label: {}'.format(eachSegment.anchorName)
+                    print 'no data for this label: {}'.format(eachSegment.labels)
                     raise StandardError
 
                 # define which radius amount and which bcpLength
@@ -200,10 +200,10 @@ def makeGlyphRound(aGlyph, roundingsData, sourceLayerName, targetLayerName, circ
                     cornerPrevBcp1 =   prevSlicedCurve.bcp1
                     cornerPrevBcp2 =   prevSlicedCurve.bcp2
                     cornerPrevAnchor = prevSlicedCurve.pt2
-                    cornerPrev = Segment(bcp1=cornerPrevBcp1, bcp2=cornerPrevBcp2, anchor=cornerPrevAnchor, anchorName=None, isCurve=True)
+                    cornerPrev = Segment(bcp1=cornerPrevBcp1, bcp2=cornerPrevBcp2, anchor=cornerPrevAnchor, labels=None, isCurve=True)
                 else:
                     cornerPrevAnchor = Point(eachSegment.anchor.x+cos(radians(prevAngle))*radius, eachSegment.anchor.y+sin(radians(prevAngle))*radius)
-                    cornerPrev = Segment(bcp1=None, bcp2=None, anchor=cornerPrevAnchor, anchorName=None, isCurve=False)
+                    cornerPrev = Segment(bcp1=None, bcp2=None, anchor=cornerPrevAnchor, labels=None, isCurve=False)
 
                 if eachSegment.isCurve is True:
                     cornerNextBcp1 =   Point(prevSlicedCurve.pt2.x+cos(radians(prevAngle))*bcpLength, prevSlicedCurve.pt2.y+sin(radians(prevAngle))*bcpLength)
@@ -217,15 +217,15 @@ def makeGlyphRound(aGlyph, roundingsData, sourceLayerName, targetLayerName, circ
                     cornerNextAnchor = Point(eachSegment.anchor.x+cos(radians(nextAngle))*radius, eachSegment.anchor.y+sin(radians(nextAngle))*radius)
                     cornerNextBcp2   = Point(cornerNextAnchor.x+cos(radians(nextAngle+180))*bcpLength, cornerNextAnchor.y+sin(radians(nextAngle+180))*bcpLength)
 
-                cornerNext = Segment(bcp1=cornerNextBcp1, bcp2=cornerNextBcp2, anchor=cornerNextAnchor, anchorName=None, isCurve=True)
+                cornerNext = Segment(bcp1=cornerNextBcp1, bcp2=cornerNextBcp2, anchor=cornerNextAnchor, labels=None, isCurve=True)
 
                 if nextSegment.isCurve is True:
                     newNextBcp1 =   nextSlicedCurve.bcp1
                     newNextBcp2 =   nextSlicedCurve.bcp2
                     newNextAnchor = nextSlicedCurve.pt2
-                    newNext = Segment(bcp1=newNextBcp1, bcp2=newNextBcp2, anchor=newNextAnchor, anchorName=nextSegment.anchorName, isCurve=True)
+                    newNext = Segment(bcp1=newNextBcp1, bcp2=newNextBcp2, anchor=newNextAnchor, labels=nextSegment.labels, isCurve=True)
                 else:
-                    newNext = Segment(bcp1=None, bcp2=None, anchor=nextSegment.anchor, anchorName=nextSegment.anchorName, isCurve=False)
+                    newNext = Segment(bcp1=None, bcp2=None, anchor=nextSegment.anchor, labels=nextSegment.labels, isCurve=False)
 
                 del segments[indexSegment]
                 segments[indexSegment-.25] = cornerPrev
@@ -237,7 +237,7 @@ def makeGlyphRound(aGlyph, roundingsData, sourceLayerName, targetLayerName, circ
                 if circleLayerName:
                     drawCircle(circleLayer,
                                (eachSegment.anchor.x, eachSegment.anchor.y, radius*2),
-                               label=eachSegment.anchorName)
+                               label=eachSegment.labels)
 
         references = segments.keys()
         references.sort()
