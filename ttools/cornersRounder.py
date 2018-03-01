@@ -59,13 +59,14 @@ def loadRoundingsDataFromFont(aFont):
 class CornersRounder(BaseWindowController):
 
     LABELS_AMOUNT = 4
-    labels = ['standard', 'small', None, None]
 
     layerNames = None
     targetLayerName = None
     sourceLayerName = None
 
     roundingsData = None
+
+
 
     def __init__(self):
         super(CornersRounder, self).__init__()
@@ -85,13 +86,12 @@ class CornersRounder(BaseWindowController):
         jumpingY = MARGIN_VER
         for eachI in range(self.LABELS_AMOUNT):
             singleLabel = Label((MARGIN_HOR, jumpingY, NET_WIDTH, vanillaControlsSize['EditTextRegularHeight']),
-                                index=eachI,
-                                labelNameCallback=self.labelCallback,
                                 attachCallback=self.attachCallback,
-                                labelName=self.labels[eachI])
+                                labelName='')
 
             setattr(self.w, 'label{:d}'.format(eachI), singleLabel)
             jumpingY += MARGIN_ROW+vanillaControlsSize['EditTextRegularHeight']
+        self._alignLabelCtrlsToRoundingsData()
 
         jumpingY += MARGIN_ROW
         self.w.sepLineOne = HorizontalLine((MARGIN_HOR, jumpingY, NET_WIDTH, vanillaControlsSize['HorizontalLineThickness']))
@@ -264,6 +264,14 @@ class CornersRounder(BaseWindowController):
             except ValueError:
                 self.roundingsData[indexRow]['{}Bcp'.format(keyStart)] = ''
 
+    def _alignLabelCtrlsToRoundingsData(self):
+        for eachI in range(self.LABELS_AMOUNT):
+            try:
+                labelName = self.roundingsData[eachI]['labelName']
+            except IndexError as e:
+                labelName = ''
+            getattr(self.w, 'label{:d}'.format(eachI)).setLabelName(labelName)
+
     def _extractDataFromRoundings(self, keyTitle):
         listData = [{'rad': aDict['{}Rad'.format(keyTitle)], 'bcp': aDict['{}Bcp'.format(keyTitle)]} for aDict in self.roundingsData]
         return listData
@@ -300,12 +308,8 @@ class CornersRounder(BaseWindowController):
         removeObserver(self, 'fontBecameCurrent')
         removeObserver(self, 'keyDown')
 
-    def labelCallback(self, sender):
-        index, labelName = sender.get()
-        self.labels[index] = labelName
-
     def attachCallback(self, sender):
-        _, labelName = sender.get()
+        labelName = sender.get()
         attachLabelToSelectedPoints(labelName)
 
     def labelNameListCallback(self, sender):
@@ -333,6 +337,7 @@ class CornersRounder(BaseWindowController):
         if thisFont is not None:
             self.roundingsData = loadRoundingsDataFromFont(thisFont)
             self._alignListsToRoundingsData()
+            self._alignLabelCtrlsToRoundingsData()
             message(u'Data loaded from {} {}'.format(thisFont.info.familyName, thisFont.info.styleName))
         else:
             message(u'I see no fonts opened, sorry ¯\_(ツ)_/¯')
@@ -359,11 +364,9 @@ class CornersRounder(BaseWindowController):
 
 class Label(Group):
 
-    def __init__(self, posSize, index, labelNameCallback, attachCallback, labelName=None):
+    def __init__(self, posSize, attachCallback, labelName=None):
         super(Label, self).__init__(posSize)
         self.labelName = labelName
-        self.index = index
-        self.labelNameCallback = labelNameCallback
         self.attachCallback = attachCallback
 
         self.edit = EditText((0, 0, NET_WIDTH*.7, vanillaControlsSize['EditTextRegularHeight']),
@@ -376,11 +379,14 @@ class Label(Group):
                                    callback=self.buttonCallback)
 
     def get(self):
-        return self.index, self.labelName
+        return self.labelName
+
+    def setLabelName(self, labelName):
+        self.labelName = labelName
+        self.edit.set(self.labelName)
 
     def editCallback(self, sender):
         self.labelName = sender.get()
-        self.labelNameCallback(self)
 
     def buttonCallback(self, sender):
         self.attachCallback(self)
