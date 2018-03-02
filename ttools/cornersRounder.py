@@ -60,19 +60,16 @@ class CornersRounder(BaseWindowController):
 
     LABELS_AMOUNT = 4
 
-    layerNames = None
+    layerNames = []
     targetLayerName = None
     sourceLayerName = None
 
     roundingsData = None
 
-
-
     def __init__(self):
         super(CornersRounder, self).__init__()
 
         self._initRoundingsData()
-
         if CurrentFont() is not None:
             self.layerNames = ['foreground'] + CurrentFont().layerOrder
             self.sourceLayerName = self.layerNames[1]
@@ -221,6 +218,8 @@ class CornersRounder(BaseWindowController):
         self.w.resize(PLUGIN_WIDTH, jumpingY)
 
         self.setUpBaseWindowBehavior()
+        addObserver(self, '_updateLayersData', 'fontDidOpen')
+        addObserver(self, '_updateLayersData', 'newFontDidOpen')
         addObserver(self, '_updateLayersData', 'fontBecameCurrent')
         addObserver(self, '_keyDown', 'keyDown')
 
@@ -242,10 +241,14 @@ class CornersRounder(BaseWindowController):
                               self._makeEmptyDict(),
                               self._makeEmptyDict()]
 
-    def _updateLayersData(self):
-        self.layerNames = ['foreground'] + CurrentFont().layerOrder
-        self.w.sourceLayerPopUp.setItems(self.layers)
-        self.w.targetLayerCombo.setItems(self.layers)
+    def _updateLayersData(self, notification):
+        thisFont = notification['font']
+        if thisFont is not None:
+            self.layerNames = ['foreground'] + thisFont.layerOrder
+        else:
+            self.layerNames = []
+        self.w.sourceLayerPopUp.setItems(self.layerNames)
+        self.w.targetLayerCombo.setItems(self.layerNames)
 
     def _updateRoundingsLabels(self, labels):
         for indexLabel, eachLabel in enumerate(labels):
@@ -305,6 +308,8 @@ class CornersRounder(BaseWindowController):
             self._roundCurrentGlyph()
 
     def windowCloseCallback(self, sender):
+        removeObserver(self, 'fontDidOpen')
+        removeObserver(self, 'newFontDidOpen')
         removeObserver(self, 'fontBecameCurrent')
         removeObserver(self, 'keyDown')
 
