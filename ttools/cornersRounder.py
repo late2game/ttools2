@@ -72,7 +72,7 @@ class CornersRounder(BaseWindowController):
         self._initRoundingsData()
         if CurrentFont() is not None:
             self.layerNames = ['foreground'] + CurrentFont().layerOrder
-            self.sourceLayerName = self.layerNames[1]
+            self.sourceLayerName = self.layerNames[0]
             self.targetLayerName = self.layerNames[0]
 
             if PLUGIN_LIB_NAME in CurrentFont().lib:
