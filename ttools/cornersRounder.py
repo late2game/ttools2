@@ -20,7 +20,9 @@ reload(extraTools.roundingTools)
 from extraTools.roundingTools import attachLabelToSelectedPoints, makeGlyphRound
 
 # standard
-from mojo.roboFont import CurrentFont, CurrentGlyph, version
+import os
+from collections import OrderedDict
+from mojo.roboFont import AllFonts, CurrentFont, CurrentGlyph, version
 from mojo.events import addObserver, removeObserver
 from mojo.UI import UpdateCurrentGlyphView
 from defconAppKit.windows.baseWindow import BaseWindowController
@@ -49,8 +51,7 @@ def pushRoundingsDataIntoFont(aFont, someData):
     else:
         aFont.update()
 
-
-def loadRoundingsDataFromFont(aFont):
+def pullRoundingsDataFromFont(aFont):
     if PLUGIN_LIB_NAME in aFont.lib:
         return [dict(aDict) for aDict in aFont.lib[PLUGIN_LIB_NAME]]
 
@@ -66,21 +67,36 @@ class CornersRounder(BaseWindowController):
 
     roundingsData = None
 
+    selectedFont = None
+    allFonts = None
+
     def __init__(self):
         super(CornersRounder, self).__init__()
 
+        self._updateFontsAttributes()
+        if self.allFonts != []:
+            self.selectedFont = self.allFonts[0]
+
         self._initRoundingsData()
-        if CurrentFont() is not None:
-            self.layerNames = ['foreground'] + CurrentFont().layerOrder
+        if self.selectedFont is not None:
+            self.layerNames = ['foreground'] + self.selectedFont.layerOrder
             self.sourceLayerName = self.layerNames[0]
             self.targetLayerName = self.layerNames[0]
 
-            if PLUGIN_LIB_NAME in CurrentFont().lib:
-                self.roundingsData = loadRoundingsDataFromFont(CurrentFont())
+            if PLUGIN_LIB_NAME in self.selectedFont.lib:
+                self.roundingsData = pullRoundingsDataFromFont(self.selectedFont)
 
         self.w = Window((0, 0, PLUGIN_WIDTH, PLUGIN_HEIGHT), PLUGIN_TITLE)
 
         jumpingY = MARGIN_VER
+        self.w.fontPopUp = PopUpButton((MARGIN_HOR, jumpingY, NET_WIDTH, vanillaControlsSize['PopUpButtonRegularHeight']),
+                                       [os.path.basename(item.path) for item in self.allFonts],
+                                       callback=self.fontPopUpCallback)
+
+        jumpingY += vanillaControlsSize['PopUpButtonRegularHeight'] + MARGIN_VER
+        self.w.sepLineOne = HorizontalLine((MARGIN_HOR, jumpingY, NET_WIDTH, vanillaControlsSize['HorizontalLineThickness']))
+
+        jumpingY += MARGIN_VER
         for eachI in range(self.LABELS_AMOUNT):
             singleLabel = Label((MARGIN_HOR, jumpingY, NET_WIDTH, vanillaControlsSize['EditTextRegularHeight']),
                                 attachCallback=self.attachCallback,
@@ -88,10 +104,10 @@ class CornersRounder(BaseWindowController):
 
             setattr(self.w, 'label{:d}'.format(eachI), singleLabel)
             jumpingY += MARGIN_ROW+vanillaControlsSize['EditTextRegularHeight']
-        self._alignLabelCtrlsToRoundingsData()
+        self._fromRoundingsData2LabelCtrls()
 
         jumpingY += MARGIN_ROW
-        self.w.sepLineOne = HorizontalLine((MARGIN_HOR, jumpingY, NET_WIDTH, vanillaControlsSize['HorizontalLineThickness']))
+        self.w.sepLineTwo = HorizontalLine((MARGIN_HOR, jumpingY, NET_WIDTH, vanillaControlsSize['HorizontalLineThickness']))
         jumpingY += MARGIN_ROW*2
 
         # tables
@@ -169,21 +185,22 @@ class CornersRounder(BaseWindowController):
                                             drawVerticalLines=True,
                                             autohidesScrollers=True,
                                             allowsMultipleSelection=False)
-        self._alignListsToRoundingsData()
+        self._fromRoundingsData2Lists()
         jumpingY += tableHgt+MARGIN_ROW*2
 
         rgtX = MARGIN_HOR+NET_WIDTH*.52
         midWdt = NET_WIDTH*.48
-        self.w.saveButton = SquareButton((MARGIN_HOR, jumpingY, midWdt, vanillaControlsSize['ButtonRegularHeight']*1.5),
-                                         'Save Data',
-                                         callback=self.saveButtonCallback)
+        self.w.pushButton = SquareButton((MARGIN_HOR, jumpingY, midWdt, vanillaControlsSize['ButtonRegularHeight']*1.5),
+                                         'Push Data',
+                                         callback=self.pushButtonCallback)
 
-        self.w.loadButton = SquareButton((rgtX, jumpingY, midWdt, vanillaControlsSize['ButtonRegularHeight']*1.5),
-                                         'Load Data',
-                                         callback=self.loadButtonCallback)
+        self.w.pullButton = SquareButton((rgtX, jumpingY, midWdt, vanillaControlsSize['ButtonRegularHeight']*1.5),
+                                         'Pull Data',
+                                         callback=self.pullButtonCallback)
+        self.w.pullButton.enable(False)
 
         jumpingY += vanillaControlsSize['ButtonRegularHeight']*1.5 + MARGIN_ROW*2
-        self.w.sepLineTwo = HorizontalLine((MARGIN_HOR, jumpingY, NET_WIDTH, vanillaControlsSize['HorizontalLineThickness']))
+        self.w.sepLineThree = HorizontalLine((MARGIN_HOR, jumpingY, NET_WIDTH, vanillaControlsSize['HorizontalLineThickness']))
         jumpingY += MARGIN_ROW*2
 
         self.w.sourceLayerCaption = TextBox((MARGIN_HOR, jumpingY, midWdt, vanillaControlsSize['TextBoxRegularHeight']),
@@ -218,11 +235,9 @@ class CornersRounder(BaseWindowController):
         self.w.resize(PLUGIN_WIDTH, jumpingY)
 
         self.setUpBaseWindowBehavior()
-        addObserver(self, '_updateLayersData', 'fontDidOpen')
-        addObserver(self, '_updateLayersData', 'newFontDidOpen')
-        addObserver(self, '_updateLayersData', 'fontBecameCurrent')
+        addObserver(self, 'fontDidOpenCallback', 'fontDidOpen')
+        addObserver(self, 'fontDidCloseCallback', 'fontDidClose')
         addObserver(self, '_keyDown', 'keyDown')
-
         self.w.open()
 
     # private methods
@@ -241,14 +256,10 @@ class CornersRounder(BaseWindowController):
                               self._makeEmptyDict(),
                               self._makeEmptyDict()]
 
-    def _updateLayersData(self, notification):
-        thisFont = notification['font']
-        if thisFont is not None:
-            self.layerNames = ['foreground'] + thisFont.layerOrder
-        else:
-            self.layerNames = []
-        self.w.sourceLayerPopUp.setItems(self.layerNames)
-        self.w.targetLayerCombo.setItems(self.layerNames)
+    def _updateFontsAttributes(self):
+        self.allFonts = AllFonts()
+        if self.allFonts == []:
+            self.selectedFont = None
 
     def _updateRoundingsLabels(self, labels):
         for indexLabel, eachLabel in enumerate(labels):
@@ -267,7 +278,7 @@ class CornersRounder(BaseWindowController):
             except ValueError:
                 self.roundingsData[indexRow]['{}Bcp'.format(keyStart)] = ''
 
-    def _alignLabelCtrlsToRoundingsData(self):
+    def _fromRoundingsData2LabelCtrls(self):
         for eachI in range(self.LABELS_AMOUNT):
             try:
                 labelName = self.roundingsData[eachI]['labelName']
@@ -275,11 +286,24 @@ class CornersRounder(BaseWindowController):
                 labelName = ''
             getattr(self.w, 'label{:d}'.format(eachI)).setLabelName(labelName)
 
+    def _updateLayersCtrls(self):
+        self.layerNames = ['foreground'] + self.selectedFont.layerOrder
+
+        currentName = self.w.sourceLayerPopUp.getItems()[self.w.sourceLayerPopUp.get()]
+        self.w.sourceLayerPopUp.setItems(self.layerNames)
+        if currentName in self.layerNames:
+            self.w.sourceLayerPopUp.set(self.layerNames.index(currentName))
+
+        currentName = self.w.targetLayerCombo.get()
+        self.w.targetLayerCombo.setItems(self.layerNames)
+        if currentName in self.layerNames:
+            self.w.targetLayerCombo.set(currentName)
+
     def _extractDataFromRoundings(self, keyTitle):
         listData = [{'rad': aDict['{}Rad'.format(keyTitle)], 'bcp': aDict['{}Bcp'.format(keyTitle)]} for aDict in self.roundingsData]
         return listData
 
-    def _alignListsToRoundingsData(self):
+    def _fromRoundingsData2Lists(self):
         labelNameListData = [{'labelName': aDict['labelName']} for aDict in self.roundingsData]
         self.w.labelNameList.set(labelNameListData)
         fortyFiveListData = self._extractDataFromRoundings('fortyFive')
@@ -290,16 +314,22 @@ class CornersRounder(BaseWindowController):
         self.w.hundredThirtyFiveList.set(hundredThirtyFiveListData)
 
     def _roundCurrentGlyph(self):
-        if CurrentGlyph() is not None:
-            makeGlyphRound(CurrentGlyph(),
-                           self.roundingsData,
+        currentGlyph = CurrentGlyph()
+        selectedFont = currentGlyph.getParent()
+        roundingsData = pullRoundingsDataFromFont(selectedFont)
+
+        if currentGlyph is not None and roundingsData is not None:
+            makeGlyphRound(currentGlyph,
+                           roundingsData,
                            sourceLayerName=self.sourceLayerName,
                            targetLayerName=self.targetLayerName)
             UpdateCurrentGlyphView()
+        elif currentGlyph is not None:
+            message(u'No Roundings data stored into the font! \n(try to push the data inserted into the table)')
         else:
             message(u'No Current Glyph to round!')
 
-    # callbacks
+    # observers callbacks
     def _keyDown(self, notification):
         glyph = notification['glyph']
         pressedKeys = notification['event'].charactersIgnoringModifiers()
@@ -307,11 +337,48 @@ class CornersRounder(BaseWindowController):
         if modifierFlags in MODIFIERS and MODIFIERS[modifierFlags] == 'CMD_LEFT' and pressedKeys == 'r':
             self._roundCurrentGlyph()
 
+    def fontDidOpenCallback(self, notification):
+        if self.allFonts != []:
+            currentName = os.path.basename(self.allFonts[self.w.fontPopUp.get()].path)
+        else:
+            currentName = None
+        self._updateFontsAttributes()
+        newNames = [os.path.basename(item.path) for item in self.allFonts]
+        self.w.fontPopUp.setItems(newNames)
+
+        if currentName is not None:
+            self.w.fontPopUp.set(newNames.index(currentName))
+
+    def fontDidCloseCallback(self, notification):
+        self._updateFontsAttributes()
+        newNames = [os.path.basename(item.path) for item in self.allFonts]
+        self.w.fontPopUp.setItems(newNames)
+
+        if self.allFonts != []:
+            self.selectedFont = self.allFonts[0]
+            self.roundingsData = pullRoundingsDataFromFont(self.selectedFont)
+            if self.roundingsData is None:
+                self._initRoundingsData()
+            self._fromRoundingsData2Lists()
+            self._fromRoundingsData2LabelCtrls()
+        else:
+            self.selectedFont = None
+            self.roundingsData = None
+
     def windowCloseCallback(self, sender):
         removeObserver(self, 'fontDidOpen')
-        removeObserver(self, 'newFontDidOpen')
-        removeObserver(self, 'fontBecameCurrent')
+        removeObserver(self, 'fontDidClose')
         removeObserver(self, 'keyDown')
+
+    # standard callbacks
+    def fontPopUpCallback(self, sender):
+        self.selectedFont = self.allFonts[sender.get()]
+        self.roundingsData = pullRoundingsDataFromFont(self.selectedFont)
+        if self.roundingsData is None:
+            self._initRoundingsData()
+        self._fromRoundingsData2Lists()
+        self._fromRoundingsData2LabelCtrls()
+        self._updateLayersCtrls()
 
     def attachCallback(self, sender):
         labelName = sender.get()
@@ -329,21 +396,21 @@ class CornersRounder(BaseWindowController):
     def hundredThirtyFiveListCallback(self, sender):
         self._updateRoundingsNumbers(sender.get(), 'hundredThirtyFive')
 
-    def saveButtonCallback(self, sender):
-        thisFont = CurrentFont()
+    def pushButtonCallback(self, sender):
+        thisFont = self.selectedFont
         if thisFont is not None:
             pushRoundingsDataIntoFont(thisFont, self.roundingsData)
-            message(u'Data saved into {} {}'.format(thisFont.info.familyName, thisFont.info.styleName))
+            message(u'Data pushed into {} {}'.format(thisFont.info.familyName, thisFont.info.styleName))
         else:
-            message(u'I do not know where to save these values ¯\_(ツ)_/¯')
+            message(u'I do not know where to push these values ¯\_(ツ)_/¯')
 
-    def loadButtonCallback(self, sender):
-        thisFont = CurrentFont()
+    def pullButtonCallback(self, sender):
+        thisFont = self.selectedFont
         if thisFont is not None:
-            self.roundingsData = loadRoundingsDataFromFont(thisFont)
-            self._alignListsToRoundingsData()
-            self._alignLabelCtrlsToRoundingsData()
-            message(u'Data loaded from {} {}'.format(thisFont.info.familyName, thisFont.info.styleName))
+            self.roundingsData = pullRoundingsDataFromFont(thisFont)
+            self._fromRoundingsData2Lists()
+            self._fromRoundingsData2LabelCtrls()
+            message(u'Data pulled from {} {}'.format(thisFont.info.familyName, thisFont.info.styleName))
         else:
             message(u'I see no fonts opened, sorry ¯\_(ツ)_/¯')
 
@@ -354,17 +421,20 @@ class CornersRounder(BaseWindowController):
         self.targetLayerName = sender.get()
 
     def roundGlyphButtonCallback(self, sender):
-        self._roundCurrentGlyph()
+        if self.selectedFont == CurrentFont():
+            self._roundCurrentGlyph()
+        else:
+            message(u'The font selected into the plugin does not match with the RF current font')
 
     def roundFontButtonCallback(self, sender):
-        if CurrentFont() is not None:
-            for eachGlyph in CurrentFont():
+        if self.selectedFont == CurrentFont():
+            for eachGlyph in self.selectedFont:
                 makeGlyphRound(eachGlyph,
                                self.roundingsData,
                                sourceLayerName=self.sourceLayerName,
                                targetLayerName=self.targetLayerName)
         else:
-            message(u'No Current Glyph to round!')
+            message(u'The font selected into the plugin does not match with the RF current font')
 
 
 class Label(Group):
