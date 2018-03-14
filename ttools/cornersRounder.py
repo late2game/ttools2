@@ -408,6 +408,7 @@ class CornersRounder(BaseWindowController):
         removeObserver(self, 'fontDidOpen')
         removeObserver(self, 'fontDidClose')
         removeObserver(self, 'keyDown')
+        self.rounderLogger.info('that\'s all folks!')
 
     # standard callbacks
     def fontPopUpCallback(self, sender):
