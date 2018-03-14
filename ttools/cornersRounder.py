@@ -21,6 +21,7 @@ from extraTools.roundingTools import attachLabelToSelectedPoints, makeGlyphRound
 
 # standard
 import os
+import logging
 from collections import OrderedDict
 from mojo.roboFont import AllFonts, CurrentFont, CurrentGlyph, version
 from mojo.events import addObserver, removeObserver
@@ -42,6 +43,13 @@ NET_WIDTH = PLUGIN_WIDTH - MARGIN_HOR*2
 
 PLUGIN_LIB_NAME = 'com.ttools.roundCornersData'
 
+# error messages
+NO_DATA_INTO_FONT = u'No Roundings data stored into the font! \n(try to push the data inserted into the table)'
+NO_GLYPH_TO_ROUND = u'No Current Glyph to round!'
+FONT_MISMATCH = u'The font selected into the plugin does not match with the RF current font'
+LAYERS_MATCH = u'source layer name and target layer name should be different'
+DATA_PUSHED = u'Data pushed into {familyName} {styleName}'
+NO_FONT_TO_PUSH = u'I do not know where to push these values ¯\_(ツ)_/¯'
 
 ### Functions
 def pushRoundingsDataIntoFont(aFont, someData):
@@ -55,6 +63,19 @@ def pullRoundingsDataFromFont(aFont):
     if PLUGIN_LIB_NAME in aFont.lib:
         return [dict(aDict) for aDict in aFont.lib[PLUGIN_LIB_NAME]]
 
+def makeRoundingsDataEmptyDict():
+    return dict(labelName='',
+                fortyFiveRad='',
+                fortyFiveBcp='',
+                ninetyRad='',
+                ninetyBcp='',
+                hundredThirtyFiveRad='',
+                hundredThirtyFiveBcp='')
+
+DUMMY_ROUNDINGS = [makeRoundingsDataEmptyDict(),
+                   makeRoundingsDataEmptyDict(),
+                   makeRoundingsDataEmptyDict(),
+                   makeRoundingsDataEmptyDict()]
 
 ### Classes
 class CornersRounder(BaseWindowController):
@@ -72,6 +93,9 @@ class CornersRounder(BaseWindowController):
 
     def __init__(self):
         super(CornersRounder, self).__init__()
+
+        self._initLogger()
+        self.rounderLogger.info('we are on air! start: __init__()')
 
         self._updateFontsAttributes()
         if self.allFonts != []:
@@ -193,11 +217,9 @@ class CornersRounder(BaseWindowController):
         self.w.pushButton = SquareButton((MARGIN_HOR, jumpingY, midWdt, vanillaControlsSize['ButtonRegularHeight']*1.5),
                                          'Push Data',
                                          callback=self.pushButtonCallback)
-
-        self.w.pullButton = SquareButton((rgtX, jumpingY, midWdt, vanillaControlsSize['ButtonRegularHeight']*1.5),
-                                         'Pull Data',
-                                         callback=self.pullButtonCallback)
-        self.w.pullButton.enable(False)
+        self.w.clearLibButton = SquareButton((rgtX, jumpingY, midWdt, vanillaControlsSize['ButtonRegularHeight']*1.5),
+                                             'Clear Lib',
+                                             callback=self.clearLibButtonCallback)
 
         jumpingY += vanillaControlsSize['ButtonRegularHeight']*1.5 + MARGIN_ROW*2
         self.w.sepLineThree = HorizontalLine((MARGIN_HOR, jumpingY, NET_WIDTH, vanillaControlsSize['HorizontalLineThickness']))
@@ -234,6 +256,8 @@ class CornersRounder(BaseWindowController):
 
         self.w.resize(PLUGIN_WIDTH, jumpingY)
 
+        self._checkPushButton()
+        self._checkRoundButtons()
         self.setUpBaseWindowBehavior()
         addObserver(self, 'fontDidOpenCallback', 'fontDidOpen')
         addObserver(self, 'fontDidCloseCallback', 'fontDidClose')
@@ -241,20 +265,25 @@ class CornersRounder(BaseWindowController):
         self.w.open()
 
     # private methods
-    def _makeEmptyDict(self):
-        return dict(labelName='',
-                    fortyFiveRad='',
-                    fortyFiveBcp='',
-                    ninetyRad='',
-                    ninetyBcp='',
-                    hundredThirtyFiveRad='',
-                    hundredThirtyFiveBcp='')
+    def _initLogger(self):
+        # create a logger
+        self.rounderLogger = logging.getLogger('rounderLogger')
+        self.rounderLogger.setLevel(logging.INFO)
+        # create file handler which logs info messages
+        fileHandle = logging.FileHandler('cornersRounderLogger.log')
+        fileHandle.setLevel(logging.INFO)
+        # create console handler with a higher log level, only errors
+        # create formatter and add it to the handlers
+        formatter = logging.Formatter(u'%(asctime)s – %(message)s')
+        fileHandle.setFormatter(formatter)
+        # add the handlers to the logger
+        self.rounderLogger.addHandler(fileHandle)
 
     def _initRoundingsData(self):
-        self.roundingsData = [self._makeEmptyDict(),
-                              self._makeEmptyDict(),
-                              self._makeEmptyDict(),
-                              self._makeEmptyDict()]
+        self.roundingsData = [makeRoundingsDataEmptyDict(),
+                              makeRoundingsDataEmptyDict(),
+                              makeRoundingsDataEmptyDict(),
+                              makeRoundingsDataEmptyDict()]
 
     def _updateFontsAttributes(self):
         self.allFonts = AllFonts()
@@ -314,20 +343,30 @@ class CornersRounder(BaseWindowController):
         self.w.hundredThirtyFiveList.set(hundredThirtyFiveListData)
 
     def _roundCurrentGlyph(self):
-        currentGlyph = CurrentGlyph()
-        selectedFont = currentGlyph.getParent()
-        roundingsData = pullRoundingsDataFromFont(selectedFont)
+        if self.sourceLayerName == self.targetLayerName:
+            self.showMessage('ERROR', u'source layer name and target layer name should be different')
+            return None
 
-        if currentGlyph is not None and roundingsData is not None:
-            makeGlyphRound(currentGlyph,
-                           roundingsData,
-                           sourceLayerName=self.sourceLayerName,
-                           targetLayerName=self.targetLayerName)
-            UpdateCurrentGlyphView()
+        currentGlyph = CurrentGlyph()
+        if currentGlyph is not None:
+            self.rounderLogger.info('start: _roundCurrentGlyph(), glyph {} from {} {}'.format(currentGlyph.name, self.selectedFont.info.familyName, self.selectedFont.info.styleName))
+            selectedFont = currentGlyph.getParent()
+            roundingsData = pullRoundingsDataFromFont(selectedFont)
+
+            if roundingsData is not None:
+                makeGlyphRound(currentGlyph,
+                               roundingsData,
+                               sourceLayerName=self.sourceLayerName,
+                               targetLayerName=self.targetLayerName)
+                UpdateCurrentGlyphView()
+                self.rounderLogger.info('end: _roundCurrentGlyph(), glyph {} from {} {}'.format(currentGlyph.name, selectedFont.info.familyName, selectedFont.info.styleName))
         elif currentGlyph is not None:
-            message(u'No Roundings data stored into the font! \n(try to push the data inserted into the table)')
+            self.showMessage('ERROR', NO_DATA_INTO_FONT)
+            self.rounderLogger.error(NO_DATA_INTO_FONT)
+
         else:
-            message(u'No Current Glyph to round!')
+            self.showMessage('ERROR', NO_GLYPH_TO_ROUND)
+            self.rounderLogger.error(NO_GLYPH_TO_ROUND)
 
     # observers callbacks
     def _keyDown(self, notification):
@@ -379,40 +418,68 @@ class CornersRounder(BaseWindowController):
         self._fromRoundingsData2Lists()
         self._fromRoundingsData2LabelCtrls()
         self._updateLayersCtrls()
+        self._checkPushButton()
 
     def attachCallback(self, sender):
         labelName = sender.get()
         attachLabelToSelectedPoints(labelName)
 
+    def _checkPushButton(self):
+        if hasattr(self.w, 'pushButton') is True:
+            if PLUGIN_LIB_NAME not in self.selectedFont.lib or self.roundingsData != self.selectedFont.lib[PLUGIN_LIB_NAME]:
+                self.w.pushButton.enable(True)
+            else:
+                self.w.pushButton.enable(False)
+
     def labelNameListCallback(self, sender):
         self._updateRoundingsLabels(sender.get())
+        self._checkPushButton()
+        self._checkRoundButtons()
+
+    def _checkRoundButtons(self):
+        if hasattr(self.w, 'roundGlyphButton') is True and hasattr(self.w, 'roundFontButton'):
+            if (PLUGIN_LIB_NAME in self.selectedFont.lib and self.roundingsData != self.selectedFont.lib[PLUGIN_LIB_NAME]) or self.roundingsData == DUMMY_ROUNDINGS:
+                self.w.roundGlyphButton.enable(False)
+                self.w.roundFontButton.enable(False)
+            else:
+                self.w.roundGlyphButton.enable(True)
+                self.w.roundFontButton.enable(True)
 
     def fortyFiveListCallback(self, sender):
         self._updateRoundingsNumbers(sender.get(), 'fortyFive')
+        self._checkPushButton()
+        self._checkRoundButtons()
 
     def ninetyListCallback(self, sender):
         self._updateRoundingsNumbers(sender.get(), 'ninety')
+        self._checkPushButton()
+        self._checkRoundButtons()
 
     def hundredThirtyFiveListCallback(self, sender):
         self._updateRoundingsNumbers(sender.get(), 'hundredThirtyFive')
+        self._checkPushButton()
+        self._checkRoundButtons()
 
     def pushButtonCallback(self, sender):
         thisFont = self.selectedFont
         if thisFont is not None:
             pushRoundingsDataIntoFont(thisFont, self.roundingsData)
-            message(u'Data pushed into {} {}'.format(thisFont.info.familyName, thisFont.info.styleName))
+            self.showMessage('INFO', DATA_PUSHED.format(familyName=thisFont.info.familyName, styleName=thisFont.info.styleName))
+            self.rounderLogger.info(DATA_PUSHED.format(familyName=thisFont.info.familyName, styleName=thisFont.info.styleName))
         else:
-            message(u'I do not know where to push these values ¯\_(ツ)_/¯')
+            self.showMessage('ERROR', NO_FONT_TO_PUSH)
+            self.rounderLogger.error(NO_FONT_TO_PUSH)
+        self._checkPushButton()
+        self._checkRoundButtons()
 
-    def pullButtonCallback(self, sender):
-        thisFont = self.selectedFont
-        if thisFont is not None:
-            self.roundingsData = pullRoundingsDataFromFont(thisFont)
-            self._fromRoundingsData2Lists()
-            self._fromRoundingsData2LabelCtrls()
-            message(u'Data pulled from {} {}'.format(thisFont.info.familyName, thisFont.info.styleName))
-        else:
-            message(u'I see no fonts opened, sorry ¯\_(ツ)_/¯')
+    def clearLibButtonCallback(self, sender):
+        if PLUGIN_LIB_NAME in self.selectedFont.lib:
+            del self.selectedFont.lib[PLUGIN_LIB_NAME]
+        self._initRoundingsData()
+        self._fromRoundingsData2Lists()
+        self._fromRoundingsData2LabelCtrls()
+        self._checkPushButton()
+        self._checkRoundButtons()
 
     def sourceLayerPopUpCallback(self, sender):
         self.sourceLayerName = self.layerNames[sender.get()]
@@ -424,17 +491,27 @@ class CornersRounder(BaseWindowController):
         if self.selectedFont == CurrentFont():
             self._roundCurrentGlyph()
         else:
-            message(u'The font selected into the plugin does not match with the RF current font')
+            self.showMessage('ERROR', FONT_MISMATCH)
+            self.rounderLogger.error(FONT_MISMATCH)
 
     def roundFontButtonCallback(self, sender):
+        if self.sourceLayerName == self.targetLayerName:
+            self.showMessage('ERROR', LAYERS_MATCH)
+            self.rounderLogger.error(LAYERS_MATCH)
+            return None
+
         if self.selectedFont == CurrentFont():
+            self.rounderLogger.info('start: roundFontButtonCallback(), {} {}'.format(selectedFont.info.familyName, selectedFont.info.styleName))
             for eachGlyph in self.selectedFont:
                 makeGlyphRound(eachGlyph,
                                self.roundingsData,
                                sourceLayerName=self.sourceLayerName,
                                targetLayerName=self.targetLayerName)
+            self.rounderLogger.info('end: roundFontButtonCallback(), {} {}'.format(selectedFont.info.familyName, selectedFont.info.styleName))
+
         else:
-            message(u'The font selected into the plugin does not match with the RF current font')
+            self.showMessage('ERROR', FONT_MISMATCH)
+            self.rounderLogger.error(FONT_MISMATCH)
 
 
 class Label(Group):
