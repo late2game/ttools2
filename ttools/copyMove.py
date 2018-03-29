@@ -96,6 +96,7 @@ class CopyAndMove(object):
 
         # offset edit text
         self.w.offsetEdit = EditText((MARGIN_HOR+NET_WIDTH*.25, jumpingY, NET_WIDTH*.35, vanillaControlsSize['EditTextRegularHeight']),
+                                     continuous=False,
                                      callback=self.offsetEditCallback)
         self.w.offsetEdit.set('%d' % self.verticalOffset)
         jumpingY += vanillaControlsSize['EditTextRegularHeight']+MARGIN_VER
@@ -139,8 +140,9 @@ class CopyAndMove(object):
             fontsToProcess = [CurrentFont()]
 
         for eachFont in fontsToProcess:
-            for _, eachTarget in self.transferList:
-                eachFont[eachTarget].clear()
+            for eachTargetName, _ in self.transferList:
+                if eachTargetName in eachFont:
+                    eachFont[eachTargetName].clear()
 
     def runButtonCallback(self, sender):
         if self.target == 'All Fonts':
