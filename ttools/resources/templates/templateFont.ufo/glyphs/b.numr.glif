@@ -3,7 +3,7 @@
   <advance width="429"/>
   <outline>
     <contour>
-      <point x="52" y="344" type="line" name="hr00"/>
+      <point x="52" y="344" type="line"/>
       <point x="128" y="344" type="line"/>
       <point x="128" y="398" type="line"/>
       <point x="131" y="398" type="line"/>

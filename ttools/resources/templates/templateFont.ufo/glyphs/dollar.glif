@@ -4,13 +4,13 @@
   <unicode hex="0024"/>
   <outline>
     <contour>
-      <point x="44" y="192" type="line" name="hr01"/>
+      <point x="44" y="192" type="line"/>
       <point x="48" y="79"/>
       <point x="123" y="6"/>
       <point x="236" y="-9" type="curve"/>
-      <point x="236" y="-120" type="line" name="hr02"/>
+      <point x="236" y="-120" type="line"/>
       <point x="324" y="-120" type="line"/>
-      <point x="324" y="-9" type="line" name="hr03"/>
+      <point x="324" y="-9" type="line"/>
       <point x="437" y="5"/>
       <point x="516" y="77"/>
       <point x="516" y="188" type="curve" smooth="yes"/>
@@ -31,9 +31,9 @@
       <point x="493" y="616"/>
       <point x="419" y="681"/>
       <point x="324" y="696" type="curve"/>
-      <point x="324" y="804" type="line" name="hr04"/>
+      <point x="324" y="804" type="line"/>
       <point x="236" y="804" type="line"/>
-      <point x="236" y="696" type="line" name="hr05"/>
+      <point x="236" y="696" type="line"/>
       <point x="133" y="681"/>
       <point x="60" y="611"/>
       <point x="60" y="512" type="curve" smooth="yes"/>

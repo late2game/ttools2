@@ -3,7 +3,7 @@
   <advance width="368"/>
   <outline>
     <contour>
-      <point x="44" y="328" type="line" name="hr01"/>
+      <point x="44" y="328" type="line"/>
       <point x="148" y="328" type="line"/>
       <point x="148" y="0" type="line"/>
       <point x="220" y="0" type="line"/>
@@ -11,9 +11,9 @@
       <point x="324" y="328" type="line"/>
       <point x="324" y="392" type="line"/>
       <point x="220" y="392" type="line"/>
-      <point x="220" y="520" type="line" name="hr02"/>
+      <point x="220" y="520" type="line"/>
       <point x="148" y="520" type="line"/>
-      <point x="148" y="392" type="line" name="hr03"/>
+      <point x="148" y="392" type="line"/>
       <point x="44" y="392" type="line"/>
     </contour>
   </outline>

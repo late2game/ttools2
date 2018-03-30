@@ -3,25 +3,25 @@
   <advance width="368"/>
   <outline>
     <contour>
-      <point x="44" y="336" type="line" name="hr01"/>
+      <point x="44" y="336" type="line"/>
       <point x="148" y="336" type="line"/>
       <point x="148" y="180" type="line"/>
       <point x="44" y="180" type="line"/>
-      <point x="44" y="116" type="line" name="hr02"/>
+      <point x="44" y="116" type="line"/>
       <point x="148" y="116" type="line"/>
-      <point x="148" y="0" type="line" name="hr03"/>
+      <point x="148" y="0" type="line"/>
       <point x="220" y="0" type="line"/>
-      <point x="220" y="116" type="line" name="hr04"/>
+      <point x="220" y="116" type="line"/>
       <point x="324" y="116" type="line"/>
-      <point x="324" y="180" type="line" name="hr05"/>
+      <point x="324" y="180" type="line"/>
       <point x="220" y="180" type="line"/>
       <point x="220" y="336" type="line"/>
       <point x="324" y="336" type="line"/>
       <point x="324" y="400" type="line"/>
       <point x="220" y="400" type="line"/>
-      <point x="220" y="520" type="line" name="hr06"/>
+      <point x="220" y="520" type="line"/>
       <point x="148" y="520" type="line"/>
-      <point x="148" y="400" type="line" name="hr07"/>
+      <point x="148" y="400" type="line"/>
       <point x="44" y="400" type="line"/>
     </contour>
   </outline>

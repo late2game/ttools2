@@ -3,7 +3,7 @@
   <advance width="863"/>
   <outline>
     <contour>
-      <point x="133" y="254" type="curve" smooth="yes" name="hr01"/>
+      <point x="133" y="254" type="curve" smooth="yes"/>
       <point x="212" y="254"/>
       <point x="245" y="310"/>
       <point x="245" y="390" type="curve" smooth="yes"/>
@@ -33,7 +33,7 @@
     <contour>
       <point x="118" y="-9" type="line"/>
       <point x="173" y="-9" type="line"/>
-      <point x="469" y="529" type="line" name="hr02"/>
+      <point x="469" y="529" type="line"/>
       <point x="413" y="529" type="line"/>
     </contour>
     <contour>

@@ -3,37 +3,37 @@
   <advance width="504"/>
   <outline>
     <contour>
-      <point x="40" y="344" type="line" name="hr01"/>
+      <point x="40" y="344" type="line"/>
       <point x="133" y="344" type="line"/>
       <point x="105" y="188" type="line"/>
       <point x="12" y="188" type="line"/>
-      <point x="12" y="124" type="line" name="hr02"/>
+      <point x="12" y="124" type="line"/>
       <point x="94" y="124" type="line"/>
-      <point x="72" y="0" type="line" name="hr03"/>
+      <point x="72" y="0" type="line"/>
       <point x="148" y="0" type="line"/>
-      <point x="170" y="124" type="line" name="hr04"/>
+      <point x="170" y="124" type="line"/>
       <point x="306" y="124" type="line"/>
-      <point x="284" y="0" type="line" name="hr05"/>
+      <point x="284" y="0" type="line"/>
       <point x="360" y="0" type="line"/>
-      <point x="382" y="124" type="line" name="hr06"/>
+      <point x="382" y="124" type="line"/>
       <point x="484" y="124" type="line"/>
-      <point x="484" y="188" type="line" name="hr07"/>
+      <point x="484" y="188" type="line"/>
       <point x="393" y="188" type="line"/>
       <point x="421" y="344" type="line"/>
       <point x="512" y="344" type="line"/>
-      <point x="512" y="408" type="line" name="hr08"/>
+      <point x="512" y="408" type="line"/>
       <point x="432" y="408" type="line"/>
-      <point x="452" y="520" type="line" name="hr09"/>
+      <point x="452" y="520" type="line"/>
       <point x="376" y="520" type="line"/>
-      <point x="356" y="408" type="line" name="hr10"/>
+      <point x="356" y="408" type="line"/>
       <point x="220" y="408" type="line"/>
-      <point x="240" y="520" type="line" name="hr11"/>
+      <point x="240" y="520" type="line"/>
       <point x="164" y="520" type="line"/>
-      <point x="144" y="408" type="line" name="hr12"/>
+      <point x="144" y="408" type="line"/>
       <point x="40" y="408" type="line"/>
     </contour>
     <contour>
-      <point x="209" y="344" type="line" name="hr13"/>
+      <point x="209" y="344" type="line"/>
       <point x="345" y="344" type="line"/>
       <point x="317" y="188" type="line"/>
       <point x="181" y="188" type="line"/>

@@ -4,7 +4,7 @@
   <unicode hex="FB01"/>
   <outline>
     <contour>
-      <point x="396" y="0" type="line" name="hr01"/>
+      <point x="396" y="0" type="line"/>
       <point x="484" y="0" type="line"/>
       <point x="484" y="488" type="line"/>
       <point x="184" y="488" type="line"/>
@@ -28,9 +28,9 @@
       <point x="396" y="416" type="line"/>
     </contour>
     <contour>
-      <point x="392" y="632" type="line" name="hr02"/>
+      <point x="392" y="632" type="line"/>
       <point x="488" y="632" type="line"/>
-      <point x="488" y="732" type="line" name="hr03"/>
+      <point x="488" y="732" type="line"/>
       <point x="392" y="732" type="line"/>
     </contour>
   </outline>

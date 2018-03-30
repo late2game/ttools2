@@ -84,7 +84,6 @@ def selectAnchorByName(glyphObj, name):
             return eachAnchor
     return None
 
-
 def loadGlyphNamesTable(aPath):
     return [item.strip().split('\t') for item in codecs.open(aPath, 'r', 'utf-8')]
 

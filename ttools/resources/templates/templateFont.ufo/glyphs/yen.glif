@@ -4,15 +4,15 @@
   <unicode hex="00A5"/>
   <outline>
     <contour>
-      <point x="88" y="248" type="line" name="hr01"/>
+      <point x="88" y="248" type="line"/>
       <point x="240" y="248" type="line"/>
       <point x="240" y="172" type="line"/>
       <point x="88" y="172" type="line"/>
       <point x="88" y="116" type="line"/>
       <point x="240" y="116" type="line"/>
-      <point x="240" y="0" type="line" name="hr02"/>
+      <point x="240" y="0" type="line"/>
       <point x="328" y="0" type="line"/>
-      <point x="328" y="116" type="line" name="hr03"/>
+      <point x="328" y="116" type="line"/>
       <point x="480" y="116" type="line"/>
       <point x="480" y="172" type="line"/>
       <point x="328" y="172" type="line"/>

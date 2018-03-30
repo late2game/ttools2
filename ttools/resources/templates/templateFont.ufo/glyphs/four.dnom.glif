@@ -3,20 +3,20 @@
   <advance width="352"/>
   <outline>
     <contour>
-      <point x="24" y="64" type="line" name="hr01"/>
+      <point x="24" y="64" type="line"/>
       <point x="200" y="64" type="line"/>
-      <point x="200" y="0" type="line" name="hr02"/>
+      <point x="200" y="0" type="line"/>
       <point x="276" y="0" type="line"/>
-      <point x="276" y="64" type="line" name="hr03"/>
+      <point x="276" y="64" type="line"/>
       <point x="324" y="64" type="line"/>
-      <point x="324" y="124" type="line" name="hr04"/>
+      <point x="324" y="124" type="line"/>
       <point x="276" y="124" type="line"/>
       <point x="276" y="344" type="line"/>
       <point x="212" y="344" type="line"/>
-      <point x="24" y="112" type="line" name="hr05"/>
+      <point x="24" y="112" type="line"/>
     </contour>
     <contour>
-      <point x="107" y="124" type="line" name="hr06"/>
+      <point x="107" y="124" type="line"/>
       <point x="200" y="241" type="line"/>
       <point x="200" y="124" type="line"/>
     </contour>
