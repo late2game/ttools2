@@ -39,23 +39,27 @@ FRACTIONS = loadGlyphNamesTable(FRACTIONS_PATH)
 MATH_CASE_PATH = os.path.join(BASIC_PATH, 'mathCase.csv')
 MATH_CASE = loadGlyphNamesTable(MATH_CASE_PATH)
 
+PUNCTUATION_CASE_PATH = os.path.join(BASIC_PATH, 'punctuationCase.csv')
+PUNCTUATION_CASE = loadGlyphNamesTable(PUNCTUATION_CASE_PATH)
+
 MATH_SC_PATH = os.path.join(BASIC_PATH, 'mathSC.csv')
 MATH_SC = loadGlyphNamesTable(MATH_SC_PATH)
 
 LIG_AND_EXTRA_SC_PATH = os.path.join(BASIC_PATH, 'LigAndExtraSC.csv')
 LIG_AND_EXTRA_SC = loadGlyphNamesTable(LIG_AND_EXTRA_SC_PATH)
 
-GLYPHLISTS_OPTIONS = ('Numerators', 'Subscripts', 'Superscripts', 'LC ligatures', 'Fractions', 'Math Case', 'Math SC', 'Ligatures and Extras SC')
+GLYPHLISTS_OPTIONS = ('Numerators', 'Subscripts', 'Superscripts', 'LC ligatures', 'Fractions', 'Punctuation Case', 'Math Case', 'Math SC', 'Ligatures and Extras SC')
 NAME_2_GLYPHLIST = {'Numerators': DNOM_NUMR,
                     'Subscripts': DNOM_SUBS,
                     'Superscripts': DNOM_SUPS,
+                    'Punctuation Case': PUNCTUATION_CASE,
                     'LC ligatures': LC_LIGATURES,
                     'Fractions': FRACTIONS,
                     'Math Case': MATH_CASE,
                     'Math SC': MATH_SC,
                     'Ligatures and Extras SC': LIG_AND_EXTRA_SC}
 
-ACTIVE_OFFSET = ['Numerators', 'Subscripts', 'Superscripts', 'Math Case', 'Math SC']
+ACTIVE_OFFSET = ['Numerators', 'Subscripts', 'Superscripts', 'Punctuation Case', 'Math Case', 'Math SC']
 TARGET_OPTIONS = ['All Fonts', 'Current Font']
 
 PLUGIN_TITLE = 'TT Copy and move'
@@ -123,7 +127,6 @@ class CopyAndMove(object):
             self.w.offsetEdit.enable(True)
         else:
             self.w.offsetEdit.enable(False)
-
         self.transferList = NAME_2_GLYPHLIST[GLYPHLISTS_OPTIONS[sender.get()]]
         self.isOffsetAllowed = False
 
