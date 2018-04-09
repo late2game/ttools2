@@ -150,10 +150,11 @@ class SpacingMatrix(Group):
                 else:
                     activeValue = self.activeGlyph.rightMargin
 
+            print activeValue
             self.canvas.activeEdit = CustomEditText((activeEditX, activeEditY, activeEditWidth, vanillaControlsSize['EditTextSmallHeight']),
                                                     sizeStyle='small',
                                                     continuous=False,
-                                                    text='{:d}'.format(int(round(activeValue), 0)),
+                                                    text='{:d}'.format(int(round(activeValue, 0))),
                                                     callback=self.activeEditCallback)
             self.canvas.activeEdit.centerAlignment()
 
