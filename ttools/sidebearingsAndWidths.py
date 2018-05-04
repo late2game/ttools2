@@ -13,7 +13,7 @@ from ui.userInterfaceValues import vanillaControlsSize
 
 # standard
 import types
-from mojo.roboFont import AllFonts, CurrentFont
+from mojo.roboFont import AllFonts, CurrentFont, version
 from mojo.tools import IntersectGlyphWithLine
 from vanilla import FloatingWindow, Group, RadioGroup, PopUpButton
 from vanilla import Button, TextBox, EditText, CheckBox
