@@ -184,7 +184,7 @@ class TestMetrics(BaseWindowController):
         testsToRun = self.testFunctions[self.chosenTest]
         rightNow = datetime.now()
 
-        fileNameProposal = '{}{}{}_{}_{}.txt'.format(rightNow.year, rightNow.month, rightNow.day,
+        fileNameProposal = '{}{:0>2d}{:0>2d}_{}_{}.txt'.format(rightNow.year, rightNow.month, rightNow.day,
                                                      os.path.basename(self.chosenFont.path)[:-4],
                                                      self.testOptionsAbbr[self.testOptions.index(self.chosenTest)])
 
