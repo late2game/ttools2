@@ -20,6 +20,13 @@ bullet
 periodcentered
 exclam
 exclamdown
+hyphen.case
+endash.case
+emdash.case
+bullet.case
+periodcentered.case
+exclam.case
+exclamdown.case
 bar
 brokenbar
 dagger

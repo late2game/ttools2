@@ -159,7 +159,13 @@ HHLŵyddod
 HHLyver
 HHLÿver
 HHOiseaux
+HHOíseaux
+HHOĭseaux
+HHOîseaux
 HHOïseaux
+HHOìseaux
+HHOīseaux
+HHOĩseaux
 HHOnbenul
 HHOŉbenul
 HHOwner
