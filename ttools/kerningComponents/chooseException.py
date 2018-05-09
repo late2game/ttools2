@@ -67,7 +67,7 @@ class ChooseExceptionWindow(BaseWindowController):
         optionsRepresentation = [', '.join(opt) for opt in self.options]
         if hasattr(self.w, 'optionsRadio') is True:
             delattr(self.w, 'optionsRadio')
-        self.w.optionsRadio = RadioGroup((MARGIN, MARGIN, 140, len(options)*20),
+        self.w.optionsRadio = RadioGroup((MARGIN, MARGIN, -MARGIN, len(options)*20),
                                     optionsRepresentation,
                                     callback=self.optionsCallback)
 
