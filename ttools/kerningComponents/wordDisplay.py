@@ -337,13 +337,14 @@ class WordDisplay(Group):
                 dt.save()
                 dt.fill(*LAYERED_GLYPHS_COLOR)
                 groupContent = self.fontObj.groups[lftReference]
-                for eachGroupSibling in groupContent:
-                    if eachGroupSibling != prevGlyphName:
-                        glyphToDisplay = self.fontObj[eachGroupSibling]
-                        dt.save()
-                        dt.translate(-glyphToDisplay.width, 0) # back, according to his width, otherwise it does not coincide
-                        dt.drawGlyph(glyphToDisplay)
-                        dt.restore()
+                if len(groupContent) > 1:
+                    for eachGroupSibling in groupContent:
+                        if eachGroupSibling != prevGlyphName:
+                            glyphToDisplay = self.fontObj[eachGroupSibling]
+                            dt.save()
+                            dt.translate(-glyphToDisplay.width, 0) # back, according to his width, otherwise it does not coincide
+                            dt.drawGlyph(glyphToDisplay)
+                            dt.restore()
 
                 dt.fill(*BLACK)    # caption
                 dt.translate(-prevGlyph.width, 0) # we need a caption in the right place
@@ -360,10 +361,12 @@ class WordDisplay(Group):
                 dt.translate(correction, 0)
                 dt.fill(*LAYERED_GLYPHS_COLOR)
                 groupContent = self.fontObj.groups[rgtReference]
-                for eachGroupSibling in groupContent:
-                    if eachGroupSibling != eachGlyphName:
-                        glyphToDisplay = self.fontObj[eachGroupSibling]
-                        dt.drawGlyph(glyphToDisplay)
+
+                if len(groupContent) > 1:
+                    for eachGroupSibling in groupContent:
+                        if eachGroupSibling != eachGlyphName:
+                            glyphToDisplay = self.fontObj[eachGroupSibling]
+                            dt.drawGlyph(glyphToDisplay)
 
                 dt.fill(*BLACK)
                 dt.font(SYSTEM_FONT_NAME)
