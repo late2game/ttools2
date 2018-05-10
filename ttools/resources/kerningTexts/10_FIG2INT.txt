@@ -1,63 +1,200 @@
-II(1)II)1(II[1]II
-II]1[II{1}II}1{II
-II\1//II//1\II
-II‹1›II›1‹II-1-II
-II“1”II"1"II
-II.1.II:1:II·1·II
-II•1•II*1*II°1°II
-II(2)II)2(II[2]II
-II]2[II{2}II}2{II
-II\2//II//2\II
-II‹2›II›2‹II-2-II
-II“2”II"2"II
-II.2.II:2:II·2·II
-II•2•II*2*II°2°II
-II(3)II)3(II[3]II
-II]3[II{3}II}3{II
-II\3//II//3\II
-II‹3›II›3‹II-3-II
-II“3”II"3"II
-II.3.II:3:II·3·II
-II•3•II*3*II°3°II
-II(4)II)4(II[4]II
-II]4[II{4}II}4{II
-II\4//II//4\II
-II‹4›II›4‹II-4-II
-II“4”II"4"II
-II.4.II:4:II·4·II
-II•4•II*4*II°4°II
-II(5)II)5(II[5]II
-II]5[II{5}II}5{II
-II\5//II//5\II
-II‹5›II›5‹II-5-II
-II“5”II"5"II
-II.5.II:5:II·5·II
-II•5•II*5*II°5°II
-II(6)II)6(II[6]II
-II]6[II{6}II}6{II
-II\6//II//6\II
-II‹6›II›6‹II-6-II
-II“6”II"6"II
-II.6.II:6:II·6·II
-II•6•II*6*II°6°II
-II(7)II)7(II[7]II
-II]7[II{7}II}7{II
-II\7//II//7\II
-II‹7›II›7‹II-7-II
-II“7”II"7"II
-II.7.II:7:II·7·II
-II•7•II*7*II°7°II
-II(8)II)8(II[8]II
-II]8[II{8}II}8{II
-II\8//II//8\II
-II‹8›II›8‹II-8-II
-II“8”II"8"II
-II.8.II:8:II·8·II
-II•8•II*8*II°8°II
-II(9)II)9(II[9]II
-II]9[II{9}II}9{II
-II\9//II//9\II
-II‹9›II›9‹II-9-II
-II“9”II"9"II
-II.9.II:9:II·9·II
-II•9•II*9*II°9°II
+II(/zero.lf )II)/zero.lf (II[/zero.lf ]II
+II]/zero.lf [II{/zero.lf }II}/zero.lf {II
+II/parenleft.case /zero.lf /parenright.case II/parenright.case /zero.lf /parenleft.case II/bracketleft.case /zero.lf /bracketright.case II
+II/bracketright.case /zero.lf /bracketleft.case II/braceleft.case /zero.lf /braceright.case II/braceright.case /zero.lf /braceleft.case II
+II\/zero.lf //II///zero.lf \II
+II‹/zero.lf ›II›/zero.lf ‹II-/zero.lf -II
+II/guilsinglleft.case /zero.lf /guilsinglright.case II/guilsinglright.case /zero.lf /guilsinglleft.case II/hyphen.case /zero.lf /hyphen.case II
+II“/zero.lf ”II"/zero.lf "II
+II./zero.lf .II:/zero.lf :II·/zero.lf ·II
+II•/zero.lf •II*/zero.lf *II°/zero.lf °II
+II(/one.lf )II)/one.lf (II[/one.lf ]II
+II]/one.lf [II{/one.lf }II}/one.lf {II
+II/parenleft.case /one.lf /parenright.case II/parenright.case /one.lf /parenleft.case II/bracketleft.case /one.lf /bracketright.case II
+II/bracketright.case /one.lf /bracketleft.case II/braceleft.case /one.lf /braceright.case II/braceright.case /one.lf /braceleft.case II
+II\/one.lf //II///one.lf \II
+II‹/one.lf ›II›/one.lf ‹II-/one.lf -II
+II/guilsinglleft.case /one.lf /guilsinglright.case II/guilsinglright.case /one.lf /guilsinglleft.case II/hyphen.case /one.lf /hyphen.case II
+II“/one.lf ”II"/one.lf "II
+II./one.lf .II:/one.lf :II·/one.lf ·II
+II•/one.lf •II*/one.lf *II°/one.lf °II
+II(/two.lf )II)/two.lf (II[/two.lf ]II
+II]/two.lf [II{/two.lf }II}/two.lf {II
+II/parenleft.case /two.lf /parenright.case II/parenright.case /two.lf /parenleft.case II/bracketleft.case /two.lf /bracketright.case II
+II/bracketright.case /two.lf /bracketleft.case II/braceleft.case /two.lf /braceright.case II/braceright.case /two.lf /braceleft.case II
+II\/two.lf //II///two.lf \II
+II‹/two.lf ›II›/two.lf ‹II-/two.lf -II
+II/guilsinglleft.case /two.lf /guilsinglright.case II/guilsinglright.case /two.lf /guilsinglleft.case II/hyphen.case /two.lf /hyphen.case II
+II“/two.lf ”II"/two.lf "II
+II./two.lf .II:/two.lf :II·/two.lf ·II
+II•/two.lf •II*/two.lf *II°/two.lf °II
+II(/three.lf )II)/three.lf (II[/three.lf ]II
+II]/three.lf [II{/three.lf }II}/three.lf {II
+II/parenleft.case /three.lf /parenright.case II/parenright.case /three.lf /parenleft.case II/bracketleft.case /three.lf /bracketright.case II
+II/bracketright.case /three.lf /bracketleft.case II/braceleft.case /three.lf /braceright.case II/braceright.case /three.lf /braceleft.case II
+II\/three.lf //II///three.lf \II
+II‹/three.lf ›II›/three.lf ‹II-/three.lf -II
+II/guilsinglleft.case /three.lf /guilsinglright.case II/guilsinglright.case /three.lf /guilsinglleft.case II/hyphen.case /three.lf /hyphen.case II
+II“/three.lf ”II"/three.lf "II
+II./three.lf .II:/three.lf :II·/three.lf ·II
+II•/three.lf •II*/three.lf *II°/three.lf °II
+II(/four.lf )II)/four.lf (II[/four.lf ]II
+II]/four.lf [II{/four.lf }II}/four.lf {II
+II/parenleft.case /four.lf /parenright.case II/parenright.case /four.lf /parenleft.case II/bracketleft.case /four.lf /bracketright.case II
+II/bracketright.case /four.lf /bracketleft.case II/braceleft.case /four.lf /braceright.case II/braceright.case /four.lf /braceleft.case II
+II\/four.lf //II///four.lf \II
+II‹/four.lf ›II›/four.lf ‹II-/four.lf -II
+II/guilsinglleft.case /four.lf /guilsinglright.case II/guilsinglright.case /four.lf /guilsinglleft.case II/hyphen.case /four.lf /hyphen.case II
+II“/four.lf ”II"/four.lf "II
+II./four.lf .II:/four.lf :II·/four.lf ·II
+II•/four.lf •II*/four.lf *II°/four.lf °II
+II(/five.lf )II)/five.lf (II[/five.lf ]II
+II]/five.lf [II{/five.lf }II}/five.lf {II
+II/parenleft.case /five.lf /parenright.case II/parenright.case /five.lf /parenleft.case II/bracketleft.case /five.lf /bracketright.case II
+II/bracketright.case /five.lf /bracketleft.case II/braceleft.case /five.lf /braceright.case II/braceright.case /five.lf /braceleft.case II
+II\/five.lf //II///five.lf \II
+II‹/five.lf ›II›/five.lf ‹II-/five.lf -II
+II/guilsinglleft.case /five.lf /guilsinglright.case II/guilsinglright.case /five.lf /guilsinglleft.case II/hyphen.case /five.lf /hyphen.case II
+II“/five.lf ”II"/five.lf "II
+II./five.lf .II:/five.lf :II·/five.lf ·II
+II•/five.lf •II*/five.lf *II°/five.lf °II
+II(/six.lf )II)/six.lf (II[/six.lf ]II
+II]/six.lf [II{/six.lf }II}/six.lf {II
+II/parenleft.case /six.lf /parenright.case II/parenright.case /six.lf /parenleft.case II/bracketleft.case /six.lf /bracketright.case II
+II/bracketright.case /six.lf /bracketleft.case II/braceleft.case /six.lf /braceright.case II/braceright.case /six.lf /braceleft.case II
+II\/six.lf //II///six.lf \II
+II‹/six.lf ›II›/six.lf ‹II-/six.lf -II
+II/guilsinglleft.case /six.lf /guilsinglright.case II/guilsinglright.case /six.lf /guilsinglleft.case II/hyphen.case /six.lf /hyphen.case II
+II“/six.lf ”II"/six.lf "II
+II./six.lf .II:/six.lf :II·/six.lf ·II
+II•/six.lf •II*/six.lf *II°/six.lf °II
+II(/seven.lf )II)/seven.lf (II[/seven.lf ]II
+II]/seven.lf [II{/seven.lf }II}/seven.lf {II
+II/parenleft.case /seven.lf /parenright.case II/parenright.case /seven.lf /parenleft.case II/bracketleft.case /seven.lf /bracketright.case II
+II/bracketright.case /seven.lf /bracketleft.case II/braceleft.case /seven.lf /braceright.case II/braceright.case /seven.lf /braceleft.case II
+II\/seven.lf //II///seven.lf \II
+II‹/seven.lf ›II›/seven.lf ‹II-/seven.lf -II
+II/guilsinglleft.case /seven.lf /guilsinglright.case II/guilsinglright.case /seven.lf /guilsinglleft.case II/hyphen.case /seven.lf /hyphen.case II
+II“/seven.lf ”II"/seven.lf "II
+II./seven.lf .II:/seven.lf :II·/seven.lf ·II
+II•/seven.lf •II*/seven.lf *II°/seven.lf °II
+II(/eight.lf )II)/eight.lf (II[/eight.lf ]II
+II]/eight.lf [II{/eight.lf }II}/eight.lf {II
+II/parenleft.case /eight.lf /parenright.case II/parenright.case /eight.lf /parenleft.case II/bracketleft.case /eight.lf /bracketright.case II
+II/bracketright.case /eight.lf /bracketleft.case II/braceleft.case /eight.lf /braceright.case II/braceright.case /eight.lf /braceleft.case II
+II\/eight.lf //II///eight.lf \II
+II‹/eight.lf ›II›/eight.lf ‹II-/eight.lf -II
+II/guilsinglleft.case /eight.lf /guilsinglright.case II/guilsinglright.case /eight.lf /guilsinglleft.case II/hyphen.case /eight.lf /hyphen.case II
+II“/eight.lf ”II"/eight.lf "II
+II./eight.lf .II:/eight.lf :II·/eight.lf ·II
+II•/eight.lf •II*/eight.lf *II°/eight.lf °II
+II(/nine.lf )II)/nine.lf (II[/nine.lf ]II
+II]/nine.lf [II{/nine.lf }II}/nine.lf {II
+II/parenleft.case /nine.lf /parenright.case II/parenright.case /nine.lf /parenleft.case II/bracketleft.case /nine.lf /bracketright.case II
+II/bracketright.case /nine.lf /bracketleft.case II/braceleft.case /nine.lf /braceright.case II/braceright.case /nine.lf /braceleft.case II
+II\/nine.lf //II///nine.lf \II
+II‹/nine.lf ›II›/nine.lf ‹II-/nine.lf -II
+II/guilsinglleft.case /nine.lf /guilsinglright.case II/guilsinglright.case /nine.lf /guilsinglleft.case II/hyphen.case /nine.lf /hyphen.case II
+II“/nine.lf ”II"/nine.lf "II
+II./nine.lf .II:/nine.lf :II·/nine.lf ·II
+II•/nine.lf •II*/nine.lf *II°/nine.lf °II
+II(/zero.osf )II)/zero.osf (II[/zero.osf ]II
+II]/zero.osf [II{/zero.osf }II}/zero.osf {II
+II/parenleft.case /zero.osf /parenright.case II/parenright.case /zero.osf /parenleft.case II/bracketleft.case /zero.osf /bracketright.case II
+II/bracketright.case /zero.osf /bracketleft.case II/braceleft.case /zero.osf /braceright.case II/braceright.case /zero.osf /braceleft.case II
+II\/zero.osf //II///zero.osf \II
+II‹/zero.osf ›II›/zero.osf ‹II-/zero.osf -II
+II/guilsinglleft.case /zero.osf /guilsinglright.case II/guilsinglright.case /zero.osf /guilsinglleft.case II/hyphen.case /zero.osf /hyphen.case II
+II“/zero.osf ”II"/zero.osf "II
+II./zero.osf .II:/zero.osf :II·/zero.osf ·II
+II•/zero.osf •II*/zero.osf *II°/zero.osf °II
+II(/one.osf )II)/one.osf (II[/one.osf ]II
+II]/one.osf [II{/one.osf }II}/one.osf {II
+II/parenleft.case /one.osf /parenright.case II/parenright.case /one.osf /parenleft.case II/bracketleft.case /one.osf /bracketright.case II
+II/bracketright.case /one.osf /bracketleft.case II/braceleft.case /one.osf /braceright.case II/braceright.case /one.osf /braceleft.case II
+II\/one.osf //II///one.osf \II
+II‹/one.osf ›II›/one.osf ‹II-/one.osf -II
+II/guilsinglleft.case /one.osf /guilsinglright.case II/guilsinglright.case /one.osf /guilsinglleft.case II/hyphen.case /one.osf /hyphen.case II
+II“/one.osf ”II"/one.osf "II
+II./one.osf .II:/one.osf :II·/one.osf ·II
+II•/one.osf •II*/one.osf *II°/one.osf °II
+II(/two.osf )II)/two.osf (II[/two.osf ]II
+II]/two.osf [II{/two.osf }II}/two.osf {II
+II/parenleft.case /two.osf /parenright.case II/parenright.case /two.osf /parenleft.case II/bracketleft.case /two.osf /bracketright.case II
+II/bracketright.case /two.osf /bracketleft.case II/braceleft.case /two.osf /braceright.case II/braceright.case /two.osf /braceleft.case II
+II\/two.osf //II///two.osf \II
+II‹/two.osf ›II›/two.osf ‹II-/two.osf -II
+II/guilsinglleft.case /two.osf /guilsinglright.case II/guilsinglright.case /two.osf /guilsinglleft.case II/hyphen.case /two.osf /hyphen.case II
+II“/two.osf ”II"/two.osf "II
+II./two.osf .II:/two.osf :II·/two.osf ·II
+II•/two.osf •II*/two.osf *II°/two.osf °II
+II(/three.osf )II)/three.osf (II[/three.osf ]II
+II]/three.osf [II{/three.osf }II}/three.osf {II
+II/parenleft.case /three.osf /parenright.case II/parenright.case /three.osf /parenleft.case II/bracketleft.case /three.osf /bracketright.case II
+II/bracketright.case /three.osf /bracketleft.case II/braceleft.case /three.osf /braceright.case II/braceright.case /three.osf /braceleft.case II
+II\/three.osf //II///three.osf \II
+II‹/three.osf ›II›/three.osf ‹II-/three.osf -II
+II/guilsinglleft.case /three.osf /guilsinglright.case II/guilsinglright.case /three.osf /guilsinglleft.case II/hyphen.case /three.osf /hyphen.case II
+II“/three.osf ”II"/three.osf "II
+II./three.osf .II:/three.osf :II·/three.osf ·II
+II•/three.osf •II*/three.osf *II°/three.osf °II
+II(/four.osf )II)/four.osf (II[/four.osf ]II
+II]/four.osf [II{/four.osf }II}/four.osf {II
+II/parenleft.case /four.osf /parenright.case II/parenright.case /four.osf /parenleft.case II/bracketleft.case /four.osf /bracketright.case II
+II/bracketright.case /four.osf /bracketleft.case II/braceleft.case /four.osf /braceright.case II/braceright.case /four.osf /braceleft.case II
+II\/four.osf //II///four.osf \II
+II‹/four.osf ›II›/four.osf ‹II-/four.osf -II
+II/guilsinglleft.case /four.osf /guilsinglright.case II/guilsinglright.case /four.osf /guilsinglleft.case II/hyphen.case /four.osf /hyphen.case II
+II“/four.osf ”II"/four.osf "II
+II./four.osf .II:/four.osf :II·/four.osf ·II
+II•/four.osf •II*/four.osf *II°/four.osf °II
+II(/five.osf )II)/five.osf (II[/five.osf ]II
+II]/five.osf [II{/five.osf }II}/five.osf {II
+II/parenleft.case /five.osf /parenright.case II/parenright.case /five.osf /parenleft.case II/bracketleft.case /five.osf /bracketright.case II
+II/bracketright.case /five.osf /bracketleft.case II/braceleft.case /five.osf /braceright.case II/braceright.case /five.osf /braceleft.case II
+II\/five.osf //II///five.osf \II
+II‹/five.osf ›II›/five.osf ‹II-/five.osf -II
+II/guilsinglleft.case /five.osf /guilsinglright.case II/guilsinglright.case /five.osf /guilsinglleft.case II/hyphen.case /five.osf /hyphen.case II
+II“/five.osf ”II"/five.osf "II
+II./five.osf .II:/five.osf :II·/five.osf ·II
+II•/five.osf •II*/five.osf *II°/five.osf °II
+II(/six.osf )II)/six.osf (II[/six.osf ]II
+II]/six.osf [II{/six.osf }II}/six.osf {II
+II/parenleft.case /six.osf /parenright.case II/parenright.case /six.osf /parenleft.case II/bracketleft.case /six.osf /bracketright.case II
+II/bracketright.case /six.osf /bracketleft.case II/braceleft.case /six.osf /braceright.case II/braceright.case /six.osf /braceleft.case II
+II\/six.osf //II///six.osf \II
+II‹/six.osf ›II›/six.osf ‹II-/six.osf -II
+II/guilsinglleft.case /six.osf /guilsinglright.case II/guilsinglright.case /six.osf /guilsinglleft.case II/hyphen.case /six.osf /hyphen.case II
+II“/six.osf ”II"/six.osf "II
+II./six.osf .II:/six.osf :II·/six.osf ·II
+II•/six.osf •II*/six.osf *II°/six.osf °II
+II(/seven.osf )II)/seven.osf (II[/seven.osf ]II
+II]/seven.osf [II{/seven.osf }II}/seven.osf {II
+II/parenleft.case /seven.osf /parenright.case II/parenright.case /seven.osf /parenleft.case II/bracketleft.case /seven.osf /bracketright.case II
+II/bracketright.case /seven.osf /bracketleft.case II/braceleft.case /seven.osf /braceright.case II/braceright.case /seven.osf /braceleft.case II
+II\/seven.osf //II///seven.osf \II
+II‹/seven.osf ›II›/seven.osf ‹II-/seven.osf -II
+II/guilsinglleft.case /seven.osf /guilsinglright.case II/guilsinglright.case /seven.osf /guilsinglleft.case II/hyphen.case /seven.osf /hyphen.case II
+II“/seven.osf ”II"/seven.osf "II
+II./seven.osf .II:/seven.osf :II·/seven.osf ·II
+II•/seven.osf •II*/seven.osf *II°/seven.osf °II
+II(/eight.osf )II)/eight.osf (II[/eight.osf ]II
+II]/eight.osf [II{/eight.osf }II}/eight.osf {II
+II/parenleft.case /eight.osf /parenright.case II/parenright.case /eight.osf /parenleft.case II/bracketleft.case /eight.osf /bracketright.case II
+II/bracketright.case /eight.osf /bracketleft.case II/braceleft.case /eight.osf /braceright.case II/braceright.case /eight.osf /braceleft.case II
+II\/eight.osf //II///eight.osf \II
+II‹/eight.osf ›II›/eight.osf ‹II-/eight.osf -II
+II/guilsinglleft.case /eight.osf /guilsinglright.case II/guilsinglright.case /eight.osf /guilsinglleft.case II/hyphen.case /eight.osf /hyphen.case II
+II“/eight.osf ”II"/eight.osf "II
+II./eight.osf .II:/eight.osf :II·/eight.osf ·II
+II•/eight.osf •II*/eight.osf *II°/eight.osf °II
+II(/nine.osf )II)/nine.osf (II[/nine.osf ]II
+II]/nine.osf [II{/nine.osf }II}/nine.osf {II
+II/parenleft.case /nine.osf /parenright.case II/parenright.case /nine.osf /parenleft.case II/bracketleft.case /nine.osf /bracketright.case II
+II/bracketright.case /nine.osf /bracketleft.case II/braceleft.case /nine.osf /braceright.case II/braceright.case /nine.osf /braceleft.case II
+II\/nine.osf //II///nine.osf \II
+II‹/nine.osf ›II›/nine.osf ‹II-/nine.osf -II
+II/guilsinglleft.case /nine.osf /guilsinglright.case II/guilsinglright.case /nine.osf /guilsinglleft.case II/hyphen.case /nine.osf /hyphen.case II
+II“/nine.osf ”II"/nine.osf "II
+II./nine.osf .II:/nine.osf :II·/nine.osf ·II
+II•/nine.osf •II*/nine.osf *II°/nine.osf °II
