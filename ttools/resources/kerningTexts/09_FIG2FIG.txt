@@ -1,50 +1,100 @@
-00100200300
-00400500600
-00700800900
-11011211311
-11411511611
-11711811911
-22022122322
-22422522622
-22722822922
-33033133233
-33433533633
-33733833933
-44044144244
-44344544644
-44744844944
-55055155255
-55355455655
-55755855955
-66066166266
-66366466566
-66766866966
-77077177277
-77377477577
-77677877977
-88088188288
-88388488588
-88688788988
-99099199299
-99399499599
-99699799899
-$0II €0II ¥0II £0II
-ƒ0II ¢0II ₺0II ₩0II
-$1II €1II ¥1II £1II
-ƒ1II ¢1II ₺1II ₩1II
-$2II €2II ¥2II £2II
-ƒ2II ¢2II ₺2II ₩2II
-$3II €3II ¥3II £3II
-ƒ3II ¢3II ₺3II ₩3II
-$4II €4II ¥4II £4II
-ƒ4II ¢4II ₺4II ₩4II
-$5II €5II ¥5II £5II
-ƒ5II ¢5II ₺5II ₩5II
-$6II €6II ¥6II £6II
-ƒ6II ¢6II ₺6II ₩6II
-$7II €7II ¥7II £7II
-ƒ7II ¢7II ₺7II ₩7II
-$8II €8II ¥8II £8II
-ƒ8II ¢8II ₺8II ₩8II
-$9II €9II ¥9II £9II
-ƒ9II ¢9II ₺9II ₩9II
+/zero.lf /zero.lf /one.lf /zero.lf /zero.lf /two.lf /zero.lf /zero.lf /three.lf /zero.lf /zero.lf 
+/zero.lf /zero.lf /four.lf /zero.lf /zero.lf /five.lf /zero.lf /zero.lf /six.lf /zero.lf /zero.lf 
+/zero.lf /zero.lf /seven.lf /zero.lf /zero.lf /eight.lf /zero.lf /zero.lf /nine.lf /zero.lf /zero.lf 
+/one.lf /one.lf /zero.lf /one.lf /one.lf /two.lf /one.lf /one.lf /three.lf /one.lf /one.lf 
+/one.lf /one.lf /four.lf /one.lf /one.lf /five.lf /one.lf /one.lf /six.lf /one.lf /one.lf 
+/one.lf /one.lf /seven.lf /one.lf /one.lf /eight.lf /one.lf /one.lf /nine.lf /one.lf /one.lf 
+/two.lf /two.lf /zero.lf /two.lf /two.lf /one.lf /two.lf /two.lf /three.lf /two.lf /two.lf 
+/two.lf /two.lf /four.lf /two.lf /two.lf /five.lf /two.lf /two.lf /six.lf /two.lf /two.lf 
+/two.lf /two.lf /seven.lf /two.lf /two.lf /eight.lf /two.lf /two.lf /nine.lf /two.lf /two.lf 
+/three.lf /three.lf /zero.lf /three.lf /three.lf /one.lf /three.lf /three.lf /two.lf /three.lf /three.lf 
+/three.lf /three.lf /four.lf /three.lf /three.lf /five.lf /three.lf /three.lf /six.lf /three.lf /three.lf 
+/three.lf /three.lf /seven.lf /three.lf /three.lf /eight.lf /three.lf /three.lf /nine.lf /three.lf /three.lf 
+/four.lf /four.lf /zero.lf /four.lf /four.lf /one.lf /four.lf /four.lf /two.lf /four.lf /four.lf 
+/four.lf /four.lf /three.lf /four.lf /four.lf /five.lf /four.lf /four.lf /six.lf /four.lf /four.lf 
+/four.lf /four.lf /seven.lf /four.lf /four.lf /eight.lf /four.lf /four.lf /nine.lf /four.lf /four.lf 
+/five.lf /five.lf /zero.lf /five.lf /five.lf /one.lf /five.lf /five.lf /two.lf /five.lf /five.lf 
+/five.lf /five.lf /three.lf /five.lf /five.lf /four.lf /five.lf /five.lf /six.lf /five.lf /five.lf 
+/five.lf /five.lf /seven.lf /five.lf /five.lf /eight.lf /five.lf /five.lf /nine.lf /five.lf /five.lf 
+/six.lf /six.lf /zero.lf /six.lf /six.lf /one.lf /six.lf /six.lf /two.lf /six.lf /six.lf 
+/six.lf /six.lf /three.lf /six.lf /six.lf /four.lf /six.lf /six.lf /five.lf /six.lf /six.lf 
+/six.lf /six.lf /seven.lf /six.lf /six.lf /eight.lf /six.lf /six.lf /nine.lf /six.lf /six.lf 
+/seven.lf /seven.lf /zero.lf /seven.lf /seven.lf /one.lf /seven.lf /seven.lf /two.lf /seven.lf /seven.lf 
+/seven.lf /seven.lf /three.lf /seven.lf /seven.lf /four.lf /seven.lf /seven.lf /five.lf /seven.lf /seven.lf 
+/seven.lf /seven.lf /six.lf /seven.lf /seven.lf /eight.lf /seven.lf /seven.lf /nine.lf /seven.lf /seven.lf 
+/eight.lf /zero.lf /eight.lf /one.lf /eight.lf /two.lf /eight.lf 
+/eight.lf /three.lf /eight.lf /four.lf /eight.lf /five.lf /eight.lf 
+/eight.lf /six.lf /eight.lf /seven.lf /eight.lf /nine.lf /eight.lf 
+/nine.lf /nine.lf /zero.lf /nine.lf /nine.lf /one.lf /nine.lf /nine.lf /two.lf /nine.lf /nine.lf 
+/nine.lf /nine.lf /three.lf /nine.lf /nine.lf /four.lf /nine.lf /nine.lf /five.lf /nine.lf /nine.lf 
+/nine.lf /nine.lf /six.lf /nine.lf /nine.lf /seven.lf /nine.lf /nine.lf /eight.lf /nine.lf /nine.lf 
+/dollar.lf /zero.lf II /Euro.lf /zero.lf II /yen.lf /zero.lf II /sterling.lf /zero.lf II
+/florin.lf /zero.lf II /cent.lf /zero.lf II /uni20BA.lf /zero.lf II /uni20A9.lf /zero.lf II
+/dollar.lf /one.lf II /Euro.lf /one.lf II /yen.lf /one.lf II /sterling.lf /one.lf II
+/florin.lf /one.lf II /cent.lf /one.lf II /uni20BA.lf /one.lf II /uni20A9.lf /one.lf II
+/dollar.lf /two.lf II /Euro.lf /two.lf II /yen.lf /two.lf II /sterling.lf /two.lf II
+/florin.lf /two.lf II /cent.lf /two.lf II /uni20BA.lf /two.lf II /uni20A9.lf /two.lf II
+/dollar.lf /three.lf II /Euro.lf /three.lf II /yen.lf /three.lf II /sterling.lf /three.lf II
+/florin.lf /three.lf II /cent.lf /three.lf II /uni20BA.lf /three.lf II /uni20A9.lf /three.lf II
+/dollar.lf /four.lf II /Euro.lf /four.lf II /yen.lf /four.lf II /sterling.lf /four.lf II
+/florin.lf /four.lf II /cent.lf /four.lf II /uni20BA.lf /four.lf II /uni20A9.lf /four.lf II
+/dollar.lf /five.lf II /Euro.lf /five.lf II /yen.lf /five.lf II /sterling.lf /five.lf II
+/florin.lf /five.lf II /cent.lf /five.lf II /uni20BA.lf /five.lf II /uni20A9.lf /five.lf II
+/dollar.lf /six.lf II /Euro.lf /six.lf II /yen.lf /six.lf II /sterling.lf /six.lf II
+/florin.lf /six.lf II /cent.lf /six.lf II /uni20BA.lf /six.lf II /uni20A9.lf /six.lf II
+/dollar.lf /seven.lf II /Euro.lf /seven.lf II /yen.lf /seven.lf II /sterling.lf /seven.lf II
+/florin.lf /seven.lf II /cent.lf /seven.lf II /uni20BA.lf /seven.lf II /uni20A9.lf /seven.lf II
+/dollar.lf /eight.lf II /Euro.lf /eight.lf II /yen.lf /eight.lf II /sterling.lf /eight.lf II
+/florin.lf /eight.lf II /cent.lf /eight.lf II /uni20BA.lf /eight.lf II /uni20A9.lf /eight.lf II
+/dollar.lf /nine.lf II /Euro.lf /nine.lf II /yen.lf /nine.lf II /sterling.lf /nine.lf II
+/florin.lf /nine.lf II /cent.lf /nine.lf II /uni20BA.lf /nine.lf II /uni20A9.lf /nine.lf II
+/zero.osf /zero.osf /one.osf /zero.osf /zero.osf /two.osf /zero.osf /zero.osf /three.osf /zero.osf /zero.osf 
+/zero.osf /zero.osf /four.osf /zero.osf /zero.osf /five.osf /zero.osf /zero.osf /six.osf /zero.osf /zero.osf 
+/zero.osf /zero.osf /seven.osf /zero.osf /zero.osf /eight.osf /zero.osf /zero.osf /nine.osf /zero.osf /zero.osf 
+/one.osf /one.osf /zero.osf /one.osf /one.osf /two.osf /one.osf /one.osf /three.osf /one.osf /one.osf 
+/one.osf /one.osf /four.osf /one.osf /one.osf /five.osf /one.osf /one.osf /six.osf /one.osf /one.osf 
+/one.osf /one.osf /seven.osf /one.osf /one.osf /eight.osf /one.osf /one.osf /nine.osf /one.osf /one.osf 
+/two.osf /two.osf /zero.osf /two.osf /two.osf /one.osf /two.osf /two.osf /three.osf /two.osf /two.osf 
+/two.osf /two.osf /four.osf /two.osf /two.osf /five.osf /two.osf /two.osf /six.osf /two.osf /two.osf 
+/two.osf /two.osf /seven.osf /two.osf /two.osf /eight.osf /two.osf /two.osf /nine.osf /two.osf /two.osf 
+/three.osf /three.osf /zero.osf /three.osf /three.osf /one.osf /three.osf /three.osf /two.osf /three.osf /three.osf 
+/three.osf /three.osf /four.osf /three.osf /three.osf /five.osf /three.osf /three.osf /six.osf /three.osf /three.osf 
+/three.osf /three.osf /seven.osf /three.osf /three.osf /eight.osf /three.osf /three.osf /nine.osf /three.osf /three.osf 
+/four.osf /four.osf /zero.osf /four.osf /four.osf /one.osf /four.osf /four.osf /two.osf /four.osf /four.osf 
+/four.osf /four.osf /three.osf /four.osf /four.osf /five.osf /four.osf /four.osf /six.osf /four.osf /four.osf 
+/four.osf /four.osf /seven.osf /four.osf /four.osf /eight.osf /four.osf /four.osf /nine.osf /four.osf /four.osf 
+/five.osf /five.osf /zero.osf /five.osf /five.osf /one.osf /five.osf /five.osf /two.osf /five.osf /five.osf 
+/five.osf /five.osf /three.osf /five.osf /five.osf /four.osf /five.osf /five.osf /six.osf /five.osf /five.osf 
+/five.osf /five.osf /seven.osf /five.osf /five.osf /eight.osf /five.osf /five.osf /nine.osf /five.osf /five.osf 
+/six.osf /six.osf /zero.osf /six.osf /six.osf /one.osf /six.osf /six.osf /two.osf /six.osf /six.osf 
+/six.osf /six.osf /three.osf /six.osf /six.osf /four.osf /six.osf /six.osf /five.osf /six.osf /six.osf 
+/six.osf /six.osf /seven.osf /six.osf /six.osf /eight.osf /six.osf /six.osf /nine.osf /six.osf /six.osf 
+/seven.osf /seven.osf /zero.osf /seven.osf /seven.osf /one.osf /seven.osf /seven.osf /two.osf /seven.osf /seven.osf 
+/seven.osf /seven.osf /three.osf /seven.osf /seven.osf /four.osf /seven.osf /seven.osf /five.osf /seven.osf /seven.osf 
+/seven.osf /seven.osf /six.osf /seven.osf /seven.osf /eight.osf /seven.osf /seven.osf /nine.osf /seven.osf /seven.osf 
+/eight.osf /zero.osf /eight.osf /one.osf /eight.osf /two.osf /eight.osf 
+/eight.osf /three.osf /eight.osf /four.osf /eight.osf /five.osf /eight.osf 
+/eight.osf /six.osf /eight.osf /seven.osf /eight.osf /nine.osf /eight.osf 
+/nine.osf /nine.osf /zero.osf /nine.osf /nine.osf /one.osf /nine.osf /nine.osf /two.osf /nine.osf /nine.osf 
+/nine.osf /nine.osf /three.osf /nine.osf /nine.osf /four.osf /nine.osf /nine.osf /five.osf /nine.osf /nine.osf 
+/nine.osf /nine.osf /six.osf /nine.osf /nine.osf /seven.osf /nine.osf /nine.osf /eight.osf /nine.osf /nine.osf 
+/dollar.lf /zero.osf II /Euro.lf /zero.osf II /yen.lf /zero.osf II /sterling.lf /zero.osf II
+/florin.lf /zero.osf II /cent.lf /zero.osf II /uni20BA.lf /zero.osf II /uni20A9.lf /zero.osf II
+/dollar.lf /one.osf II /Euro.lf /one.osf II /yen.lf /one.osf II /sterling.lf /one.osf II
+/florin.lf /one.osf II /cent.lf /one.osf II /uni20BA.lf /one.osf II /uni20A9.lf /one.osf II
+/dollar.lf /two.osf II /Euro.lf /two.osf II /yen.lf /two.osf II /sterling.lf /two.osf II
+/florin.lf /two.osf II /cent.lf /two.osf II /uni20BA.lf /two.osf II /uni20A9.lf /two.osf II
+/dollar.lf /three.osf II /Euro.lf /three.osf II /yen.lf /three.osf II /sterling.lf /three.osf II
+/florin.lf /three.osf II /cent.lf /three.osf II /uni20BA.lf /three.osf II /uni20A9.lf /three.osf II
+/dollar.lf /four.osf II /Euro.lf /four.osf II /yen.lf /four.osf II /sterling.lf /four.osf II
+/florin.lf /four.osf II /cent.lf /four.osf II /uni20BA.lf /four.osf II /uni20A9.lf /four.osf II
+/dollar.lf /five.osf II /Euro.lf /five.osf II /yen.lf /five.osf II /sterling.lf /five.osf II
+/florin.lf /five.osf II /cent.lf /five.osf II /uni20BA.lf /five.osf II /uni20A9.lf /five.osf II
+/dollar.lf /six.osf II /Euro.lf /six.osf II /yen.lf /six.osf II /sterling.lf /six.osf II
+/florin.lf /six.osf II /cent.lf /six.osf II /uni20BA.lf /six.osf II /uni20A9.lf /six.osf II
+/dollar.lf /seven.osf II /Euro.lf /seven.osf II /yen.lf /seven.osf II /sterling.lf /seven.osf II
+/florin.lf /seven.osf II /cent.lf /seven.osf II /uni20BA.lf /seven.osf II /uni20A9.lf /seven.osf II
+/dollar.lf /eight.osf II /Euro.lf /eight.osf II /yen.lf /eight.osf II /sterling.lf /eight.osf II
+/florin.lf /eight.osf II /cent.lf /eight.osf II /uni20BA.lf /eight.osf II /uni20A9.lf /eight.osf II
+/dollar.lf /nine.osf II /Euro.lf /nine.osf II /yen.lf /nine.osf II /sterling.lf /nine.osf II
+/florin.lf /nine.osf II /cent.lf /nine.osf II /uni20BA.lf /nine.osf II /uni20A9.lf /nine.osf II
