@@ -10,5 +10,6 @@ II“{letter}”II"{letter}"II
 II.{letter}.II:{letter}:II·{letter}·II
 II•{letter}•II*{letter}*II°{letter}°II'''
 
-for eachLetter in letters:
-    print(template.format(letter=eachLetter))
+if __name__ == '__main__':
+    for eachLetter in letters:
+        print(template.format(letter=eachLetter))
