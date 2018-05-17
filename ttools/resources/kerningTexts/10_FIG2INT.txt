@@ -198,3 +198,83 @@ II/guilsinglleft.case /nine.osf /guilsinglright.case II/guilsinglright.case /nin
 II“/nine.osf ”II"/nine.osf "II
 II./nine.osf .II:/nine.osf :II·/nine.osf ·II
 II•/nine.osf •II*/nine.osf *II°/nine.osf °II
+II(/currency.lf )II)/currency.lf (II[/currency.lf ]II
+II]/currency.lf [II{/currency.lf }II}/currency.lf {II
+II/parenleft.case /currency.lf /parenright.case II/parenright.case /currency.lf /parenleft.case II/bracketleft.case /currency.lf /bracketright.case II
+II/bracketright.case /currency.lf /bracketleft.case II/braceleft.case /currency.lf /braceright.case II/braceright.case /currency.lf /braceleft.case II
+II\/currency.lf //II///currency.lf \II
+II‹/currency.lf ›II›/currency.lf ‹II-/currency.lf -II
+II/guilsinglleft.case /currency.lf /guilsinglright.case II/guilsinglright.case /currency.lf /guilsinglleft.case II/hyphen.case /currency.lf /hyphen.case II
+II“/currency.lf ”II"/currency.lf "II
+II./currency.lf .II:/currency.lf :II·/currency.lf ·II
+II•/currency.lf •II*/currency.lf *II°/currency.lf °II
+II(/dollar.lf )II)/dollar.lf (II[/dollar.lf ]II
+II]/dollar.lf [II{/dollar.lf }II}/dollar.lf {II
+II/parenleft.case /dollar.lf /parenright.case II/parenright.case /dollar.lf /parenleft.case II/bracketleft.case /dollar.lf /bracketright.case II
+II/bracketright.case /dollar.lf /bracketleft.case II/braceleft.case /dollar.lf /braceright.case II/braceright.case /dollar.lf /braceleft.case II
+II\/dollar.lf //II///dollar.lf \II
+II‹/dollar.lf ›II›/dollar.lf ‹II-/dollar.lf -II
+II/guilsinglleft.case /dollar.lf /guilsinglright.case II/guilsinglright.case /dollar.lf /guilsinglleft.case II/hyphen.case /dollar.lf /hyphen.case II
+II“/dollar.lf ”II"/dollar.lf "II
+II./dollar.lf .II:/dollar.lf :II·/dollar.lf ·II
+II•/dollar.lf •II*/dollar.lf *II°/dollar.lf °II
+II(/Euro.lf )II)/Euro.lf (II[/Euro.lf ]II
+II]/Euro.lf [II{/Euro.lf }II}/Euro.lf {II
+II/parenleft.case /Euro.lf /parenright.case II/parenright.case /Euro.lf /parenleft.case II/bracketleft.case /Euro.lf /bracketright.case II
+II/bracketright.case /Euro.lf /bracketleft.case II/braceleft.case /Euro.lf /braceright.case II/braceright.case /Euro.lf /braceleft.case II
+II\/Euro.lf //II///Euro.lf \II
+II‹/Euro.lf ›II›/Euro.lf ‹II-/Euro.lf -II
+II/guilsinglleft.case /Euro.lf /guilsinglright.case II/guilsinglright.case /Euro.lf /guilsinglleft.case II/hyphen.case /Euro.lf /hyphen.case II
+II“/Euro.lf ”II"/Euro.lf "II
+II./Euro.lf .II:/Euro.lf :II·/Euro.lf ·II
+II•/Euro.lf •II*/Euro.lf *II°/Euro.lf °II
+II(/yen.lf )II)/yen.lf (II[/yen.lf ]II
+II]/yen.lf [II{/yen.lf }II}/yen.lf {II
+II/parenleft.case /yen.lf /parenright.case II/parenright.case /yen.lf /parenleft.case II/bracketleft.case /yen.lf /bracketright.case II
+II/bracketright.case /yen.lf /bracketleft.case II/braceleft.case /yen.lf /braceright.case II/braceright.case /yen.lf /braceleft.case II
+II\/yen.lf //II///yen.lf \II
+II‹/yen.lf ›II›/yen.lf ‹II-/yen.lf -II
+II/guilsinglleft.case /yen.lf /guilsinglright.case II/guilsinglright.case /yen.lf /guilsinglleft.case II/hyphen.case /yen.lf /hyphen.case II
+II“/yen.lf ”II"/yen.lf "II
+II./yen.lf .II:/yen.lf :II·/yen.lf ·II
+II•/yen.lf •II*/yen.lf *II°/yen.lf °II
+II(/sterling.lf )II)/sterling.lf (II[/sterling.lf ]II
+II]/sterling.lf [II{/sterling.lf }II}/sterling.lf {II
+II/parenleft.case /sterling.lf /parenright.case II/parenright.case /sterling.lf /parenleft.case II/bracketleft.case /sterling.lf /bracketright.case II
+II/bracketright.case /sterling.lf /bracketleft.case II/braceleft.case /sterling.lf /braceright.case II/braceright.case /sterling.lf /braceleft.case II
+II\/sterling.lf //II///sterling.lf \II
+II‹/sterling.lf ›II›/sterling.lf ‹II-/sterling.lf -II
+II/guilsinglleft.case /sterling.lf /guilsinglright.case II/guilsinglright.case /sterling.lf /guilsinglleft.case II/hyphen.case /sterling.lf /hyphen.case II
+II“/sterling.lf ”II"/sterling.lf "II
+II./sterling.lf .II:/sterling.lf :II·/sterling.lf ·II
+II•/sterling.lf •II*/sterling.lf *II°/sterling.lf °II
+II(/florin.lf )II)/florin.lf (II[/florin.lf ]II
+II]/florin.lf [II{/florin.lf }II}/florin.lf {II
+II/parenleft.case /florin.lf /parenright.case II/parenright.case /florin.lf /parenleft.case II/bracketleft.case /florin.lf /bracketright.case II
+II/bracketright.case /florin.lf /bracketleft.case II/braceleft.case /florin.lf /braceright.case II/braceright.case /florin.lf /braceleft.case II
+II\/florin.lf //II///florin.lf \II
+II‹/florin.lf ›II›/florin.lf ‹II-/florin.lf -II
+II/guilsinglleft.case /florin.lf /guilsinglright.case II/guilsinglright.case /florin.lf /guilsinglleft.case II/hyphen.case /florin.lf /hyphen.case II
+II“/florin.lf ”II"/florin.lf "II
+II./florin.lf .II:/florin.lf :II·/florin.lf ·II
+II•/florin.lf •II*/florin.lf *II°/florin.lf °II
+II(/cent.lf )II)/cent.lf (II[/cent.lf ]II
+II]/cent.lf [II{/cent.lf }II}/cent.lf {II
+II/parenleft.case /cent.lf /parenright.case II/parenright.case /cent.lf /parenleft.case II/bracketleft.case /cent.lf /bracketright.case II
+II/bracketright.case /cent.lf /bracketleft.case II/braceleft.case /cent.lf /braceright.case II/braceright.case /cent.lf /braceleft.case II
+II\/cent.lf //II///cent.lf \II
+II‹/cent.lf ›II›/cent.lf ‹II-/cent.lf -II
+II/guilsinglleft.case /cent.lf /guilsinglright.case II/guilsinglright.case /cent.lf /guilsinglleft.case II/hyphen.case /cent.lf /hyphen.case II
+II“/cent.lf ”II"/cent.lf "II
+II./cent.lf .II:/cent.lf :II·/cent.lf ·II
+II•/cent.lf •II*/cent.lf *II°/cent.lf °II
+II(/uni20BA.lf )II)/uni20BA.lf (II[/uni20BA.lf ]II
+II]/uni20BA.lf [II{/uni20BA.lf }II}/uni20BA.lf {II
+II/parenleft.case /uni20BA.lf /parenright.case II/parenright.case /uni20BA.lf /parenleft.case II/bracketleft.case /uni20BA.lf /bracketright.case II
+II/bracketright.case /uni20BA.lf /bracketleft.case II/braceleft.case /uni20BA.lf /braceright.case II/braceright.case /uni20BA.lf /braceleft.case II
+II\/uni20BA.lf //II///uni20BA.lf \II
+II‹/uni20BA.lf ›II›/uni20BA.lf ‹II-/uni20BA.lf -II
+II/guilsinglleft.case /uni20BA.lf /guilsinglright.case II/guilsinglright.case /uni20BA.lf /guilsinglleft.case II/hyphen.case /uni20BA.lf /hyphen.case II
+II“/uni20BA.lf ”II"/uni20BA.lf "II
+II./uni20BA.lf .II:/uni20BA.lf :II·/uni20BA.lf ·II
+II•/uni20BA.lf •II*/uni20BA.lf *II°/uni20BA.lf °II
