@@ -6,8 +6,13 @@ II\/zero.lf //II///zero.lf \II
 II‹/zero.lf ›II›/zero.lf ‹II-/zero.lf -II
 II/guilsinglleft.case /zero.lf /guilsinglright.case II/guilsinglright.case /zero.lf /guilsinglleft.case II/hyphen.case /zero.lf /hyphen.case II
 II“/zero.lf ”II"/zero.lf "II
+II/zero.lf /dagger II/zero.lf /daggerdbl II
+II/zero.lf /ordfeminine II/zero.lf /ordmasculine II
 II./zero.lf .II:/zero.lf :II·/zero.lf ·II
 II•/zero.lf •II*/zero.lf *II°/zero.lf °II
+II?/zero.lf ?II!/zero.lf !II
+II¿/zero.lf ¿II¡/zero.lf ¡II
+II/questiondown.case /zero.lf /questiondown.case II/exclamdown.case /zero.lf /exclamdown.case II
 II(/one.lf )II)/one.lf (II[/one.lf ]II
 II]/one.lf [II{/one.lf }II}/one.lf {II
 II/parenleft.case /one.lf /parenright.case II/parenright.case /one.lf /parenleft.case II/bracketleft.case /one.lf /bracketright.case II
@@ -16,8 +21,13 @@ II\/one.lf //II///one.lf \II
 II‹/one.lf ›II›/one.lf ‹II-/one.lf -II
 II/guilsinglleft.case /one.lf /guilsinglright.case II/guilsinglright.case /one.lf /guilsinglleft.case II/hyphen.case /one.lf /hyphen.case II
 II“/one.lf ”II"/one.lf "II
+II/one.lf /dagger II/one.lf /daggerdbl II
+II/one.lf /ordfeminine II/one.lf /ordmasculine II
 II./one.lf .II:/one.lf :II·/one.lf ·II
 II•/one.lf •II*/one.lf *II°/one.lf °II
+II?/one.lf ?II!/one.lf !II
+II¿/one.lf ¿II¡/one.lf ¡II
+II/questiondown.case /one.lf /questiondown.case II/exclamdown.case /one.lf /exclamdown.case II
 II(/two.lf )II)/two.lf (II[/two.lf ]II
 II]/two.lf [II{/two.lf }II}/two.lf {II
 II/parenleft.case /two.lf /parenright.case II/parenright.case /two.lf /parenleft.case II/bracketleft.case /two.lf /bracketright.case II
@@ -26,8 +36,13 @@ II\/two.lf //II///two.lf \II
 II‹/two.lf ›II›/two.lf ‹II-/two.lf -II
 II/guilsinglleft.case /two.lf /guilsinglright.case II/guilsinglright.case /two.lf /guilsinglleft.case II/hyphen.case /two.lf /hyphen.case II
 II“/two.lf ”II"/two.lf "II
+II/two.lf /dagger II/two.lf /daggerdbl II
+II/two.lf /ordfeminine II/two.lf /ordmasculine II
 II./two.lf .II:/two.lf :II·/two.lf ·II
 II•/two.lf •II*/two.lf *II°/two.lf °II
+II?/two.lf ?II!/two.lf !II
+II¿/two.lf ¿II¡/two.lf ¡II
+II/questiondown.case /two.lf /questiondown.case II/exclamdown.case /two.lf /exclamdown.case II
 II(/three.lf )II)/three.lf (II[/three.lf ]II
 II]/three.lf [II{/three.lf }II}/three.lf {II
 II/parenleft.case /three.lf /parenright.case II/parenright.case /three.lf /parenleft.case II/bracketleft.case /three.lf /bracketright.case II
@@ -36,8 +51,13 @@ II\/three.lf //II///three.lf \II
 II‹/three.lf ›II›/three.lf ‹II-/three.lf -II
 II/guilsinglleft.case /three.lf /guilsinglright.case II/guilsinglright.case /three.lf /guilsinglleft.case II/hyphen.case /three.lf /hyphen.case II
 II“/three.lf ”II"/three.lf "II
+II/three.lf /dagger II/three.lf /daggerdbl II
+II/three.lf /ordfeminine II/three.lf /ordmasculine II
 II./three.lf .II:/three.lf :II·/three.lf ·II
 II•/three.lf •II*/three.lf *II°/three.lf °II
+II?/three.lf ?II!/three.lf !II
+II¿/three.lf ¿II¡/three.lf ¡II
+II/questiondown.case /three.lf /questiondown.case II/exclamdown.case /three.lf /exclamdown.case II
 II(/four.lf )II)/four.lf (II[/four.lf ]II
 II]/four.lf [II{/four.lf }II}/four.lf {II
 II/parenleft.case /four.lf /parenright.case II/parenright.case /four.lf /parenleft.case II/bracketleft.case /four.lf /bracketright.case II
@@ -46,8 +66,13 @@ II\/four.lf //II///four.lf \II
 II‹/four.lf ›II›/four.lf ‹II-/four.lf -II
 II/guilsinglleft.case /four.lf /guilsinglright.case II/guilsinglright.case /four.lf /guilsinglleft.case II/hyphen.case /four.lf /hyphen.case II
 II“/four.lf ”II"/four.lf "II
+II/four.lf /dagger II/four.lf /daggerdbl II
+II/four.lf /ordfeminine II/four.lf /ordmasculine II
 II./four.lf .II:/four.lf :II·/four.lf ·II
 II•/four.lf •II*/four.lf *II°/four.lf °II
+II?/four.lf ?II!/four.lf !II
+II¿/four.lf ¿II¡/four.lf ¡II
+II/questiondown.case /four.lf /questiondown.case II/exclamdown.case /four.lf /exclamdown.case II
 II(/five.lf )II)/five.lf (II[/five.lf ]II
 II]/five.lf [II{/five.lf }II}/five.lf {II
 II/parenleft.case /five.lf /parenright.case II/parenright.case /five.lf /parenleft.case II/bracketleft.case /five.lf /bracketright.case II
@@ -56,8 +81,13 @@ II\/five.lf //II///five.lf \II
 II‹/five.lf ›II›/five.lf ‹II-/five.lf -II
 II/guilsinglleft.case /five.lf /guilsinglright.case II/guilsinglright.case /five.lf /guilsinglleft.case II/hyphen.case /five.lf /hyphen.case II
 II“/five.lf ”II"/five.lf "II
+II/five.lf /dagger II/five.lf /daggerdbl II
+II/five.lf /ordfeminine II/five.lf /ordmasculine II
 II./five.lf .II:/five.lf :II·/five.lf ·II
 II•/five.lf •II*/five.lf *II°/five.lf °II
+II?/five.lf ?II!/five.lf !II
+II¿/five.lf ¿II¡/five.lf ¡II
+II/questiondown.case /five.lf /questiondown.case II/exclamdown.case /five.lf /exclamdown.case II
 II(/six.lf )II)/six.lf (II[/six.lf ]II
 II]/six.lf [II{/six.lf }II}/six.lf {II
 II/parenleft.case /six.lf /parenright.case II/parenright.case /six.lf /parenleft.case II/bracketleft.case /six.lf /bracketright.case II
@@ -66,8 +96,13 @@ II\/six.lf //II///six.lf \II
 II‹/six.lf ›II›/six.lf ‹II-/six.lf -II
 II/guilsinglleft.case /six.lf /guilsinglright.case II/guilsinglright.case /six.lf /guilsinglleft.case II/hyphen.case /six.lf /hyphen.case II
 II“/six.lf ”II"/six.lf "II
+II/six.lf /dagger II/six.lf /daggerdbl II
+II/six.lf /ordfeminine II/six.lf /ordmasculine II
 II./six.lf .II:/six.lf :II·/six.lf ·II
 II•/six.lf •II*/six.lf *II°/six.lf °II
+II?/six.lf ?II!/six.lf !II
+II¿/six.lf ¿II¡/six.lf ¡II
+II/questiondown.case /six.lf /questiondown.case II/exclamdown.case /six.lf /exclamdown.case II
 II(/seven.lf )II)/seven.lf (II[/seven.lf ]II
 II]/seven.lf [II{/seven.lf }II}/seven.lf {II
 II/parenleft.case /seven.lf /parenright.case II/parenright.case /seven.lf /parenleft.case II/bracketleft.case /seven.lf /bracketright.case II
@@ -76,8 +111,13 @@ II\/seven.lf //II///seven.lf \II
 II‹/seven.lf ›II›/seven.lf ‹II-/seven.lf -II
 II/guilsinglleft.case /seven.lf /guilsinglright.case II/guilsinglright.case /seven.lf /guilsinglleft.case II/hyphen.case /seven.lf /hyphen.case II
 II“/seven.lf ”II"/seven.lf "II
+II/seven.lf /dagger II/seven.lf /daggerdbl II
+II/seven.lf /ordfeminine II/seven.lf /ordmasculine II
 II./seven.lf .II:/seven.lf :II·/seven.lf ·II
 II•/seven.lf •II*/seven.lf *II°/seven.lf °II
+II?/seven.lf ?II!/seven.lf !II
+II¿/seven.lf ¿II¡/seven.lf ¡II
+II/questiondown.case /seven.lf /questiondown.case II/exclamdown.case /seven.lf /exclamdown.case II
 II(/eight.lf )II)/eight.lf (II[/eight.lf ]II
 II]/eight.lf [II{/eight.lf }II}/eight.lf {II
 II/parenleft.case /eight.lf /parenright.case II/parenright.case /eight.lf /parenleft.case II/bracketleft.case /eight.lf /bracketright.case II
@@ -86,8 +126,13 @@ II\/eight.lf //II///eight.lf \II
 II‹/eight.lf ›II›/eight.lf ‹II-/eight.lf -II
 II/guilsinglleft.case /eight.lf /guilsinglright.case II/guilsinglright.case /eight.lf /guilsinglleft.case II/hyphen.case /eight.lf /hyphen.case II
 II“/eight.lf ”II"/eight.lf "II
+II/eight.lf /dagger II/eight.lf /daggerdbl II
+II/eight.lf /ordfeminine II/eight.lf /ordmasculine II
 II./eight.lf .II:/eight.lf :II·/eight.lf ·II
 II•/eight.lf •II*/eight.lf *II°/eight.lf °II
+II?/eight.lf ?II!/eight.lf !II
+II¿/eight.lf ¿II¡/eight.lf ¡II
+II/questiondown.case /eight.lf /questiondown.case II/exclamdown.case /eight.lf /exclamdown.case II
 II(/nine.lf )II)/nine.lf (II[/nine.lf ]II
 II]/nine.lf [II{/nine.lf }II}/nine.lf {II
 II/parenleft.case /nine.lf /parenright.case II/parenright.case /nine.lf /parenleft.case II/bracketleft.case /nine.lf /bracketright.case II
@@ -96,8 +141,13 @@ II\/nine.lf //II///nine.lf \II
 II‹/nine.lf ›II›/nine.lf ‹II-/nine.lf -II
 II/guilsinglleft.case /nine.lf /guilsinglright.case II/guilsinglright.case /nine.lf /guilsinglleft.case II/hyphen.case /nine.lf /hyphen.case II
 II“/nine.lf ”II"/nine.lf "II
+II/nine.lf /dagger II/nine.lf /daggerdbl II
+II/nine.lf /ordfeminine II/nine.lf /ordmasculine II
 II./nine.lf .II:/nine.lf :II·/nine.lf ·II
 II•/nine.lf •II*/nine.lf *II°/nine.lf °II
+II?/nine.lf ?II!/nine.lf !II
+II¿/nine.lf ¿II¡/nine.lf ¡II
+II/questiondown.case /nine.lf /questiondown.case II/exclamdown.case /nine.lf /exclamdown.case II
 II(/zero.osf )II)/zero.osf (II[/zero.osf ]II
 II]/zero.osf [II{/zero.osf }II}/zero.osf {II
 II/parenleft.case /zero.osf /parenright.case II/parenright.case /zero.osf /parenleft.case II/bracketleft.case /zero.osf /bracketright.case II
@@ -106,8 +156,13 @@ II\/zero.osf //II///zero.osf \II
 II‹/zero.osf ›II›/zero.osf ‹II-/zero.osf -II
 II/guilsinglleft.case /zero.osf /guilsinglright.case II/guilsinglright.case /zero.osf /guilsinglleft.case II/hyphen.case /zero.osf /hyphen.case II
 II“/zero.osf ”II"/zero.osf "II
+II/zero.osf /dagger II/zero.osf /daggerdbl II
+II/zero.osf /ordfeminine II/zero.osf /ordmasculine II
 II./zero.osf .II:/zero.osf :II·/zero.osf ·II
 II•/zero.osf •II*/zero.osf *II°/zero.osf °II
+II?/zero.osf ?II!/zero.osf !II
+II¿/zero.osf ¿II¡/zero.osf ¡II
+II/questiondown.case /zero.osf /questiondown.case II/exclamdown.case /zero.osf /exclamdown.case II
 II(/one.osf )II)/one.osf (II[/one.osf ]II
 II]/one.osf [II{/one.osf }II}/one.osf {II
 II/parenleft.case /one.osf /parenright.case II/parenright.case /one.osf /parenleft.case II/bracketleft.case /one.osf /bracketright.case II
@@ -116,8 +171,13 @@ II\/one.osf //II///one.osf \II
 II‹/one.osf ›II›/one.osf ‹II-/one.osf -II
 II/guilsinglleft.case /one.osf /guilsinglright.case II/guilsinglright.case /one.osf /guilsinglleft.case II/hyphen.case /one.osf /hyphen.case II
 II“/one.osf ”II"/one.osf "II
+II/one.osf /dagger II/one.osf /daggerdbl II
+II/one.osf /ordfeminine II/one.osf /ordmasculine II
 II./one.osf .II:/one.osf :II·/one.osf ·II
 II•/one.osf •II*/one.osf *II°/one.osf °II
+II?/one.osf ?II!/one.osf !II
+II¿/one.osf ¿II¡/one.osf ¡II
+II/questiondown.case /one.osf /questiondown.case II/exclamdown.case /one.osf /exclamdown.case II
 II(/two.osf )II)/two.osf (II[/two.osf ]II
 II]/two.osf [II{/two.osf }II}/two.osf {II
 II/parenleft.case /two.osf /parenright.case II/parenright.case /two.osf /parenleft.case II/bracketleft.case /two.osf /bracketright.case II
@@ -126,8 +186,13 @@ II\/two.osf //II///two.osf \II
 II‹/two.osf ›II›/two.osf ‹II-/two.osf -II
 II/guilsinglleft.case /two.osf /guilsinglright.case II/guilsinglright.case /two.osf /guilsinglleft.case II/hyphen.case /two.osf /hyphen.case II
 II“/two.osf ”II"/two.osf "II
+II/two.osf /dagger II/two.osf /daggerdbl II
+II/two.osf /ordfeminine II/two.osf /ordmasculine II
 II./two.osf .II:/two.osf :II·/two.osf ·II
 II•/two.osf •II*/two.osf *II°/two.osf °II
+II?/two.osf ?II!/two.osf !II
+II¿/two.osf ¿II¡/two.osf ¡II
+II/questiondown.case /two.osf /questiondown.case II/exclamdown.case /two.osf /exclamdown.case II
 II(/three.osf )II)/three.osf (II[/three.osf ]II
 II]/three.osf [II{/three.osf }II}/three.osf {II
 II/parenleft.case /three.osf /parenright.case II/parenright.case /three.osf /parenleft.case II/bracketleft.case /three.osf /bracketright.case II
@@ -136,8 +201,13 @@ II\/three.osf //II///three.osf \II
 II‹/three.osf ›II›/three.osf ‹II-/three.osf -II
 II/guilsinglleft.case /three.osf /guilsinglright.case II/guilsinglright.case /three.osf /guilsinglleft.case II/hyphen.case /three.osf /hyphen.case II
 II“/three.osf ”II"/three.osf "II
+II/three.osf /dagger II/three.osf /daggerdbl II
+II/three.osf /ordfeminine II/three.osf /ordmasculine II
 II./three.osf .II:/three.osf :II·/three.osf ·II
 II•/three.osf •II*/three.osf *II°/three.osf °II
+II?/three.osf ?II!/three.osf !II
+II¿/three.osf ¿II¡/three.osf ¡II
+II/questiondown.case /three.osf /questiondown.case II/exclamdown.case /three.osf /exclamdown.case II
 II(/four.osf )II)/four.osf (II[/four.osf ]II
 II]/four.osf [II{/four.osf }II}/four.osf {II
 II/parenleft.case /four.osf /parenright.case II/parenright.case /four.osf /parenleft.case II/bracketleft.case /four.osf /bracketright.case II
@@ -146,8 +216,13 @@ II\/four.osf //II///four.osf \II
 II‹/four.osf ›II›/four.osf ‹II-/four.osf -II
 II/guilsinglleft.case /four.osf /guilsinglright.case II/guilsinglright.case /four.osf /guilsinglleft.case II/hyphen.case /four.osf /hyphen.case II
 II“/four.osf ”II"/four.osf "II
+II/four.osf /dagger II/four.osf /daggerdbl II
+II/four.osf /ordfeminine II/four.osf /ordmasculine II
 II./four.osf .II:/four.osf :II·/four.osf ·II
 II•/four.osf •II*/four.osf *II°/four.osf °II
+II?/four.osf ?II!/four.osf !II
+II¿/four.osf ¿II¡/four.osf ¡II
+II/questiondown.case /four.osf /questiondown.case II/exclamdown.case /four.osf /exclamdown.case II
 II(/five.osf )II)/five.osf (II[/five.osf ]II
 II]/five.osf [II{/five.osf }II}/five.osf {II
 II/parenleft.case /five.osf /parenright.case II/parenright.case /five.osf /parenleft.case II/bracketleft.case /five.osf /bracketright.case II
@@ -156,8 +231,13 @@ II\/five.osf //II///five.osf \II
 II‹/five.osf ›II›/five.osf ‹II-/five.osf -II
 II/guilsinglleft.case /five.osf /guilsinglright.case II/guilsinglright.case /five.osf /guilsinglleft.case II/hyphen.case /five.osf /hyphen.case II
 II“/five.osf ”II"/five.osf "II
+II/five.osf /dagger II/five.osf /daggerdbl II
+II/five.osf /ordfeminine II/five.osf /ordmasculine II
 II./five.osf .II:/five.osf :II·/five.osf ·II
 II•/five.osf •II*/five.osf *II°/five.osf °II
+II?/five.osf ?II!/five.osf !II
+II¿/five.osf ¿II¡/five.osf ¡II
+II/questiondown.case /five.osf /questiondown.case II/exclamdown.case /five.osf /exclamdown.case II
 II(/six.osf )II)/six.osf (II[/six.osf ]II
 II]/six.osf [II{/six.osf }II}/six.osf {II
 II/parenleft.case /six.osf /parenright.case II/parenright.case /six.osf /parenleft.case II/bracketleft.case /six.osf /bracketright.case II
@@ -166,8 +246,13 @@ II\/six.osf //II///six.osf \II
 II‹/six.osf ›II›/six.osf ‹II-/six.osf -II
 II/guilsinglleft.case /six.osf /guilsinglright.case II/guilsinglright.case /six.osf /guilsinglleft.case II/hyphen.case /six.osf /hyphen.case II
 II“/six.osf ”II"/six.osf "II
+II/six.osf /dagger II/six.osf /daggerdbl II
+II/six.osf /ordfeminine II/six.osf /ordmasculine II
 II./six.osf .II:/six.osf :II·/six.osf ·II
 II•/six.osf •II*/six.osf *II°/six.osf °II
+II?/six.osf ?II!/six.osf !II
+II¿/six.osf ¿II¡/six.osf ¡II
+II/questiondown.case /six.osf /questiondown.case II/exclamdown.case /six.osf /exclamdown.case II
 II(/seven.osf )II)/seven.osf (II[/seven.osf ]II
 II]/seven.osf [II{/seven.osf }II}/seven.osf {II
 II/parenleft.case /seven.osf /parenright.case II/parenright.case /seven.osf /parenleft.case II/bracketleft.case /seven.osf /bracketright.case II
@@ -176,8 +261,13 @@ II\/seven.osf //II///seven.osf \II
 II‹/seven.osf ›II›/seven.osf ‹II-/seven.osf -II
 II/guilsinglleft.case /seven.osf /guilsinglright.case II/guilsinglright.case /seven.osf /guilsinglleft.case II/hyphen.case /seven.osf /hyphen.case II
 II“/seven.osf ”II"/seven.osf "II
+II/seven.osf /dagger II/seven.osf /daggerdbl II
+II/seven.osf /ordfeminine II/seven.osf /ordmasculine II
 II./seven.osf .II:/seven.osf :II·/seven.osf ·II
 II•/seven.osf •II*/seven.osf *II°/seven.osf °II
+II?/seven.osf ?II!/seven.osf !II
+II¿/seven.osf ¿II¡/seven.osf ¡II
+II/questiondown.case /seven.osf /questiondown.case II/exclamdown.case /seven.osf /exclamdown.case II
 II(/eight.osf )II)/eight.osf (II[/eight.osf ]II
 II]/eight.osf [II{/eight.osf }II}/eight.osf {II
 II/parenleft.case /eight.osf /parenright.case II/parenright.case /eight.osf /parenleft.case II/bracketleft.case /eight.osf /bracketright.case II
@@ -186,8 +276,13 @@ II\/eight.osf //II///eight.osf \II
 II‹/eight.osf ›II›/eight.osf ‹II-/eight.osf -II
 II/guilsinglleft.case /eight.osf /guilsinglright.case II/guilsinglright.case /eight.osf /guilsinglleft.case II/hyphen.case /eight.osf /hyphen.case II
 II“/eight.osf ”II"/eight.osf "II
+II/eight.osf /dagger II/eight.osf /daggerdbl II
+II/eight.osf /ordfeminine II/eight.osf /ordmasculine II
 II./eight.osf .II:/eight.osf :II·/eight.osf ·II
 II•/eight.osf •II*/eight.osf *II°/eight.osf °II
+II?/eight.osf ?II!/eight.osf !II
+II¿/eight.osf ¿II¡/eight.osf ¡II
+II/questiondown.case /eight.osf /questiondown.case II/exclamdown.case /eight.osf /exclamdown.case II
 II(/nine.osf )II)/nine.osf (II[/nine.osf ]II
 II]/nine.osf [II{/nine.osf }II}/nine.osf {II
 II/parenleft.case /nine.osf /parenright.case II/parenright.case /nine.osf /parenleft.case II/bracketleft.case /nine.osf /bracketright.case II
@@ -196,8 +291,13 @@ II\/nine.osf //II///nine.osf \II
 II‹/nine.osf ›II›/nine.osf ‹II-/nine.osf -II
 II/guilsinglleft.case /nine.osf /guilsinglright.case II/guilsinglright.case /nine.osf /guilsinglleft.case II/hyphen.case /nine.osf /hyphen.case II
 II“/nine.osf ”II"/nine.osf "II
+II/nine.osf /dagger II/nine.osf /daggerdbl II
+II/nine.osf /ordfeminine II/nine.osf /ordmasculine II
 II./nine.osf .II:/nine.osf :II·/nine.osf ·II
 II•/nine.osf •II*/nine.osf *II°/nine.osf °II
+II?/nine.osf ?II!/nine.osf !II
+II¿/nine.osf ¿II¡/nine.osf ¡II
+II/questiondown.case /nine.osf /questiondown.case II/exclamdown.case /nine.osf /exclamdown.case II
 II(/currency.lf )II)/currency.lf (II[/currency.lf ]II
 II]/currency.lf [II{/currency.lf }II}/currency.lf {II
 II/parenleft.case /currency.lf /parenright.case II/parenright.case /currency.lf /parenleft.case II/bracketleft.case /currency.lf /bracketright.case II
@@ -206,8 +306,13 @@ II\/currency.lf //II///currency.lf \II
 II‹/currency.lf ›II›/currency.lf ‹II-/currency.lf -II
 II/guilsinglleft.case /currency.lf /guilsinglright.case II/guilsinglright.case /currency.lf /guilsinglleft.case II/hyphen.case /currency.lf /hyphen.case II
 II“/currency.lf ”II"/currency.lf "II
+II/currency.lf /dagger II/currency.lf /daggerdbl II
+II/currency.lf /ordfeminine II/currency.lf /ordmasculine II
 II./currency.lf .II:/currency.lf :II·/currency.lf ·II
 II•/currency.lf •II*/currency.lf *II°/currency.lf °II
+II?/currency.lf ?II!/currency.lf !II
+II¿/currency.lf ¿II¡/currency.lf ¡II
+II/questiondown.case /currency.lf /questiondown.case II/exclamdown.case /currency.lf /exclamdown.case II
 II(/dollar.lf )II)/dollar.lf (II[/dollar.lf ]II
 II]/dollar.lf [II{/dollar.lf }II}/dollar.lf {II
 II/parenleft.case /dollar.lf /parenright.case II/parenright.case /dollar.lf /parenleft.case II/bracketleft.case /dollar.lf /bracketright.case II
@@ -216,8 +321,13 @@ II\/dollar.lf //II///dollar.lf \II
 II‹/dollar.lf ›II›/dollar.lf ‹II-/dollar.lf -II
 II/guilsinglleft.case /dollar.lf /guilsinglright.case II/guilsinglright.case /dollar.lf /guilsinglleft.case II/hyphen.case /dollar.lf /hyphen.case II
 II“/dollar.lf ”II"/dollar.lf "II
+II/dollar.lf /dagger II/dollar.lf /daggerdbl II
+II/dollar.lf /ordfeminine II/dollar.lf /ordmasculine II
 II./dollar.lf .II:/dollar.lf :II·/dollar.lf ·II
 II•/dollar.lf •II*/dollar.lf *II°/dollar.lf °II
+II?/dollar.lf ?II!/dollar.lf !II
+II¿/dollar.lf ¿II¡/dollar.lf ¡II
+II/questiondown.case /dollar.lf /questiondown.case II/exclamdown.case /dollar.lf /exclamdown.case II
 II(/Euro.lf )II)/Euro.lf (II[/Euro.lf ]II
 II]/Euro.lf [II{/Euro.lf }II}/Euro.lf {II
 II/parenleft.case /Euro.lf /parenright.case II/parenright.case /Euro.lf /parenleft.case II/bracketleft.case /Euro.lf /bracketright.case II
@@ -226,8 +336,13 @@ II\/Euro.lf //II///Euro.lf \II
 II‹/Euro.lf ›II›/Euro.lf ‹II-/Euro.lf -II
 II/guilsinglleft.case /Euro.lf /guilsinglright.case II/guilsinglright.case /Euro.lf /guilsinglleft.case II/hyphen.case /Euro.lf /hyphen.case II
 II“/Euro.lf ”II"/Euro.lf "II
+II/Euro.lf /dagger II/Euro.lf /daggerdbl II
+II/Euro.lf /ordfeminine II/Euro.lf /ordmasculine II
 II./Euro.lf .II:/Euro.lf :II·/Euro.lf ·II
 II•/Euro.lf •II*/Euro.lf *II°/Euro.lf °II
+II?/Euro.lf ?II!/Euro.lf !II
+II¿/Euro.lf ¿II¡/Euro.lf ¡II
+II/questiondown.case /Euro.lf /questiondown.case II/exclamdown.case /Euro.lf /exclamdown.case II
 II(/yen.lf )II)/yen.lf (II[/yen.lf ]II
 II]/yen.lf [II{/yen.lf }II}/yen.lf {II
 II/parenleft.case /yen.lf /parenright.case II/parenright.case /yen.lf /parenleft.case II/bracketleft.case /yen.lf /bracketright.case II
@@ -236,8 +351,13 @@ II\/yen.lf //II///yen.lf \II
 II‹/yen.lf ›II›/yen.lf ‹II-/yen.lf -II
 II/guilsinglleft.case /yen.lf /guilsinglright.case II/guilsinglright.case /yen.lf /guilsinglleft.case II/hyphen.case /yen.lf /hyphen.case II
 II“/yen.lf ”II"/yen.lf "II
+II/yen.lf /dagger II/yen.lf /daggerdbl II
+II/yen.lf /ordfeminine II/yen.lf /ordmasculine II
 II./yen.lf .II:/yen.lf :II·/yen.lf ·II
 II•/yen.lf •II*/yen.lf *II°/yen.lf °II
+II?/yen.lf ?II!/yen.lf !II
+II¿/yen.lf ¿II¡/yen.lf ¡II
+II/questiondown.case /yen.lf /questiondown.case II/exclamdown.case /yen.lf /exclamdown.case II
 II(/sterling.lf )II)/sterling.lf (II[/sterling.lf ]II
 II]/sterling.lf [II{/sterling.lf }II}/sterling.lf {II
 II/parenleft.case /sterling.lf /parenright.case II/parenright.case /sterling.lf /parenleft.case II/bracketleft.case /sterling.lf /bracketright.case II
@@ -246,8 +366,13 @@ II\/sterling.lf //II///sterling.lf \II
 II‹/sterling.lf ›II›/sterling.lf ‹II-/sterling.lf -II
 II/guilsinglleft.case /sterling.lf /guilsinglright.case II/guilsinglright.case /sterling.lf /guilsinglleft.case II/hyphen.case /sterling.lf /hyphen.case II
 II“/sterling.lf ”II"/sterling.lf "II
+II/sterling.lf /dagger II/sterling.lf /daggerdbl II
+II/sterling.lf /ordfeminine II/sterling.lf /ordmasculine II
 II./sterling.lf .II:/sterling.lf :II·/sterling.lf ·II
 II•/sterling.lf •II*/sterling.lf *II°/sterling.lf °II
+II?/sterling.lf ?II!/sterling.lf !II
+II¿/sterling.lf ¿II¡/sterling.lf ¡II
+II/questiondown.case /sterling.lf /questiondown.case II/exclamdown.case /sterling.lf /exclamdown.case II
 II(/florin.lf )II)/florin.lf (II[/florin.lf ]II
 II]/florin.lf [II{/florin.lf }II}/florin.lf {II
 II/parenleft.case /florin.lf /parenright.case II/parenright.case /florin.lf /parenleft.case II/bracketleft.case /florin.lf /bracketright.case II
@@ -256,8 +381,13 @@ II\/florin.lf //II///florin.lf \II
 II‹/florin.lf ›II›/florin.lf ‹II-/florin.lf -II
 II/guilsinglleft.case /florin.lf /guilsinglright.case II/guilsinglright.case /florin.lf /guilsinglleft.case II/hyphen.case /florin.lf /hyphen.case II
 II“/florin.lf ”II"/florin.lf "II
+II/florin.lf /dagger II/florin.lf /daggerdbl II
+II/florin.lf /ordfeminine II/florin.lf /ordmasculine II
 II./florin.lf .II:/florin.lf :II·/florin.lf ·II
 II•/florin.lf •II*/florin.lf *II°/florin.lf °II
+II?/florin.lf ?II!/florin.lf !II
+II¿/florin.lf ¿II¡/florin.lf ¡II
+II/questiondown.case /florin.lf /questiondown.case II/exclamdown.case /florin.lf /exclamdown.case II
 II(/cent.lf )II)/cent.lf (II[/cent.lf ]II
 II]/cent.lf [II{/cent.lf }II}/cent.lf {II
 II/parenleft.case /cent.lf /parenright.case II/parenright.case /cent.lf /parenleft.case II/bracketleft.case /cent.lf /bracketright.case II
@@ -266,8 +396,13 @@ II\/cent.lf //II///cent.lf \II
 II‹/cent.lf ›II›/cent.lf ‹II-/cent.lf -II
 II/guilsinglleft.case /cent.lf /guilsinglright.case II/guilsinglright.case /cent.lf /guilsinglleft.case II/hyphen.case /cent.lf /hyphen.case II
 II“/cent.lf ”II"/cent.lf "II
+II/cent.lf /dagger II/cent.lf /daggerdbl II
+II/cent.lf /ordfeminine II/cent.lf /ordmasculine II
 II./cent.lf .II:/cent.lf :II·/cent.lf ·II
 II•/cent.lf •II*/cent.lf *II°/cent.lf °II
+II?/cent.lf ?II!/cent.lf !II
+II¿/cent.lf ¿II¡/cent.lf ¡II
+II/questiondown.case /cent.lf /questiondown.case II/exclamdown.case /cent.lf /exclamdown.case II
 II(/uni20BA.lf )II)/uni20BA.lf (II[/uni20BA.lf ]II
 II]/uni20BA.lf [II{/uni20BA.lf }II}/uni20BA.lf {II
 II/parenleft.case /uni20BA.lf /parenright.case II/parenright.case /uni20BA.lf /parenleft.case II/bracketleft.case /uni20BA.lf /bracketright.case II
@@ -276,5 +411,10 @@ II\/uni20BA.lf //II///uni20BA.lf \II
 II‹/uni20BA.lf ›II›/uni20BA.lf ‹II-/uni20BA.lf -II
 II/guilsinglleft.case /uni20BA.lf /guilsinglright.case II/guilsinglright.case /uni20BA.lf /guilsinglleft.case II/hyphen.case /uni20BA.lf /hyphen.case II
 II“/uni20BA.lf ”II"/uni20BA.lf "II
+II/uni20BA.lf /dagger II/uni20BA.lf /daggerdbl II
+II/uni20BA.lf /ordfeminine II/uni20BA.lf /ordmasculine II
 II./uni20BA.lf .II:/uni20BA.lf :II·/uni20BA.lf ·II
 II•/uni20BA.lf •II*/uni20BA.lf *II°/uni20BA.lf °II
+II?/uni20BA.lf ?II!/uni20BA.lf !II
+II¿/uni20BA.lf ¿II¡/uni20BA.lf ¡II
+II/questiondown.case /uni20BA.lf /questiondown.case II/exclamdown.case /uni20BA.lf /exclamdown.case II

@@ -6,8 +6,13 @@ II\O//II//O\II
 II‹O›II›O‹II-O-II
 II/guilsinglleft.case O/guilsinglright.case II/guilsinglright.case O/guilsinglleft.case II/hyphen.case O/hyphen.case II
 II“O”II"O"II
+IIO/dagger IIO/daggerdbl II
+IIO/ordfeminine IIO/ordmasculine II
 II.O.II:O:II·O·II
 II•O•II*O*II°O°II
+II?O?II!O!II
+II¿O¿II¡O¡II
+II/questiondown.case O/questiondown.case II/exclamdown.case O/exclamdown.case II
 II(A)II)A(II[A]II
 II]A[II{A}II}A{II
 II/parenleft.case A/parenright.case II/parenright.case A/parenleft.case II/bracketleft.case A/bracketright.case II
@@ -16,8 +21,13 @@ II\A//II//A\II
 II‹A›II›A‹II-A-II
 II/guilsinglleft.case A/guilsinglright.case II/guilsinglright.case A/guilsinglleft.case II/hyphen.case A/hyphen.case II
 II“A”II"A"II
+IIA/dagger IIA/daggerdbl II
+IIA/ordfeminine IIA/ordmasculine II
 II.A.II:A:II·A·II
 II•A•II*A*II°A°II
+II?A?II!A!II
+II¿A¿II¡A¡II
+II/questiondown.case A/questiondown.case II/exclamdown.case A/exclamdown.case II
 II(B)II)B(II[B]II
 II]B[II{B}II}B{II
 II/parenleft.case B/parenright.case II/parenright.case B/parenleft.case II/bracketleft.case B/bracketright.case II
@@ -26,8 +36,13 @@ II\B//II//B\II
 II‹B›II›B‹II-B-II
 II/guilsinglleft.case B/guilsinglright.case II/guilsinglright.case B/guilsinglleft.case II/hyphen.case B/hyphen.case II
 II“B”II"B"II
+IIB/dagger IIB/daggerdbl II
+IIB/ordfeminine IIB/ordmasculine II
 II.B.II:B:II·B·II
 II•B•II*B*II°B°II
+II?B?II!B!II
+II¿B¿II¡B¡II
+II/questiondown.case B/questiondown.case II/exclamdown.case B/exclamdown.case II
 II(C)II)C(II[C]II
 II]C[II{C}II}C{II
 II/parenleft.case C/parenright.case II/parenright.case C/parenleft.case II/bracketleft.case C/bracketright.case II
@@ -36,8 +51,13 @@ II\C//II//C\II
 II‹C›II›C‹II-C-II
 II/guilsinglleft.case C/guilsinglright.case II/guilsinglright.case C/guilsinglleft.case II/hyphen.case C/hyphen.case II
 II“C”II"C"II
+IIC/dagger IIC/daggerdbl II
+IIC/ordfeminine IIC/ordmasculine II
 II.C.II:C:II·C·II
 II•C•II*C*II°C°II
+II?C?II!C!II
+II¿C¿II¡C¡II
+II/questiondown.case C/questiondown.case II/exclamdown.case C/exclamdown.case II
 II(D)II)D(II[D]II
 II]D[II{D}II}D{II
 II/parenleft.case D/parenright.case II/parenright.case D/parenleft.case II/bracketleft.case D/bracketright.case II
@@ -46,8 +66,13 @@ II\D//II//D\II
 II‹D›II›D‹II-D-II
 II/guilsinglleft.case D/guilsinglright.case II/guilsinglright.case D/guilsinglleft.case II/hyphen.case D/hyphen.case II
 II“D”II"D"II
+IID/dagger IID/daggerdbl II
+IID/ordfeminine IID/ordmasculine II
 II.D.II:D:II·D·II
 II•D•II*D*II°D°II
+II?D?II!D!II
+II¿D¿II¡D¡II
+II/questiondown.case D/questiondown.case II/exclamdown.case D/exclamdown.case II
 II(E)II)E(II[E]II
 II]E[II{E}II}E{II
 II/parenleft.case E/parenright.case II/parenright.case E/parenleft.case II/bracketleft.case E/bracketright.case II
@@ -56,8 +81,13 @@ II\E//II//E\II
 II‹E›II›E‹II-E-II
 II/guilsinglleft.case E/guilsinglright.case II/guilsinglright.case E/guilsinglleft.case II/hyphen.case E/hyphen.case II
 II“E”II"E"II
+IIE/dagger IIE/daggerdbl II
+IIE/ordfeminine IIE/ordmasculine II
 II.E.II:E:II·E·II
 II•E•II*E*II°E°II
+II?E?II!E!II
+II¿E¿II¡E¡II
+II/questiondown.case E/questiondown.case II/exclamdown.case E/exclamdown.case II
 II(F)II)F(II[F]II
 II]F[II{F}II}F{II
 II/parenleft.case F/parenright.case II/parenright.case F/parenleft.case II/bracketleft.case F/bracketright.case II
@@ -66,8 +96,13 @@ II\F//II//F\II
 II‹F›II›F‹II-F-II
 II/guilsinglleft.case F/guilsinglright.case II/guilsinglright.case F/guilsinglleft.case II/hyphen.case F/hyphen.case II
 II“F”II"F"II
+IIF/dagger IIF/daggerdbl II
+IIF/ordfeminine IIF/ordmasculine II
 II.F.II:F:II·F·II
 II•F•II*F*II°F°II
+II?F?II!F!II
+II¿F¿II¡F¡II
+II/questiondown.case F/questiondown.case II/exclamdown.case F/exclamdown.case II
 II(G)II)G(II[G]II
 II]G[II{G}II}G{II
 II/parenleft.case G/parenright.case II/parenright.case G/parenleft.case II/bracketleft.case G/bracketright.case II
@@ -76,8 +111,13 @@ II\G//II//G\II
 II‹G›II›G‹II-G-II
 II/guilsinglleft.case G/guilsinglright.case II/guilsinglright.case G/guilsinglleft.case II/hyphen.case G/hyphen.case II
 II“G”II"G"II
+IIG/dagger IIG/daggerdbl II
+IIG/ordfeminine IIG/ordmasculine II
 II.G.II:G:II·G·II
 II•G•II*G*II°G°II
+II?G?II!G!II
+II¿G¿II¡G¡II
+II/questiondown.case G/questiondown.case II/exclamdown.case G/exclamdown.case II
 II(H)II)H(II[H]II
 II]H[II{H}II}H{II
 II/parenleft.case H/parenright.case II/parenright.case H/parenleft.case II/bracketleft.case H/bracketright.case II
@@ -86,8 +126,13 @@ II\H//II//H\II
 II‹H›II›H‹II-H-II
 II/guilsinglleft.case H/guilsinglright.case II/guilsinglright.case H/guilsinglleft.case II/hyphen.case H/hyphen.case II
 II“H”II"H"II
+IIH/dagger IIH/daggerdbl II
+IIH/ordfeminine IIH/ordmasculine II
 II.H.II:H:II·H·II
 II•H•II*H*II°H°II
+II?H?II!H!II
+II¿H¿II¡H¡II
+II/questiondown.case H/questiondown.case II/exclamdown.case H/exclamdown.case II
 II(J)II)J(II[J]II
 II]J[II{J}II}J{II
 II/parenleft.case J/parenright.case II/parenright.case J/parenleft.case II/bracketleft.case J/bracketright.case II
@@ -96,8 +141,13 @@ II\J//II//J\II
 II‹J›II›J‹II-J-II
 II/guilsinglleft.case J/guilsinglright.case II/guilsinglright.case J/guilsinglleft.case II/hyphen.case J/hyphen.case II
 II“J”II"J"II
+IIJ/dagger IIJ/daggerdbl II
+IIJ/ordfeminine IIJ/ordmasculine II
 II.J.II:J:II·J·II
 II•J•II*J*II°J°II
+II?J?II!J!II
+II¿J¿II¡J¡II
+II/questiondown.case J/questiondown.case II/exclamdown.case J/exclamdown.case II
 II(K)II)K(II[K]II
 II]K[II{K}II}K{II
 II/parenleft.case K/parenright.case II/parenright.case K/parenleft.case II/bracketleft.case K/bracketright.case II
@@ -106,8 +156,13 @@ II\K//II//K\II
 II‹K›II›K‹II-K-II
 II/guilsinglleft.case K/guilsinglright.case II/guilsinglright.case K/guilsinglleft.case II/hyphen.case K/hyphen.case II
 II“K”II"K"II
+IIK/dagger IIK/daggerdbl II
+IIK/ordfeminine IIK/ordmasculine II
 II.K.II:K:II·K·II
 II•K•II*K*II°K°II
+II?K?II!K!II
+II¿K¿II¡K¡II
+II/questiondown.case K/questiondown.case II/exclamdown.case K/exclamdown.case II
 II(L)II)L(II[L]II
 II]L[II{L}II}L{II
 II/parenleft.case L/parenright.case II/parenright.case L/parenleft.case II/bracketleft.case L/bracketright.case II
@@ -116,8 +171,13 @@ II\L//II//L\II
 II‹L›II›L‹II-L-II
 II/guilsinglleft.case L/guilsinglright.case II/guilsinglright.case L/guilsinglleft.case II/hyphen.case L/hyphen.case II
 II“L”II"L"II
+IIL/dagger IIL/daggerdbl II
+IIL/ordfeminine IIL/ordmasculine II
 II.L.II:L:II·L·II
 II•L•II*L*II°L°II
+II?L?II!L!II
+II¿L¿II¡L¡II
+II/questiondown.case L/questiondown.case II/exclamdown.case L/exclamdown.case II
 II(P)II)P(II[P]II
 II]P[II{P}II}P{II
 II/parenleft.case P/parenright.case II/parenright.case P/parenleft.case II/bracketleft.case P/bracketright.case II
@@ -126,8 +186,13 @@ II\P//II//P\II
 II‹P›II›P‹II-P-II
 II/guilsinglleft.case P/guilsinglright.case II/guilsinglright.case P/guilsinglleft.case II/hyphen.case P/hyphen.case II
 II“P”II"P"II
+IIP/dagger IIP/daggerdbl II
+IIP/ordfeminine IIP/ordmasculine II
 II.P.II:P:II·P·II
 II•P•II*P*II°P°II
+II?P?II!P!II
+II¿P¿II¡P¡II
+II/questiondown.case P/questiondown.case II/exclamdown.case P/exclamdown.case II
 II(Q)II)Q(II[Q]II
 II]Q[II{Q}II}Q{II
 II/parenleft.case Q/parenright.case II/parenright.case Q/parenleft.case II/bracketleft.case Q/bracketright.case II
@@ -136,8 +201,13 @@ II\Q//II//Q\II
 II‹Q›II›Q‹II-Q-II
 II/guilsinglleft.case Q/guilsinglright.case II/guilsinglright.case Q/guilsinglleft.case II/hyphen.case Q/hyphen.case II
 II“Q”II"Q"II
+IIQ/dagger IIQ/daggerdbl II
+IIQ/ordfeminine IIQ/ordmasculine II
 II.Q.II:Q:II·Q·II
 II•Q•II*Q*II°Q°II
+II?Q?II!Q!II
+II¿Q¿II¡Q¡II
+II/questiondown.case Q/questiondown.case II/exclamdown.case Q/exclamdown.case II
 II(R)II)R(II[R]II
 II]R[II{R}II}R{II
 II/parenleft.case R/parenright.case II/parenright.case R/parenleft.case II/bracketleft.case R/bracketright.case II
@@ -146,8 +216,13 @@ II\R//II//R\II
 II‹R›II›R‹II-R-II
 II/guilsinglleft.case R/guilsinglright.case II/guilsinglright.case R/guilsinglleft.case II/hyphen.case R/hyphen.case II
 II“R”II"R"II
+IIR/dagger IIR/daggerdbl II
+IIR/ordfeminine IIR/ordmasculine II
 II.R.II:R:II·R·II
 II•R•II*R*II°R°II
+II?R?II!R!II
+II¿R¿II¡R¡II
+II/questiondown.case R/questiondown.case II/exclamdown.case R/exclamdown.case II
 II(S)II)S(II[S]II
 II]S[II{S}II}S{II
 II/parenleft.case S/parenright.case II/parenright.case S/parenleft.case II/bracketleft.case S/bracketright.case II
@@ -156,8 +231,13 @@ II\S//II//S\II
 II‹S›II›S‹II-S-II
 II/guilsinglleft.case S/guilsinglright.case II/guilsinglright.case S/guilsinglleft.case II/hyphen.case S/hyphen.case II
 II“S”II"S"II
+IIS/dagger IIS/daggerdbl II
+IIS/ordfeminine IIS/ordmasculine II
 II.S.II:S:II·S·II
 II•S•II*S*II°S°II
+II?S?II!S!II
+II¿S¿II¡S¡II
+II/questiondown.case S/questiondown.case II/exclamdown.case S/exclamdown.case II
 II(T)II)T(II[T]II
 II]T[II{T}II}T{II
 II/parenleft.case T/parenright.case II/parenright.case T/parenleft.case II/bracketleft.case T/bracketright.case II
@@ -166,8 +246,13 @@ II\T//II//T\II
 II‹T›II›T‹II-T-II
 II/guilsinglleft.case T/guilsinglright.case II/guilsinglright.case T/guilsinglleft.case II/hyphen.case T/hyphen.case II
 II“T”II"T"II
+IIT/dagger IIT/daggerdbl II
+IIT/ordfeminine IIT/ordmasculine II
 II.T.II:T:II·T·II
 II•T•II*T*II°T°II
+II?T?II!T!II
+II¿T¿II¡T¡II
+II/questiondown.case T/questiondown.case II/exclamdown.case T/exclamdown.case II
 II(U)II)U(II[U]II
 II]U[II{U}II}U{II
 II/parenleft.case U/parenright.case II/parenright.case U/parenleft.case II/bracketleft.case U/bracketright.case II
@@ -176,8 +261,13 @@ II\U//II//U\II
 II‹U›II›U‹II-U-II
 II/guilsinglleft.case U/guilsinglright.case II/guilsinglright.case U/guilsinglleft.case II/hyphen.case U/hyphen.case II
 II“U”II"U"II
+IIU/dagger IIU/daggerdbl II
+IIU/ordfeminine IIU/ordmasculine II
 II.U.II:U:II·U·II
 II•U•II*U*II°U°II
+II?U?II!U!II
+II¿U¿II¡U¡II
+II/questiondown.case U/questiondown.case II/exclamdown.case U/exclamdown.case II
 II(V)II)V(II[V]II
 II]V[II{V}II}V{II
 II/parenleft.case V/parenright.case II/parenright.case V/parenleft.case II/bracketleft.case V/bracketright.case II
@@ -186,8 +276,13 @@ II\V//II//V\II
 II‹V›II›V‹II-V-II
 II/guilsinglleft.case V/guilsinglright.case II/guilsinglright.case V/guilsinglleft.case II/hyphen.case V/hyphen.case II
 II“V”II"V"II
+IIV/dagger IIV/daggerdbl II
+IIV/ordfeminine IIV/ordmasculine II
 II.V.II:V:II·V·II
 II•V•II*V*II°V°II
+II?V?II!V!II
+II¿V¿II¡V¡II
+II/questiondown.case V/questiondown.case II/exclamdown.case V/exclamdown.case II
 II(W)II)W(II[W]II
 II]W[II{W}II}W{II
 II/parenleft.case W/parenright.case II/parenright.case W/parenleft.case II/bracketleft.case W/bracketright.case II
@@ -196,8 +291,13 @@ II\W//II//W\II
 II‹W›II›W‹II-W-II
 II/guilsinglleft.case W/guilsinglright.case II/guilsinglright.case W/guilsinglleft.case II/hyphen.case W/hyphen.case II
 II“W”II"W"II
+IIW/dagger IIW/daggerdbl II
+IIW/ordfeminine IIW/ordmasculine II
 II.W.II:W:II·W·II
 II•W•II*W*II°W°II
+II?W?II!W!II
+II¿W¿II¡W¡II
+II/questiondown.case W/questiondown.case II/exclamdown.case W/exclamdown.case II
 II(X)II)X(II[X]II
 II]X[II{X}II}X{II
 II/parenleft.case X/parenright.case II/parenright.case X/parenleft.case II/bracketleft.case X/bracketright.case II
@@ -206,8 +306,13 @@ II\X//II//X\II
 II‹X›II›X‹II-X-II
 II/guilsinglleft.case X/guilsinglright.case II/guilsinglright.case X/guilsinglleft.case II/hyphen.case X/hyphen.case II
 II“X”II"X"II
+IIX/dagger IIX/daggerdbl II
+IIX/ordfeminine IIX/ordmasculine II
 II.X.II:X:II·X·II
 II•X•II*X*II°X°II
+II?X?II!X!II
+II¿X¿II¡X¡II
+II/questiondown.case X/questiondown.case II/exclamdown.case X/exclamdown.case II
 II(Y)II)Y(II[Y]II
 II]Y[II{Y}II}Y{II
 II/parenleft.case Y/parenright.case II/parenright.case Y/parenleft.case II/bracketleft.case Y/bracketright.case II
@@ -216,8 +321,13 @@ II\Y//II//Y\II
 II‹Y›II›Y‹II-Y-II
 II/guilsinglleft.case Y/guilsinglright.case II/guilsinglright.case Y/guilsinglleft.case II/hyphen.case Y/hyphen.case II
 II“Y”II"Y"II
+IIY/dagger IIY/daggerdbl II
+IIY/ordfeminine IIY/ordmasculine II
 II.Y.II:Y:II·Y·II
 II•Y•II*Y*II°Y°II
+II?Y?II!Y!II
+II¿Y¿II¡Y¡II
+II/questiondown.case Y/questiondown.case II/exclamdown.case Y/exclamdown.case II
 II(Z)II)Z(II[Z]II
 II]Z[II{Z}II}Z{II
 II/parenleft.case Z/parenright.case II/parenright.case Z/parenleft.case II/bracketleft.case Z/bracketright.case II
@@ -226,8 +336,13 @@ II\Z//II//Z\II
 II‹Z›II›Z‹II-Z-II
 II/guilsinglleft.case Z/guilsinglright.case II/guilsinglright.case Z/guilsinglleft.case II/hyphen.case Z/hyphen.case II
 II“Z”II"Z"II
+IIZ/dagger IIZ/daggerdbl II
+IIZ/ordfeminine IIZ/ordmasculine II
 II.Z.II:Z:II·Z·II
 II•Z•II*Z*II°Z°II
+II?Z?II!Z!II
+II¿Z¿II¡Z¡II
+II/questiondown.case Z/questiondown.case II/exclamdown.case Z/exclamdown.case II
 II(Æ)II)Æ(II[Æ]II
 II]Æ[II{Æ}II}Æ{II
 II/parenleft.case Æ/parenright.case II/parenright.case Æ/parenleft.case II/bracketleft.case Æ/bracketright.case II
@@ -236,8 +351,13 @@ II\Æ//II//Æ\II
 II‹Æ›II›Æ‹II-Æ-II
 II/guilsinglleft.case Æ/guilsinglright.case II/guilsinglright.case Æ/guilsinglleft.case II/hyphen.case Æ/hyphen.case II
 II“Æ”II"Æ"II
+IIÆ/dagger IIÆ/daggerdbl II
+IIÆ/ordfeminine IIÆ/ordmasculine II
 II.Æ.II:Æ:II·Æ·II
 II•Æ•II*Æ*II°Æ°II
+II?Æ?II!Æ!II
+II¿Æ¿II¡Æ¡II
+II/questiondown.case Æ/questiondown.case II/exclamdown.case Æ/exclamdown.case II
 II(&)II)&(II[&]II
 II]&[II{&}II}&{II
 II/parenleft.case &/parenright.case II/parenright.case &/parenleft.case II/bracketleft.case &/bracketright.case II
@@ -246,5 +366,25 @@ II\&//II//&\II
 II‹&›II›&‹II-&-II
 II/guilsinglleft.case &/guilsinglright.case II/guilsinglright.case &/guilsinglleft.case II/hyphen.case &/hyphen.case II
 II“&”II"&"II
+II&/dagger II&/daggerdbl II
+II&/ordfeminine II&/ordmasculine II
 II.&.II:&:II·&·II
 II•&•II*&*II°&°II
+II?&?II!&!II
+II¿&¿II¡&¡II
+II/questiondown.case &/questiondown.case II/exclamdown.case &/exclamdown.case II
+II(ß)II)ß(II[ß]II
+II]ß[II{ß}II}ß{II
+II/parenleft.case ß/parenright.case II/parenright.case ß/parenleft.case II/bracketleft.case ß/bracketright.case II
+II/bracketright.case ß/bracketleft.case II/braceleft.case ß/braceright.case II/braceright.case ß/braceleft.case II
+II\ß//II//ß\II
+II‹ß›II›ß‹II-ß-II
+II/guilsinglleft.case ß/guilsinglright.case II/guilsinglright.case ß/guilsinglleft.case II/hyphen.case ß/hyphen.case II
+II“ß”II"ß"II
+IIß/dagger IIß/daggerdbl II
+IIß/ordfeminine IIß/ordmasculine II
+II.ß.II:ß:II·ß·II
+II•ß•II*ß*II°ß°II
+II?ß?II!ß!II
+II¿ß¿II¡ß¡II
+II/questiondown.case ß/questiondown.case II/exclamdown.case ß/exclamdown.case II
