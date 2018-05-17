@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# coding: utf-8
+
 letters = ['O', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'Æ', '&']
 template = '''II({letter})II){letter}(II[{letter}]II
 II]{letter}[II{{{letter}}}II}}{letter}{{II
