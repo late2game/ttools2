@@ -49,7 +49,7 @@ NO_GLYPH_TO_ROUND = u'No Current Glyph to round!'
 FONT_MISMATCH = u'The font selected into the plugin does not match with the RF current font'
 LAYERS_MATCH = u'source layer name and target layer name should be different'
 DATA_PUSHED = u'Data pushed into {familyName} {styleName}'
-NO_FONT_TO_PUSH = u'I do not know where to push these values ¯\_(ツ)_/¯'
+NO_FONT_TO_PUSH = u'I do not know where to push these values ¯\\_(ツ)_/¯'
 
 ### Functions
 def pushRoundingsDataIntoFont(aFont, someData):
@@ -72,15 +72,11 @@ def makeRoundingsDataEmptyDict():
                 hundredThirtyFiveRad='',
                 hundredThirtyFiveBcp='')
 
-DUMMY_ROUNDINGS = [makeRoundingsDataEmptyDict(),
-                   makeRoundingsDataEmptyDict(),
-                   makeRoundingsDataEmptyDict(),
-                   makeRoundingsDataEmptyDict()]
+LABELS_AMOUNT = 8
+DUMMY_ROUNDINGS = [makeRoundingsDataEmptyDict() for ii in range(LABELS_AMOUNT)]
 
 ### Classes
 class CornersRounder(BaseWindowController):
-
-    LABELS_AMOUNT = 4
 
     layerNames = []
     targetLayerName = None
@@ -121,7 +117,7 @@ class CornersRounder(BaseWindowController):
         self.w.sepLineOne = HorizontalLine((MARGIN_HOR, jumpingY, NET_WIDTH, vanillaControlsSize['HorizontalLineThickness']))
 
         jumpingY += MARGIN_VER
-        for eachI in range(self.LABELS_AMOUNT):
+        for eachI in range(LABELS_AMOUNT):
             singleLabel = Label((MARGIN_HOR, jumpingY, NET_WIDTH, vanillaControlsSize['EditTextRegularHeight']),
                                 attachCallback=self.attachCallback,
                                 labelName='')
@@ -139,7 +135,7 @@ class CornersRounder(BaseWindowController):
         marginTable = 1
         angleListWdt = (NET_WIDTH-labelListWdt-marginTable*3)//3
         tableLineHeight = 16
-        tableHgt = 89
+        tableHgt = LABELS_AMOUNT*tableLineHeight + 33
 
         captionY = jumpingY
         captionOffset = 12
@@ -280,10 +276,7 @@ class CornersRounder(BaseWindowController):
         self.rounderLogger.addHandler(fileHandle)
 
     def _initRoundingsData(self):
-        self.roundingsData = [makeRoundingsDataEmptyDict(),
-                              makeRoundingsDataEmptyDict(),
-                              makeRoundingsDataEmptyDict(),
-                              makeRoundingsDataEmptyDict()]
+        self.roundingsData = [makeRoundingsDataEmptyDict() for ii in range(LABELS_AMOUNT)]
 
     def _updateFontsAttributes(self):
         self.allFonts = AllFonts()
@@ -308,7 +301,7 @@ class CornersRounder(BaseWindowController):
                 self.roundingsData[indexRow]['{}Bcp'.format(keyStart)] = ''
 
     def _fromRoundingsData2LabelCtrls(self):
-        for eachI in range(self.LABELS_AMOUNT):
+        for eachI in range(LABELS_AMOUNT):
             try:
                 labelName = self.roundingsData[eachI]['labelName']
             except IndexError as e:
