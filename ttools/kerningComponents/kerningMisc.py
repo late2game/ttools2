@@ -52,7 +52,6 @@ def loadSymmetricalGlyphs():
 
 SYMMETRICAL_GLYPHS, SYMMETRICAL_COUPLES_POS, SYMMETRICAL_COUPLES_NEG = loadSymmetricalGlyphs()
 
-
 def findSymmetricalPair(aPair):
     assert len(aPair) == 2
     symmetricalPair = None
@@ -99,13 +98,11 @@ def findSymmetricalPair(aPair):
 
     return None
 
-
 def checkPairFormat(value):
     assert isinstance(value, types.TupleType), 'wrong pair format'
     assert len(value) == 2, 'wrong pair format'
     assert isinstance(value[0], types.UnicodeType), 'wrong pair format'
     assert isinstance(value[1], types.UnicodeType), 'wrong pair format'
-
 
 def buildPairsFromString(uniString, aFont):
     pairs = []
@@ -114,7 +111,6 @@ def buildPairsFromString(uniString, aFont):
         myPair = (u'{}'.format(splittedText[eachI-1]), u'{}'.format(splittedText[eachI]))
         pairs.append(myPair)
     return pairs
-
 
 def loadKerningTexts(kerningTextFolder):
     kerningWordDB = OrderedDict()
@@ -140,7 +136,6 @@ def loadKerningTexts(kerningTextFolder):
         kerningWordDB[cleanKerningTextBaseName] = kerningWordsList
     return kerningWordDB
 
-
 def whichKindOfPair(aPair):
     lftReference, rgtReference = aPair
 
@@ -152,7 +147,6 @@ def whichKindOfPair(aPair):
         return 'gl2gr'
     else:
         return 'gl2gl'
-
 
 def collectPairMapping(aPair, aFont):
     """here I assume aPair is made of two glyphnames, no classes"""
@@ -166,7 +160,6 @@ def collectPairMapping(aPair, aFont):
                {'kind': 'gr2gr', 'key': (lftGroup,     rgtGroup)    , 'amount': aFont.kerning.get((lftGroup,     rgtGroup))}]
     pairsDB = [pair for pair in pairsDB if pair['amount'] is not None]
     return pairsDB
-
 
 def setRawCorrection(kerningReference, aFont, amount):
     """sometimes, we don't need any intelligence applied, this in mainly used to set exception"""
@@ -199,14 +192,7 @@ def setCorrection(aPair, aFont, correctionAmount):
             rgtReference = rgtGlyphName
         chosenPair = lftReference, rgtReference
 
-    if correctionAmount == 0:
-        if isPairException(chosenPair, aFont)[0] is True:
-            aFont.kerning[chosenPair] = correctionAmount
-        else:
-            if chosenPair in aFont.kerning:
-                aFont.kerning.remove(chosenPair)
-    else:
-        aFont.kerning[chosenPair] = correctionAmount
+    aFont.kerning[chosenPair] = correctionAmount
 
 
 def getCorrection(aPair, aFont):

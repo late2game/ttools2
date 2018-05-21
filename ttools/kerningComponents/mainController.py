@@ -507,8 +507,14 @@ class KerningController(BaseWindowController):
                     deletePair(kerningReference, eachFont)
                     self.appendRecord('deletePair', (kerningReference, eachFont, correction))
 
-        # trigger exception window
-        elif correction:
+        else:
+            if not correction:
+                # set standard pair to zero
+                self.setPairCorrection(0)
+                correction, kerningReference, pairKind = getCorrection(selectedPair, activeFont)
+                isException, doesExists, parentPair = isPairException(kerningReference, activeFont)
+
+            # trigger exception window
             exceptionOptions = possibleExceptions(selectedPair, kerningReference, activeFont)
             if len(exceptionOptions) == 1:
                 self.exceptionWindow.set(exceptionOptions[0])
@@ -518,8 +524,6 @@ class KerningController(BaseWindowController):
                 self.exceptionWindow.enable(True)
             else:
                 self.showMessage('no possible exceptions', 'kerning exceptions can be triggered only starting from class kerning corrections')
-        else:
-            self.showMessage('no kerning pair, no exception!', 'kerning exceptions can be triggered only starting from class kerning corrections')
 
         self.updateWordDisplays()
 
