@@ -528,6 +528,50 @@ class KerningController(BaseWindowController):
         self.updateWordDisplays()
 
     # manipulate data
+    def deletePair(self, isRecording=True):
+        if self.autoSave is True:
+            self.checkAutoSave()
+
+        selectedPair = self.getActiveWordDisplay().getActivePair()
+        if self.isVerticalAlignedEditingOn is True:
+            selectedFonts = self.fontsOrder
+        else:
+            selectedFonts = [self.fontsOrder[self.navCursor_Y]]
+
+        for eachFont in selectedFonts:
+            previousAmount, kerningReference, pairKind = getCorrection(selectedPair, eachFont)
+            deletePair(kerningReference, eachFont)
+            if isRecording is True:
+                self.appendRecord('deletePair', (kerningReference, eachFont, previousAmount))
+            self.kerningLogger.info(DELETE_PAIR_LOG.format(leftGlyphName=selectedPair[0],
+                                                           rightGlyphName=selectedPair[1],
+                                                           familyName=eachFont.info.familyName,
+                                                           styleName=eachFont.info.styleName))
+
+            if self.isSwappedEditingOn is True:
+                swappedCorrectionKey = selectedPair[1], selectedPair[0]
+                previousAmount, kerningReference, pairKind = getCorrection(swappedCorrectionKey, eachFont)
+                deletePair(kerningReference, eachFont)
+                if isRecording is True:
+                    self.appendRecord('deletePair', kerningReference, eachFont, previousAmount)
+                self.kerningLogger.info(DELETE_PAIR_LOG.format(leftGlyphName=kerningReference[0],
+                                                               rightGlyphName=kerningReference[1],
+                                                               familyName=eachFont.info.familyName,
+                                                               styleName=eachFont.info.styleName))
+
+            if self.isSymmetricalEditingOn is True:
+                symmetricalCorrectionKey = findSymmetricalPair(selectedPair)
+                previousAmount, kerningReference, pairKind = getCorrection(symmetricalCorrectionKey, eachFont)
+                deletePair(kerningReference, eachFont)
+                if isRecording is True:
+                    self.appendRecord('deletePair', kerningReference, eachFont, previousAmount)
+                self.kerningLogger.info(DELETE_PAIR_LOG.format(leftGlyphName=kerningReference[0],
+                                                               rightGlyphName=kerningReference[1],
+                                                               familyName=eachFont.info.familyName,
+                                                               styleName=eachFont.info.styleName))
+
+        self.updateWordDisplays()
+
     def setPairCorrection(self, amount, isRecording=True):
         if self.autoSave is True:
             self.checkAutoSave()
@@ -581,7 +625,7 @@ class KerningController(BaseWindowController):
             self.checkAutoSave()
 
         selectedPair = self.getActiveWordDisplay().getActivePair()
-        
+
         if self.isVerticalAlignedEditingOn is True:
             selectedFonts = self.fontsOrder
         else:
@@ -589,6 +633,7 @@ class KerningController(BaseWindowController):
 
         for eachFont in selectedFonts:
             correction, correctionKey, pairKind = getCorrection(selectedPair, eachFont)
+            correction = 0 if correction is None else correction
             if isRecording is True:
                 previousAmount = getCorrection(selectedPair, eachFont)[0]
                 self.appendRecord('setCorrection', (selectedPair, eachFont, previousAmount))
@@ -799,7 +844,7 @@ class KerningController(BaseWindowController):
 
         elif joystickEvent == 'deletePair':
             if self.isKerningDisplayActive is True:
-                self.setPairCorrection(0)
+                self.deletePair()
                 self.w.joystick.setActivePair(self.getActiveWordDisplay().getActivePair())
 
         elif joystickEvent == 'switchLftGlyph':
@@ -811,7 +856,10 @@ class KerningController(BaseWindowController):
         elif joystickEvent == 'keyboardEdit':
             if self.isKerningDisplayActive is True:
                 correctionAmount = self.w.joystick.getKeyboardCorrection()
-                self.setPairCorrection(correctionAmount)
+                if correctionAmount is None:
+                    self.deletePair()
+                else:
+                    self.setPairCorrection(correctionAmount)
                 self.updateWordDisplays()
             else:
                 self.showMessage('Be aware!', KERNING_NOT_DISPLAYED_ERROR, callback=None)

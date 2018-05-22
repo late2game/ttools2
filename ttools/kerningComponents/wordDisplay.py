@@ -212,7 +212,6 @@ class WordDisplay(Group):
         dt.fontSize(BODY_SIZE)
         textWidth, textHeight = dt.textSize('{:+d}'.format(correction))
         dt.textBox('{:+d}'.format(correction), (-textWidth/2., -textHeight/2., textWidth, textHeight), align='center')
-
         dt.restore()
 
     def _drawGlyphOutlines(self, glyphName):
@@ -485,7 +484,11 @@ class WordDisplay(Group):
                                 self._drawException((prevGlyphName, eachGlyphName), correction)
 
                         if (indexChar-1) == self.indexPair:
-                            self._drawGlyphOutlinesFromGroups((prevGlyphName, eachGlyphName), kerningReference, correction)
+                            if correction is None:
+                                offsetCorrection = 0
+                            else:
+                                offsetCorrection = correction
+                            self._drawGlyphOutlinesFromGroups((prevGlyphName, eachGlyphName), kerningReference, offsetCorrection)
 
                         if correction and correction != 0 and self.isKerningDisplayActive:
                             dt.translate(correction, 0)
@@ -504,8 +507,8 @@ class WordDisplay(Group):
                 # this is for kerning
                 if indexChar > 0:
                     correction, kerningReference, pairKind = getCorrection((prevGlyphName, eachGlyphName), self.fontObj)
-                    if correction and correction != 0 and self.isKerningDisplayActive:
-                        if self.isColorsActive is True:
+                    if self.isKerningDisplayActive and correction is not None:
+                        if correction != 0 and self.isColorsActive is True:
                             self._drawColoredCorrection(correction)
 
                         if self.isCorrectionActive is True:
@@ -515,7 +518,11 @@ class WordDisplay(Group):
                         glyphsToDisplayTotalWidth += correction
 
                     if (indexChar-1) == self.indexPair:
-                        self._drawCursor(correction, pairKind)
+                        if correction is None:
+                            offsetCorrection = 0
+                        else:
+                            offsetCorrection = correction
+                        self._drawCursor(offsetCorrection, pairKind)
 
                 # # draw metrics info
                 if self.isMetricsActive is True:
@@ -558,7 +565,6 @@ class WordDisplay(Group):
 
                     if indexChar > 0:
                         correction, kerningReference, pairKind = getCorrection((prevGlyphName, eachGlyphName), self.fontObj)
-
                         if correction and correction != 0 and self.isKerningDisplayActive:
                             dt.translate(correction, 0)
 

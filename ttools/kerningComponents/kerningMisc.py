@@ -203,7 +203,7 @@ def getCorrection(aPair, aFont):
         chosenPair = pairsDB[0]
         return chosenPair['amount'], chosenPair['key'], whichKindOfPair(chosenPair['key'])
     else:
-        return 0, None, None
+        return None, None, None
 
 
 def checkIfPairOverlaps(g1, g2):

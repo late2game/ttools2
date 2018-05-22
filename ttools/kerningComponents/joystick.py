@@ -285,7 +285,10 @@ class JoystickController(Group):
 
     def updateCorrectionValue(self):
         correction, kerningReference, pairKind = getCorrection(self.activePair, self.fontObj)
-        self.activePairEditCorrection.set('{}'.format(correction))
+        try:
+            self.activePairEditCorrection.set('{:d}'.format(correction))
+        except ValueError:
+            self.activePairEditCorrection.set('')
 
     # callbacks
     def minusMajorCtrlCallback(self, sender):
@@ -386,12 +389,19 @@ class JoystickController(Group):
         self.callback(self)
 
     def activePairEditCorrectionCallback(self, sender):
+        # removing the pair, if nothing is written
+        if sender.get() == '':
+            self.keyboardCorrection = None
+            self.callback(self)
+            return
+
+        # if numbers are there...
         try:
             self.lastEvent = 'keyboardEdit'
             self.keyboardCorrection = int(sender.get())
             self.callback(self)
         except ValueError:
-            if sender.get() != '-' or sender.get() != '':
+            if sender.get() != '-':
                 self.activePairEditCorrection.set('{}'.format(self.keyboardCorrection))
                 print traceback.format_exc()
 
