@@ -14,6 +14,12 @@ from defconAppKit.windows.baseWindow import BaseWindowController
 ### Constants
 MARGIN = 12
 
+### Functions
+def encloseClassTitleInBrackets(className):
+    _, groupTitle = className.rsplit('_', 1)
+    return '[{}]'.format(groupTitle)
+
+
 ### Classes
 class ChooseExceptionWindow(BaseWindowController):
     lastEvent = None
@@ -64,7 +70,18 @@ class ChooseExceptionWindow(BaseWindowController):
 
     def setOptions(self, options):
         self.options = options
-        optionsRepresentation = [', '.join(opt) for opt in self.options]
+
+        optionsRepresentation = []
+        for lft, rgt in self.options:
+            row = []
+            for eachSide in [lft, rgt]:
+                if eachSide.startswith('@') is True:
+                    groupRepr = encloseClassTitleInBrackets(eachSide)
+                    row.append(groupRepr)
+                else:
+                    row.append(eachSide)
+            optionsRepresentation.append(', '.join(row))
+
         if hasattr(self.w, 'optionsRadio') is True:
             delattr(self.w, 'optionsRadio')
         self.w.optionsRadio = RadioGroup((MARGIN, MARGIN, -MARGIN, len(options)*20),
