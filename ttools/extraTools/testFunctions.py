@@ -137,6 +137,22 @@ def isSidebearingEqual(glyph1, glyph2, position, height):
         else:
             return True
 
+def test_verticalExtremes(glyphs):
+    glyphsData = {}
+
+    for eachGlyph in glyphs:
+        if version[0] == '2':
+            glyphBounds = eachGlyph.bounds
+        else:
+            glyphBounds = eachGlyph.box
+
+        if glyphBounds is None:
+            glyphsData[eachGlyph.name] = 'empty'
+        else:
+            xMin, yMin, xMax, yMax = glyphBounds
+            glyphsData[eachGlyph.name] = (yMin, yMax)
+
+    assert len(set(glyphsData.values())) <= 1, ''
 
 def areVerticalExtremesEqual(glyphs):
     glyphsData = {}
