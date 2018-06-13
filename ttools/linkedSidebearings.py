@@ -21,6 +21,7 @@ from mojo.events import addObserver, removeObserver
 from vanilla import FloatingWindow, CheckBoxListCell, List, SquareButton
 from vanilla import HorizontalLine, PopUpButton
 from defconAppKit.windows.baseWindow import BaseWindowController
+from vanilla.dialogs import putFile
 
 ### Constants
 PLUGIN_WIDTH = 340
