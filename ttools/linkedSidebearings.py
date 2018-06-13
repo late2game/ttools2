@@ -32,6 +32,10 @@ MARGIN_HOR = 10
 MARGIN_VER = 10
 MARGIN_ROW = 10
 
+BLACK = (0,0,0)
+RED = (1,0,0)
+BLUE = (0,0,1)
+
 CANVAS_HEIGHT = 100
 UPM_MARGIN = 300
 
@@ -56,15 +60,46 @@ def makeDummyLinks(aFont):
                       'rgtActive': False})
     return links
 
-def drawReferenceGlyph(aGlyph, scalingFactor, startingX):
+def drawLock(closed, startingX, glyphQuota, scalingFactor):
     dt.save()
-    dt.fill(0)
+    dt.fill(*BLACK)
+    dt.translate(startingX, 0)
+    dt.scale(scalingFactor, scalingFactor)
+    dt.translate(0, glyphQuota)
+    dt.fontSize(300)
+    if closed is True:
+        txt = u'🔒'
+    else:
+        txt = u'🔓'
+    txtWdt, txtHgt = dt.textSize(txt)
+    dt.text(txt, (-txtWdt/2, 0))
+    dt.restore()
+
+def drawReferenceGlyph(aGlyph, scalingFactor, startingX, left=False, right=False):
+    dt.save()
+    dt.fill(*BLACK)
     dt.stroke(None)
     dt.translate(startingX, 0)
     dt.scale(scalingFactor, scalingFactor)
     dt.translate(0, -aGlyph.getParent().info.descender)
     dt.translate(-aGlyph.width/2, 0)
+    dt.fill(*BLACK)
     dt.drawGlyph(aGlyph)
+
+    descender = aGlyph.getParent().info.descender
+    unitsPerEm = aGlyph.getParent().info.unitsPerEm
+
+    baseTck = 40
+    if left is True:
+        dt.fill(*RED)
+        dt.rect(0, -baseTck, aGlyph.leftMargin, baseTck)
+        dt.rect(0, descender, 8, unitsPerEm)
+
+    if right is True:
+        dt.fill(*BLUE)
+        dt.rect(aGlyph.width-aGlyph.rightMargin, -baseTck, aGlyph.rightMargin, baseTck)
+        dt.rect(aGlyph.width, descender, 8, unitsPerEm)
+
     dt.restore()
 
 
@@ -72,11 +107,8 @@ def drawReferenceGlyph(aGlyph, scalingFactor, startingX):
 class SidebearingsLinker(BaseWindowController):
 
     allFonts = []
+    currentRow = None
     selectedFont = None
-
-    lftGl = None
-    masterGl = None
-    rgtGl = None
 
     def __init__(self):
         super(SidebearingsLinker, self).__init__()
@@ -161,48 +193,47 @@ class SidebearingsLinker(BaseWindowController):
     def _updateListCtrls(self):
         self.w.linksList.setItems(self.selectedFontLinks)
 
-    def _loadGlyphAttributes(self):
-        row = self.w.linksList[self.w.linksList.getSelection()[0]]
-
-        lftGlName = row['lft']
-        if lftGlName != '':
-            self.lftGl = self.selectedFont[lftGlName]
-        else:
-            self.lftGl = None
-
-        masterGlName = row['master']
-        if masterGlName != '':
-            self.masterGl = self.selectedFont[masterGlName]
-        else:
-            self.masterGl = None
-
-        rgtGlName = row['rgt']
-        if rgtGlName != '':
-            self.rgtGl = self.selectedFont[rgtGlName]
-        else:
-            self.rgtGl = None
-
     # canvas callback
     def draw(self):
-        self._loadGlyphAttributes()
         try:
-            if self.selectedFont is not None:
+            if self.selectedFont is not None and self.currentRow is not None:
                 scalingFactor = CANVAS_HEIGHT/(self.selectedFont.info.unitsPerEm+UPM_MARGIN)
 
-                if self.lftGl is not None:
-                    drawReferenceGlyph(aGlyph=self.lftGl,
-                                       scalingFactor=scalingFactor,
-                                       startingX=NET_WIDTH*(1/6))
+                if self.currentRow['lft'] in self.selectedFont:
+                    lftGl = self.selectedFont[self.currentRow['lft']]
+                    if lftGl is not None:
+                        drawReferenceGlyph(aGlyph=lftGl,
+                                           scalingFactor=scalingFactor,
+                                           startingX=NET_WIDTH*(1/6),
+                                           left=True,
+                                           right=False)
 
-                if self.masterGl is not None:
-                    drawReferenceGlyph(aGlyph=self.masterGl,
-                                       scalingFactor=scalingFactor,
-                                       startingX=NET_WIDTH*(3/6))
+                    drawLock(closed=self.currentRow['lftActive'],
+                             startingX=NET_WIDTH*(2/6),
+                             glyphQuota=self.selectedFont.info.xHeight,
+                             scalingFactor=scalingFactor)
 
-                if self.rgtGl is not None:
-                    drawReferenceGlyph(aGlyph=self.rgtGl,
-                                       scalingFactor=scalingFactor,
-                                       startingX=NET_WIDTH*(5/6))
+                if self.currentRow['master'] in self.selectedFont:
+                    masterGl = self.selectedFont[self.currentRow['master']]
+                    if masterGl is not None:
+                        drawReferenceGlyph(aGlyph=masterGl,
+                                           scalingFactor=scalingFactor,
+                                           startingX=NET_WIDTH*(3/6),
+                                           left=True,
+                                           right=True)
+
+                if self.currentRow['rgt'] in self.selectedFont:
+                    rgtGl = self.selectedFont[self.currentRow['rgt']]
+                    if rgtGl is not None:
+                        drawReferenceGlyph(aGlyph=rgtGl,
+                                           scalingFactor=scalingFactor,
+                                           startingX=NET_WIDTH*(5/6),
+                                           right=True)
+
+                    drawLock(closed=self.currentRow['rgtActive'],
+                             startingX=NET_WIDTH*(4/6),
+                             glyphQuota=self.selectedFont.info.xHeight,
+                             scalingFactor=scalingFactor)
 
         except Exception, error:
             print error
@@ -236,6 +267,7 @@ class SidebearingsLinker(BaseWindowController):
         self._updateListCtrls()
 
     def selectionLinksListCallback(self, sender):
+        self.currentRow = self.w.linksList[self.w.linksList.getSelection()[0]]
         self.w.canvas.update()
 
     def editLinksListCallback(self, sender):
@@ -243,13 +275,17 @@ class SidebearingsLinker(BaseWindowController):
 
     def linkAllButtonCallback(self, sender):
         for eachRow in self.w.linksList:
-            eachRow['lftActive'] = True
-            eachRow['rgtActive'] = True
+            if eachRow['lft'] is not None:
+                eachRow['lftActive'] = True
+            if eachRow['rgt'] is not None:
+                eachRow['rgtActive'] = True
 
     def unlockAllButtonCallback(self, sender):
         for eachRow in self.w.linksList:
-            eachRow['lftActive'] = False
-            eachRow['rgtActive'] = False
+            if eachRow['lft'] is not None:
+                eachRow['lftActive'] = False
+            if eachRow['rgt'] is not None:
+                eachRow['rgtActive'] = False
 
     def pushIntoFontButtonCallback(self, sender):
         self.selectedFont.lib[PLUGIN_LIB_NAME] = [item for item in self.w.linksList]
@@ -258,7 +294,7 @@ class SidebearingsLinker(BaseWindowController):
         del self.selectedFont.lib[PLUGIN_LIB_NAME]
 
     def loadFromTableCallback(self, sender):
-        loadingPath = getFile("")
+        loadingPath = getFile("Select table with linked sidebearings")
         with open(loadingPath, 'r') as linksTable:
             linksList = []
             for eachRow in linksTable.readlines():
@@ -268,7 +304,8 @@ class SidebearingsLinker(BaseWindowController):
                                   'master': master,
                                   'rgt': rgt,
                                   'rgtActive': rgtActive})
-        self.w.linksList.setItems(linksList)
+        # here we should perform some checks, sanitize data
+        # self.w.linksList.setItems(linksList)
 
     def exportTableCallback(self, sender):
         savingPath = putFile("")
