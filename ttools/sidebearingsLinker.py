@@ -465,9 +465,9 @@ class SidebearingsLinker(BaseWindowController):
         toBeLinksList = list(self.selectedFont.glyphOrder)
         for indexRow, eachRow in enumerate(rawTable):
             lft, lftActive, servant, rgtActive, rgt = [item.strip() for item in eachRow.split('\t')]
-            servantResult = self._isGlyphAllowed(servant)
-            lftResult = self._isGlyphAllowed(lft)
-            rgtResult = self._isGlyphAllowed(rgt)
+            servantResult = self._isGlyphNameAllowed(servant)
+            lftResult = self._isGlyphNameAllowed(lft)
+            rgtResult = self._isGlyphNameAllowed(rgt)
 
             if all([servantResult, lftResult, rgtResult]) is False:
                 message('Line {} contains a mistake'.format(indexRow+1), 'One or more glyphs [lft:<{}> servant:<{}> rgt:<{}>] are not allowed in this font'.format(lft, servant, rgt))
@@ -510,7 +510,7 @@ class SidebearingsLinker(BaseWindowController):
         super(SidebearingsLinker, self).windowCloseCallback(sender)
 
     # private methods
-    def _isGlyphAllowed(self, glyphName):
+    def _isGlyphNameAllowed(self, glyphName):
         if glyphName == '':
             return True
         elif glyphName not in self.selectedFont:
