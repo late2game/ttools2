@@ -58,13 +58,13 @@ def loadLinksFromFont(aFont):
         eachGlyph = aFont[eachGlyphName]
         if PLUGIN_LIB_NAME in eachGlyph.lib:
             thisLib = eachGlyph.lib[PLUGIN_LIB_NAME]
-            dataFromGlyph = {'master': eachGlyphName,
+            dataFromGlyph = {'servant': eachGlyphName,
                              'lft': thisLib['lft'],
                              'lftActive': thisLib['lftActive'],
                              'rgt': thisLib['rgt'],
                              'rgtActive': thisLib['rgtActive']}
         else:
-            dataFromGlyph = {'master': eachGlyphName,
+            dataFromGlyph = {'servant': eachGlyphName,
                              'lft': '',
                              'lftActive': False,
                              'rgt': '',
@@ -118,6 +118,11 @@ def drawReferenceGlyph(aGlyph, scalingFactor, startingX, left=False, right=False
 class SidebearingsLinker(BaseWindowController):
 
     allFonts = []
+
+    servantSubscriptions = []
+    masterSubscriptions = []
+    displayedSubscriptions = []
+
     currentRow = None
     selectedFont = None
 
@@ -146,7 +151,7 @@ class SidebearingsLinker(BaseWindowController):
         jumpingY += CANVAS_HEIGHT + MARGIN_ROW
         linksColumnDescriptions = [{"title": "left", 'key': 'lft', 'width': LIST_WIDE_COL},
                                    {"title": "active", "cell": CheckBoxListCell(), 'key': 'lftActive', 'width': LIST_NARROW_COL},
-                                   {"title": "glyph", 'key': 'master', 'width': LIST_WIDE_COL, "editable": False},
+                                   {"title": "glyph", 'key': 'servant', 'width': LIST_WIDE_COL, "editable": False},
                                    {"title": "active", "cell": CheckBoxListCell(), 'key': 'rgtActive', 'width': LIST_NARROW_COL},
                                    {"title": "right", 'key': 'rgt', 'width': LIST_WIDE_COL}]
 
@@ -161,6 +166,7 @@ class SidebearingsLinker(BaseWindowController):
                                 editCallback=self.editLinksListCallback)
         self.w.linksList.setSelection([0])
         self.currentRow = self.w.linksList[0]
+        self.matchDisplayedSubscriptions()
 
         jumpingY += self.w.linksList.getPosSize()[3] + MARGIN_ROW
         buttonWidth = (NET_WIDTH-MARGIN_HOR)/2
@@ -181,25 +187,31 @@ class SidebearingsLinker(BaseWindowController):
                                                  callback=self.pushIntoFontButtonCallback)
         self.w.pushIntoFontButton.enable(False)
 
-        self.w.clearLibButton = SquareButton((MARGIN_HOR*2+buttonWidth, jumpingY, buttonWidth, vanillaControlsSize['ButtonRegularHeight']*1.5),
-                                             'Clear Libs',
-                                             callback=self.clearLibButtonCallback)
+        self.w.clearLibsButton = SquareButton((MARGIN_HOR*2+buttonWidth, jumpingY, buttonWidth, vanillaControlsSize['ButtonRegularHeight']*1.5),
+                                              'Clear Libs',
+                                              callback=self.clearLibsButtonCallback)
 
         jumpingY += vanillaControlsSize['ButtonRegularHeight']*1.5 + MARGIN_ROW
         self.w.loadFromTable = SquareButton((MARGIN_HOR, jumpingY, buttonWidth, vanillaControlsSize['ButtonRegularHeight']*1.5),
                                             'Load from table',
                                             callback=self.loadFromTableCallback)
-        self.w.loadFromTable.enable(False)
+        self.w.loadFromTable.enable(True)
 
         self.w.exportTable = SquareButton((MARGIN_HOR*2+buttonWidth, jumpingY, buttonWidth, vanillaControlsSize['ButtonRegularHeight']*1.5),
                                           'Export table',
                                           callback=self.exportTableCallback)
-        self.w.exportTable.enable(False)
+        self.w.exportTable.enable(True)
 
         jumpingY += vanillaControlsSize['ButtonRegularHeight']*1.5 + MARGIN_VER*2
         self.w.resize(PLUGIN_WIDTH, jumpingY)
 
         self.setUpBaseWindowBehavior()
+        self.matchSubscriptions()
+
+        result = askYesNo('Warning', 'Do you want to align servants to masters?')
+        if bool(result) is True:
+            self._alignServantsToMasters()
+
         addObserver(self, 'fontDidOpenCallback', 'fontDidOpen')
         addObserver(self, 'fontDidCloseCallback', 'fontDidClose')
         self.w.open()
@@ -211,9 +223,9 @@ class SidebearingsLinker(BaseWindowController):
                 scalingFactor = CANVAS_HEIGHT/(self.selectedFont.info.unitsPerEm+UPM_MARGIN)
 
                 if self.currentRow['lft'] in self.selectedFont:
-                    lftGl = self.selectedFont[self.currentRow['lft']]
-                    if lftGl is not None:
-                        drawReferenceGlyph(aGlyph=lftGl,
+                    lftGlyph = self.selectedFont[self.currentRow['lft']]
+                    if lftGlyph is not None:
+                        drawReferenceGlyph(aGlyph=lftGlyph,
                                            scalingFactor=scalingFactor,
                                            startingX=NET_WIDTH*(1/6),
                                            left=True,
@@ -224,19 +236,19 @@ class SidebearingsLinker(BaseWindowController):
                              glyphQuota=self.selectedFont.info.xHeight,
                              scalingFactor=scalingFactor)
 
-                if self.currentRow['master'] in self.selectedFont:
-                    masterGl = self.selectedFont[self.currentRow['master']]
-                    if masterGl is not None:
-                        drawReferenceGlyph(aGlyph=masterGl,
+                if self.currentRow['servant'] in self.selectedFont:
+                    servantGlyph = self.selectedFont[self.currentRow['servant']]
+                    if servantGlyph is not None:
+                        drawReferenceGlyph(aGlyph=servantGlyph,
                                            scalingFactor=scalingFactor,
                                            startingX=NET_WIDTH*(3/6),
                                            left=True,
                                            right=True)
 
                 if self.currentRow['rgt'] in self.selectedFont:
-                    rgtGl = self.selectedFont[self.currentRow['rgt']]
-                    if rgtGl is not None:
-                        drawReferenceGlyph(aGlyph=rgtGl,
+                    rgtGlyph = self.selectedFont[self.currentRow['rgt']]
+                    if rgtGlyph is not None:
+                        drawReferenceGlyph(aGlyph=rgtGlyph,
                                            scalingFactor=scalingFactor,
                                            startingX=NET_WIDTH*(5/6),
                                            right=True)
@@ -248,6 +260,111 @@ class SidebearingsLinker(BaseWindowController):
 
         except Exception as error:
             print(error)
+
+    # observers
+    def unsubscribeGlyphs(self):
+        for eachGlyph in self.servantSubscriptions:
+            eachGlyph.removeObserver(self, "Glyph.WidthChanged")
+        self.servantSubscriptions = list()
+        for eachGlyph in self.masterSubscriptions:
+            eachGlyph.removeObserver(self, "Glyph.WidthChanged")
+        self.masterSubscriptions = list()
+
+    def unsubscribeDisplayedGlyphs(self):
+        for eachGlyph in self.displayedSubscriptions:
+            eachGlyph.removeObserver(self, "Glyph.Changed")
+        self.displayedSubscriptions = list()
+
+    def matchDisplayedSubscriptions(self):
+        self.unsubscribeDisplayedGlyphs()
+
+        if self.currentRow['lft'] != '':
+            lftGlyph = self.selectedFont[self.currentRow['lft']]
+            if lftGlyph not in self.displayedSubscriptions:
+                lftGlyph.addObserver(self, 'displayedGlyphChanged', 'Glyph.Changed')
+                self.displayedSubscriptions.append(lftGlyph)
+
+        if self.currentRow['rgt'] != '':
+            rgtGlyph = self.selectedFont[self.currentRow['rgt']]
+            if rgtGlyph not in self.displayedSubscriptions:
+                rgtGlyph.addObserver(self, 'displayedGlyphChanged', 'Glyph.Changed')
+                self.displayedSubscriptions.append(rgtGlyph)
+
+        if self.currentRow['servant'] != '':
+            servantGlyph = self.selectedFont[self.currentRow['servant']]
+            if servantGlyph not in self.displayedSubscriptions:
+                servantGlyph.addObserver(self, 'displayedGlyphChanged', 'Glyph.Changed')
+                self.displayedSubscriptions.append(servantGlyph)
+
+    def matchSubscriptions(self):
+        self.unsubscribeGlyphs()
+
+        for servantGlyph in self.selectedFont:
+            if PLUGIN_LIB_NAME in servantGlyph.lib:
+                thisLib = servantGlyph.lib[PLUGIN_LIB_NAME]
+
+                if (thisLib['lft'] != '' and thisLib['lftActive'] is True) or (thisLib['rgt'] != '' and thisLib['rgtActive'] is True):
+                    if servantGlyph not in self.servantSubscriptions:
+                        servantGlyph.addObserver(self, "servantGlyphChanged", "Glyph.WidthChanged")
+                        self.servantSubscriptions.append(servantGlyph)
+
+                    # servants
+                    if thisLib['lftActive'] is True and thisLib['lft'] != '':
+                        lftMaster = self.selectedFont[thisLib['lft']]
+                        if lftMaster not in self.masterSubscriptions:
+                            lftMaster.addObserver(self, "masterGlyphChanged", "Glyph.WidthChanged")
+                            self.masterSubscriptions.append(lftMaster)
+
+                    if thisLib['rgtActive'] is True and thisLib['rgt'] != '':
+                        rgtMaster = self.selectedFont[thisLib['rgt']]
+                        if rgtMaster not in self.masterSubscriptions:
+                            rgtMaster.addObserver(self, "masterGlyphChanged", "Glyph.WidthChanged")
+                            self.masterSubscriptions.append(rgtMaster)
+
+    def servantGlyphChanged(self, notification):
+        glyph = notification.object
+        warningMessage = 'The glyph <{servantName}> is linked to <{masterName}>, do you want to broke the link?'
+
+        if PLUGIN_LIB_NAME in glyph.lib:
+            thisLib = glyph.lib[PLUGIN_LIB_NAME]
+
+            if thisLib['lftActive'] is True:
+                lftMaster = self.selectedFont[thisLib['lft']]
+                if glyph.leftMargin != lftMaster.leftMargin:
+                    result = askYesNo('Warning', warningMessage.format(servantName=glyph.name, masterName=lftMaster.name))
+                    if bool(result) is False:
+                        glyph.leftMargin = lftMaster.leftMargin
+                        thisLib['lftActive'] = True
+                    else:
+                        thisLib['lftActive'] = False
+
+            if thisLib['rgtActive'] is True:
+                rgtMaster = self.selectedFont[thisLib['rgt']]
+                if glyph.rightMargin != rgtMaster.rightMargin:
+                    result = askYesNo('Warning', warningMessage.format(servantName=glyph.name, masterName=rgtMaster.name))
+                    if bool(result) is False:
+                        glyph.rightMargin = rgtMaster.rightMargin
+                        thisLib['rgtActive'] = True
+                    else:
+                        thisLib['rgtActive'] = False
+
+            links = loadLinksFromFont(self.selectedFont)
+            self.w.linksList.set(links)
+        self.w.canvas.update()
+
+    def masterGlyphChanged(self, notification):
+        masterGlyph = notification.object
+        for eachGlyph in self.selectedFont:
+            if PLUGIN_LIB_NAME in eachGlyph.lib:
+                thisLib = eachGlyph.lib[PLUGIN_LIB_NAME]
+                if thisLib['lft'] == masterGlyph.name and thisLib['lftActive'] is True:
+                    eachGlyph.leftMargin = masterGlyph.leftMargin
+                if thisLib['rgt'] == masterGlyph.name and thisLib['rgtActive'] is True:
+                    eachGlyph.rightMargin = masterGlyph.rightMargin
+        self.w.canvas.update()
+
+    def displayedGlyphChanged(self, notification):
+        self.w.canvas.update()
 
     # callbacks
     def fontDidOpenCallback(self, notification):
@@ -278,14 +395,17 @@ class SidebearingsLinker(BaseWindowController):
     def fontPopUpCallback(self, sender):
         if self._compareLibsToList() is False:
             result = askYesNo('Some changes were not pushed into font, would you like to do it now? Otherwise the changes will be lost')
-            if result is True:
+            if bool(result) is True:
                 self.pushIntoFontButtonCallback(sender=None)
         self.selectedFont = self.allFonts[sender.get()]
         links = loadLinksFromFont(self.selectedFont)
         self.w.linksList.set(links)
 
     def selectionLinksListCallback(self, sender):
+        if sender.getSelection() == []:
+            sender.setSelection([0])
         self.currentRow = sender[sender.getSelection()[0]]
+        self.matchDisplayedSubscriptions()
         self.w.canvas.update()
 
     def editLinksListCallback(self, sender):
@@ -308,45 +428,112 @@ class SidebearingsLinker(BaseWindowController):
 
     def pushIntoFontButtonCallback(self, sender):
         for eachRow in self.w.linksList:
-            eachGlyph = self.selectedFont[eachRow['master']]
-            eachGlyph.lib[PLUGIN_LIB_NAME] = {'lft': eachRow['lft'],
-                                              'lftActive': bool(eachRow['lftActive']),
-                                              'rgt': eachRow['rgt'],
-                                              'rgtActive': bool(eachRow['rgtActive'])}
+            eachGlyph = self.selectedFont[eachRow['servant']]
+            newLib = {'lft': eachRow['lft'],
+                      'lftActive': bool(eachRow['lftActive']),
+                      'rgt': eachRow['rgt'],
+                      'rgtActive': bool(eachRow['rgtActive'])}
+
+            if newLib['lft'] == '' and newLib['rgt'] == '':
+                if PLUGIN_LIB_NAME in eachGlyph.lib:
+                    del eachGlyph.lib[PLUGIN_LIB_NAME]
+            else:
+                eachGlyph.lib[PLUGIN_LIB_NAME] = newLib
+
+        self.matchSubscriptions()
+        self._alignServantsToMasters()
         self.w.pushIntoFontButton.enable(False)
 
-    def clearLibButtonCallback(self, sender):
+    def clearLibsButtonCallback(self, sender):
         for eachGlyph in self.selectedFont:
             if PLUGIN_LIB_NAME in eachGlyph.lib:
                 del eachGlyph.lib[PLUGIN_LIB_NAME]
+        selectionIndex = self.w.linksList.getSelection()
         links = loadLinksFromFont(self.selectedFont)
         self.w.linksList.set(links)
+        self.w.linksList.setSelection(selectionIndex)
 
     def loadFromTableCallback(self, sender):
         loadingPath = getFile("Select table with linked sidebearings")
-        with open(loadingPath, 'r') as linksTable:
-            linksList = []
-            for eachRow in linksTable.readlines():
-                lft, lftActive, master, rgtActive, rgt = eachRow.split('\t')
-                linksList.append({'lft': lft,
-                                  'lftActive': lftActive,
-                                  'master': master,
-                                  'rgt': rgt,
-                                  'rgtActive': rgtActive})
-        # here we should perform some checks, sanitize data
-        # self.w.linksList.setItems(linksList)
+        if loadingPath is None:
+            return None
+
+        with open(loadingPath[0], 'r') as linksTable:
+            rawTable = [item for item in linksTable.readlines()]
+
+        changedItems = []
+        toBeLinksList = list(self.selectedFont.glyphOrder)
+        for indexRow, eachRow in enumerate(rawTable):
+            lft, lftActive, servant, rgtActive, rgt = [item.strip() for item in eachRow.split('\t')]
+            servantResult = self._isGlyphAllowed(servant)
+            lftResult = self._isGlyphAllowed(lft)
+            rgtResult = self._isGlyphAllowed(rgt)
+
+            if all([servantResult, lftResult, rgtResult]) is False:
+                message('Line {} contains a mistake'.format(indexRow+1), 'One or more glyphs [lft:<{}> servant:<{}> rgt:<{}>] are not allowed in this font'.format(lft, servant, rgt))
+                return None
+
+            if servant in toBeLinksList:
+                servantIndex = toBeLinksList.index(servant)
+                toBeLinksList[servantIndex] = {'lft': lft,
+                                               'lftActive': True if lftActive == 'True' else False,
+                                               'servant': servant,
+                                               'rgt': rgt,
+                                               'rgtActive': True if rgtActive == 'True' else False}
+                changedItems.append(servantIndex)
+
+        for eachUnchangedIndex in [ii for ii in range(len(toBeLinksList)) if ii not in changedItems]:
+            toBeLinksList[eachUnchangedIndex] = {'lft': '',
+                                                 'lftActive': False,
+                                                 'servant': toBeLinksList[eachUnchangedIndex],
+                                                 'rgt': '',
+                                                 'rgtActive': False}
+
+        self.w.linksList.set(toBeLinksList)
+        self._compareLibsToList()
 
     def exportTableCallback(self, sender):
         savingPath = putFile("")
-        if savingPath is not None:
-            with open(savingPath, 'w') as linksTable:
-                for eachRow in self.w.linksList:
-                    linksTable.write('{lft}\t{lftActive}\t{master}\t{rgtActive}\t{rgt}'.format(eachRow))
+        if savingPath is None:
+            return None
+
+        with open(savingPath, 'w') as linksTable:
+            for eachRow in self.w.linksList:
+                if eachRow['lft'] != '' or eachRow['rgt'] != '':
+                    linksTable.write('{lft}\t{lftActive}\t{servant}\t{rgtActive}\t{rgt}\n'.format(**eachRow))
+
+    def windowCloseCallback(self, sender):
+        self.unsubscribeGlyphs()
+        self.unsubscribeDisplayedGlyphs()
+        removeObserver(self, 'fontDidOpen')
+        removeObserver(self, 'fontDidClose')
+        super(SidebearingsLinker, self).windowCloseCallback(sender)
 
     # private methods
+    def _isGlyphAllowed(self, glyphName):
+        if glyphName == '':
+            return True
+        elif glyphName not in self.selectedFont:
+            return False
+        else:
+            return True
+
     def _compareLibsToList(self):
         inFont = loadLinksFromFont(self.selectedFont)
         return inFont == [item for item in self.w.linksList]
+
+    def _alignServantsToMasters(self):
+        for eachGlyph in self.selectedFont:
+            if PLUGIN_LIB_NAME in eachGlyph.lib:
+                thisLib = eachGlyph.lib[PLUGIN_LIB_NAME]
+
+                if thisLib['lftActive'] is True and thisLib['lft'] != '':
+                    lftMaster = self.selectedFont[thisLib['lft']]
+                    eachGlyph.leftMargin = lftMaster.leftMargin
+
+                if thisLib['rgtActive'] is True and thisLib['rgt'] != '':
+                    rgtMaster = self.selectedFont[thisLib['rgt']]
+                    eachGlyph.rightMargin = rgtMaster.rightMargin
 
 if __name__ == '__main__':
     sb = SidebearingsLinker()
