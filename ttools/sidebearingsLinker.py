@@ -93,7 +93,6 @@ def drawReferenceGlyph(aGlyph, scalingFactor, startingX, left=False, right=False
     dt.stroke(None)
     dt.translate(startingX, 0)
     dt.scale(scalingFactor, scalingFactor)
-    dt.rect(50,0,100,100)
     dt.translate(0, -aGlyph.getParent().info.descender)
     dt.translate(-aGlyph.width/2, 0)
     dt.fill(*BLACK)
