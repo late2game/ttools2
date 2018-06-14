@@ -6,6 +6,8 @@
 #######################
 
 ### Modules
+from __future__ import division
+
 # custom
 import ui.userInterfaceValues
 reload(ui.userInterfaceValues)
@@ -16,12 +18,12 @@ import os
 from collections import OrderedDict
 import mojo.drawingTools as dt
 from mojo.canvas import CanvasGroup
-from mojo.roboFont import AllFonts, CurrentGlyph
+from mojo.roboFont import AllFonts
 from mojo.events import addObserver, removeObserver
 from vanilla import FloatingWindow, CheckBoxListCell, List, SquareButton
 from vanilla import HorizontalLine, PopUpButton
 from defconAppKit.windows.baseWindow import BaseWindowController
-from vanilla.dialogs import putFile
+from vanilla.dialogs import putFile, message, getFile, askYesNo
 
 ### Constants
 PLUGIN_WIDTH = 340
@@ -39,8 +41,8 @@ BLUE = (0,0,1)
 CANVAS_HEIGHT = 100
 UPM_MARGIN = 300
 
-LIST_WIDE_COL = 88
-LIST_NARROW_COL = 20
+LIST_WIDE_COL = 89
+LIST_NARROW_COL = 18
 
 NET_WIDTH = PLUGIN_WIDTH - MARGIN_HOR*2
 
@@ -50,14 +52,24 @@ PLUGIN_LIB_NAME = 'com.ttools.linkedSidebearings'
 def getNamesFrom(someFonts):
     return [os.path.basename(item.path) for item in someFonts]
 
-def makeDummyLinks(aFont):
+def loadLinksFromFont(aFont):
     links = []
     for eachGlyphName in aFont.glyphOrder:
-        links.append({'lft': '',
-                      'lftActive': False,
-                      'master': eachGlyphName,
-                      'rgt': '',
-                      'rgtActive': False})
+        eachGlyph = aFont[eachGlyphName]
+        if PLUGIN_LIB_NAME in eachGlyph.lib:
+            thisLib = eachGlyph.lib[PLUGIN_LIB_NAME]
+            dataFromGlyph = {'master': eachGlyphName,
+                             'lft': thisLib['lft'],
+                             'lftActive': thisLib['lftActive'],
+                             'rgt': thisLib['rgt'],
+                             'rgtActive': thisLib['rgtActive']}
+        else:
+            dataFromGlyph = {'master': eachGlyphName,
+                             'lft': '',
+                             'lftActive': False,
+                             'rgt': '',
+                             'rgtActive': False}
+        links.append(dataFromGlyph)
     return links
 
 def drawLock(closed, startingX, glyphQuota, scalingFactor):
@@ -81,6 +93,7 @@ def drawReferenceGlyph(aGlyph, scalingFactor, startingX, left=False, right=False
     dt.stroke(None)
     dt.translate(startingX, 0)
     dt.scale(scalingFactor, scalingFactor)
+    dt.rect(50,0,100,100)
     dt.translate(0, -aGlyph.getParent().info.descender)
     dt.translate(-aGlyph.width/2, 0)
     dt.fill(*BLACK)
@@ -88,7 +101,6 @@ def drawReferenceGlyph(aGlyph, scalingFactor, startingX, left=False, right=False
 
     descender = aGlyph.getParent().info.descender
     unitsPerEm = aGlyph.getParent().info.unitsPerEm
-
     baseTck = 40
     if left is True:
         dt.fill(*RED)
@@ -117,9 +129,9 @@ class SidebearingsLinker(BaseWindowController):
         self.allFonts = AllFonts()
         if self.allFonts != []:
             self.selectedFont = self.allFonts[0]
-
-            if PLUGIN_LIB_NAME not in self.selectedFont.lib:
-                self.selectedFont.lib[PLUGIN_LIB_NAME] = makeDummyLinks(self.selectedFont)
+        else:
+            message('A font is needed in order to start this plugin')
+            return None
 
         # interface
         self.w = FloatingWindow((PLUGIN_WIDTH, PLUGIN_HEIGHT), PLUGIN_TITLE)
@@ -139,18 +151,17 @@ class SidebearingsLinker(BaseWindowController):
                                    {"title": "active", "cell": CheckBoxListCell(), 'key': 'rgtActive', 'width': LIST_NARROW_COL},
                                    {"title": "right", 'key': 'rgt', 'width': LIST_WIDE_COL}]
 
-        if self.selectedFont:
-            listContent = self.selectedFont.lib[PLUGIN_LIB_NAME]
-        else:
-            listContent = []
-
+        links = loadLinksFromFont(self.selectedFont)
         self.w.linksList = List((MARGIN_HOR, jumpingY, NET_WIDTH, 200),
-                                listContent,
+                                links,
                                 showColumnTitles=False,
                                 allowsMultipleSelection=False,
+                                drawVerticalLines=True,
                                 columnDescriptions=linksColumnDescriptions,
                                 selectionCallback=self.selectionLinksListCallback,
                                 editCallback=self.editLinksListCallback)
+        self.w.linksList.setSelection([0])
+        self.currentRow = self.w.linksList[0]
 
         jumpingY += self.w.linksList.getPosSize()[3] + MARGIN_ROW
         buttonWidth = (NET_WIDTH-MARGIN_HOR)/2
@@ -169,17 +180,22 @@ class SidebearingsLinker(BaseWindowController):
         self.w.pushIntoFontButton = SquareButton((MARGIN_HOR, jumpingY, buttonWidth, vanillaControlsSize['ButtonRegularHeight']*1.5),
                                                  'Push into font',
                                                  callback=self.pushIntoFontButtonCallback)
+        self.w.pushIntoFontButton.enable(False)
+
         self.w.clearLibButton = SquareButton((MARGIN_HOR*2+buttonWidth, jumpingY, buttonWidth, vanillaControlsSize['ButtonRegularHeight']*1.5),
-                                             'Clear Lib',
+                                             'Clear Libs',
                                              callback=self.clearLibButtonCallback)
 
         jumpingY += vanillaControlsSize['ButtonRegularHeight']*1.5 + MARGIN_ROW
         self.w.loadFromTable = SquareButton((MARGIN_HOR, jumpingY, buttonWidth, vanillaControlsSize['ButtonRegularHeight']*1.5),
                                             'Load from table',
                                             callback=self.loadFromTableCallback)
+        self.w.loadFromTable.enable(False)
+
         self.w.exportTable = SquareButton((MARGIN_HOR*2+buttonWidth, jumpingY, buttonWidth, vanillaControlsSize['ButtonRegularHeight']*1.5),
                                           'Export table',
                                           callback=self.exportTableCallback)
+        self.w.exportTable.enable(False)
 
         jumpingY += vanillaControlsSize['ButtonRegularHeight']*1.5 + MARGIN_VER*2
         self.w.resize(PLUGIN_WIDTH, jumpingY)
@@ -188,10 +204,6 @@ class SidebearingsLinker(BaseWindowController):
         addObserver(self, 'fontDidOpenCallback', 'fontDidOpen')
         addObserver(self, 'fontDidCloseCallback', 'fontDidClose')
         self.w.open()
-
-    # private methods
-    def _updateListCtrls(self):
-        self.w.linksList.setItems(self.selectedFontLinks)
 
     # canvas callback
     def draw(self):
@@ -235,8 +247,8 @@ class SidebearingsLinker(BaseWindowController):
                              glyphQuota=self.selectedFont.info.xHeight,
                              scalingFactor=scalingFactor)
 
-        except Exception, error:
-            print error
+        except Exception as error:
+            print(error)
 
     # callbacks
     def fontDidOpenCallback(self, notification):
@@ -244,13 +256,15 @@ class SidebearingsLinker(BaseWindowController):
         currentFontName = self.w.fontPopUp.getItems()[self.w.fontPopUp.get()]
         newNames = getNamesFrom(self.allFonts)
         self.w.fontPopUp.setItems(newNames)
-        self.w.fontPopUp.set(newNames.index(currentName))
+        self.w.fontPopUp.set(newNames.index(currentFontName))
 
     def fontDidCloseCallback(self, notification):
         self.allFonts = AllFonts()
 
         if self.selectedFont is None and self.allFonts != []:
             self.selectedFont = self.allFonts[0]
+            links = loadLinksFromFont(self.selectedFont)
+            self.w.linksList.set(links)
 
         currentFontName = self.w.fontPopUp.getItems()[self.w.fontPopUp.get()]
         newNames = getNamesFrom(self.allFonts)
@@ -263,21 +277,27 @@ class SidebearingsLinker(BaseWindowController):
                 self.w.fontPopUp.set(newNames.index(os.path.basename(self.selectedFont)))
 
     def fontPopUpCallback(self, sender):
+        if self._compareLibsToList() is False:
+            result = askYesNo('Some changes were not pushed into font, would you like to do it now? Otherwise the changes will be lost')
+            if result is True:
+                self.pushIntoFontButtonCallback(sender=None)
         self.selectedFont = self.allFonts[sender.get()]
-        self._updateListCtrls()
+        links = loadLinksFromFont(self.selectedFont)
+        self.w.linksList.set(links)
 
     def selectionLinksListCallback(self, sender):
-        self.currentRow = self.w.linksList[self.w.linksList.getSelection()[0]]
+        self.currentRow = sender[sender.getSelection()[0]]
         self.w.canvas.update()
 
     def editLinksListCallback(self, sender):
         self.w.canvas.update()
+        self.w.pushIntoFontButton.enable(not self._compareLibsToList())
 
     def linkAllButtonCallback(self, sender):
         for eachRow in self.w.linksList:
-            if eachRow['lft'] is not None:
+            if eachRow['lft'] != '':
                 eachRow['lftActive'] = True
-            if eachRow['rgt'] is not None:
+            if eachRow['rgt'] != '':
                 eachRow['rgtActive'] = True
 
     def unlockAllButtonCallback(self, sender):
@@ -288,10 +308,20 @@ class SidebearingsLinker(BaseWindowController):
                 eachRow['rgtActive'] = False
 
     def pushIntoFontButtonCallback(self, sender):
-        self.selectedFont.lib[PLUGIN_LIB_NAME] = [item for item in self.w.linksList]
+        for eachRow in self.w.linksList:
+            eachGlyph = self.selectedFont[eachRow['master']]
+            eachGlyph.lib[PLUGIN_LIB_NAME] = {'lft': eachRow['lft'],
+                                              'lftActive': bool(eachRow['lftActive']),
+                                              'rgt': eachRow['rgt'],
+                                              'rgtActive': bool(eachRow['rgtActive'])}
+        self.w.pushIntoFontButton.enable(False)
 
     def clearLibButtonCallback(self, sender):
-        del self.selectedFont.lib[PLUGIN_LIB_NAME]
+        for eachGlyph in self.selectedFont:
+            if PLUGIN_LIB_NAME in eachGlyph.lib:
+                del eachGlyph.lib[PLUGIN_LIB_NAME]
+        links = loadLinksFromFont(self.selectedFont)
+        self.w.linksList.set(links)
 
     def loadFromTableCallback(self, sender):
         loadingPath = getFile("Select table with linked sidebearings")
@@ -314,6 +344,10 @@ class SidebearingsLinker(BaseWindowController):
                 for eachRow in self.w.linksList:
                     linksTable.write('{lft}\t{lftActive}\t{master}\t{rgtActive}\t{rgt}'.format(eachRow))
 
+    # private methods
+    def _compareLibsToList(self):
+        inFont = loadLinksFromFont(self.selectedFont)
+        return inFont == [item for item in self.w.linksList]
 
 if __name__ == '__main__':
     sb = SidebearingsLinker()
