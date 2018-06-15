@@ -32,6 +32,10 @@ class SidebearingLinkerTester(unittest.TestCase):
     def test_openPluginBeforeFont(self):
         pass
 
+    def test_removedObservers(self):
+        pass
+
+
     def test_workingOnMultipleFonts(self):
         pass
 
