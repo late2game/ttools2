@@ -35,6 +35,7 @@ MARGIN_VER = 10
 MARGIN_ROW = 10
 
 BLACK = (0,0,0)
+GRAY = (.4, .4, .4)
 RED = (1,0,0)
 BLUE = (0,0,1)
 
@@ -126,16 +127,13 @@ class SidebearingsLinker(BaseWindowController):
     currentRow = None
     selectedFont = None
 
-    def __init__(self):
+    def __init__(self, willOpen=True):
         super(SidebearingsLinker, self).__init__()
 
         # collecting fonts
         self.allFonts = AllFonts()
         if self.allFonts != []:
             self.selectedFont = self.allFonts[0]
-        else:
-            message('A font is needed in order to start this plugin')
-            return None
 
         # interface
         self.w = FloatingWindow((PLUGIN_WIDTH, PLUGIN_HEIGHT), PLUGIN_TITLE)
@@ -155,7 +153,11 @@ class SidebearingsLinker(BaseWindowController):
                                    {"title": "active", "cell": CheckBoxListCell(), 'key': 'rgtActive', 'width': LIST_NARROW_COL},
                                    {"title": "right", 'key': 'rgt', 'width': LIST_WIDE_COL}]
 
-        links = loadLinksFromFont(self.selectedFont)
+        if self.selectedFont is not None:
+            links = loadLinksFromFont(self.selectedFont)
+        else:
+            links = []
+
         self.w.linksList = List((MARGIN_HOR, jumpingY, NET_WIDTH, 200),
                                 links,
                                 showColumnTitles=False,
@@ -164,9 +166,11 @@ class SidebearingsLinker(BaseWindowController):
                                 columnDescriptions=linksColumnDescriptions,
                                 selectionCallback=self.selectionLinksListCallback,
                                 editCallback=self.editLinksListCallback)
-        self.w.linksList.setSelection([0])
-        self.currentRow = self.w.linksList[0]
-        self.matchDisplayedSubscriptions()
+
+        if self.selectedFont is not None:
+            self.w.linksList.setSelection([0])
+            self.currentRow = self.w.linksList[0]
+            self.matchDisplayedSubscriptions()
 
         jumpingY += self.w.linksList.getPosSize()[3] + MARGIN_ROW
         buttonWidth = (NET_WIDTH-MARGIN_HOR)/2
@@ -206,17 +210,80 @@ class SidebearingsLinker(BaseWindowController):
         self.w.resize(PLUGIN_WIDTH, jumpingY)
 
         self.setUpBaseWindowBehavior()
-        self.matchSubscriptions()
 
-        result = askYesNo('Warning', 'Do you want to align servants to masters?')
-        if bool(result) is True:
-            self._alignServantsToMasters()
+        if self.selectedFont is not None:
+            self.matchSubscriptions()
+            result = askYesNo('Warning', 'Do you want to align servants to masters?')
+            if bool(result) is True:
+                self._alignServantsToMasters()
 
+        addObserver(self, "drawOnGlyphCanvas", "draw")
+        addObserver(self, "drawOnGlyphCanvas", "drawInactive")
         addObserver(self, 'fontDidOpenCallback', 'fontDidOpen')
         addObserver(self, 'fontDidCloseCallback', 'fontDidClose')
-        self.w.open()
+        if willOpen is True:
+            self.w.open()
 
-    # canvas callback
+    # drawing callbacks
+    def drawOnGlyphCanvas(self, infoDict):
+        glyphOnCanvas = infoDict['glyph']
+        scalingFactor = infoDict['scale']
+        bodySize = .25
+        horizontalOffset = 80
+
+        if PLUGIN_LIB_NAME in glyphOnCanvas.lib:
+            thisLib = glyphOnCanvas.lib[PLUGIN_LIB_NAME]
+        else:
+            return None
+
+        lftGlyph = None
+        if thisLib['lft'] != '':
+            lftGlyph = self.selectedFont[thisLib['lft']]
+
+        rgtGlyph = None
+        if thisLib['rgt'] != '':
+            rgtGlyph = self.selectedFont[thisLib['rgt']]
+
+        try:
+            dt.fill(*GRAY)
+
+            if lftGlyph is not None:
+                dt.save()
+                dt.translate(-lftGlyph.width*bodySize-horizontalOffset, -self.selectedFont.info.unitsPerEm*bodySize)
+
+                # glyph
+                dt.scale(bodySize)
+                dt.drawGlyph(lftGlyph)
+
+                # lock
+                if thisLib['lftActive'] is True:
+                    txt = u'🔒'
+                else:
+                    txt = u'🔓'
+                dt.fontSize(300)
+                txtWdt, txtHgt = dt.textSize(txt)
+                dt.text(txt, (-txtWdt, 0))
+                dt.restore()
+
+            if rgtGlyph is not None:
+                dt.save()
+                dt.translate(glyphOnCanvas.width+horizontalOffset, -self.selectedFont.info.unitsPerEm*bodySize)
+                dt.scale(bodySize)
+                dt.drawGlyph(rgtGlyph)
+
+                # lock
+                if thisLib['rgtActive'] is True:
+                    txt = u'🔒'
+                else:
+                    txt = u'🔓'
+                dt.fontSize(300)
+                dt.text(txt, (rgtGlyph.width, 0))
+
+                dt.restore()
+
+        except Exception as error:
+            print(error)
+
     def draw(self):
         try:
             if self.selectedFont is not None and self.currentRow is not None:
@@ -369,10 +436,25 @@ class SidebearingsLinker(BaseWindowController):
     # callbacks
     def fontDidOpenCallback(self, notification):
         self.allFonts = AllFonts()
-        currentFontName = self.w.fontPopUp.getItems()[self.w.fontPopUp.get()]
+
+        if self.selectedFont is not None:
+            previousFontName = self.w.fontPopUp.getItems()[self.w.fontPopUp.get()]
+        else:
+            self.selectedFont = self.allFonts[0]
+            previousFontName = None
+
         newNames = getNamesFrom(self.allFonts)
         self.w.fontPopUp.setItems(newNames)
-        self.w.fontPopUp.set(newNames.index(currentFontName))
+
+        if previousFontName is not None:
+            self.w.fontPopUp.set(newNames.index(previousFontName))
+
+        links = loadLinksFromFont(self.selectedFont)
+        self.w.linksList.set(links)
+        self.w.linksList.setSelection([0])
+        self.currentRow = self.w.linksList[self.w.linksList.getSelection()[0]]
+        self.matchSubscriptions()
+        self.matchDisplayedSubscriptions()
 
     def fontDidCloseCallback(self, notification):
         self.allFonts = AllFonts()
@@ -507,6 +589,8 @@ class SidebearingsLinker(BaseWindowController):
         self.unsubscribeDisplayedGlyphs()
         removeObserver(self, 'fontDidOpen')
         removeObserver(self, 'fontDidClose')
+        removeObserver(self, "draw")
+        removeObserver(self, "drawInactive")
         super(SidebearingsLinker, self).windowCloseCallback(sender)
 
     # private methods
