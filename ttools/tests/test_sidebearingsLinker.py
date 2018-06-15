@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 # coding: utf-8
 
 import os, sys
@@ -8,15 +8,33 @@ modulePath = os.path.abspath('../..')
 if modulePath not in sys.path:
     sys.path.append(modulePath)
 
+import ttools
+reload(ttools)
 from ttools.sidebearingsLinker import SidebearingsLinker
 
 class SidebearingLinkerTester(unittest.TestCase):
 
     def setUp(self):
-        sl = SidebearingsLinker()
+        self.linker = SidebearingsLinker(willOpen=False)
 
-    def test_scenario1(self):
+    def tearDown(self):
+        if self.linker is not None:
+            self.linker.unsubscribeGlyphs()
+            self.linker.unsubscribeDisplayedGlyphs()
+        self.linker.w.close()
+
+    def test_openPluginAfterFont(self):
         pass
+
+    def test_switchToAnotherFont(self):
+        pass
+
+    def test_openPluginBeforeFont(self):
+        pass
+
+    def test_workingOnMultipleFonts(self):
+        pass
+
 
 if __name__ == '__main__':
     loader = unittest.TestLoader()
