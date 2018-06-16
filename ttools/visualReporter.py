@@ -28,6 +28,11 @@ PLUGIN_TITLE = 'TTools Visual Reporter'
 FROM_MM_TO_PT = 2.834627813
 PDF_MARGIN = 10*FROM_MM_TO_PT
 
+BODY_SIZE_GLYPH = 18
+BODY_SIZE_TEXT  = 11
+TAB_WIDTH = 21*FROM_MM_TO_PT
+TAB_LINE_HEIGHT = 24
+
 GRAY = (.4, .4, .4)
 BLACK = (0, 0, 0)
 RED = (1, 0, 0)
@@ -35,44 +40,31 @@ RED = (1, 0, 0)
 ### Drawing routines
 def initPage():
     db.newPage('A4')
-    db.fontSize(bodySizeText)
+    db.fontSize(BODY_SIZE_TEXT)
     quota = db.height() -MARGIN
     drawHeader(quota)
     db.font('LucidaGrande')
-    quota -= tabLineHeight
+    quota -= TAB_LINE_HEIGHT
     return quota
 
 def drawHeader(quota):
     titles = [('line', 0),
-              ('unicode', tabWidth*.8),
-              ('char', tabWidth*2),
-              ('glyph name', tabWidth*3),
-              ('template', tabWidth*5),
-              ('hairline', tabWidth*6),
-              ('medium', tabWidth*7),
-              ('black', tabWidth*8)]
+              ('unicode', TAB_WIDTH*.8),
+              ('char', TAB_WIDTH*2),
+              ('glyph name', TAB_WIDTH*3),
+              ('template', TAB_WIDTH*5),
+              ('hairline', TAB_WIDTH*6),
+              ('medium', TAB_WIDTH*7),
+              ('black', TAB_WIDTH*8)]
     db.font('LucidaGrande-Bold')
     for eachTitle, eachX in titles:
         db.text(eachTitle, (MARGIN+eachX, quota))
 
 """
 
-
-### Functions & Procedures
-
-
-### Variables
-bodySizeGlyph = 18
-bodySizeText  = 11
-tabWidth = 21*FROM_MM_TO_PT
-tabLineHeight = 24
-
 IRA_hairline = OpenFont(os.path.join('..', '00_repository', 'IRA Hairline.ufo'), showUI=False)
 IRA_medium =   OpenFont(os.path.join('..', '00_repository', 'IRA Medium.ufo'), showUI=False)
 IRA_black =    OpenFont(os.path.join('..', '00_repository', 'IRA Black.ufo'), showUI=False)
-
-templateFont = OpenFont('/Users/robertoarista/Documents/Work/TypeTailors/TTools/ttools/resources/templates/templateFont.ufo', showUI=False)
-templateCharacterMap = templateFont.getCharacterMapping()
 
 ### Instructions
 quota = initPage()
@@ -103,17 +95,17 @@ for eachGlyphName in templateFont.glyphOrder + [None] + IRA_leftovers:
     else:
         uniIntValue = None
 
-    translate(tabWidth*.8, 0)
+    translate(TAB_WIDTH*.8, 0)
     if uniIntValue:
         uniHexValue = 'U+{:04X}'.format(uniIntValue)
         fill(*BLACK)
         text(uniHexValue, (0, 0))
 
     # os char
-    translate(tabWidth*1.2, 0)
+    translate(TAB_WIDTH*1.2, 0)
     if uniIntValue:
         txt = FormattedString()
-        txt.fontSize(bodySizeGlyph)
+        txt.fontSize(BODY_SIZE_GLYPH)
         txt.fill(*GRAY)
         txt += 'H'
         txt.fill(*BLACK)
@@ -123,21 +115,21 @@ for eachGlyphName in templateFont.glyphOrder + [None] + IRA_leftovers:
         text(txt, (0, 0))
 
     # glyphname
-    translate(tabWidth, 0)
-    fontSize(bodySizeText)
+    translate(TAB_WIDTH, 0)
+    fontSize(BODY_SIZE_TEXT)
     text(eachGlyphName, (0, 0))
 
     # glyphs
-    translate(tabWidth, 0)
+    translate(TAB_WIDTH, 0)
     for eachFont in [templateFont, IRA_hairline, IRA_medium, IRA_black]:
-        translate(tabWidth, 0)
+        translate(TAB_WIDTH, 0)
         if eachGlyphName in eachFont:
             eachGlyph = eachFont[eachGlyphName]
             lftRefGL = eachFont['H']
             rgtRefGL = eachFont['p']
 
             save()
-            scale(bodySizeGlyph/eachFont.info.unitsPerEm)
+            scale(BODY_SIZE_GLYPH/eachFont.info.unitsPerEm)
             fill(*GRAY)
             drawGlyph(lftRefGL)
             translate(lftRefGL.width, 0)
@@ -149,7 +141,7 @@ for eachGlyphName in templateFont.glyphOrder + [None] + IRA_leftovers:
             restore()
     restore()
 
-    quota -= tabLineHeight
+    quota -= TAB_LINE_HEIGHT
     if quota <= MARGIN:
         quota = initPage()
 
