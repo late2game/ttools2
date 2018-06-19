@@ -104,8 +104,8 @@ class VisualReporter(BaseWindowController):
         self._drawReport(referenceFont=templateFont,
                          someFonts=fontsToProcess,
                          glyphNames=templateFont.glyphOrder,
-                         reportPath=os.path.join(PDF_folder, '{:0>4d}{:0>2d}{:0>2d}_templateComplaint.pdf'.format(justNow.year, justNow.month, justNow.day)),
-                         caption='Template Complaint')
+                         reportPath=os.path.join(PDF_folder, '{:0>4d}{:0>2d}{:0>2d}_templateCompliant.pdf'.format(justNow.year, justNow.month, justNow.day)),
+                         caption='Template Compliant')
 
         leftovers = []
         for eachFont in fontsToProcess:
