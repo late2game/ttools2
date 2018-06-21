@@ -10,6 +10,10 @@ import ui.userInterfaceValues
 reload(ui.userInterfaceValues)
 from ui.userInterfaceValues import vanillaControlsSize
 
+import extraTools.miscFunctions
+reload(extraTools.miscFunctions)
+from extraTools.miscFunctions import catchFilesAndFolders
+
 # third parties
 import drawBot as db
 from mojo.events import addObserver, removeObserver
@@ -21,6 +25,7 @@ from defconAppKit.windows.progressWindow import ProgressWindow
 
 # standard library
 import os
+import codecs
 from datetime import datetime
 
 ### Constants
@@ -34,8 +39,27 @@ PDF_MARGIN = 10*FROM_MM_TO_PT
 
 BODY_SIZE_GLYPH = 18
 BODY_SIZE_TEXT  = 11
-TAB_WIDTH = 21*FROM_MM_TO_PT
+TAB_WIDTH = 24*FROM_MM_TO_PT
 TAB_LINE_HEIGHT = 24
+
+baseNames = ['Air',
+             'Hair',
+             'Hairline',
+             'Thin',
+             'Light',
+             'Blond',
+             'Normal',
+             'Medium',
+             'SemiBold',
+             'Bold',
+             'Black',
+             'Black']
+
+STYLES_ORDER = []
+for eachBaseName in baseNames:
+    STYLES_ORDER.append(eachBaseName)
+    STYLES_ORDER.append('{} Italic'.format(eachBaseName))
+    STYLES_ORDER.append('{} Slanted'.format(eachBaseName))
 
 GRAY = (.4, .4, .4)
 BLACK = (0, 0, 0)
@@ -46,6 +70,30 @@ TEMPLATE_FONT_PATH = os.path.join(os.path.dirname(__file__),
                                   'templates',
                                   'templateFont.ufo')
 
+SMART_SETS_FOLDER = os.path.join(os.path.dirname(__file__),
+                                 'resources',
+                                 'smartSets')
+
+### Functions 
+def loadSmartSets():
+    # loading smart sets path
+    smartSetsPaths = catchFilesAndFolders(SMART_SETS_FOLDER, '.txt')
+    # building a reference glyph order from smart sets
+    smartSets = {}
+    for eachPath in smartSetsPaths:
+        smartSets[os.path.basename(eachPath)] = [name.strip() for name in codecs.open(eachPath, 'r', 'utf-8').readlines()]
+    return sorted(smartSets.items(), key=lambda x: x[0])
+
+SMART_SETS = loadSmartSets()
+
+COLS = {'set': 0,
+        'line': TAB_WIDTH*1.5,
+        'unicode': TAB_WIDTH*2.5,
+        'char': TAB_WIDTH*4,
+        'glyph name': TAB_WIDTH*5,
+        'template': TAB_WIDTH*8}
+
+
 ### Plugin
 class VisualReporter(BaseWindowController):
 
@@ -55,6 +103,7 @@ class VisualReporter(BaseWindowController):
         super(VisualReporter, self).__init__()
 
         self.allFonts = AllFonts()
+        self.sortAllFonts()
         self.collectFontNames()
 
         self.w = Window((0, 0, PLUGIN_WIDTH, 1),
@@ -84,11 +133,15 @@ class VisualReporter(BaseWindowController):
 
     def updateFontOptions(self, notification):
         self.allFonts = AllFonts()
+        self.sortAllFonts()
         self.collectFontNames()
         previousFontName = self.w.fontsPopUp.get()
         self.w.fontsPopUp.setItems(self.fontNames)
         if previousFontName in self.fontNames:
             self.w.fontsPopUp.set(self.fontNames.index(previousFontName))
+
+    def sortAllFonts(self):
+        self.allFonts = sorted(self.allFonts, key=lambda x:STYLES_ORDER.index(x.info.styleName))
 
     def reportButtonCallback(self, sender):
         popUpIndex = self.w.fontsPopUp.get()
@@ -124,26 +177,26 @@ class VisualReporter(BaseWindowController):
         super(VisualReporter, self).windowCloseCallback(sender)
 
     # drawing routines
-    def _initPage(self):
-        db.newPage('A4')
+    def _initPage(self, fontStyles):
+        db.newPage('A3Landscape')
         db.fontSize(BODY_SIZE_TEXT)
         quota = db.height() - PDF_MARGIN
-        self._drawHeader(quota)
+        self._drawHeader(quota, fontStyles)
         db.font('LucidaGrande')
-        quota -= TAB_LINE_HEIGHT
+        quota -= TAB_LINE_HEIGHT*2
         return quota
 
-    def _drawHeader(self, quota):
-        titles = [('line', 0),
-                  ('unicode', TAB_WIDTH*.8),
-                  ('char', TAB_WIDTH*2),
-                  ('glyph name', TAB_WIDTH*3),
-                  ('template', TAB_WIDTH*5),
-                  ('hairline', TAB_WIDTH*6),
-                  ('medium', TAB_WIDTH*7),
-                  ('black', TAB_WIDTH*8)]
+    def _drawHeader(self, quota, fontStyles):
+        fontTitles = {}
+
+        colIndex = int(COLS['template']/TAB_WIDTH)
+        for eachFontStyle in fontStyles:
+            colIndex += 1
+            fontTitles[eachFontStyle] = colIndex*TAB_WIDTH
+
+        headers = {k: v for (k, v) in COLS.items()+fontTitles.items()}
         db.font('LucidaGrande-Bold')
-        for eachTitle, eachX in titles:
+        for eachTitle, eachX in headers.items():
             db.text(eachTitle, (PDF_MARGIN+eachX, quota))
 
     def _drawReport(self, referenceFont, someFonts, glyphNames, reportPath, caption):
@@ -152,80 +205,95 @@ class VisualReporter(BaseWindowController):
         assert isinstance(someFonts, list), 'this should be a list of RFont'
 
         prog = ProgressWindow(text='{}: drawing glyphs...'.format(caption), tickCount=len(glyphNames))
-        db.newDrawing()
-        quota = self._initPage()
-        for indexName, eachGlyphName in enumerate(glyphNames):
-            db.save()
-            db.translate(PDF_MARGIN, quota)
 
-            # line number
-            db.fill(*BLACK)
-            db.text('{:0>4d}'.format(indexName), (0, 0))
+        try:
+            db.newDrawing()
 
-            # unicode hex
-            if eachGlyphName in referenceFont and referenceFont[eachGlyphName].unicode:
-                uniIntValue = referenceFont[eachGlyphName].unicode
-            elif eachGlyphName in someFonts[0] and someFonts[0][eachGlyphName].unicode:
-                uniIntValue = someFonts[0][eachGlyphName].unicode
-            else:
-                uniIntValue = None
+            twoLinesFontStyles = [ff.info.styleName.replace(' ', '\n') for ff in someFonts]
+            quota = self._initPage(twoLinesFontStyles)
+            for indexName, eachGlyphName in enumerate(glyphNames):
+                db.save()
+                db.translate(PDF_MARGIN, quota)
 
-            db.translate(TAB_WIDTH*.8, 0)
-            if uniIntValue:
-                uniHexValue = 'U+{:04X}'.format(uniIntValue)
+                # set name
+                for eachSetName, eachGroup in SMART_SETS:
+                    if eachGlyphName in eachGroup:
+                        setName = eachSetName.replace('.txt', '')
+                        break
+                else:
+                    setName = ''
+                db.text(setName, (COLS['set'], 0))
+
+                # line number
                 db.fill(*BLACK)
-                db.text(uniHexValue, (0, 0))
+                db.text('{:0>4d}'.format(indexName), (COLS['line'], 0))
 
-            # os char
-            db.translate(TAB_WIDTH*1.2, 0)
-            if uniIntValue:
-                txt = db.FormattedString()
-                txt.fontSize(BODY_SIZE_GLYPH)
-                txt.fill(*GRAY)
-                txt += 'H'
-                txt.fill(*BLACK)
-                txt += unichr(uniIntValue)
-                txt.fill(*GRAY)
-                txt += 'p'
-                db.text(txt, (0, 0))
+                # unicode hex
+                if eachGlyphName in referenceFont and referenceFont[eachGlyphName].unicode:
+                    uniIntValue = referenceFont[eachGlyphName].unicode
+                elif eachGlyphName in someFonts[0] and someFonts[0][eachGlyphName].unicode:
+                    uniIntValue = someFonts[0][eachGlyphName].unicode
+                else:
+                    uniIntValue = None
 
-            # glyphname
-            db.translate(TAB_WIDTH, 0)
-            db.fontSize(BODY_SIZE_TEXT)
-            db.text(eachGlyphName, (0, 0))
-
-            # glyphs
-            db.translate(TAB_WIDTH, 0)
-            for eachFont in [referenceFont] + someFonts:
-                db.translate(TAB_WIDTH, 0)
-                if eachGlyphName in eachFont:
-                    eachGlyph = eachFont[eachGlyphName]
-                    lftRefGL = eachFont['H']
-                    rgtRefGL = eachFont['p']
-
-                    db.save()
-                    db.scale(BODY_SIZE_GLYPH/eachFont.info.unitsPerEm)
-                    db.fill(*GRAY)
-                    db.drawGlyph(lftRefGL)
-                    db.translate(lftRefGL.width, 0)
+                if uniIntValue:
+                    uniHexValue = 'U+{:04X}'.format(uniIntValue)
                     db.fill(*BLACK)
-                    db.drawGlyph(eachGlyph)
-                    db.translate(eachGlyph.width, 0)
-                    db.fill(*GRAY)
-                    db.drawGlyph(rgtRefGL)
-                    db.restore()
-            db.restore()
-            prog.update()
+                    db.text(uniHexValue, (COLS['unicode'], 0))
 
-            quota -= TAB_LINE_HEIGHT
-            if quota <= PDF_MARGIN:
-                quota = self._initPage()
+                # os char
+                if uniIntValue:
+                    txt = db.FormattedString()
+                    txt.fontSize(BODY_SIZE_GLYPH)
+                    txt.fill(*GRAY)
+                    txt += 'H'
+                    txt.fill(*BLACK)
+                    txt += unichr(uniIntValue)
+                    txt.fill(*GRAY)
+                    txt += 'p'
+                    db.text(txt, (COLS['char'], 0))
 
-        prog.setTickCount(value=None)
-        prog.update(text='{}: saving PDF...'.format(caption))
+                # glyphname
+                db.fontSize(BODY_SIZE_TEXT)
+                db.text(eachGlyphName, (COLS['glyph name'], 0))
 
-        db.saveImage(reportPath)
-        db.endDrawing()
+                # glyphs
+                db.translate(COLS['template'], 0)
+                for eachFont in [referenceFont] + someFonts:
+                    if eachGlyphName in eachFont:
+                        eachGlyph = eachFont[eachGlyphName]
+                        lftRefGL = eachFont['H']
+                        rgtRefGL = eachFont['p']
+
+                        db.save()
+                        db.scale(BODY_SIZE_GLYPH/eachFont.info.unitsPerEm)
+                        db.fill(*GRAY)
+                        db.drawGlyph(lftRefGL)
+                        db.translate(lftRefGL.width, 0)
+                        db.fill(*BLACK)
+                        db.drawGlyph(eachGlyph)
+                        db.translate(eachGlyph.width, 0)
+                        db.fill(*GRAY)
+                        db.drawGlyph(rgtRefGL)
+                        db.restore()
+                    db.translate(TAB_WIDTH, 0)
+                db.restore()
+                prog.update()
+
+                quota -= TAB_LINE_HEIGHT
+                if quota <= PDF_MARGIN:
+                    quota = self._initPage(twoLinesFontStyles)
+
+            prog.setTickCount(value=None)
+            prog.update(text='{}: saving PDF...'.format(caption))
+
+            db.saveImage(reportPath)
+            db.endDrawing()
+
+        except Exception as e:
+            prog.close()
+            raise e
+
         prog.close()
 
 
