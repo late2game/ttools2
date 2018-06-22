@@ -5,6 +5,8 @@
 #######################
 
 ### Modules
+from __future__ import division
+
 # custom
 import ui.userInterfaceValues
 reload(ui.userInterfaceValues)
@@ -49,6 +51,7 @@ baseNames = ['Air',
              'Light',
              'Blond',
              'Normal',
+             'Regular',
              'Medium',
              'SemiBold',
              'Bold',
@@ -86,9 +89,9 @@ def loadSmartSets():
 
 SMART_SETS = loadSmartSets()
 
-COLS = {'set': 0,
-        'line': TAB_WIDTH*1.5,
-        'unicode': TAB_WIDTH*2.5,
+COLS = {'set name': 0,
+        'line': TAB_WIDTH*1.8,
+        'unicode': TAB_WIDTH*2.75,
         'char': TAB_WIDTH*4,
         'glyph name': TAB_WIDTH*5,
         'template': TAB_WIDTH*8}
@@ -160,9 +163,10 @@ class VisualReporter(BaseWindowController):
                          reportPath=os.path.join(PDF_folder, '{:0>4d}{:0>2d}{:0>2d}_templateCompliant.pdf'.format(justNow.year, justNow.month, justNow.day)),
                          caption='Template Compliant')
 
-        leftovers = []
+        allGlyphNames = set()
         for eachFont in fontsToProcess:
-            leftovers.extend([name for name in eachFont.glyphOrder if name not in templateFont.glyphOrder and name not in leftovers])
+            allGlyphNames = allGlyphNames | set(eachFont.glyphOrder)
+        leftovers = allGlyphNames - set(templateFont.glyphOrder)
 
         self._drawReport(referenceFont=templateFont,
                          someFonts=fontsToProcess,
@@ -201,7 +205,6 @@ class VisualReporter(BaseWindowController):
 
     def _drawReport(self, referenceFont, someFonts, glyphNames, reportPath, caption):
         assert isinstance(reportPath, str) or isinstance(reportPath, unicode), 'this should be a string or unicode'
-        assert isinstance(glyphNames, list), 'this should be a list of glyphnames'
         assert isinstance(someFonts, list), 'this should be a list of RFont'
 
         prog = ProgressWindow(text='{}: drawing glyphs...'.format(caption), tickCount=len(glyphNames))
@@ -218,11 +221,11 @@ class VisualReporter(BaseWindowController):
                 # set name
                 for eachSetName, eachGroup in SMART_SETS:
                     if eachGlyphName in eachGroup:
-                        setName = eachSetName.replace('.txt', '')
+                        setName = eachSetName[3:].replace('.txt', '').replace('_', ' ')
                         break
                 else:
                     setName = ''
-                db.text(setName, (COLS['set'], 0))
+                db.text(setName, (COLS['set name'], 0))
 
                 # line number
                 db.fill(*BLACK)
@@ -286,16 +289,14 @@ class VisualReporter(BaseWindowController):
 
             prog.setTickCount(value=None)
             prog.update(text='{}: saving PDF...'.format(caption))
-
             db.saveImage(reportPath)
             db.endDrawing()
 
-        except Exception as e:
+        except Exception as error:
             prog.close()
-            raise e
+            raise error
 
         prog.close()
-
 
 if __name__ == '__main__':
     vr = VisualReporter()
