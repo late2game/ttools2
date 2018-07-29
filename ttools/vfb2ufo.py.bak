@@ -7,23 +7,13 @@
 
 ### Modules
 # custom
-from __future__ import absolute_import
-#!/usr/bin/env python
-# coding: utf-8
-
-###########
-# vfb2ufo #
-###########
-
-### Modules
-# custom
-from . import ui.userInterfaceValues
+import ui.userInterfaceValues
 reload(ui.userInterfaceValues)
-from .ui.userInterfaceValues import vanillaControlsSize
+from ui.userInterfaceValues import vanillaControlsSize
 
-from . import extraTools.miscFunctions
+import extraTools.miscFunctions
 reload(extraTools.miscFunctions)
-from .extraTools.miscFunctions import catchFilesAndFolders
+from extraTools.miscFunctions import catchFilesAndFolders
 
 # standard
 from mojo.compile import executeCommand

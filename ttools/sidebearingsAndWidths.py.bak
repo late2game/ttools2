@@ -7,19 +7,9 @@
 
 ### Modules
 # custom
-from __future__ import absolute_import
-#!/usr/bin/env python
-# coding: utf-8
-
-##################################
-# Set sidebearings or set widths #
-##################################
-
-### Modules
-# custom
-from . import ui.userInterfaceValues
+import ui.userInterfaceValues
 reload(ui.userInterfaceValues)
-from .ui.userInterfaceValues import vanillaControlsSize
+from ui.userInterfaceValues import vanillaControlsSize
 
 # standard
 import types
@@ -71,11 +61,11 @@ OPERATORS_2_FUNCTION = {
 def changeSidebearings(aGlyph, whichOperation, targetLocation, amount, isBeamActive, beamHeight):
     assert whichOperation in ARITHMETIC_OPERATOR
     assert targetLocation in LOCATIONS
-    assert isinstance(amount, int)
-    assert isinstance(isBeamActive, bool)
+    assert isinstance(amount, types.IntType)
+    assert isinstance(isBeamActive, types.BooleanType)
 
     if isBeamActive is True:
-        assert isinstance(beamHeight, int)
+        assert isinstance(beamHeight, types.IntType)
     else:
         beamHeight = None
 
@@ -101,7 +91,7 @@ def changeSidebearings(aGlyph, whichOperation, targetLocation, amount, isBeamAct
 def changeWidth(aGlyph, whichOperation, whereToAct, amount):
     assert whichOperation in ARITHMETIC_OPERATOR
     assert whereToAct in WHERE_TO_ACT_OPTIONS
-    assert isinstance(amount, int)
+    assert isinstance(amount, types.IntType)
 
     chosenFunction = OPERATORS_2_FUNCTION[whichOperation]
     newWidth = chosenFunction(aGlyph.width, amount)

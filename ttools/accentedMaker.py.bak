@@ -7,15 +7,13 @@
 
 ### Modules
 # custom modules
-from __future__ import print_function
-from __future__ import absolute_import
-from . import ui.userInterfaceValues
+import ui.userInterfaceValues
 reload(ui.userInterfaceValues)
-from .ui.userInterfaceValues import vanillaControlsSize, glyphCollectionColors
+from ui.userInterfaceValues import vanillaControlsSize, glyphCollectionColors
 
-from . import extraTools.miscFunctions
+import extraTools.miscFunctions
 reload(extraTools.miscFunctions)
-from .extraTools.miscFunctions import selectAnchorByName
+from extraTools.miscFunctions import selectAnchorByName
 
 # standard modules
 import os
@@ -204,7 +202,7 @@ class AccentedMaker(BaseWindowController):
             for eachAccentedName, eachBaseName, eachAccentName, eachAnchorName in self.whichGlyphList:
 
                 # base glyph
-                if (eachBaseName in eachFont) is False:
+                if eachFont.has_key(eachBaseName) is False:
                     report.append(MISSING_GLYPH % {'glyphName': eachBaseName, 'accentedName': eachAccentedName})
                     if eachAccentedName not in toSkip:
                         toSkip.append(eachAccentedName)
@@ -232,7 +230,7 @@ class AccentedMaker(BaseWindowController):
                                 eachBaseGlyph.mark = ERROR_MARK_COLOR
 
                 # accent
-                if (eachAccentName in eachFont) is False:
+                if eachFont.has_key(eachAccentName) is False:
                     report.append(MISSING_GLYPH % {'glyphName': eachAccentName, 'accentedName': eachAccentedName})
                     if eachAccentedName not in toSkip:
                         toSkip.append(eachAccentedName)
@@ -293,7 +291,7 @@ class AccentedMaker(BaseWindowController):
                 eachAccentGlyph = eachFont[eachAccentName]
                 eachAccentAnchor = selectAnchorByName(eachAccentGlyph, '_%s' % eachAnchorName)
 
-                if (eachAccentedName in eachFont) is False:
+                if eachFont.has_key(eachAccentedName) is False:
                     eachAccentedGlyph = eachFont.newGlyph(eachAccentedName)
                 else:
                     eachAccentedGlyph = eachFont[eachAccentedName]

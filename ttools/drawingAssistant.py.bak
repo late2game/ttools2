@@ -7,21 +7,19 @@
 
 ### Modules
 # custom
-from __future__ import print_function
-from __future__ import absolute_import
-from . import ui.userInterfaceValues
+import ui.userInterfaceValues
 reload(ui.userInterfaceValues)
-from .ui.userInterfaceValues import vanillaControlsSize
+from ui.userInterfaceValues import vanillaControlsSize
 
-from . import extraTools.calcFunctions
+import extraTools.calcFunctions
 reload(extraTools.calcFunctions)
-from .extraTools.calcFunctions import intersectionBetweenSegments, calcAngle, calcDistance
-from .extraTools.calcFunctions import calcStemsData, calcDiagonalsData, calcMidPoint
+from extraTools.calcFunctions import intersectionBetweenSegments, calcAngle, calcDistance
+from extraTools.calcFunctions import calcStemsData, calcDiagonalsData, calcMidPoint
 
-from . import extraTools.miscFunctions
+import extraTools.miscFunctions
 reload(extraTools.miscFunctions)
-from .extraTools.miscFunctions import collectIDsFromSelectedPoints, guessStemPoints
-from .extraTools.miscFunctions import getOpenedFontFromPath
+from extraTools.miscFunctions import collectIDsFromSelectedPoints, guessStemPoints
+from extraTools.miscFunctions import getOpenedFontFromPath
 
 # standard
 import os, sys
@@ -486,7 +484,7 @@ class SingleNeighborController(Group):
     def updateCurrentGlyph(self):
         if self.glyphPop.get() == 0:
             glyphName = CurrentGlyphWindow().getGlyph().name
-            if glyphName in self.activeFont:
+            if self.activeFont.has_key(glyphName):
                 self.activeGlyph = self.activeFont[glyphName]
             else:
                 self.activeGlyph = None
@@ -527,7 +525,7 @@ class SingleNeighborController(Group):
     def fontPopCallback(self, sender):
         self.activeFont = getOpenedFontFromPath(AllFonts(), self.openedFonts[sender.get()])
         self.glyphPop.setItems(self.activeGlyphOrder)
-        if self.activeGlyph.name in self.activeFont:
+        if self.activeFont.has_key(self.activeGlyph.name):
             self.activeGlyph = self.activeFont[self.activeGlyph.name]
         else:
             self.activeGlyph = self.activeFont[self.activeGlyphOrder[0]]
@@ -542,7 +540,7 @@ class SingleNeighborController(Group):
         else:
             glyphName = self.activeGlyphOrder[sender.get()]
 
-        if glyphName in self.activeFont:
+        if self.activeFont.has_key(glyphName):
             self.activeGlyph = self.activeFont[glyphName]
         else:
             self.activeGlyph = None
@@ -700,7 +698,7 @@ class DrawingAssistant(BaseWindowController):
                     self._drawBcpLenght(self.rgtGlyph, scalingFactor, offset_X=currentGlyph.width)
 
         except Exception as error:
-            print(traceback.format_exc())
+            print traceback.format_exc()
 
     def _drawPreview(self, infoDict):
         currentGlyph = infoDict['glyph']
@@ -712,7 +710,7 @@ class DrawingAssistant(BaseWindowController):
             if self.rgtGlyph and self.rgtNeighborActive is True:
                 self._drawGlyphBlack(self.rgtGlyph, scalingFactor, offset_X=currentGlyph.width)
         except Exception as error:
-            print(traceback.format_exc())
+            print traceback.format_exc()
 
     def _drawBackground(self, infoDict):
         currentGlyph = infoDict['glyph']
@@ -747,7 +745,7 @@ class DrawingAssistant(BaseWindowController):
                 self._drawOffgridPoints(currentGlyph, scalingFactor)
 
         except Exception as error:
-            print(traceback.format_exc())
+            print traceback.format_exc()
 
     def _drawOffgridPoints(self, glyph, scalingFactor):
         dt.save()
@@ -1103,7 +1101,7 @@ class DrawingAssistant(BaseWindowController):
                 self.pushFontAttr(eachFontAttrName)
 
                 activeName = getattr(self, eachGlyphAttrName).name
-                if activeName in anotherFont:
+                if anotherFont.has_key(activeName):
                     setattr(self, eachGlyphAttrName, anotherFont[activeName])
                 else:
                     setattr(self, eachGlyphAttrName, anotherFont[anotherFont.glyphOrder[0]])

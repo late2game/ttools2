@@ -7,22 +7,12 @@
 
 ### Modules
 # custom
-from __future__ import absolute_import
-#!/usr/bin/env python
-# coding: utf-8
-
-#################################
-# TTools for numr, fractions... #
-#################################
-
-### Modules
-# custom
-from . import ui.userInterfaceValues
+import ui.userInterfaceValues
 reload(ui.userInterfaceValues)
-from .ui.userInterfaceValues import vanillaControlsSize
-from . import extraTools.miscFunctions
+from ui.userInterfaceValues import vanillaControlsSize
+import extraTools.miscFunctions
 reload(extraTools.miscFunctions)
-from .extraTools.miscFunctions import loadGlyphNamesTable
+from extraTools.miscFunctions import loadGlyphNamesTable
 
 # standard
 import os
@@ -171,7 +161,7 @@ class CopyAndMove(object):
                     targetGlyph = eachFont[eachTarget]
                     targetGlyph.clear()
 
-                if isinstance(eachSource, list) is False:
+                if isinstance(eachSource, types.ListType) is False:
                     targetGlyph.width = eachFont[eachSource].width
                     targetGlyph.appendComponent(eachSource, (0, self.verticalOffset))
                 else:

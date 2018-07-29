@@ -7,11 +7,9 @@
 
 ### Modules
 # custom modules
-from __future__ import print_function
-from __future__ import absolute_import
-from . import ui.userInterfaceValues
+import ui.userInterfaceValues
 reload(ui.userInterfaceValues)
-from .ui.userInterfaceValues import vanillaControlsSize
+from ui.userInterfaceValues import vanillaControlsSize
 
 # standard modules
 from vanilla import FloatingWindow, Group, PopUpButton, TextBox, CheckBox, SquareButton
@@ -110,16 +108,16 @@ class ContrastController(object):
 
 
     def libChoiceCallback(self, sender):
-        print(sender.get())
+        print sender.get()
 
     def addButtonCallback(self, sender):
-        print('hit addButtonCallback')
+        print 'hit addButtonCallback'
 
     def removeButtonCallback(self, sender):
-        print('hit removeButtonCallback')
+        print 'hit removeButtonCallback'
 
     def checkBoxStarCallback(self, sender):
-        print(sender.get())
+        print sender.get()
 
 if __name__ == '__main__':
     cc = ContrastController()

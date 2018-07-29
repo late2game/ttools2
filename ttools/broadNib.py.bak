@@ -7,20 +7,18 @@
 
 ### Modules
 # custom
-from __future__ import print_function
-from __future__ import absolute_import
-from . import extraTools.miscFunctions
+import extraTools.miscFunctions
 reload(extraTools.miscFunctions)
-from .extraTools.miscFunctions import collectIDsFromSelectedPoints
+from extraTools.miscFunctions import collectIDsFromSelectedPoints
 
-from . import extraTools.calcFunctions
+import extraTools.calcFunctions
 reload(extraTools.calcFunctions)
-from .extraTools.calcFunctions import interpolateValue, calcDistance
+from extraTools.calcFunctions import interpolateValue, calcDistance
 
-from . import extraTools.bezierTools
+import extraTools.bezierTools
 reload(extraTools.bezierTools)
-from .extraTools.bezierTools import calcPointOnBezier, collectsPointsOnBezierCurve
-from .extraTools.bezierTools import collectsPointsOnBezierCurveWithFixedDistance
+from extraTools.bezierTools import calcPointOnBezier, collectsPointsOnBezierCurve
+from extraTools.bezierTools import collectsPointsOnBezierCurveWithFixedDistance
 
 
 # standard
@@ -224,7 +222,7 @@ class BroadNib(object):
         try:
             self.nibWidth = int(sender.get())
         except ValueError:
-            print(traceback.format_exc())
+            print traceback.format_exc()
             self.nibWidth = None
             self.win.widthEdit.set('')
 
@@ -232,7 +230,7 @@ class BroadNib(object):
         try:
             self.nibHeight = int(sender.get())
         except ValueError:
-            print(traceback.format_exc())
+            print traceback.format_exc()
             self.nibHeight = None
             self.win.heightEdit.set('')
 
@@ -240,7 +238,7 @@ class BroadNib(object):
         try:
             self.nibAngle = int(sender.get())
         except ValueError:
-            print(traceback.format_exc())
+            print traceback.format_exc()
             self.nibAngle = None
             self.win.angleEdit.set('')
 
