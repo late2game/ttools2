@@ -2,7 +2,6 @@
 # coding: utf-8
 
 """here we draw and edit the metrics"""
-from __future__ import print_function
 
 ### Modules
 # custom
@@ -184,8 +183,8 @@ class SpacingMatrix(Group):
 
             dt.restore()
 
-        except Exception as error:
-            print(traceback.format_exc())
+        except Exception, error:
+            print traceback.format_exc()
 
     def setLineViewSelectedGlyph(self, aGlyph):
         self.lineViewSelectedGlyph = aGlyph
@@ -219,7 +218,7 @@ class SpacingMatrix(Group):
         for eachFont in self.fontsOrder:
             try:
                 eachGlyph = eachFont[glyphName]
-            except Exception as error:
+            except Exception, error:
                 continue
 
             if eachGlyph == self.lineViewSelectedGlyph:

@@ -7,7 +7,6 @@
 
 ### Modules
 # standard
-from __future__ import absolute_import
 import os
 import types
 from mojo.roboFont import RFont, RGlyph
@@ -15,9 +14,9 @@ from itertools import product
 from mojo.tools import IntersectGlyphWithLine
 
 # custom
-from . import miscFunctions
+import miscFunctions
 reload(miscFunctions)
-from .miscFunctions import loadGlyphNamesTable
+from miscFunctions import loadGlyphNamesTable
 
 ### Constants
 # glyphLists
@@ -106,7 +105,7 @@ def areSidebearingsFlipped(glyph1, glyph2):
 def isSidebearingEqual(glyph1, glyph2, position, height):
     # checking arguments qualities
     assert position == '*left' or position == '*right'
-    assert type(height) is int
+    assert type(height) is types.IntType
 
     intersections1 = IntersectGlyphWithLine(glyph1,
                                             ((0, height), (glyph1.width, height)),
@@ -466,15 +465,15 @@ def checkFlippedMargins(sourceFont):
     missingGlyphs = []
 
     for eachLftName, eachRgtName in INTERPUNCTION_FLIPPED_SIDEBEARINGS:
-        if eachLftName in sourceFont and eachRgtName in sourceFont:
+        if sourceFont.has_key(eachLftName) and sourceFont.has_key(eachRgtName):
             eachLftGlyph = sourceFont[eachLftName]
             eachRgtGlyph = sourceFont[eachRgtName]
             if areSidebearingsFlipped(eachLftGlyph, eachRgtGlyph) is False:
                 errorLines.append(FLIPPED_ERROR % {'glyphOne': eachLftName, 'glyphTwo': eachRgtName})
         else:
-            if (eachLftName in sourceFont) is False:
+            if sourceFont.has_key(eachLftName) is False:
                 missingGlyphs.append(eachLftName)
-            elif (eachRgtName in sourceFont) is False:
+            elif sourceFont.has_key(eachRgtName) is False:
                 missingGlyphs.append(eachRgtName)
 
     errorLines.append(END_ERROR % {'sep': SEP})

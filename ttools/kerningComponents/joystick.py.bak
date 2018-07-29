@@ -3,16 +3,14 @@
 
 ### Modules
 # custom
-from __future__ import print_function
-from __future__ import absolute_import
 from ..ui import userInterfaceValues
 reload(userInterfaceValues)
 from ..ui.userInterfaceValues import vanillaControlsSize
 
-from . import kerningMisc
+import kerningMisc
 reload(kerningMisc)
-from .kerningMisc import getCorrection, checkPairFormat, buildPairsFromString
-from .kerningMisc import MAJOR_STEP, MINOR_STEP
+from kerningMisc import getCorrection, checkPairFormat, buildPairsFromString
+from kerningMisc import MAJOR_STEP, MINOR_STEP
 
 # standard
 from vanilla import Group, SquareButton, CheckBox, EditText
@@ -417,7 +415,7 @@ class JoystickController(Group):
         except ValueError:
             if sender.get() != '-' or sender.get() != '':
                 self.activePairEditCorrection.set('%s' % self.keyboardCorrection)
-                print(traceback.format_exc())
+                print traceback.format_exc()
 
     def autoSaveCheckCallback(self, sender):
         self.lastEvent = 'autoSave'

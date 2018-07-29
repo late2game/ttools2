@@ -3,14 +3,13 @@
 
 ### Modules
 # custom
-from __future__ import absolute_import
 from ..extraTools import findPossibleOverlappingSegmentsPen
 reload(findPossibleOverlappingSegmentsPen)
 from ..extraTools.findPossibleOverlappingSegmentsPen import FindPossibleOverlappingSegmentsPen
 
-from . import exceptionTools
+import exceptionTools
 reload(exceptionTools)
-from .exceptionTools import whichGroup, isPairException
+from exceptionTools import whichGroup, isPairException
 
 # standard
 import os
@@ -102,10 +101,10 @@ def findSymmetricalPair(aPair):
 
 
 def checkPairFormat(value):
-    assert isinstance(value, tuple), 'wrong pair format'
+    assert isinstance(value, types.TupleType), 'wrong pair format'
     assert len(value) == 2, 'wrong pair format'
-    assert isinstance(value[0], str), 'wrong pair format'
-    assert isinstance(value[1], str), 'wrong pair format'
+    assert isinstance(value[0], types.UnicodeType), 'wrong pair format'
+    assert isinstance(value[1], types.UnicodeType), 'wrong pair format'
 
 
 def buildPairsFromString(uniString, aFont):

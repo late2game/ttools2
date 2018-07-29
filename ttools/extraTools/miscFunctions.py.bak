@@ -2,13 +2,12 @@
 # coding: utf-8
 
 """handy functions for dealing with a bit of anything"""
-from __future__ import absolute_import
 
 ### Modules
 # custom
-from . import calcFunctions
+import calcFunctions
 reload(calcFunctions)
-from .calcFunctions import isBlackInBetween, calcDistanceBetweenPTs
+from calcFunctions import isBlackInBetween, calcDistanceBetweenPTs
 
 # standard
 import os

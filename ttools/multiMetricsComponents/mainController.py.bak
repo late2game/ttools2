@@ -2,8 +2,6 @@
 # coding: utf-8
 
 """one main controller, to rule them all"""
-from __future__ import print_function
-from __future__ import absolute_import
 
 ### Modules
 # other components
@@ -19,13 +17,13 @@ from ..ui.userInterfaceValues import vanillaControlsSize
 reload(uiControllers)
 from ..ui.uiControllers import FontsOrderController, FONT_ROW_HEIGHT
 
-from . import topCtrls, sidebar, spacingMatrix
+import topCtrls, sidebar, spacingMatrix
 reload(topCtrls)
-from .topCtrls import Typewriter, TextStringsControls
+from topCtrls import Typewriter, TextStringsControls
 reload(sidebar)
-from .sidebar import ComboBoxWithCaption
+from sidebar import ComboBoxWithCaption
 reload(spacingMatrix)
-from .spacingMatrix import SpacingMatrix
+from spacingMatrix import SpacingMatrix
 
 # standard
 import os
@@ -247,7 +245,7 @@ class MultiFontMetricsWindow(BaseWindowController):
         self.subscribedGlyph = []
         for eachFont in self.fontsOrder:
             for eachGlyphName in self.glyphNamesToDisplay:
-                if eachGlyphName in eachFont:
+                if eachFont.has_key(eachGlyphName):
                     eachGlyph = eachFont[eachGlyphName]
                     if eachGlyph not in self.subscribedGlyph: # you can't subscribe a glyph twice
                         eachGlyph.addObserver(self, "glyphChangedCallback", "Glyph.Changed")
@@ -348,10 +346,10 @@ class MultiFontMetricsWindow(BaseWindowController):
                         displayedGlyphs.append(newLineGlyph)
 
                     for eachGlyphName in self.glyphNamesToDisplay:
-                        if eachGlyphName in eachFont:
+                        if eachFont.has_key(eachGlyphName):
                             displayedGlyphs.append(eachFont[eachGlyphName])
                         else:
-                            if '.notdef' in eachFont:
+                            if eachFont.has_key('.notdef'):
                                 displayedGlyphs.append(eachFont['.notdef'])
                             else:
                                 displayedGlyphs.append(NOT_DEF_GLYPH)
@@ -360,10 +358,10 @@ class MultiFontMetricsWindow(BaseWindowController):
                 for eachGlyphName in self.glyphNamesToDisplay:
                     for indexFont, eachFont in enumerate(self.fontsOrder):
                         assert isinstance(eachFont, RFont), 'object in self.fontsOrder not a RFont'
-                        if eachGlyphName in eachFont:
+                        if eachFont.has_key(eachGlyphName):
                             displayedGlyphs.append(eachFont[eachGlyphName])
                         else:
-                            if '.notdef' in eachFont:
+                            if eachFont.has_key('.notdef'):
                                 displayedGlyphs.append(eachFont['.notdef'])
                             else:
                                 displayedGlyphs.append(NOT_DEF_GLYPH)
@@ -399,8 +397,8 @@ class MultiFontMetricsWindow(BaseWindowController):
             # update spacing matrix
             self.w.spacingMatrix.canvas.update()
 
-        except Exception as error:
-            print(traceback.format_exc())
+        except Exception, error:
+            print traceback.format_exc()
 
     ### callback
     def switchButtonCallback(self, sender):

@@ -3,17 +3,15 @@
 
 ### Modules
 # custom
-from __future__ import print_function
-from __future__ import absolute_import
-from . import exceptionTools
+import exceptionTools
 reload(exceptionTools)
-from .exceptionTools import checkPairConflicts, isPairException, calcWiggle
+from exceptionTools import checkPairConflicts, isPairException, calcWiggle
 
-from . import kerningMisc
+import kerningMisc
 reload(kerningMisc)
-from .kerningMisc import whichGroup, getCorrection, buildPairsFromString
-from .kerningMisc import checkIfPairOverlaps
-from .kerningMisc import CANVAS_SCALING_FACTOR_INIT
+from kerningMisc import whichGroup, getCorrection, buildPairsFromString
+from kerningMisc import checkIfPairOverlaps
+from kerningMisc import CANVAS_SCALING_FACTOR_INIT
 
 from ..ui import userInterfaceValues
 reload(userInterfaceValues)
@@ -111,8 +109,8 @@ class WordDisplay(Group):
         for eachPair in self.displayedPairs:
             status, pairsDB = checkPairConflicts(eachPair, self.fontObj)
             if status is False:
-                print('conflicting pairs')
-                print('please check the DB:', pairsDB)
+                print 'conflicting pairs'
+                print 'please check the DB:', pairsDB
 
     def getActivePair(self):
         return self.activePair
@@ -602,4 +600,4 @@ class WordDisplay(Group):
                 dt.restore()
 
         except Exception:
-            print(traceback.format_exc())
+            print traceback.format_exc()

@@ -7,43 +7,33 @@
 
 ### Modules
 # components
-from __future__ import absolute_import
-#!/usr/bin/env python
-# coding: utf-8
-
-###############################
-# This is the main controller #
-###############################
-
-### Modules
-# components
-from . import factor
+import factor
 reload(factor)
-from .factor import FactorController
+from factor import FactorController
 
-from . import graphicsManager
+import graphicsManager
 reload(graphicsManager)
-from .graphicsManager import GraphicsManager
+from graphicsManager import GraphicsManager
 
-from . import joystick
+import joystick
 reload(joystick)
-from .joystick import JoystickController
+from joystick import JoystickController
 
-from . import wordDisplay
+import wordDisplay
 reload(wordDisplay)
-from .wordDisplay import WordDisplay
+from wordDisplay import WordDisplay
 
-from . import wordList
+import wordList
 reload(wordList)
-from .wordList import WordListController
+from wordList import WordListController
 
-from . import chooseException
+import chooseException
 reload(chooseException)
-from .chooseException import ChooseExceptionWindow
+from chooseException import ChooseExceptionWindow
 
-from . import jumpToLine
+import jumpToLine
 reload(jumpToLine)
-from .jumpToLine import JumpToLineWindow
+from jumpToLine import JumpToLineWindow
 
 # custom
 from ..ui import userInterfaceValues
@@ -54,17 +44,17 @@ from ..ui import uiControllers
 reload(uiControllers)
 from ..ui.uiControllers import FontsOrderController, FONT_ROW_HEIGHT
 
-from . import kerningMisc
+import kerningMisc
 reload(kerningMisc)
-from .kerningMisc import checkPairFormat, getCorrection, findSymmetricalPair
-from .kerningMisc import buildPairsFromString, setCorrection, setRawCorrection
-from .kerningMisc import isPairException, deletePair, MAJOR_STEP
-from .kerningMisc import MINOR_STEP, MARGIN_VER, MARGIN_HOR, MARGIN_COL
-from .kerningMisc import CANVAS_SCALING_FACTOR_INIT
+from kerningMisc import checkPairFormat, getCorrection, findSymmetricalPair
+from kerningMisc import buildPairsFromString, setCorrection, setRawCorrection
+from kerningMisc import isPairException, deletePair, MAJOR_STEP
+from kerningMisc import MINOR_STEP, MARGIN_VER, MARGIN_HOR, MARGIN_COL
+from kerningMisc import CANVAS_SCALING_FACTOR_INIT
 
-from . import exceptionTools
+import exceptionTools
 reload(exceptionTools)
-from .exceptionTools import checkGroupConflicts, possibleExceptions
+from exceptionTools import checkGroupConflicts, possibleExceptions
 
 # standard
 import os
@@ -791,7 +781,7 @@ class KerningController(BaseWindowController):
             record = self.archive[self.recordIndex]
 
         # these records, we can simply invert (they related to events in UI)
-        if isinstance(record, bytes) is True:
+        if isinstance(record, types.StringType) is True:
             if record == 'nextWord':
                 if direction == 'undo':
                     self.previousWord(isRecording=False)
