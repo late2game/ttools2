@@ -1,1 +1,0 @@
-"""Here some stuff useful for user interface definition"""
