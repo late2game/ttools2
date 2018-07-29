@@ -6,64 +6,24 @@
 ###############################
 
 ### Modules
-# components
 from __future__ import absolute_import
-#!/usr/bin/env python
-# coding: utf-8
-
-###############################
-# This is the main controller #
-###############################
-
-### Modules
 # components
-from . import factor
-reload(factor)
 from .factor import FactorController
-
-from . import graphicsManager
-reload(graphicsManager)
 from .graphicsManager import GraphicsManager
-
-from . import joystick
-reload(joystick)
 from .joystick import JoystickController
-
-from . import wordDisplay
-reload(wordDisplay)
 from .wordDisplay import WordDisplay
-
-from . import wordList
-reload(wordList)
 from .wordList import WordListController
-
-from . import chooseException
-reload(chooseException)
 from .chooseException import ChooseExceptionWindow
-
-from . import jumpToLine
-reload(jumpToLine)
 from .jumpToLine import JumpToLineWindow
 
 # custom
-from ..ui import userInterfaceValues
-reload(userInterfaceValues)
 from ..ui.userInterfaceValues import vanillaControlsSize
-
-from ..ui import uiControllers
-reload(uiControllers)
 from ..ui.uiControllers import FontsOrderController, FONT_ROW_HEIGHT
-
-from . import kerningMisc
-reload(kerningMisc)
 from .kerningMisc import checkPairFormat, getCorrection, findSymmetricalPair
 from .kerningMisc import buildPairsFromString, setCorrection, setRawCorrection
 from .kerningMisc import isPairException, deletePair, MAJOR_STEP
 from .kerningMisc import MINOR_STEP, MARGIN_VER, MARGIN_HOR, MARGIN_COL
 from .kerningMisc import CANVAS_SCALING_FACTOR_INIT
-
-from . import exceptionTools
-reload(exceptionTools)
 from .exceptionTools import checkGroupConflicts, possibleExceptions
 
 # standard
@@ -280,7 +240,7 @@ class KerningController(BaseWindowController):
                 self.kerningLogger.error(report)
 
     def deleteWordDisplays(self):
-        for eachI in xrange(len(self.fontsOrder)):
+        for eachI in range(len(self.fontsOrder)):
             try:
                 delattr(self.w, 'wordCtrl_%#02d' % (eachI+1))
                 self.jumping_Y = MARGIN_VER+vanillaControlsSize['TextBoxRegularHeight']
@@ -299,7 +259,7 @@ class KerningController(BaseWindowController):
         rightColumnWidth = windowWidth-LEFT_COLUMN-MARGIN_COL
 
         self.jumping_Y = MARGIN_VER+vanillaControlsSize['TextBoxRegularHeight']+MARGIN_COL
-        for eachI in xrange(len(self.fontsOrder)):
+        for eachI in range(len(self.fontsOrder)):
 
             if eachI == self.navCursor_Y:
                 initPairIndex = self.navCursor_X
@@ -330,7 +290,7 @@ class KerningController(BaseWindowController):
             setattr(self.w, 'wordCtrl_%#02d' % (eachI+1), wordCtrl)
 
     def updateWordDisplays(self):
-        for eachI in xrange(len(self.fontsOrder)):
+        for eachI in range(len(self.fontsOrder)):
             eachDisplay = getattr(self.w, 'wordCtrl_%#02d' % (eachI+1))
             eachDisplay.setSymmetricalEditingMode(self.isSymmetricalEditingOn)
             eachDisplay.setFlippedEditingMode(self.isFlippedEditingOn)
@@ -369,7 +329,7 @@ class KerningController(BaseWindowController):
 
     def oneStepGroupSwitch(self, location):
         if self.isVerticalAlignedEditingOn is True:
-            for eachI in xrange(len(self.fontsOrder)):
+            for eachI in range(len(self.fontsOrder)):
                 eachDisplay = getattr(self.w, 'wordCtrl_%#02d' % (eachI+1))
                 eachDisplay.switchGlyphFromGroup(location, self.navCursor_X)
         else:
@@ -380,7 +340,7 @@ class KerningController(BaseWindowController):
         self.w.displayedWordCaption.set(self.displayedWord)
         if len(self.displayedWord)-1 < (self.navCursor_X+1):
             self.navCursor_X = len(self.displayedWord)-2
-        for eachI in xrange(len(self.fontsOrder)):
+        for eachI in range(len(self.fontsOrder)):
             eachDisplay = getattr(self.w, 'wordCtrl_%#02d' % (eachI+1))
 
             if self.isVerticalAlignedEditingOn is False:
@@ -434,7 +394,7 @@ class KerningController(BaseWindowController):
 
     def switchVerticalAlignedEditing(self, isRecording=True):
         self.isVerticalAlignedEditingOn = not self.isVerticalAlignedEditingOn
-        for eachI in xrange(len(self.fontsOrder)):
+        for eachI in range(len(self.fontsOrder)):
             eachDisplay = getattr(self.w, 'wordCtrl_%#02d' % (eachI+1))
             if self.isVerticalAlignedEditingOn is True:
                 eachDisplay.setActivePairIndex(self.navCursor_X)
@@ -560,7 +520,7 @@ class KerningController(BaseWindowController):
                 self.appendRecord('cursorRight')
 
         self.navCursor_X = (self.navCursor_X+step)%(len(self.displayedWord)-1)
-        for eachI in xrange(len(self.fontsOrder)):
+        for eachI in range(len(self.fontsOrder)):
             eachDisplay = getattr(self.w, 'wordCtrl_%#02d' % (eachI+1))
             if self.isVerticalAlignedEditingOn is False:
                 if eachI == self.navCursor_Y:
@@ -628,7 +588,7 @@ class KerningController(BaseWindowController):
             singleWordDisplayHeight = 0
 
         y = initY
-        for eachI in xrange(len(self.fontsOrder)):
+        for eachI in range(len(self.fontsOrder)):
             eachDisplay = getattr(self.w, 'wordCtrl_%#02d' % (eachI+1))
             eachDisplay.adjustSize((self.jumping_X, y, rightColumnWidth, singleWordDisplayHeight))
             eachDisplay.setCtrlSize(rightColumnWidth, singleWordDisplayHeight)

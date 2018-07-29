@@ -2,14 +2,10 @@
 # coding: utf-8
 
 ### Modules
-# custom
 from __future__ import absolute_import
-from ..extraTools import findPossibleOverlappingSegmentsPen
-reload(findPossibleOverlappingSegmentsPen)
-from ..extraTools.findPossibleOverlappingSegmentsPen import FindPossibleOverlappingSegmentsPen
 
-from . import exceptionTools
-reload(exceptionTools)
+# custom
+from ..extraTools.findPossibleOverlappingSegmentsPen import FindPossibleOverlappingSegmentsPen
 from .exceptionTools import whichGroup, isPairException
 
 # standard

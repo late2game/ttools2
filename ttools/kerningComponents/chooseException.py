@@ -3,8 +3,6 @@
 
 ### Modules
 # custom
-from ..ui import userInterfaceValues
-reload(userInterfaceValues)
 from ..ui.userInterfaceValues import vanillaControlsSize
 
 # standard

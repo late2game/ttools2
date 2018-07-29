@@ -6,19 +6,8 @@
 ##################################
 
 ### Modules
-# custom
 from __future__ import absolute_import
-#!/usr/bin/env python
-# coding: utf-8
-
-##################################
-# Set sidebearings or set widths #
-##################################
-
-### Modules
 # custom
-from . import ui.userInterfaceValues
-reload(ui.userInterfaceValues)
 from .ui.userInterfaceValues import vanillaControlsSize
 
 # standard

@@ -6,25 +6,13 @@
 ##################################################
 
 ### Modules
-# custom
 from __future__ import absolute_import
-#!/usr/bin/env python
-# coding: utf-8
-
-##################################################
-# some ui controllers shared among various tools #
-##################################################
-
-### Modules
 # custom
-from . import userInterfaceValues
-reload(userInterfaceValues)
 from .userInterfaceValues import vanillaControlsSize
 
 # standard
 import os
 from vanilla import Group, TextBox, SquareButton
-
 
 ### Constants
 FONT_ROW_HEIGHT = 28

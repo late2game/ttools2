@@ -2,12 +2,11 @@
 # coding: utf-8
 
 """here we draw and edit the metrics"""
-from __future__ import print_function
 
 ### Modules
+from __future__ import print_function
+
 # custom
-from ..ui import userInterfaceValues
-reload(userInterfaceValues)
 from ..ui.userInterfaceValues import vanillaControlsSize
 
 # standard

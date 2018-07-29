@@ -2,19 +2,9 @@
 # coding: utf-8
 
 ### Modules
-# custom
 from __future__ import absolute_import
-#!/usr/bin/env python
-# coding: utf-8
-
-### Modules
 # custom
-from . import kerningMisc
-reload(kerningMisc)
 from .kerningMisc import MARGIN_VER
-
-from ..ui import userInterfaceValues
-reload(userInterfaceValues)
 from ..ui.userInterfaceValues import vanillaControlsSize
 
 # standard

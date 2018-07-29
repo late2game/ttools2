@@ -2,29 +2,19 @@
 # coding: utf-8
 
 """one main controller, to rule them all"""
+
+### Modules
 from __future__ import print_function
 from __future__ import absolute_import
 
-### Modules
-# other components
-
 # custom
-from ..extraTools import miscFunctions
-reload(miscFunctions)
 from ..extraTools.miscFunctions import catchFilesAndFolders
-
-from ..ui import userInterfaceValues, uiControllers
-reload(userInterfaceValues)
 from ..ui.userInterfaceValues import vanillaControlsSize
-reload(uiControllers)
 from ..ui.uiControllers import FontsOrderController, FONT_ROW_HEIGHT
 
-from . import topCtrls, sidebar, spacingMatrix
-reload(topCtrls)
+# controls
 from .topCtrls import Typewriter, TextStringsControls
-reload(sidebar)
 from .sidebar import ComboBoxWithCaption
-reload(spacingMatrix)
 from .spacingMatrix import SpacingMatrix
 
 # standard
@@ -107,7 +97,7 @@ class MultiFontMetricsWindow(BaseWindowController):
         # load edit text
         self.editTexts = {}
         self.collectEditTexts()
-        self.editTextSortedKeys = self.editTexts.keys().sort()
+        self.editTextSortedKeys = list(self.editTexts.keys()).sort()
 
         # let's see if there are opened fonts (fontDB, ctrlFontsList, fontsOrder)
         self.loadFontsOrder()

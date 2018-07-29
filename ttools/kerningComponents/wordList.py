@@ -9,13 +9,8 @@ from __future__ import absolute_import
 
 ### Modules
 # custom
-from . import kerningMisc
-reload(kerningMisc)
 from .kerningMisc import loadKerningTexts
 from .kerningMisc import MARGIN_VER
-
-from ..ui import userInterfaceValues
-reload(userInterfaceValues)
 from ..ui.userInterfaceValues import vanillaControlsSize
 
 # standard
@@ -39,7 +34,7 @@ class WordListController(Group):
 
         # handling kerning words
         self.kerningWordsDB = loadKerningTexts(KERNING_TEXT_FOLDER)
-        self.kerningTextBaseNames = self.kerningWordsDB.keys()
+        self.kerningTextBaseNames = list(self.kerningWordsDB.keys())
         self.activeKerningTextBaseName = self.kerningTextBaseNames[0]
         # this is the list used for data manipulation
         self.wordsWorkingList = self.kerningWordsDB[self.activeKerningTextBaseName]

@@ -39,7 +39,7 @@ def interpolateValue(poleOne, poleTwo, factor):
 
 def isBlackInBetween(glyph, pt1, pt2):
     distance = int(round(calcDistanceBetweenPTs(pt1, pt2), 0))
-    for index in xrange(distance):
+    for index in range(distance):
         eachX = interpolateValue(pt1.x, pt2.x, index/float(distance))
         eachY = interpolateValue(pt1.y, pt2.y, index/float(distance))
         if glyph.pointInside((eachX, eachY)) is False:

@@ -5,12 +5,7 @@
 # custom
 from __future__ import print_function
 from __future__ import absolute_import
-from ..ui import userInterfaceValues
-reload(userInterfaceValues)
 from ..ui.userInterfaceValues import vanillaControlsSize
-
-from . import kerningMisc
-reload(kerningMisc)
 from .kerningMisc import getCorrection, checkPairFormat, buildPairsFromString
 from .kerningMisc import MAJOR_STEP, MINOR_STEP
 
@@ -48,7 +43,7 @@ PLUS_MINOR_SHORTCUT = 'rightarrow', ['command']
 PLUS_MAJOR_SHORTCUT = 'rightarrow', ['option', 'command']
 
 PREVIEW_SHORTCUT = 'p', ['command']
-SOLVED_SHORTCUT = unichr(13), ['command']
+SOLVED_SHORTCUT = chr(13), ['command']
 
 EXCEPTION_SHORTCUT = 'e', ['command']
 LEFT_BROWSING_SHORTCUT = 'a', ['command']

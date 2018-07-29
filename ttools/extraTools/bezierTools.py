@@ -17,7 +17,7 @@ def collectsPointsOnBezierCurve(pt1, pt2, pt3, pt4, tStep):
     """Adapted from calcCubicBounds in fontTools
        by Just van Rossum https://github.com/behdad/fonttools"""
     a, b, c, d = calcCubicParameters(pt1, pt2, pt3, pt4)
-    steps = [t/float(tStep) for t in xrange(tStep)]
+    steps = [t/float(tStep) for t in range(tStep)]
 
     pointsWithT = [(pt1, 0)]
     for eachT in steps:
@@ -37,7 +37,7 @@ def collectsPointsOnBezierCurveWithFixedDistance(pt1, pt2, pt3, pt4, distance):
         eachPt, tStep = rawPoints[index]
         cleanPoints.append((eachPt, tStep))
 
-        for progress in xrange(1, len(rawPoints) - index):
+        for progress in range(1, len(rawPoints) - index):
             if calcDistance(eachPt, rawPoints[index+progress][0]) >= distance:
                 index = index + progress
                 break

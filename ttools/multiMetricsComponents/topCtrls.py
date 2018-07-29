@@ -5,8 +5,6 @@
 
 ### Modules
 # custom
-from ..ui import userInterfaceValues
-reload(userInterfaceValues)
 from ..ui.userInterfaceValues import vanillaControlsSize
 
 # standard
@@ -26,7 +24,7 @@ def spitDecentString(someGlyphs, unicodeData):
     decentString = ''
     for eachGlyphName in someGlyphs:
         if eachGlyphName in flippedUnicodeData:
-            decentString += unichr(flippedUnicodeData[eachGlyphName])
+            decentString += chr(flippedUnicodeData[eachGlyphName])
         else:
             decentString += '/%s ' % eachGlyphName
     return decentString
@@ -112,7 +110,7 @@ class TextStringsControls(Group):
         self.callback = callback
 
         self.editTexts = editTexts
-        self.editTextSortedKeys = self.editTexts.keys()
+        self.editTextSortedKeys = list(self.editTexts.keys())
         self.editTextSortedKeys.sort()
 
         self.chosenStringOption = self.stringOptions[0]
@@ -135,7 +133,7 @@ class TextStringsControls(Group):
         jumpingX += textFilePopUpWidth + MARGIN_COL
         textLinePopUpWidth = 60
         self.textLinePopUp = PopUpButton((jumpingX, 0, textLinePopUpWidth, vanillaControlsSize['PopUpButtonRegularHeight']),
-                                         ['%#02d' % item for item in xrange(1, len(self.chosenTxt)+1)],
+                                         ['%#02d' % item for item in range(1, len(self.chosenTxt)+1)],
                                          callback=self.textLinePopUpCallback)
 
         jumpingX += textLinePopUpWidth + MARGIN_COL
@@ -182,7 +180,7 @@ class TextStringsControls(Group):
         self.stringIndex = 0
         self.chosenLine = self.chosenTxt[self.stringIndex].split(' ')
 
-        self.textLinePopUp.setItems(['%#02d' % item for item in xrange(1, len(self.chosenTxt)+1)])
+        self.textLinePopUp.setItems(['%#02d' % item for item in range(1, len(self.chosenTxt)+1)])
         self.selectedLine.set(spitDecentString(self.chosenLine, self.unicodeMinimum))
         self.callback(self)
 

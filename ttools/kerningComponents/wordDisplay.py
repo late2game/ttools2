@@ -5,18 +5,10 @@
 # custom
 from __future__ import print_function
 from __future__ import absolute_import
-from . import exceptionTools
-reload(exceptionTools)
 from .exceptionTools import checkPairConflicts, isPairException, calcWiggle
-
-from . import kerningMisc
-reload(kerningMisc)
 from .kerningMisc import whichGroup, getCorrection, buildPairsFromString
 from .kerningMisc import checkIfPairOverlaps
 from .kerningMisc import CANVAS_SCALING_FACTOR_INIT
-
-from ..ui import userInterfaceValues
-reload(userInterfaceValues)
 from ..ui.userInterfaceValues import vanillaControlsSize
 
 # standard

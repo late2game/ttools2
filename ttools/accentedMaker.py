@@ -67,7 +67,7 @@ class AccentedMaker(BaseWindowController):
     whichGlyphList = None
     isVerbose = False
     markEditedGlyphs = False
-    firstMarkColorName = [kk for kk in glyphCollectionColors.keys()][0]
+    firstMarkColorName = list(glyphCollectionColors.keys())[0]
     markColor = glyphCollectionColors[firstMarkColorName]
 
     uppercaseAccents = False
@@ -451,7 +451,7 @@ class SharedCtrls(Group):
 
         jumpinY += vanillaControlsSize['PopUpButtonRegularHeight'] + MARGIN_ROW
         self.popGlyphList = PopUpButton((1, jumpinY, width-1, vanillaControlsSize['PopUpButtonRegularHeight']),
-                                        self.glyphLists[self.whichAction].keys(),
+                                        list(self.glyphLists[self.whichAction].keys()),
                                         callback=self.popGlyphListCallback)
 
         jumpinY += vanillaControlsSize['PopUpButtonRegularHeight'] + MARGIN_ROW*2
@@ -466,7 +466,7 @@ class SharedCtrls(Group):
                                               callback=self.checkMarkEditedColorsCallback)
 
         self.popColors = PopUpButton((width*.4, jumpinY, width*.6, vanillaControlsSize['PopUpButtonRegularHeight']),
-                                     glyphCollectionColors.keys(),
+                                     list(glyphCollectionColors.keys()),
                                      callback=self.popColorsCallback)
         self.popColors.enable(self.markEditedGlyphs)
 
@@ -508,15 +508,15 @@ class SharedCtrls(Group):
     def popActionCallback(self, sender):
         self.whichAction = self.actions[sender.get()]
         # update ctrls
-        self.popGlyphList.setItems(self.glyphLists[self.whichAction].keys())
+        self.popGlyphList.setItems(list(self.glyphLists[self.whichAction].keys()))
 
         # load first list of new section
-        firstKey = self.glyphLists[self.whichAction].keys()[0]
+        firstKey = list(self.glyphLists[self.whichAction].keys())[0]
         self.whichGlyphList = self.glyphLists[self.whichAction][firstKey]
         self.callback(self)
 
     def popGlyphListCallback(self, sender):
-        rightKey = self.glyphLists[self.whichAction].keys()[sender.get()]
+        rightKey = list(self.glyphLists[self.whichAction].keys())[sender.get()]
         self.whichGlyphList = self.glyphLists[self.whichAction][rightKey]
         self.callback(self)
 
