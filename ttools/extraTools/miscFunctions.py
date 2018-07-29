@@ -6,8 +6,6 @@ from __future__ import absolute_import
 
 ### Modules
 # custom
-from . import calcFunctions
-reload(calcFunctions)
 from .calcFunctions import isBlackInBetween, calcDistanceBetweenPTs
 
 # standard

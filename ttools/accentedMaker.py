@@ -9,12 +9,7 @@
 # custom modules
 from __future__ import print_function
 from __future__ import absolute_import
-from . import ui.userInterfaceValues
-reload(ui.userInterfaceValues)
 from .ui.userInterfaceValues import vanillaControlsSize, glyphCollectionColors
-
-from . import extraTools.miscFunctions
-reload(extraTools.miscFunctions)
 from .extraTools.miscFunctions import selectAnchorByName
 
 # standard modules
@@ -72,7 +67,8 @@ class AccentedMaker(BaseWindowController):
     whichGlyphList = None
     isVerbose = False
     markEditedGlyphs = False
-    markColor = glyphCollectionColors[glyphCollectionColors.keys()[0]]
+    firstMarkColorName = [kk for kk in glyphCollectionColors.keys()][0]
+    markColor = glyphCollectionColors[firstMarkColorName]
 
     uppercaseAccents = False
 
@@ -86,7 +82,7 @@ class AccentedMaker(BaseWindowController):
         self.loadAccentedData()
         self.parseGlyphListsFromAccentedData()
 
-        firstKey = self.glyphLists[self.whichAction].keys()[0]
+        firstKey = list(self.glyphLists[self.whichAction].keys())[0]
         self.whichGlyphList = self.glyphLists[self.whichAction][firstKey]
 
         self.w = FloatingWindow((0, 0, PLUGIN_WIDTH, self.pluginHeight),
