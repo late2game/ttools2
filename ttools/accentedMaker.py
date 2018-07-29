@@ -46,18 +46,18 @@ TABLE_PATH = os.path.join(os.path.dirname(__file__),
                           'accentedLettersTable.csv')
 
 # message templates
-MISSING_GLYPH = '\t[WARNING] we need %(glyphName)s in order to make %(accentedName)s' # {'glyphName': None, 'accentedName': None}
-MISSING_ANCHOR = '\t[WARNING] we need %(anchorName)s in %(glyphName)s in order to make %(accentedName)s' # {'anchorName': None, 'glyphName': None, 'accentedName': None}
-NO_ANCHORS = '\t[WARNING] there are no anchors in %(glyphName)s' # {'glyphName': None}
+MISSING_GLYPH = '\t[WARNING] we need {glyphName} in order to make {accentedName}' # {'glyphName': None, 'accentedName': None}
+MISSING_ANCHOR = '\t[WARNING] we need {anchorName} in {glyphName} in order to make {accentedName}' # {'anchorName': None, 'glyphName': None, 'accentedName': None}
+NO_ANCHORS = '\t[WARNING] there are no anchors in {glyphName}' # {'glyphName': None}
 
-NOT_READY = '\t\t[WARNING] %(accentedName)s from %(fontName)s has been skipped because is not ready yet' # {'accentedName': None, 'fontName': None}
+NOT_READY = '\t\t[WARNING] {accentedName} from {fontName} has been skipped because is not ready yet' # {'accentedName': None, 'fontName': None}
 
-START_FUNC = 'Starting %(funcName)s'
-END_FUNC = 'Ending %(funcName)s'
-START_FONT = '\tStarting font %(fontName)s' # {'fontName': None}
-APPEND_ANCHOR = '\t\t"%(anchorName)s" anchor placed at x: %(anchorX)s y: %(anchorHeight)s in %(glyphName)s' # {'anchorName': None, 'anchorX': None, 'anchorHeight': None, 'glyphName': None}
-REMOVE_ANCHOR = '\t\tremoved "%(anchorName)s" anchor from %(glyphName)s' # {'anchorName': None, 'glyphName': None}
-BUILT_GLYPH = '\t\t%(accentedName)s built using %(baseName)s and %(accentName)s thanks to %(anchorName)s anchor'
+START_FUNC = 'Starting {funcName}'
+END_FUNC = 'Ending {funcName}'
+START_FONT = '\tStarting font {fontName}' # {'fontName': None}
+APPEND_ANCHOR = '\t\t"{anchorName}" anchor placed at x: {anchorX} y: {anchorHeight} in {glyphName}' # {'anchorName': None, 'anchorX': None, 'anchorHeight': None, 'glyphName': None}
+REMOVE_ANCHOR = '\t\tremoved "{anchorName}" anchor from {glyphName}' # {'anchorName': None, 'glyphName': None}
+BUILT_GLYPH = '\t\t{accentedName} built using {baseName} and {accentName} thanks to {anchorName} anchor'
 
 
 ### Classes and functions
@@ -136,12 +136,12 @@ class AccentedMaker(BaseWindowController):
 
     def deleteAnchors(self):
         if self.isVerbose is True:
-            print START_FUNC % {'funcName': deleteAnchors.__name__}
+            print(START_FUNC.format(funcName=deleteAnchors.__name__))
 
         fontsToProcess = self.prepareFontsToAction()
         for eachFont in fontsToProcess:
             if self.isVerbose is True:
-                print START_FONT % {'fontName': '%s %s' % (eachFont.info.familyName, eachFont.info.styleName)}
+                print(START_FONT % {'fontName': '%s %s' % (eachFont.info.familyName, eachFont.info.styleName)})
 
             for eachGlyphName in self.whichGlyphList:
 
@@ -155,22 +155,22 @@ class AccentedMaker(BaseWindowController):
                 for eachAnchor in eachGlyph.anchors:
                     eachGlyph.removeAnchor(eachAnchor)
                     if self.isVerbose is True:
-                        print REMOVE_ANCHOR % {'anchorName': self.anchorName, 'glyphName': eachGlyphName}
+                        print(REMOVE_ANCHOR % {'anchorName': self.anchorName, 'glyphName': eachGlyphName})
 
         if self.isVerbose is True:
-            print END_FUNC % {'funcName': self.deleteAnchors.__name__}
+            print(END_FUNC.format(funcName=self.deleteAnchors.__name__))
 
     def placeAnchors(self):
         assert self.anchorName is not None, '[WARNING] no anchor name provided'
         assert self.anchorHeight is not None, '[WARNING] no anchor height provided'
 
         if self.isVerbose is True:
-            print START_FUNC % {'funcName': self.placeAnchors.__name__}
+            print(START_FUNC.format(funcName=self.placeAnchors.__name__))
 
         fontsToProcess = self.prepareFontsToAction()
         for eachFont in fontsToProcess:
             if self.isVerbose is True:
-                print START_FONT % {'fontName': '%s %s' % (eachFont.info.familyName, eachFont.info.styleName)}
+                print(START_FONT % {'fontName': '%s %s' % (eachFont.info.familyName, eachFont.info.styleName)})
 
             for eachGlyphName in self.whichGlyphList:
                 eachGlyph = eachFont[eachGlyphName]
@@ -186,10 +186,10 @@ class AccentedMaker(BaseWindowController):
                 eachGlyph.appendAnchor(self.anchorName, (eachGlyph.width/2., self.anchorHeight))
 
                 if self.isVerbose is True:
-                    print APPEND_ANCHOR % {'anchorName': self.anchorName, 'anchorX': eachGlyph.width/2., 'anchorHeight': self.anchorHeight, 'glyphName': eachGlyphName}
+                    print(APPEND_ANCHOR % {'anchorName': self.anchorName, 'anchorX': eachGlyph.width/2., 'anchorHeight': self.anchorHeight, 'glyphName': eachGlyphName})
 
         if self.isVerbose is True:
-            print END_FUNC % {'funcName': self.placeAnchors.__name__}
+            print(END_FUNC.format(funcName=self.placeAnchors.__name__))
 
     def checkAccented(self, isPrinting=True):
         report = []
@@ -262,7 +262,7 @@ class AccentedMaker(BaseWindowController):
             report.append('\n\n')
 
         if isPrinting is True:
-            print '\n'.join(report)
+            print('\n'.join(report))
 
         return notReady
 
@@ -271,18 +271,18 @@ class AccentedMaker(BaseWindowController):
         notReady = self.checkAccented(isPrinting=False)
 
         if self.isVerbose is True:
-            print START_FUNC % {'funcName': self.buildAccented.__name__}
+            print(START_FUNC.format(funcName=self.buildAccented.__name__))
 
         fontsToProcess = self.prepareFontsToAction()
         for eachFont in fontsToProcess:
             
             if self.isVerbose is True:
-                print START_FONT % {'fontName': '%s %s' % (eachFont.info.familyName, eachFont.info.styleName)}
+                print(START_FONT % {'fontName': '%s %s' % (eachFont.info.familyName, eachFont.info.styleName)})
 
             for eachAccentedName, eachBaseName, eachAccentName, eachAnchorName in self.whichGlyphList:
 
                 if eachAccentedName in notReady['%s %s' % (eachFont.info.familyName, eachFont.info.styleName)]:
-                    print NOT_READY % {'fontName': '%s %s' % (eachFont.info.familyName, eachFont.info.styleName), 'accentedName': eachAccentedName}
+                    print(NOT_READY % {'fontName': '%s %s' % (eachFont.info.familyName, eachFont.info.styleName), 'accentedName': eachAccentedName})
                     continue
 
                 eachBaseGlyph = eachFont[eachBaseName]
@@ -304,7 +304,7 @@ class AccentedMaker(BaseWindowController):
                 eachAccentedGlyph.appendComponent(eachAccentName, (accentOffsetX, accentOffsetY), (1,1))
 
                 if self.isVerbose is True:
-                    print BUILT_GLYPH % {'accentedName': eachAccentedName, 'baseName': eachBaseName, 'accentName': eachAccentName, 'anchorName': eachAnchorName}
+                    print(BUILT_GLYPH % {'accentedName': eachAccentedName, 'baseName': eachBaseName, 'accentName': eachAccentName, 'anchorName': eachAnchorName})
 
                 if self.markEditedGlyphs is True:
                     if version[0] == '2':
@@ -313,7 +313,7 @@ class AccentedMaker(BaseWindowController):
                         eachAccentedGlyph.mark = self.markColor
 
         if self.isVerbose is True:
-            print END_FUNC % {'funcName': self.buildAccented.__name__}
+            print(END_FUNC.format(funcName=self.buildAccented.__name__))
 
     # deal with table data
     def loadAccentedData(self):
