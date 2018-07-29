@@ -6,31 +6,27 @@
 ################
 
 ### Modules
-# standard
 from __future__ import absolute_import
-import os, sys
-import types
-import traceback
-from datetime import datetime
-from robofab.interface.all.dialogs import PutFile
-from mojo.events import addObserver, removeObserver
-from mojo.roboFont import AllFonts, RFont
-from vanilla import FloatingWindow, PopUpButton, HorizontalLine
-from vanilla import RadioGroup, TextBox, CheckBox, Button
-from defconAppKit.windows.baseWindow import BaseWindowController
 
 # custom
-from . import extraTools.testFunctions
-reload(extraTools.testFunctions)
 from .extraTools.testFunctions import checkVerticalExtremes, checkAccented
 from .extraTools.testFunctions import checkInterpunction, checkFigures
 from .extraTools.testFunctions import checkDnomNumrSubsSups, checkFractions
 from .extraTools.testFunctions import checkLCligatures, checkUCligatures
 from .extraTools.testFunctions import checkLCextra, checkUCextra, checkFlippedMargins
-
-from . import ui.userInterfaceValues
-reload(ui.userInterfaceValues)
 from .ui.userInterfaceValues import vanillaControlsSize
+
+# standard
+import os, sys
+import types
+import traceback
+from datetime import datetime
+from mojo.events import addObserver, removeObserver
+from mojo.roboFont import AllFonts, RFont
+from vanilla import FloatingWindow, PopUpButton, HorizontalLine
+from vanilla import RadioGroup, TextBox, CheckBox, Button
+from vanilla.dialogs import putFile
+from defconAppKit.windows.baseWindow import BaseWindowController
 
 ### Constants
 RADIO_GROUP_HEIGHT = 40
@@ -49,23 +45,26 @@ NET_WIDTH = PLUGIN_WIDTH - MARGIN_LFT*2
 
 ### Functions
 def convertLinesToString(errorLines, missingGlyphs, missingGlyphsMode):
-    report = ''
+    docLines = []
     for indexErrorLine, eachErrorLine in enumerate(errorLines[:-1]):
-        if isinstance(eachErrorLine, bytes) is True:
-            report += eachErrorLine + '\n'
+        if isinstance(eachErrorLine, str) is True:
+            docLines.append(eachErrorLine)
 
         else:   # list
             if indexErrorLine != 1:
-                report += '\n'
+                docLines.append('')
 
             for eachSubErrorLine in eachErrorLine:
-                report += eachSubErrorLine + '\n'
+                docLines.append(eachSubErrorLine)
 
     if missingGlyphsMode is True and missingGlyphs:
-        report += '\nThe following glyphs are missing: %s\n' % ', '.join(missingGlyphs)
+        docLines.append('The following glyphs are missing: {}'.format(', '.join(missingGlyphs)))
 
-    report += errorLines[-1]
-    report += '\n\n'
+    docLines.append(errorLines[-1])
+    docLines.append('')
+    docLines.append('')
+
+    report = '\n'.join(docLines)
     return report
 
 
@@ -179,8 +178,8 @@ class TestMetrics(BaseWindowController):
 
         testsToRun = self.testFunctions[self.chosenTest]
         rightNow = datetime.now()
-        reportFile = open(PutFile('Choose where to save the report',
-                          '%s%s%s_%s_%s.txt' % (rightNow.year, rightNow.month, rightNow.day,
+        reportFile = open(putFile('Choose where to save the report',
+                          '{}{}{}_{}_{}.txt'.format(rightNow.year, rightNow.month, rightNow.day,
                           os.path.basename(self.chosenFont.path)[:-4],
                           self.testOptionsAbbr[self.testOptions.index(self.chosenTest)])),
                           'w')

@@ -10,13 +10,11 @@
 from __future__ import absolute_import
 import os
 import types
-from mojo.roboFont import RFont, RGlyph
+from mojo.roboFont import RFont, RGlyph, version
 from itertools import product
 from mojo.tools import IntersectGlyphWithLine
 
 # custom
-from . import miscFunctions
-reload(miscFunctions)
 from .miscFunctions import loadGlyphNamesTable
 
 ### Constants
@@ -163,7 +161,7 @@ def checkVerticalExtremes(sourceFont):
     for eachSetToCheck in VERTICAL_GROUPS:
         glyphs = []
         for eachName in eachSetToCheck:
-            if eachName in sourceFont:
+            if sourceFont.has_key(eachName):
                 glyphs.append(sourceFont[eachName])
             else:
                 missingGlyphs.append(eachName)
@@ -353,7 +351,7 @@ def checkFigures(sourceFont):
     for eachCheckName, digitsNames in checksToBeDone.items():
         widths = {}
         for eachFigureName in digitsNames:
-            if eachFigureName in sourceFont:
+            if sourceFont.has_key(eachFigureName):
                 glyph = sourceFont[eachFigureName]
                 widths[eachFigureName] = glyph.width
             else:

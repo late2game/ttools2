@@ -9,9 +9,7 @@
 from __future__ import division
 
 # custom
-import ui.userInterfaceValues
-reload(ui.userInterfaceValues)
-from ui.userInterfaceValues import vanillaControlsSize
+from .ui.userInterfaceValues import vanillaControlsSize
 
 # standard
 import os

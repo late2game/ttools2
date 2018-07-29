@@ -83,10 +83,12 @@ def selectAnchorByName(glyphObj, name):
             return eachAnchor
     return None
 
-
 def loadGlyphNamesTable(aPath):
-    return [item.strip().split('\t') for item in codecs.open(aPath, 'r', 'utf-8')]
-
+    names = []
+    with codecs.open(aPath, 'r', 'utf-8') as tableFile:
+        for row in tableFile:
+            names.append([cell.strip() for cell in row.strip().split('\t') if cell != ''])
+    return names
 
 def sortFontAccordingToSmartSets(aFont):
     # loading smart sets path
