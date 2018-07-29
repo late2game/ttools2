@@ -8,13 +8,8 @@
 from __future__ import division
 
 # custom
-import ui.userInterfaceValues
-reload(ui.userInterfaceValues)
-from ui.userInterfaceValues import vanillaControlsSize
-
-import extraTools.miscFunctions
-reload(extraTools.miscFunctions)
-from extraTools.miscFunctions import catchFilesAndFolders
+from .ui.userInterfaceValues import vanillaControlsSize
+from .extraTools.miscFunctions import catchFilesAndFolders
 
 # third parties
 import drawBot as db
@@ -198,7 +193,7 @@ class VisualReporter(BaseWindowController):
             colIndex += 1
             fontTitles[eachFontStyle] = colIndex*TAB_WIDTH
 
-        headers = {k: v for (k, v) in COLS.items()+fontTitles.items()}
+        headers = {k: v for (k, v) in list(COLS.items())+list(fontTitles.items())}
         db.font('LucidaGrande-Bold')
         for eachTitle, eachX in headers.items():
             db.text(eachTitle, (PDF_MARGIN+eachX, quota))
@@ -251,7 +246,7 @@ class VisualReporter(BaseWindowController):
                     txt.fill(*GRAY)
                     txt += 'H'
                     txt.fill(*BLACK)
-                    txt += unichr(uniIntValue)
+                    txt += chr(uniIntValue)
                     txt.fill(*GRAY)
                     txt += 'p'
                     db.text(txt, (COLS['char'], 0))
