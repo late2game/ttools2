@@ -8,8 +8,6 @@
 ### Modules
 # components
 from __future__ import print_function
-import sharedValues
-reload(sharedValues)
 from sharedValues import MARGIN_HOR, NET_WIDTH, PLUGIN_WIDTH
 from sharedValues import STEM_KEY, DIAGONALS_KEY
 from sharedValues import CURRENT_FONT_REPR, CURRENT_GLYPH_REPR

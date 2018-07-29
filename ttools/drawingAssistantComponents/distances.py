@@ -6,18 +6,11 @@
 ######################
 
 ### Modules
-import sharedValues
-reload(sharedValues)
 from sharedValues import MARGIN_HOR, MARGIN_VER
 from sharedValues import STEM_KEY, DIAGONALS_KEY
 
 # custom
-from ..ui import userInterfaceValues
-reload(userInterfaceValues)
 from ..ui.userInterfaceValues import vanillaControlsSize
-
-from ..extraTools import miscFunctions
-reload(miscFunctions)
 from ..extraTools.miscFunctions import collectIDsFromSelectedPoints, guessStemPoints
 
 # standard

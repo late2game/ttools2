@@ -6,13 +6,9 @@
 ################################
 
 ### Modules
-import sharedValues
-reload(sharedValues)
 from sharedValues import NET_WIDTH
 
 # custom
-from ..ui import userInterfaceValues
-reload(userInterfaceValues)
 from ..ui.userInterfaceValues import vanillaControlsSize
 
 # standard

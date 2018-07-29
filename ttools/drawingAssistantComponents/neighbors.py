@@ -6,18 +6,11 @@
 ###################
 
 ### Modules
-import sharedValues
-reload(sharedValues)
 from sharedValues import MARGIN_HOR, MARGIN_VER
 from sharedValues import CURRENT_GLYPH_REPR, CURRENT_FONT_REPR
 
 # custom
-from ..ui import userInterfaceValues
-reload(userInterfaceValues)
 from ..ui.userInterfaceValues import vanillaControlsSize
-
-from ..extraTools import miscFunctions
-reload(miscFunctions)
 from ..extraTools.miscFunctions import getOpenedFontFromPath
 
 # standard
