@@ -9,19 +9,10 @@
 # custom
 from __future__ import print_function
 from __future__ import absolute_import
-from . import extraTools.miscFunctions
-reload(extraTools.miscFunctions)
 from .extraTools.miscFunctions import collectIDsFromSelectedPoints
-
-from . import extraTools.calcFunctions
-reload(extraTools.calcFunctions)
 from .extraTools.calcFunctions import interpolateValue, calcDistance
-
-from . import extraTools.bezierTools
-reload(extraTools.bezierTools)
 from .extraTools.bezierTools import calcPointOnBezier, collectsPointsOnBezierCurve
 from .extraTools.bezierTools import collectsPointsOnBezierCurveWithFixedDistance
-
 
 # standard
 import sys
@@ -32,7 +23,8 @@ from AppKit import NSColor, NSFont, NSFontAttributeName
 from AppKit import NSForegroundColorAttributeName
 from vanilla import FloatingWindow, CheckBox, TextBox
 from vanilla import EditText, SquareButton, RadioGroup
-from robofab.pens.filterPen import thresholdGlyph, flattenGlyph
+from fontPens.thresholdPen import thresholdGlyph
+from fontPens.flattenPen import flattenGlyph
 from mojo.events import addObserver, removeObserver
 from mojo.UI import UpdateCurrentGlyphView
 from mojo.roboFont import CurrentGlyph, RGlyph, version

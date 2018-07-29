@@ -7,9 +7,7 @@
 
 ### Modules
 # custom
-import ui.userInterfaceValues
-reload(ui.userInterfaceValues)
-from ui.userInterfaceValues import vanillaControlsSize
+from .ui.userInterfaceValues import vanillaControlsSize
 
 # standard
 from mojo.roboFont import version, AllFonts

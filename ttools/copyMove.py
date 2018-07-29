@@ -6,22 +6,9 @@
 #################################
 
 ### Modules
-# custom
 from __future__ import absolute_import
-#!/usr/bin/env python
-# coding: utf-8
-
-#################################
-# TTools for numr, fractions... #
-#################################
-
-### Modules
 # custom
-from . import ui.userInterfaceValues
-reload(ui.userInterfaceValues)
 from .ui.userInterfaceValues import vanillaControlsSize
-from . import extraTools.miscFunctions
-reload(extraTools.miscFunctions)
 from .extraTools.miscFunctions import loadGlyphNamesTable
 
 # standard

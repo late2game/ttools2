@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+ #!/usr/bin/env python
 # coding: utf-8
 
 #####################
@@ -9,17 +9,9 @@
 # custom
 from __future__ import print_function
 from __future__ import absolute_import
-from . import ui.userInterfaceValues
-reload(ui.userInterfaceValues)
 from .ui.userInterfaceValues import vanillaControlsSize
-
-from . import extraTools.calcFunctions
-reload(extraTools.calcFunctions)
 from .extraTools.calcFunctions import intersectionBetweenSegments, calcAngle, calcDistance
 from .extraTools.calcFunctions import calcStemsData, calcDiagonalsData, calcMidPoint
-
-from . import extraTools.miscFunctions
-reload(extraTools.miscFunctions)
 from .extraTools.miscFunctions import collectIDsFromSelectedPoints, guessStemPoints
 from .extraTools.miscFunctions import getOpenedFontFromPath
 
@@ -498,7 +490,7 @@ class SingleNeighborController(Group):
     def setActiveGlyphOrder(self):
         self.activeGlyphOrder = ['CurrentGlyph', ' '.join('-'*5)]
         if self.activeFont:
-            self.activeGlyphOrder = self.activeGlyphOrder + self.activeFont.glyphOrder
+            self.activeGlyphOrder = self.activeGlyphOrder + list(self.activeFont.glyphOrder)
 
     def setOpenedFonts(self, openedFonts):
         self.openedFonts = openedFonts

@@ -6,23 +6,12 @@
 ###############
 
 ### Modules
-# custom
 from __future__ import absolute_import
-#!/usr/bin/env python
-# coding: utf-8
-
-###############
-# Grid Fitter #
-###############
-
-### Modules
 # custom
-from . import ui.userInterfaceValues
-reload(ui.userInterfaceValues)
 from .ui.userInterfaceValues import vanillaControlsSize
 
 # standard
-from mojo.roboFont import AllFonts, CurrentFont, version
+from mojo.roboFont import AllFonts, CurrentFont, CurrentGlyph, version
 from vanilla import FloatingWindow, PopUpButton, EditText, TextBox, Button
 
 ### Constants
