@@ -2,12 +2,15 @@
 # coding: utf-8
 
 ### Modules
-# custom
-from ..ui.userInterfaceValues import vanillaControlsSize
-
 # standard
 from vanilla import FloatingWindow, RadioGroup, Button
 from defconAppKit.windows.baseWindow import BaseWindowController
+import importlib
+
+# custom
+from ..ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
 
 ### Constants
 MARGIN = 12

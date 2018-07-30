@@ -6,17 +6,27 @@
 ######################
 
 ### Modules
+# standard
+import importlib
+from vanilla import Group, CheckBox, ColorWell, SquareButton
+from AppKit import NSColor
+from mojo.roboFont import version
+
+# custom
+import sharedValues
+importlib.reload(sharedValues)
 from sharedValues import MARGIN_HOR, MARGIN_VER
 from sharedValues import STEM_KEY, DIAGONALS_KEY
 
 # custom
+from ..ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
 from ..ui.userInterfaceValues import vanillaControlsSize
+
+from ..extraTools import miscFunctions
+importlib.reload(miscFunctions)
 from ..extraTools.miscFunctions import collectIDsFromSelectedPoints, guessStemPoints
 
-# standard
-from vanilla import Group, CheckBox, ColorWell, SquareButton
-from AppKit import NSColor
-from mojo.roboFont import version
 
 ### Constants
 STEM_COLOR = (1, 127/255., 102/255., 1)

@@ -2,22 +2,31 @@
 # coding: utf-8
 
 ### Modules
-# custom
+# standard
 from __future__ import print_function
 from __future__ import absolute_import
-from .exceptionTools import checkPairConflicts, isPairException, calcWiggle
-from .kerningMisc import whichGroup, getCorrection, buildPairsFromString
-from .kerningMisc import checkIfPairOverlaps
-from .kerningMisc import CANVAS_SCALING_FACTOR_INIT
-from ..ui.userInterfaceValues import vanillaControlsSize
-
-# standard
 import traceback
+import importlib
 from defconAppKit.tools.textSplitter import splitText
 import mojo.drawingTools as dt
 from vanilla import Group
 from mojo.canvas import CanvasGroup
 from collections import namedtuple
+
+# custom
+from . import kerningMisc
+importlib.reload(kerningMisc)
+from .kerningMisc import whichGroup, getCorrection, buildPairsFromString
+from .kerningMisc import checkIfPairOverlaps
+from .kerningMisc import CANVAS_SCALING_FACTOR_INIT
+
+from . import exceptionTools
+importlib.reload(exceptionTools)
+from .exceptionTools import checkPairConflicts, isPairException, calcWiggle
+
+from ..ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
 
 ### Costants
 Point = namedtuple('Point', ['x', 'y'])

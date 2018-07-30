@@ -2,17 +2,23 @@
 # coding: utf-8
 
 ### Modules
-# custom
+# standard
 from __future__ import print_function
 from __future__ import absolute_import
-from ..ui.userInterfaceValues import vanillaControlsSize
-from .kerningMisc import getCorrection, checkPairFormat, buildPairsFromString
-from .kerningMisc import MAJOR_STEP, MINOR_STEP
-
-# standard
+import importlib
+import traceback
 from vanilla import Group, SquareButton, CheckBox, EditText
 from vanilla import Button, PopUpButton
-import traceback
+
+# custom
+from ..ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
+
+from . import kerningMisc
+importlib.reload(kerningMisc)
+from .kerningMisc import getCorrection, checkPairFormat, buildPairsFromString
+from .kerningMisc import MAJOR_STEP, MINOR_STEP
 
 """
 -20: cmd+alt+leftArrow

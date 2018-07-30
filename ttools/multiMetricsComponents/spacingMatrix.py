@@ -4,17 +4,19 @@
 """here we draw and edit the metrics"""
 
 ### Modules
-from __future__ import print_function
-
-# custom
-from ..ui.userInterfaceValues import vanillaControlsSize
-
 # standard
+from __future__ import print_function
+import importlib
 import traceback
 from AppKit import NSCenterTextAlignment
 from vanilla import Group, EditText
 import mojo.drawingTools as dt
 from mojo.canvas import CanvasGroup
+
+# custom
+from ..ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
 
 ### Constants
 SPACING_COL_WIDTH = 74

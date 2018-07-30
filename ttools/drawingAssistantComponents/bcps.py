@@ -6,15 +6,19 @@
 ################################
 
 ### Modules
-from sharedValues import NET_WIDTH
-
-# custom
-from ..ui.userInterfaceValues import vanillaControlsSize
-
 # standard
+import importlib
 from vanilla import Group, CheckBox
 
-### Constants
+# custom
+import sharedValues
+importlib.reload(sharedValues)
+from sharedValues import NET_WIDTH
+
+from ..ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
+
 
 ### Ctrl
 class BcpController(Group):

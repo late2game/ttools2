@@ -6,14 +6,19 @@
 ##############
 
 ### Modules
-from sharedValues import MARGIN_VER, NET_WIDTH
-
-# custom
-from ..ui.userInterfaceValues import vanillaControlsSize
-
 # standard
 from vanilla import Group, CheckBox, TextBox, EditText, ColorWell
 from AppKit import NSColor
+import importlib
+
+# custom
+import sharedValues
+importlib.reload(sharedValues)
+from sharedValues import MARGIN_VER, NET_WIDTH
+
+from ..ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
 
 ### Constants
 GRID_COLOR_ONE = (1, 0.4, 0.4, 1)

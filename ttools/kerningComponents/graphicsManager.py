@@ -3,8 +3,15 @@
 
 ### Modules
 from __future__ import absolute_import
+import importlib
+
 # custom
+from . import kerningMisc
+importlib.reload(kerningMisc)
 from .kerningMisc import MARGIN_VER
+
+from ..ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
 from ..ui.userInterfaceValues import vanillaControlsSize
 
 # standard

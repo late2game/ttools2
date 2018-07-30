@@ -3,22 +3,24 @@
 
 ### Modules
 # custom
-from __future__ import absolute_import
-#!/usr/bin/env python
-# coding: utf-8
-
-### Modules
-# custom
-from .kerningMisc import loadKerningTexts
-from .kerningMisc import MARGIN_VER
-from ..ui.userInterfaceValues import vanillaControlsSize
-
 # standard
-import os
+from __future__ import absolute_import
+import os, importlib
 import json
 from vanilla import Group, PopUpButton, List, EditText, TextBox
 from vanilla import SquareButton, CheckBoxListCell
 from vanilla.dialogs import getFile, putFile
+
+# custom
+from . import kerningMisc
+importlib.reload(kerningMisc)
+from .kerningMisc import loadKerningTexts
+from .kerningMisc import MARGIN_VER
+
+from ..ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
+
 
 ### Constants
 KERNING_TEXT_FOLDER = os.path.join(os.path.dirname(__file__), '..', 'resources', 'kerningTexts')

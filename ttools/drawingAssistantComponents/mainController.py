@@ -8,41 +8,7 @@
 ### Modules
 # components
 from __future__ import print_function
-from sharedValues import MARGIN_HOR, NET_WIDTH, PLUGIN_WIDTH
-from sharedValues import STEM_KEY, DIAGONALS_KEY
-from sharedValues import CURRENT_FONT_REPR, CURRENT_GLYPH_REPR
-
-import bcps
-reload(bcps)
-from bcps import BcpController
-
-import grids
-reload(grids)
-from grids import MultipleGridController
-
-import distances
-reload(distances)
-from distances import DistancesController
-
-import neighbors
-reload(neighbors)
-from neighbors import NeighborsController
-
-# custom
-from ..ui import userInterfaceValues
-reload(userInterfaceValues)
-from ..ui.userInterfaceValues import vanillaControlsSize
-
-from ..extraTools import miscFunctions
-reload(miscFunctions)
-from ..extraTools.miscFunctions import getOpenedFontFromPath
-
-from ..extraTools import calcFunctions
-reload(calcFunctions)
-from ..extraTools.calcFunctions import intersectionBetweenSegments, calcAngle, calcDistance
-from ..extraTools.calcFunctions import calcStemsData, calcDiagonalsData, calcMidPoint
-
-# standard
+import importlib
 import traceback
 from math import cos, sin, radians, tan, ceil
 from vanilla import FloatingWindow
@@ -52,6 +18,43 @@ from defconAppKit.windows.baseWindow import BaseWindowController
 from mojo.roboFont import CurrentGlyph, CurrentFont, AllFonts, version
 from mojo.events import addObserver, removeObserver
 from mojo.UI import UpdateCurrentGlyphView, OpenGlyphWindow
+
+# custom
+import sharedValues
+importlib.reload(sharedValues)
+from sharedValues import MARGIN_HOR, NET_WIDTH, PLUGIN_WIDTH
+from sharedValues import STEM_KEY, DIAGONALS_KEY
+from sharedValues import CURRENT_FONT_REPR, CURRENT_GLYPH_REPR
+
+import bcps
+importlib.reload(bcps)
+from bcps import BcpController
+
+import grids
+importlib.reload(grids)
+from grids import MultipleGridController
+
+import distances
+importlib.reload(distances)
+from distances import DistancesController
+
+import neighbors
+importlib.reload(neighbors)
+from neighbors import NeighborsController
+
+# custom
+from ..ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
+
+from ..extraTools import miscFunctions
+importlib.reload(miscFunctions)
+from ..extraTools.miscFunctions import getOpenedFontFromPath
+
+from ..extraTools import calcFunctions
+importlib.reload(calcFunctions)
+from ..extraTools.calcFunctions import intersectionBetweenSegments, calcAngle, calcDistance
+from ..extraTools.calcFunctions import calcStemsData, calcDiagonalsData, calcMidPoint
 
 ### Constants
 PLUGIN_TITLE = 'TT Drawing Assistant'

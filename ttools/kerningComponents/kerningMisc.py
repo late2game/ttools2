@@ -2,15 +2,11 @@
 # coding: utf-8
 
 ### Modules
-from __future__ import absolute_import
-
-# custom
-from ..extraTools.findPossibleOverlappingSegmentsPen import FindPossibleOverlappingSegmentsPen
-from .exceptionTools import whichGroup, isPairException
-
 # standard
+from __future__ import absolute_import
 import os
 import codecs
+import importlib
 from defconAppKit.tools.textSplitter import splitText
 from mojo.roboFont import RGlyph, version
 from fontTools.misc.arrayTools import offsetRect, sectRect
@@ -18,6 +14,14 @@ from lib.tools.bezierTools import intersectCubicCubic, intersectCubicLine, inter
 from vanilla import Window, RadioGroup, Button
 from collections import OrderedDict
 
+# custom
+from ..extraTools import findPossibleOverlappingSegmentsPen
+importlib.reload(findPossibleOverlappingSegmentsPen)
+from ..extraTools.findPossibleOverlappingSegmentsPen import FindPossibleOverlappingSegmentsPen
+
+from . import exceptionTools
+importlib.reload(exceptionTools)
+from .exceptionTools import whichGroup, isPairException
 
 ### Constants
 MARGIN_VER = 8

@@ -5,11 +5,11 @@
 
 from math import degrees, atan2, sqrt
 
-def intersectionBetweenSegments(xxx_todo_changeme, xxx_todo_changeme1, xxx_todo_changeme2, xxx_todo_changeme3):
-    (ax, ay) = xxx_todo_changeme
-    (bx, by) = xxx_todo_changeme1
-    (cx, cy) = xxx_todo_changeme2
-    (dx, dy) = xxx_todo_changeme3
+def intersectionBetweenSegments(pt_a, pt_b, pt_c, pt_d):
+    (ax, ay) = pt_a
+    (bx, by) = pt_b
+    (cx, cy) = pt_c
+    (dx, dy) = pt_d
     upx = (ax * by - ay * bx) * (cx - dx) - (ax - bx) * ((cx*dy) - (cy*dx))
     dwx = (ax - bx) * (cy - dy) - (ay - by) * (cx - dx)
     upy = (ax * by - ay * bx) * (cy - dy) - (ay-by) * (cx*dy-cy*dx)

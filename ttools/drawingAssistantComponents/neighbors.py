@@ -6,17 +6,26 @@
 ###################
 
 ### Modules
+# standard
+import os
+import importlib
+from mojo.roboFont import AllFonts, CurrentFont, CurrentGlyph
+from vanilla import Group, CheckBox, PopUpButton
+
+# custom
+import sharedValues
+importlib.relaod(sharedValues)
 from sharedValues import MARGIN_HOR, MARGIN_VER
 from sharedValues import CURRENT_GLYPH_REPR, CURRENT_FONT_REPR
 
-# custom
+from ..ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
 from ..ui.userInterfaceValues import vanillaControlsSize
+
+from ..extraTools import miscFunctions
+importlib.reload(miscFunctions)
 from ..extraTools.miscFunctions import getOpenedFontFromPath
 
-# standard
-import os
-from mojo.roboFont import AllFonts, CurrentFont, CurrentGlyph
-from vanilla import Group, CheckBox, PopUpButton
 
 ### Functions and procedures
 def makeGlyphList(aFont):

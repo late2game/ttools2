@@ -2,8 +2,12 @@
 # coding: utf-8
 
 """handy function for bezier management"""
-from .calcFunctions import calcDistance
+import importlib
 from fontTools.misc.bezierTools import calcCubicParameters
+
+from . import calcFunctions
+importlib.reload(calcFunctions)
+from .calcFunctions import calcDistance
 
 def calcPointOnBezier(a, b, c, d, tValue):
     ax, ay = a

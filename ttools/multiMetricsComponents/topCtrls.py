@@ -4,12 +4,15 @@
 """elements for the top bar"""
 
 ### Modules
-# custom
-from ..ui.userInterfaceValues import vanillaControlsSize
-
 # standard
+import importlib
 from defconAppKit.tools.textSplitter import splitText
 from vanilla import Group, EditText, PopUpButton, SquareButton, TextBox
+
+# custom
+from ..ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
 
 ### Constants
 MARGIN_RGT = 15

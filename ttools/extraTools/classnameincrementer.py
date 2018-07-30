@@ -34,7 +34,6 @@ It's harmless if you don't reload, the class will then even internally have
 its "proper" name.
 """
 
-
 def ClassNameIncrementer(clsName, bases, dct):
     import objc
     orgName = clsName

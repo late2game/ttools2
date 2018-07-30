@@ -6,19 +6,7 @@
 ### Modules
 from __future__ import print_function
 from __future__ import absolute_import
-
-# custom
-from ..extraTools.miscFunctions import catchFilesAndFolders
-from ..ui.userInterfaceValues import vanillaControlsSize
-from ..ui.uiControllers import FontsOrderController, FONT_ROW_HEIGHT
-
-# controls
-from .topCtrls import Typewriter, TextStringsControls
-from .sidebar import ComboBoxWithCaption
-from .spacingMatrix import SpacingMatrix
-
-# standard
-import os
+import os, importlib
 from math import floor, ceil
 import traceback
 from AppKit import NSColor, NSFont, NSCenterTextAlignment
@@ -29,6 +17,32 @@ from vanilla import Window, EditText, CheckBox
 from vanilla import PopUpButton, HorizontalLine
 from vanilla.dialogs import message
 from defconAppKit.windows.baseWindow import BaseWindowController
+
+# custom
+from ..extraTools import miscFunctions
+importlib.reload(miscFunctions)
+from ..extraTools.miscFunctions import catchFilesAndFolders
+
+from ..ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
+
+from ..ui import uiControllers
+importlib.reload(uiControllers)
+from ..ui.uiControllers import FontsOrderController, FONT_ROW_HEIGHT
+
+# controls
+from . import topCtrls
+importlib.reload(topCtrls)
+from .topCtrls import Typewriter, TextStringsControls
+
+from . import sidebar
+importlib.reload(sidebar)
+from .sidebar import ComboBoxWithCaption
+
+from . import spacingMatrix
+importlib.reload(spacingMatrix)
+from .spacingMatrix import SpacingMatrix
 
 ### Constants
 LIGHT_YELLOW = (255./255, 248./255, 216./255, 1)

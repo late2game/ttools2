@@ -3,6 +3,10 @@
 
 from __future__ import absolute_import
 from math import radians, cos, sin
+import importlib
+
+from . import calcFunctions
+importlib.reload(calcFunctions)
 from .calcFunctions import calcDistance, calcAngle, calcMidPoint
 
 def calcWavyLine(pt1, pt2, waveLength, waveHeight, pseudoSquaring=.57):

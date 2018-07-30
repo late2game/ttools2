@@ -2,19 +2,21 @@
 # coding: utf-8
 
 """handy functions for dealing with a bit of anything"""
-from __future__ import absolute_import
-
 ### Modules
-# custom
-from .calcFunctions import isBlackInBetween, calcDistanceBetweenPTs
-
 # standard
+from __future__ import absolute_import
+import importlib
 import os
 import sys
 import codecs
 from collections import OrderedDict
 from mojo.roboFont import CurrentFont, OpenFont, version
 from vanilla.dialogs import getFile
+
+# custom
+from . import calcFunctions
+importlib.reload(calcFunctions)
+from .calcFunctions import isBlackInBetween, calcDistanceBetweenPTs
 
 ### Constants
 SMART_SETS_FOLDER = os.path.join(os.path.dirname(__file__), '..', 'resources', 'smartSets')

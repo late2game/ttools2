@@ -2,15 +2,19 @@
 # coding: utf-8
 
 ### Modules
-### Modules
+# standard
 from __future__ import absolute_import
+import importlib
+from vanilla import Group, TextBox, SquareButton, SquareButton
 
 # custom
+from . import kerningMisc
+importlib.reload(kerningMisc)
 from .kerningMisc import MARGIN_VER, MARGIN_COL
-from ..ui.userInterfaceValues import vanillaControlsSize
 
-# standard
-from vanilla import Group, TextBox, SquareButton, SquareButton
+from ..ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
 
 ### Classes
 class FactorController(Group):

@@ -6,27 +6,9 @@
 ###############################
 
 ### Modules
-from __future__ import absolute_import
-# components
-from .factor import FactorController
-from .graphicsManager import GraphicsManager
-from .joystick import JoystickController
-from .wordDisplay import WordDisplay
-from .wordList import WordListController
-from .chooseException import ChooseExceptionWindow
-from .jumpToLine import JumpToLineWindow
-
-# custom
-from ..ui.userInterfaceValues import vanillaControlsSize
-from ..ui.uiControllers import FontsOrderController, FONT_ROW_HEIGHT
-from .kerningMisc import checkPairFormat, getCorrection, findSymmetricalPair
-from .kerningMisc import buildPairsFromString, setCorrection, setRawCorrection
-from .kerningMisc import isPairException, deletePair, MAJOR_STEP
-from .kerningMisc import MINOR_STEP, MARGIN_VER, MARGIN_HOR, MARGIN_COL
-from .kerningMisc import CANVAS_SCALING_FACTOR_INIT
-from .exceptionTools import checkGroupConflicts, possibleExceptions
-
 # standard
+from __future__ import absolute_import
+import importlib
 import os
 import traceback
 import logging
@@ -37,6 +19,57 @@ from defconAppKit.windows.baseWindow import BaseWindowController
 from defconAppKit.tools.textSplitter import splitText
 from vanilla import Window, TextBox, HorizontalLine
 from vanilla.dialogs import message
+
+# components
+from . import factor
+importlib.reload(factor)
+from .factor import FactorController
+
+from . import graphicsManager
+importlib.reload(graphicsManager)
+from .graphicsManager import GraphicsManager
+
+from . import joystick
+importlib.reload(joystick)
+from .joystick import JoystickController
+
+from . import wordDisplay
+importlib.reload(wordDisplay)
+from .wordDisplay import WordDisplay
+
+from . import wordList
+importlib.reload(wordList)
+from .wordList import WordListController
+
+from . import chooseException
+importlib.reload(chooseException)
+from .chooseException import ChooseExceptionWindow
+
+from . import jumpToLine
+importlib.reload(jumpToLine)
+from .jumpToLine import JumpToLineWindow
+
+# custom
+from ..ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
+
+from ..ui import uiControllers
+importlib.reload(uiControllers)
+from ..ui.uiControllers import FontsOrderController, FONT_ROW_HEIGHT
+
+from . import kerningMisc
+importlib.reload(kerningMisc)
+from .kerningMisc import checkPairFormat, getCorrection, findSymmetricalPair
+from .kerningMisc import buildPairsFromString, setCorrection, setRawCorrection
+from .kerningMisc import isPairException, deletePair, MAJOR_STEP
+from .kerningMisc import MINOR_STEP, MARGIN_VER, MARGIN_HOR, MARGIN_COL
+from .kerningMisc import CANVAS_SCALING_FACTOR_INIT
+
+from . import exceptionTools
+importlib.reload(exceptionTools)
+from .exceptionTools import checkGroupConflicts, possibleExceptions
+
 
 ### Constants
 PLUGIN_TITLE = 'TT Kerning editor'

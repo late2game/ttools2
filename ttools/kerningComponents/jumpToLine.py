@@ -6,14 +6,15 @@
 #######################
 
 ### Modules
-# custom
-# from ..ui import userInterfaceValues
-# reload(userInterfaceValues)
-# from ..ui.userInterfaceValues import vanillaControlsSize
-
 # standard
+import importlib
 from vanilla import FloatingWindow, TextBox, EditText, Button
 from defconAppKit.windows.baseWindow import BaseWindowController
+
+# custom
+from ..ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from ..ui.userInterfaceValues import vanillaControlsSize
 
 ### Constants
 vanillaControlsSize = {
