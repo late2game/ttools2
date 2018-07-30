@@ -9,9 +9,6 @@
 # standard
 from __future__ import print_function
 from __future__ import absolute_import
-from __future__ import division
-from builtins import object
-from past.utils import old_div
 import sys, importlib
 import math
 import traceback
@@ -40,8 +37,8 @@ from .extraTools.bezierTools import collectsPointsOnBezierCurveWithFixedDistance
 
 ### Constants
 SHAPE_OPTIONS = ['Rect', 'Oval']
-MASTER_COLOR = (old_div(45,255.), old_div(90,255.), old_div(150,255.))
-SUB_COLOR = (old_div(180,255.), old_div(240,255.), old_div(170,255.))
+MASTER_COLOR = (45/255., 90/255., 150/255.)
+SUB_COLOR = (180/255., 240/255., 170/255.)
 BLACK_COLOR = (0,0,0)
 
 # glyph lib key
@@ -61,10 +58,10 @@ LIGHT_YELLOW = getDefault('glyphViewPreviewBackgroundColor')
 ### Extra functions
 def robofabRect(glyph, x, y, width, height):
     """custom rect routine robofab-flavour code, this is used for expansion"""
-    x1, y1 = x, y-old_div(height,2.)
-    x2, y2 = x+old_div(width,2.), y
-    x3, y3 = x, y+old_div(height,2.)
-    x4, y4 = x-old_div(width,2.), y
+    x1, y1 = x, y-height/2.
+    x2, y2 = x+width/2., y
+    x3, y3 = x, y+height/2.
+    x4, y4 = x-width/2., y
 
     pen = glyph.getPen()
     pen.moveTo((x1, y1))
@@ -78,10 +75,10 @@ def robofabOval(glyph, x, y, width, height):
     """custom oval routine robofab-flavour code, this is used for expansion"""
 
     sqr = .62
-    x1, y1 = x, y-old_div(height,2.)
-    x2, y2 = x+old_div(width,2.), y
-    x3, y3 = x, y+old_div(height,2.)
-    x4, y4 = x-old_div(width,2.), y
+    x1, y1 = x, y-height/2.
+    x2, y2 = x+width/2., y
+    x3, y3 = x, y+height/2.
+    x4, y4 = x-width/2., y
 
     bcpVer = sqr*height/2.
     bcpHor = sqr*width/2.
@@ -316,9 +313,9 @@ class BroadNib(object):
                         rotate(elementDict['angle'])
 
                         if self.elementShape == 'Oval':
-                            oval(old_div(-elementDict['width'],2.), old_div(-elementDict['height'],2.), elementDict['width'], elementDict['height'])
+                            oval(-elementDict['width']/2., -elementDict['height']/2., elementDict['width'], elementDict['height'])
                         else:
-                            rect(old_div(-elementDict['width'],2.), old_div(-elementDict['height'],2.), elementDict['width'], elementDict['height'])
+                            rect(-elementDict['width']/2., -elementDict['height']/2., elementDict['width'], elementDict['height'])
                         restore()
 
         # draw values
@@ -380,7 +377,7 @@ class BroadNib(object):
 
                     bezPoints = collectsPointsOnBezierCurveWithFixedDistance(pt1, pt2, pt3, pt4, distance)
                     for indexBezPt, eachBezPt in enumerate(bezPoints):
-                        factor = old_div(indexBezPt,float(len(bezPoints)))
+                        factor = indexBezPt/float(len(bezPoints))
                         width = interpolateValue(startLib['width'], endLib['width'], factor)
                         height = interpolateValue(startLib['height'], endLib['height'], factor)
                         angle = interpolateValue(startLib['angle'], endLib['angle'], factor)
@@ -392,9 +389,9 @@ class BroadNib(object):
                             rotate(angle)
                             
                             if self.elementShape == 'Oval':
-                                oval(old_div(-width,2.), old_div(-height,2.), width, height)
+                                oval(-width/2., -height/2., width, height)
                             else:
-                                rect(old_div(-width,2.), old_div(-height,2.), width, height)
+                                rect(-width/2., -height/2., width, height)
                             restore()
 
                         else:

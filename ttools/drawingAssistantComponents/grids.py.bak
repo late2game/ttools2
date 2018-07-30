@@ -7,7 +7,6 @@
 
 ### Modules
 # standard
-from builtins import range
 from vanilla import Group, CheckBox, TextBox, EditText, ColorWell
 from AppKit import NSColor
 import importlib

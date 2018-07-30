@@ -8,7 +8,6 @@
 ### Modules
 # standard
 from __future__ import absolute_import
-from builtins import object
 import os, importlib
 from mojo.roboFont import AllFonts, CurrentFont
 from vanilla import FloatingWindow, PopUpButton, TextBox, EditText, Button

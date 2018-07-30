@@ -8,7 +8,6 @@
 ### Modules
 # standard
 from __future__ import division
-from builtins import range
 import os, importlib
 from collections import OrderedDict
 import mojo.drawingTools as dt

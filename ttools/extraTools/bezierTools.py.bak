@@ -2,9 +2,6 @@
 # coding: utf-8
 
 """handy function for bezier management"""
-from __future__ import division
-from builtins import range
-from past.utils import old_div
 import importlib
 from fontTools.misc.bezierTools import calcCubicParameters
 
@@ -24,7 +21,7 @@ def collectsPointsOnBezierCurve(pt1, pt2, pt3, pt4, tStep):
     """Adapted from calcCubicBounds in fontTools
        by Just van Rossum https://github.com/behdad/fonttools"""
     a, b, c, d = calcCubicParameters(pt1, pt2, pt3, pt4)
-    steps = [old_div(t,float(tStep)) for t in range(tStep)]
+    steps = [t/float(tStep) for t in range(tStep)]
 
     pointsWithT = [(pt1, 0)]
     for eachT in steps:

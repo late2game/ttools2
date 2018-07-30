@@ -9,9 +9,6 @@
 # standard
 from __future__ import print_function
 from __future__ import absolute_import
-from __future__ import division
-from builtins import range
-from past.utils import old_div
 import os, sys, importlib
 import traceback
 from math import cos, sin, radians, tan, ceil
@@ -65,8 +62,8 @@ LIGHT_GRAY_COLOR = (.6, .6, .6)
 RED_COLOR = (1,0,0)
 WHITE_COLOR = (1, 1, 1)
 
-STEM_COLOR = (1, old_div(127,255.), old_div(102,255.), 1)
-DIAGONAL_COLOR = (old_div(102,255.), old_div(124,255.), 1, 1)
+STEM_COLOR = (1, 127/255., 102/255., 1)
+DIAGONAL_COLOR = (102/255., 124/255., 1, 1)
 DIAGONAL_OFFSET = 3
 
 GRID_COLOR_ONE = (1, 0.4, 0.4, 1)
@@ -760,17 +757,17 @@ class DrawingAssistant(BaseWindowController):
         for eachContour in glyph:
             for eachPt in eachContour.bPoints:
                 if eachPt.anchor[0] % 4 != 0 or eachPt.anchor[1] % 4 != 0:
-                    dt.oval(eachPt.anchor[0]-old_div(scaledRadius,2.), eachPt.anchor[1]-old_div(scaledRadius,2.), scaledRadius, scaledRadius)
+                    dt.oval(eachPt.anchor[0]-scaledRadius/2., eachPt.anchor[1]-scaledRadius/2., scaledRadius, scaledRadius)
 
                 if eachPt.bcpIn != (0,0):
                     bcpInAbs = eachPt.anchor[0]+eachPt.bcpIn[0], eachPt.anchor[1]+eachPt.bcpIn[1]
                     if bcpInAbs[0] % 4 != 0 or bcpInAbs[1] % 4 != 0:
-                        dt.oval(bcpInAbs[0]-old_div(scaledRadius,2.), bcpInAbs[1]-old_div(scaledRadius,2.), scaledRadius, scaledRadius)
+                        dt.oval(bcpInAbs[0]-scaledRadius/2., bcpInAbs[1]-scaledRadius/2., scaledRadius, scaledRadius)
 
                 if eachPt.bcpOut != (0,0):
                     bcpOutAbs = eachPt.anchor[0]+eachPt.bcpOut[0], eachPt.anchor[1]+eachPt.bcpOut[1]
                     if bcpOutAbs[0] % 4 != 0 or bcpOutAbs[1] % 4 != 0:
-                        dt.oval(bcpOutAbs[0]-old_div(scaledRadius,2.), bcpOutAbs[1]-old_div(scaledRadius,2.), scaledRadius, scaledRadius)
+                        dt.oval(bcpOutAbs[0]-scaledRadius/2., bcpOutAbs[1]-scaledRadius/2., scaledRadius, scaledRadius)
         dt.restore()
 
     def _drawCentralBackgroundGlyph(self, glyph):
@@ -839,11 +836,11 @@ class DrawingAssistant(BaseWindowController):
                     dt.save()
                     dt.translate(projOut_X+offset_X, projOut_Y)
                     dt.rotate(bcpOutAngle % 90)
-                    belowRect = (old_div(-textWidth,2.)-1, old_div(-textHeight,2.)-1, textWidth+2, textHeight+2, 1)
+                    belowRect = (-textWidth/2.-1, -textHeight/2.-1, textWidth+2, textHeight+2, 1)
                     dt.fill(0, 0, 0, .7)
                     dt.roundedRect(*belowRect)
 
-                    textRect = (old_div(-textWidth,2.), old_div(-textHeight,2.), textWidth, textHeight)
+                    textRect = (-textWidth/2., -textHeight/2., textWidth, textHeight)
                     textQualities(BODYSIZE_CAPTION*scalingFactor, weight='bold', color=WHITE_COLOR)
                     dt.textBox(captionBcpOut, textRect, align='center')
                     dt.restore()
@@ -864,12 +861,12 @@ class DrawingAssistant(BaseWindowController):
                     dt.translate(projIn_X+offset_X, projIn_Y)
                     dt.rotate(bcpInAngle % 90)
 
-                    belowRect = (old_div(-textWidth,2.)-1, old_div(-textHeight,2.)-1, textWidth+2, textHeight+2, 1)
+                    belowRect = (-textWidth/2.-1, -textHeight/2.-1, textWidth+2, textHeight+2, 1)
                     dt.fill(0, 0, 0, .7)
                     dt.roundedRect(*belowRect)
 
                     textQualities(BODYSIZE_CAPTION*scalingFactor, weight='bold', color=WHITE_COLOR)
-                    textRect = (old_div(-textWidth,2.), old_div(-textHeight,2.), textWidth, textHeight)
+                    textRect = (-textWidth/2., -textHeight/2., textWidth, textHeight)
                     dt.textBox(captionBcpIn, textRect, align='center')
                     dt.restore()
 
@@ -897,8 +894,8 @@ class DrawingAssistant(BaseWindowController):
                         maxOutLen = calcDistance(eachBcp.anchor, handlesIntersection)
                         maxInLen = calcDistance(nextBcp.anchor, handlesIntersection)
 
-                        sqrOut = old_div(handleOutLen,maxOutLen)
-                        sqrIn = old_div(nextHandleInLen,maxInLen)
+                        sqrOut = handleOutLen/maxOutLen
+                        sqrIn = nextHandleInLen/maxInLen
 
                         projOut_X = eachBcp.anchor[0]+cos(radians(angleOut))*handleOutLen
                         projOut_Y = eachBcp.anchor[1]+sin(radians(angleOut))*handleOutLen
@@ -913,13 +910,13 @@ class DrawingAssistant(BaseWindowController):
                         textQualities(BODYSIZE_CAPTION*scalingFactor)
                         textWidth, textHeight = dt.textSize(captionSqrOut)
                         if angleOut == 90:          # text above
-                            textRect = (old_div(-textWidth,2.), SQR_CAPTION_OFFSET*scalingFactor, textWidth, textHeight)
+                            textRect = (-textWidth/2., SQR_CAPTION_OFFSET*scalingFactor, textWidth, textHeight)
                         elif angleOut == -90:       # text below
-                            textRect = (old_div(-textWidth,2.), -textHeight-SQR_CAPTION_OFFSET*scalingFactor, textWidth, textHeight)
+                            textRect = (-textWidth/2., -textHeight-SQR_CAPTION_OFFSET*scalingFactor, textWidth, textHeight)
                         elif -90 < angleOut < 90:   # text on the right
-                            textRect = (SQR_CAPTION_OFFSET*scalingFactor, old_div(-textHeight,2.), textWidth, textHeight)
+                            textRect = (SQR_CAPTION_OFFSET*scalingFactor, -textHeight/2., textWidth, textHeight)
                         else:                       # text on the left
-                            textRect = (-textWidth-SQR_CAPTION_OFFSET*scalingFactor, old_div(-textHeight,2.), textWidth, textHeight)
+                            textRect = (-textWidth-SQR_CAPTION_OFFSET*scalingFactor, -textHeight/2., textWidth, textHeight)
                         dt.textBox(captionSqrOut, textRect, align='center')
                         dt.restore()
 
@@ -936,13 +933,13 @@ class DrawingAssistant(BaseWindowController):
                         textQualities(BODYSIZE_CAPTION*scalingFactor)
                         textWidth, textHeight = dt.textSize(captionSqrIn)
                         if angleIn == 90:          # text above
-                            textRect = (old_div(-textWidth,2.), SQR_CAPTION_OFFSET*scalingFactor, textWidth, textHeight)
+                            textRect = (-textWidth/2., SQR_CAPTION_OFFSET*scalingFactor, textWidth, textHeight)
                         elif angleIn == -90:       # text below
-                            textRect = (old_div(-textWidth,2.), -textHeight-SQR_CAPTION_OFFSET*scalingFactor, textWidth, textHeight)
+                            textRect = (-textWidth/2., -textHeight-SQR_CAPTION_OFFSET*scalingFactor, textWidth, textHeight)
                         elif -90 < angleIn < 90:   # text on the right
-                            textRect = (SQR_CAPTION_OFFSET*scalingFactor, old_div(-textHeight,2.), textWidth, textHeight)
+                            textRect = (SQR_CAPTION_OFFSET*scalingFactor, -textHeight/2., textWidth, textHeight)
                         else:                      # text on the left
-                            textRect = (-textWidth-SQR_CAPTION_OFFSET*scalingFactor, old_div(-textHeight,2.), textWidth, textHeight)
+                            textRect = (-textWidth-SQR_CAPTION_OFFSET*scalingFactor, -textHeight/2., textWidth, textHeight)
                         dt.textBox(captionSqrIn, textRect, align='center')
                         dt.restore()
 
@@ -961,13 +958,13 @@ class DrawingAssistant(BaseWindowController):
             for eachPt in eachContour.bPoints:
                 dt.stroke(None)
                 dt.fill(*LIGHT_GRAY_COLOR)
-                dt.rect(eachPt.anchor[0]-old_div(scaledRadius,2.), eachPt.anchor[1]-old_div(scaledRadius,2.), scaledRadius, scaledRadius)
+                dt.rect(eachPt.anchor[0]-scaledRadius/2., eachPt.anchor[1]-scaledRadius/2., scaledRadius, scaledRadius)
 
                 if eachPt.bcpIn != (0, 0):
                     dt.stroke(None)
                     dt.fill(*LIGHT_GRAY_COLOR)
-                    dt.oval(eachPt.anchor[0]+eachPt.bcpIn[0]-old_div(scaledRadius,2.),
-                         eachPt.anchor[1]+eachPt.bcpIn[1]-old_div(scaledRadius,2.),
+                    dt.oval(eachPt.anchor[0]+eachPt.bcpIn[0]-scaledRadius/2.,
+                         eachPt.anchor[1]+eachPt.bcpIn[1]-scaledRadius/2.,
                          scaledRadius,
                          scaledRadius)
 
@@ -979,8 +976,8 @@ class DrawingAssistant(BaseWindowController):
                 if eachPt.bcpOut != (0, 0):
                     dt.stroke(None)
                     dt.fill(*LIGHT_GRAY_COLOR)
-                    dt.oval(eachPt.anchor[0]+eachPt.bcpOut[0]-old_div(scaledRadius,2.),
-                         eachPt.anchor[1]+eachPt.bcpOut[1]-old_div(scaledRadius,2.),
+                    dt.oval(eachPt.anchor[0]+eachPt.bcpOut[0]-scaledRadius/2.,
+                         eachPt.anchor[1]+eachPt.bcpOut[1]-scaledRadius/2.,
                          scaledRadius,
                          scaledRadius)
 
@@ -1022,14 +1019,14 @@ class DrawingAssistant(BaseWindowController):
                 if pt1.x > pt2.x:
                     rightPt, leftPt = leftPt, rightPt
                 dt.moveTo((leftPt.x, leftPt.y))
-                dt.curveTo((leftPt.x-old_div(horDiff,2), leftPt.y), (rightPt.x+old_div(horDiff,2), rightPt.y), (rightPt.x, rightPt.y))
+                dt.curveTo((leftPt.x-horDiff/2, leftPt.y), (rightPt.x+horDiff/2, rightPt.y), (rightPt.x, rightPt.y))
 
             else:                  # hor
                 topPt, btmPt = PTs
                 if pt2.y > pt1.y:
                     btmPt, topPt = topPt, btmPt
                 dt.moveTo((btmPt.x, btmPt.y))
-                dt.curveTo((btmPt.x, btmPt.y+old_div(verDiff,2)), (topPt.x, topPt.y-old_div(verDiff,2)), (topPt.x, topPt.y))
+                dt.curveTo((btmPt.x, btmPt.y+verDiff/2), (topPt.x, topPt.y-verDiff/2), (topPt.x, topPt.y))
             dt.drawPath()
             dt.restore()
 
@@ -1038,7 +1035,7 @@ class DrawingAssistant(BaseWindowController):
             textQualities(BODYSIZE_CAPTION*scalingFactor)
             dataToPlot = u'↑%d\n→%d' % (verDiff, horDiff)
             textWidth, textHeight = dt.textSize(dataToPlot)
-            textRect = (middlePoint[0]-old_div(textWidth,2.), middlePoint[1]-old_div(textHeight,2.), textWidth, textHeight)
+            textRect = (middlePoint[0]-textWidth/2., middlePoint[1]-textHeight/2., textWidth, textHeight)
             dt.textBox(dataToPlot, textRect, align='center')
             dt.restore()
 
@@ -1086,7 +1083,7 @@ class DrawingAssistant(BaseWindowController):
 
             dataToPlot = u'∡%.1f ↗%d' % (angle%180, distance)
             textWidth, textHeight = dt.textSize(dataToPlot)
-            dt.textBox(dataToPlot, (old_div(-textWidth,2.), textBoxY, textWidth, BODYSIZE_CAPTION*1.2*scalingFactor), align='center')
+            dt.textBox(dataToPlot, (-textWidth/2., textBoxY, textWidth, BODYSIZE_CAPTION*1.2*scalingFactor), align='center')
             dt.restore()
 
     # ui callback

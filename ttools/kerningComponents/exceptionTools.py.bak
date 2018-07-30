@@ -3,9 +3,6 @@
 
 ### Modules
 # standard
-from __future__ import division
-from builtins import range
-from past.utils import old_div
 from defconAppKit.tools.textSplitter import splitText
 from math import cos, sin, atan2, sqrt, radians
 from collections import namedtuple
@@ -21,7 +18,7 @@ def checkGlyphPresenceInMultipleGroups(glyphName, location, aFont):
             'right': '@MMK_R_'}
 
     whichAreTheGroups = []
-    for eachGroupName, eachGroupContent in list(aFont.groups.items()):
+    for eachGroupName, eachGroupContent in aFont.groups.items():
         if locationPrefixes[location] in eachGroupName:
             if glyphName in eachGroupContent:
                 whichAreTheGroups.append(eachGroupName)
@@ -34,7 +31,7 @@ def checkGlyphPresenceInMultipleGroups(glyphName, location, aFont):
 def checkGroupConflicts(aFont):
     glyphsInvolvedInLft = []
     glyphsInvolvedInRgt = []
-    for eachGroupName, eachGroupContent in list(aFont.groups.items()):
+    for eachGroupName, eachGroupContent in aFont.groups.items():
         if '@MMK_L' in eachGroupName:
             _ = [glyphsInvolvedInLft.append(glyphName) for glyphName in eachGroupContent if glyphName not in glyphsInvolvedInLft]
         elif '@MMK_R' in eachGroupName:
@@ -63,8 +60,8 @@ def whichGroup(targetGlyphName, aLocation, aFont):
     locationPrefixes = {'left': '@MMK_L_',
                         'right': '@MMK_R_'}
 
-    filteredGroups = {name: content for name, content in list(aFont.groups.items()) if name.startswith(locationPrefixes[aLocation])}
-    for eachGroupName, eachGroupContent in list(filteredGroups.items()):
+    filteredGroups = {name: content for name, content in aFont.groups.items() if name.startswith(locationPrefixes[aLocation])}
+    for eachGroupName, eachGroupContent in filteredGroups.items():
         if targetGlyphName in eachGroupContent:
             return eachGroupName
     return None
@@ -185,10 +182,10 @@ def calcWiggle(pt1, pt2, waveLength, waveHeight, curveSquaring=.57):
     angleRad = calcAngle(pt1, pt2)
 
     howManyWaves = diagonal//int(waveLength)
-    waveInterval = old_div(diagonal,float(howManyWaves))
-    maxBcpLength = sqrt((old_div(waveInterval,4.))**2+(old_div(waveHeight,2.))**2)
+    waveInterval = diagonal/float(howManyWaves)
+    maxBcpLength = sqrt((waveInterval/4.)**2+(waveHeight/2.)**2)
     bcpLength = maxBcpLength*curveSquaring
-    bcpInclination = calcAngle(Point(0,0), Point(old_div(waveInterval,4.), old_div(waveHeight,2.)))
+    bcpInclination = calcAngle(Point(0,0), Point(waveInterval/4., waveHeight/2.))
 
     wigglePoints = [pt1]
     prevFlexPt = pt1

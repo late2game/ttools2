@@ -2,10 +2,7 @@
 # coding: utf-8
 
 """A collection of handy functions to calculate things"""
-from __future__ import division
 
-from builtins import range
-from past.utils import old_div
 from math import degrees, atan2, sqrt
 
 def intersectionBetweenSegments(pt_a, pt_b, pt_c, pt_d):
@@ -19,8 +16,8 @@ def intersectionBetweenSegments(pt_a, pt_b, pt_c, pt_d):
     dwy = (ax-bx) * (cy-dy) - (ay-by) * (cx-dx)
     if dwx == 0 or dwy == 0:
         return None
-    ix = old_div(upx, dwx)
-    iy = old_div(upy, dwy)
+    ix = upx / dwx
+    iy = upy / dwy
     return ix, iy
 
 def calcAngle(pt1, pt2):
@@ -34,7 +31,7 @@ def calcDistanceBetweenPTs(pt1, pt2):
     return sqrt((pt1.x - pt2.x)**2 + (pt1.y - pt2.y)**2)
 
 def calcMidPoint(pt1, pt2):
-    return old_div((pt1[0]+pt2[0]),2), old_div((pt1[1]+pt2[1]),2)
+    return (pt1[0]+pt2[0])/2, (pt1[1]+pt2[1])/2
 
 def interpolateValue(poleOne, poleTwo, factor):
     desiredValue = poleOne + factor*(poleTwo-poleOne)
@@ -43,8 +40,8 @@ def interpolateValue(poleOne, poleTwo, factor):
 def isBlackInBetween(glyph, pt1, pt2):
     distance = int(round(calcDistanceBetweenPTs(pt1, pt2), 0))
     for index in range(distance):
-        eachX = interpolateValue(pt1.x, pt2.x, old_div(index,float(distance)))
-        eachY = interpolateValue(pt1.y, pt2.y, old_div(index,float(distance)))
+        eachX = interpolateValue(pt1.x, pt2.x, index/float(distance))
+        eachY = interpolateValue(pt1.y, pt2.y, index/float(distance))
         if glyph.pointInside((eachX, eachY)) is False:
             return False
         else:
@@ -63,7 +60,7 @@ def calcStemsData(glyph, pluginKey):
         assert len(ptsToDisplay) == 2, 'the points to display are not 2: %s' % ptsToDisplay
 
         pt1, pt2 = ptsToDisplay
-        middlePoint = old_div((pt2.x+pt1.x),2), old_div((pt2.y+pt1.y),2)
+        middlePoint = (pt2.x+pt1.x)/2, (pt2.y+pt1.y)/2
         horDiff = abs(pt1.x - pt2.x)
         verDiff = abs(pt1.y - pt2.y)
         stemsData.append(((pt1, pt2), (horDiff, verDiff), middlePoint))

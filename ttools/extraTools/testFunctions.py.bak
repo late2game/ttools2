@@ -8,9 +8,6 @@
 ### Modules
 # standard
 from __future__ import absolute_import
-from __future__ import division
-from builtins import range
-from past.utils import old_div
 import os, importlib
 from mojo.roboFont import RFont, RGlyph, version
 from itertools import product
@@ -211,11 +208,11 @@ def checkLCextra(sourceFont):
                                                         'widthOne': parentGlyph.width,
                                                         'widthTwo': subGlyph.width})
 
-            if isSidebearingEqual(subGlyph, parentGlyph, '*left', int(old_div(sourceFont.info.xHeight,4))) is False:
+            if isSidebearingEqual(subGlyph, parentGlyph, '*left', int(sourceFont.info.xHeight/4)) is False:
                 errorLines.append(LEFT_DIFFER_ERROR % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
 
             # check right
-            if isSidebearingEqual(subGlyph, parentGlyph, '*right', int(old_div(sourceFont.info.xHeight,4))) is False:
+            if isSidebearingEqual(subGlyph, parentGlyph, '*right', int(sourceFont.info.xHeight/4)) is False:
                 errorLines.append(RIGHT_DIFFER_ERROR % {'glyphOne': parentGlyph.name, 'glyphTwo': subGlyph.name})
 
         elif whichCheck == '*width':
@@ -254,7 +251,7 @@ def checkUCextra(sourceFont):
 
         assert position == '*middle' or position == '*bottom'
         if position == '*middle':
-            height = int(old_div(sourceFont.info.capHeight,2))
+            height = int(sourceFont.info.capHeight/2)
         else:
             height = int(2)
 
@@ -353,7 +350,7 @@ def checkFigures(sourceFont):
                       'math': MATH,
                       'mathSC': MATH_SC}
 
-    for eachCheckName, digitsNames in list(checksToBeDone.items()):
+    for eachCheckName, digitsNames in checksToBeDone.items():
         widths = {}
         for eachFigureName in digitsNames:
             if sourceFont.has_key(eachFigureName):
@@ -366,8 +363,8 @@ def checkFigures(sourceFont):
             subErrorLines = ['Some %s figures have different width' % eachCheckName]
 
             # calc most frequent width
-            widthsOccurrences = occurDict(list(widths.values()))
-            items = [(item[0], item[1]) for item in list(widthsOccurrences.items())]
+            widthsOccurrences = occurDict(widths.values())
+            items = [(item[0], item[1]) for item in widthsOccurrences.items()]
             mostOccurrentWidth, occurrencesAmount = sorted(items, key=lambda item: item[1], reverse=True)[0]
             subErrorLines.append(MOST_FREQUENT_ERROR % {'mostOccur': mostOccurrentWidth, 'times': occurrencesAmount})
 
@@ -415,8 +412,8 @@ def checkDnomNumrSubsSups(sourceFont):
         subErrorLines = ['Some dnom figures have different width']
 
         # calc most frequent width
-        widthsOccurrences = occurDict(list(widths.values()))
-        items = [(item[0], item[1]) for item in list(widthsOccurrences.items())]
+        widthsOccurrences = occurDict(widths.values())
+        items = [(item[0], item[1]) for item in widthsOccurrences.items()]
         mostOccurrentWidth, occurrencesAmount = sorted(items, key=lambda item: item[1], reverse=True)[0]
         subErrorLines.append(MOST_FREQUENT_ERROR % {'mostOccur': mostOccurrentWidth, 'times': occurrencesAmount})
 
@@ -501,8 +498,8 @@ def checkFractions(sourceFont):
         errorLines.append('Some fractions have different width')
 
         # calc most frequent width
-        widthsOccurrences = occurDict(list(widths.values()))
-        items = [(item[0], item[1]) for item in list(widthsOccurrences.items())]
+        widthsOccurrences = occurDict(widths.values())
+        items = [(item[0], item[1]) for item in widthsOccurrences.items()]
         mostOccurrentWidth, occurrencesAmount = sorted(items, key=lambda item:item[1], reverse=True)[0]
         errorLines.append(MOST_FREQUENT_ERROR % {'mostOccur': mostOccurrentWidth, 'times': occurrencesAmount})
 
@@ -573,11 +570,11 @@ def checkAccented(sourceFont):
                                                   'widthTwo': accentedGlyph.width})
 
             # check left
-            if isSidebearingEqual(accentedGlyph, parentGlyph, '*left', int(old_div(sourceFont.info.xHeight,2))) is False:
+            if isSidebearingEqual(accentedGlyph, parentGlyph, '*left', int(sourceFont.info.xHeight/2)) is False:
                 errorLines.append(LEFT_DIFFER_ERROR % {'glyphOne': parentGlyph.name, 'glyphTwo': accentedGlyph.name})
 
             # check right
-            if isSidebearingEqual(accentedGlyph, parentGlyph, '*right', int(old_div(sourceFont.info.xHeight,2))) is False:
+            if isSidebearingEqual(accentedGlyph, parentGlyph, '*right', int(sourceFont.info.xHeight/2)) is False:
                 errorLines.append(RIGHT_DIFFER_ERROR % {'glyphOne': parentGlyph.name, 'glyphTwo': accentedGlyph.name})
 
     errorLines.append(END_ERROR % {'sep': SEP})

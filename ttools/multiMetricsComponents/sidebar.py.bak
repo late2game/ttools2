@@ -2,7 +2,6 @@
 # coding: utf-8
 
 """elements for the sidebar"""
-from builtins import str
 from vanilla import Group, TextBox, ComboBox
 
 class ComboBoxWithCaption(Group):

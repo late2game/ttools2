@@ -7,7 +7,6 @@
 ### Modules
 # standard
 from __future__ import division
-from builtins import chr
 import os, importlib
 import codecs
 from datetime import datetime
@@ -83,7 +82,7 @@ def loadSmartSets():
     smartSets = {}
     for eachPath in smartSetsPaths:
         smartSets[os.path.basename(eachPath)] = [name.strip() for name in codecs.open(eachPath, 'r', 'utf-8').readlines()]
-    return sorted(list(smartSets.items()), key=lambda x: x[0])
+    return sorted(smartSets.items(), key=lambda x: x[0])
 
 SMART_SETS = loadSmartSets()
 
@@ -198,11 +197,11 @@ class VisualReporter(BaseWindowController):
 
         headers = {k: v for (k, v) in list(COLS.items())+list(fontTitles.items())}
         db.font('LucidaGrande-Bold')
-        for eachTitle, eachX in list(headers.items()):
+        for eachTitle, eachX in headers.items():
             db.text(eachTitle, (PDF_MARGIN+eachX, quota))
 
     def _drawReport(self, referenceFont, someFonts, glyphNames, reportPath, caption):
-        assert isinstance(reportPath, str) or isinstance(reportPath, str), 'this should be a string or unicode'
+        assert isinstance(reportPath, str) or isinstance(reportPath, unicode), 'this should be a string or unicode'
         assert isinstance(someFonts, list), 'this should be a list of RFont'
 
         prog = ProgressWindow(text='{}: drawing glyphs...'.format(caption), tickCount=len(glyphNames))
@@ -230,10 +229,10 @@ class VisualReporter(BaseWindowController):
                 db.text('{:0>4d}'.format(indexName), (COLS['line'], 0))
 
                 # unicode hex
-                if eachGlyphName in referenceFont and referenceFont[eachGlyphName].str:
-                    uniIntValue = referenceFont[eachGlyphName].str
-                elif eachGlyphName in someFonts[0] and someFonts[0][eachGlyphName].str:
-                    uniIntValue = someFonts[0][eachGlyphName].str
+                if eachGlyphName in referenceFont and referenceFont[eachGlyphName].unicode:
+                    uniIntValue = referenceFont[eachGlyphName].unicode
+                elif eachGlyphName in someFonts[0] and someFonts[0][eachGlyphName].unicode:
+                    uniIntValue = someFonts[0][eachGlyphName].unicode
                 else:
                     uniIntValue = None
 

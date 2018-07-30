@@ -8,7 +8,6 @@
 ### Modules
 # standard
 from __future__ import absolute_import
-from builtins import object
 import importlib
 from mojo.roboFont import AllFonts, CurrentFont
 from mojo.tools import IntersectGlyphWithLine

@@ -7,8 +7,6 @@
 
 ### Modules
 # standard
-from __future__ import division
-from past.utils import old_div
 import importlib
 from vanilla import Group, CheckBox, ColorWell, SquareButton
 from AppKit import NSColor
@@ -31,8 +29,8 @@ from ..extraTools.miscFunctions import collectIDsFromSelectedPoints, guessStemPo
 
 
 ### Constants
-STEM_COLOR = (1, old_div(127,255.), old_div(102,255.), 1)
-DIAGONAL_COLOR = (old_div(102,255.), old_div(124,255.), 1, 1)
+STEM_COLOR = (1, 127/255., 102/255., 1)
+DIAGONAL_COLOR = (102/255., 124/255., 1, 1)
 
 ### Ctrls
 class DistancesController(Group):
