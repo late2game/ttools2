@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="i.latn_TRK.sc" format="2">
+  <advance width="264"/>
+  <outline>
+    <contour>
+      <point x="88" y="0" type="line" name="hr00"/>
+      <point x="176" y="0" type="line"/>
+      <point x="176" y="520" type="line"/>
+      <point x="88" y="520" type="line"/>
+    </contour>
+    <contour>
+      <point x="86" y="600" type="line" name="hr00"/>
+      <point x="174" y="600" type="line"/>
+      <point x="174" y="692" type="line"/>
+      <point x="86" y="692" type="line"/>
+    </contour>
+  </outline>
+</glyph>

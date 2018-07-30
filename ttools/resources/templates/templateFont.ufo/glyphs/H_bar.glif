@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="Hbar" format="2">
+  <advance width="728"/>
+  <unicode hex="0126"/>
+  <outline>
+    <contour>
+      <point x="0" y="504" type="line" name="hr01"/>
+      <point x="88" y="504" type="line"/>
+      <point x="88" y="0" type="line"/>
+      <point x="180" y="0" type="line"/>
+      <point x="180" y="308" type="line"/>
+      <point x="548" y="308" type="line"/>
+      <point x="548" y="0" type="line"/>
+      <point x="640" y="0" type="line"/>
+      <point x="640" y="504" type="line"/>
+      <point x="728" y="504" type="line"/>
+      <point x="728" y="580" type="line" name="hr02"/>
+      <point x="640" y="580" type="line"/>
+      <point x="640" y="688" type="line" name="hr03"/>
+      <point x="548" y="688" type="line"/>
+      <point x="548" y="580" type="line" name="hr04"/>
+      <point x="180" y="580" type="line"/>
+      <point x="180" y="688" type="line" name="hr05"/>
+      <point x="88" y="688" type="line"/>
+      <point x="88" y="580" type="line" name="hr06"/>
+      <point x="0" y="580" type="line"/>
+    </contour>
+    <contour>
+      <point x="180" y="504" type="line" name="hr07"/>
+      <point x="548" y="504" type="line"/>
+      <point x="548" y="388" type="line"/>
+      <point x="180" y="388" type="line"/>
+    </contour>
+  </outline>
+</glyph>

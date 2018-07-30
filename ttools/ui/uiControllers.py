@@ -6,18 +6,20 @@
 ##################################################
 
 ### Modules
-from __future__ import absolute_import
-# custom
-from .userInterfaceValues import vanillaControlsSize
-
 # standard
+from __future__ import absolute_import
 import os
 from vanilla import Group, TextBox, SquareButton
+import importlib
+
+# custom
+from . import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from .userInterfaceValues import vanillaControlsSize
 
 ### Constants
 FONT_ROW_HEIGHT = 28
 MARGIN_COL = 4
-
 
 ### Classes
 class FontsOrderController(Group):
