@@ -5,13 +5,11 @@
 #######################
 
 ### Modules
+# standard
 from __future__ import division
-
-# custom
-from .ui.userInterfaceValues import vanillaControlsSize
-from .extraTools.miscFunctions import catchFilesAndFolders
-
-# third parties
+import os, importlib
+import codecs
+from datetime import datetime
 import drawBot as db
 from mojo.events import addObserver, removeObserver
 from mojo.roboFont import AllFonts, OpenFont
@@ -20,10 +18,14 @@ from vanilla.dialogs import getFolder
 from defconAppKit.windows.baseWindow import BaseWindowController
 from defconAppKit.windows.progressWindow import ProgressWindow
 
-# standard library
-import os
-import codecs
-from datetime import datetime
+# custom
+from .ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from .ui.userInterfaceValues import vanillaControlsSize
+from .extraTools import miscFunctions
+importlib.reload(miscFunctions)
+from .extraTools.miscFunctions import catchFilesAndFolders
+
 
 ### Constants
 PLUGIN_WIDTH = 250

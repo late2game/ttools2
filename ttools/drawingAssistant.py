@@ -6,17 +6,10 @@
 #####################
 
 ### Modules
-# custom
+# standard
 from __future__ import print_function
 from __future__ import absolute_import
-from .ui.userInterfaceValues import vanillaControlsSize
-from .extraTools.calcFunctions import intersectionBetweenSegments, calcAngle, calcDistance
-from .extraTools.calcFunctions import calcStemsData, calcDiagonalsData, calcMidPoint
-from .extraTools.miscFunctions import collectIDsFromSelectedPoints, guessStemPoints
-from .extraTools.miscFunctions import getOpenedFontFromPath
-
-# standard
-import os, sys
+import os, sys, importlib
 import traceback
 from math import cos, sin, radians, tan, ceil
 from mojo.roboFont import CurrentGlyph, AllFonts, version
@@ -29,6 +22,20 @@ from mojo.UI import OpenGlyphWindow
 from defconAppKit.windows.baseWindow import BaseWindowController
 from AppKit import NSColor
 from mojo.events import addObserver, removeObserver
+
+# custom
+from .ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from .ui.userInterfaceValues import vanillaControlsSize
+
+from .extraTools import calcFunctions, miscFunctions
+importlib.reload(calcFunctions)
+importlib.reload(miscFunctions)
+from .extraTools.calcFunctions import intersectionBetweenSegments, calcAngle, calcDistance
+from .extraTools.calcFunctions import calcStemsData, calcDiagonalsData, calcMidPoint
+from .extraTools.miscFunctions import collectIDsFromSelectedPoints, guessStemPoints
+from .extraTools.miscFunctions import getOpenedFontFromPath
+
 
 ### Constants
 PLUGIN_TITLE = 'TT Drawing Assistant'

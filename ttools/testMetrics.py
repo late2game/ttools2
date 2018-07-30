@@ -6,19 +6,9 @@
 ################
 
 ### Modules
-from __future__ import absolute_import
-
-# custom
-from .extraTools.testFunctions import checkVerticalExtremes, checkAccented
-from .extraTools.testFunctions import checkInterpunction, checkFigures
-from .extraTools.testFunctions import checkDnomNumrSubsSups, checkFractions
-from .extraTools.testFunctions import checkLCligatures, checkUCligatures
-from .extraTools.testFunctions import checkLCextra, checkUCextra, checkFlippedMargins
-from .ui.userInterfaceValues import vanillaControlsSize
-
 # standard
-import os, sys
-import types
+from __future__ import absolute_import
+import os, sys, importlib
 import traceback
 from datetime import datetime
 from mojo.events import addObserver, removeObserver
@@ -27,6 +17,20 @@ from vanilla import FloatingWindow, PopUpButton, HorizontalLine
 from vanilla import RadioGroup, TextBox, CheckBox, Button
 from vanilla.dialogs import putFile
 from defconAppKit.windows.baseWindow import BaseWindowController
+
+# custom
+from .extraTools import testFunctions
+importlib.reload(testFunctions)
+from .extraTools.testFunctions import checkVerticalExtremes, checkAccented
+from .extraTools.testFunctions import checkInterpunction, checkFigures
+from .extraTools.testFunctions import checkDnomNumrSubsSups, checkFractions
+from .extraTools.testFunctions import checkLCligatures, checkUCligatures
+from .extraTools.testFunctions import checkLCextra, checkUCextra, checkFlippedMargins
+
+from .ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from .ui.userInterfaceValues import vanillaControlsSize
+
 
 ### Constants
 RADIO_GROUP_HEIGHT = 40

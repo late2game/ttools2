@@ -8,7 +8,6 @@
 from ..ui.userInterfaceValues import vanillaControlsSize
 
 # standard
-import types
 from defconAppKit.tools.textSplitter import splitText
 from vanilla import Group, EditText, PopUpButton, SquareButton, TextBox
 

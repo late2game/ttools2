@@ -10,7 +10,6 @@ from .exceptionTools import whichGroup, isPairException
 
 # standard
 import os
-import types
 import codecs
 from defconAppKit.tools.textSplitter import splitText
 from mojo.roboFont import RGlyph, version

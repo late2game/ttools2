@@ -6,13 +6,16 @@
 ###############
 
 ### Modules
-from __future__ import absolute_import
-# custom
-from .ui.userInterfaceValues import vanillaControlsSize
-
 # standard
+from __future__ import absolute_import
+import importlib
 from mojo.roboFont import AllFonts, CurrentFont, CurrentGlyph, version
 from vanilla import FloatingWindow, PopUpButton, EditText, TextBox, Button
+
+# custom
+from .ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from .ui.userInterfaceValues import vanillaControlsSize
 
 ### Constants
 FONT_TARGET_OPTIONS = ['All Fonts', 'Current Font']

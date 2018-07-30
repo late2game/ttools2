@@ -6,6 +6,10 @@
 #########################
 
 from __future__ import absolute_import
+import importlib
+
+from .kerningComponents import mainController
+importlib.reload(mainController)
 from .kerningComponents.mainController import KerningController
 
 if __name__ == '__main__':

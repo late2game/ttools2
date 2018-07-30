@@ -6,16 +6,18 @@
 ##################################
 
 ### Modules
-from __future__ import absolute_import
-# custom
-from .ui.userInterfaceValues import vanillaControlsSize
-
 # standard
-import types
+from __future__ import absolute_import
+import importlib
 from mojo.roboFont import AllFonts, CurrentFont
 from mojo.tools import IntersectGlyphWithLine
 from vanilla import FloatingWindow, Group, RadioGroup, PopUpButton
 from vanilla import Button, TextBox, EditText, CheckBox
+
+# custom
+from .ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from .ui.userInterfaceValues import vanillaControlsSize
 
 ### Constants
 PLUGIN_WIDTH = 220

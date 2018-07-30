@@ -6,16 +6,10 @@
 #############
 
 ### Modules
-# custom
+# standard
 from __future__ import print_function
 from __future__ import absolute_import
-from .extraTools.miscFunctions import collectIDsFromSelectedPoints
-from .extraTools.calcFunctions import interpolateValue, calcDistance
-from .extraTools.bezierTools import calcPointOnBezier, collectsPointsOnBezierCurve
-from .extraTools.bezierTools import collectsPointsOnBezierCurveWithFixedDistance
-
-# standard
-import sys
+import sys, importlib
 import math
 import traceback
 from fontTools.misc.transform import Identity
@@ -31,6 +25,15 @@ from mojo.roboFont import CurrentGlyph, RGlyph, version
 from lib.eventTools.eventManager import getActiveEventTool
 from lib.tools.defaults import getDefault
 from mojo.drawingTools import *
+
+# custom
+from .extraTools import miscFunctions
+importlib.reload(miscFunctions)
+from .extraTools.miscFunctions import collectIDsFromSelectedPoints
+from .extraTools.calcFunctions import interpolateValue, calcDistance
+from .extraTools.bezierTools import calcPointOnBezier, collectsPointsOnBezierCurve
+from .extraTools.bezierTools import collectsPointsOnBezierCurveWithFixedDistance
+
 
 ### Constants
 SHAPE_OPTIONS = ['Rect', 'Oval']

@@ -12,7 +12,6 @@ from .calcFunctions import isBlackInBetween, calcDistanceBetweenPTs
 import os
 import sys
 import codecs
-import types
 from collections import OrderedDict
 from mojo.roboFont import CurrentFont, OpenFont, version
 from vanilla.dialogs import getFile

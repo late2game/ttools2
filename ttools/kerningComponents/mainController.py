@@ -29,7 +29,6 @@ from .exceptionTools import checkGroupConflicts, possibleExceptions
 # standard
 import os
 import traceback
-import types
 import logging
 from datetime import datetime
 from mojo.roboFont import AllFonts

@@ -6,16 +6,20 @@
 #################################
 
 ### Modules
-from __future__ import absolute_import
-# custom
-from .ui.userInterfaceValues import vanillaControlsSize
-from .extraTools.miscFunctions import loadGlyphNamesTable
-
 # standard
-import os
-import types
+from __future__ import absolute_import
+import os, importlib
 from mojo.roboFont import AllFonts, CurrentFont
 from vanilla import FloatingWindow, PopUpButton, TextBox, EditText, Button
+
+# custom
+from .ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from .ui.userInterfaceValues import vanillaControlsSize
+from .extraTools import miscFunctions
+importlib.reload(miscFunctions)
+from .extraTools.miscFunctions import loadGlyphNamesTable
+
 
 ### Constants
 BASIC_PATH = os.path.join(os.path.dirname(__file__), 'resources', 'tables')

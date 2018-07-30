@@ -8,14 +8,16 @@
 ### Modules
 # standard
 from __future__ import absolute_import
-import os
-import types
+import os, importlib
 from mojo.roboFont import RFont, RGlyph, version
 from itertools import product
 from mojo.tools import IntersectGlyphWithLine
 
 # custom
+from . import miscFunctions
+importlib.reload(miscFunctions)
 from .miscFunctions import loadGlyphNamesTable
+
 
 ### Constants
 # glyphLists

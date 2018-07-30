@@ -6,13 +6,9 @@
 #######################
 
 ### Modules
-from __future__ import division
-
-# custom
-from .ui.userInterfaceValues import vanillaControlsSize
-
 # standard
-import os
+from __future__ import division
+import os, importlib
 from collections import OrderedDict
 import mojo.drawingTools as dt
 from mojo.canvas import CanvasGroup
@@ -22,6 +18,12 @@ from vanilla import FloatingWindow, CheckBoxListCell, List, SquareButton
 from vanilla import HorizontalLine, PopUpButton
 from defconAppKit.windows.baseWindow import BaseWindowController
 from vanilla.dialogs import putFile, message, getFile, askYesNo
+
+# custom
+from .ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from .ui.userInterfaceValues import vanillaControlsSize
+
 
 ### Constants
 PLUGIN_WIDTH = 340

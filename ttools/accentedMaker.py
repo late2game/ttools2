@@ -6,14 +6,10 @@
 #########################
 
 ### Modules
-# custom modules
+# standard modules
 from __future__ import print_function
 from __future__ import absolute_import
-from .ui.userInterfaceValues import vanillaControlsSize, glyphCollectionColors
-from .extraTools.miscFunctions import selectAnchorByName
-
-# standard modules
-import os
+import os, importlib
 from mojo.roboFont import version
 from AppKit import NSColor
 from collections import OrderedDict
@@ -24,6 +20,14 @@ from vanilla import FloatingWindow, Group, PopUpButton, ColorWell
 from vanilla import CheckBox, TextBox, EditText, ComboBox, Button
 from vanilla import HorizontalLine
 
+# custom modules
+from .ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from .ui.userInterfaceValues import vanillaControlsSize, glyphCollectionColors
+
+from .extraTools import miscFunctions
+importlib.reload(miscFunctions)
+from .extraTools.miscFunctions import selectAnchorByName
 
 ### Constants
 PLUGIN_TITLE = 'TT Accented Letters Maker'

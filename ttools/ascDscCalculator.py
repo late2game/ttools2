@@ -6,16 +6,19 @@
 #################################################
 
 ### Modules
-# custom
-from .ui.userInterfaceValues import vanillaControlsSize
-
 # standard
+import importlib
 from mojo.roboFont import version, AllFonts
 from vanilla import FloatingWindow, SquareButton
 from vanilla import TextBox, HorizontalLine, CheckBox
 from vanilla.dialogs import message
 from defconAppKit.windows.baseWindow import BaseWindowController
 from collections import namedtuple
+
+# custom
+from .ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from .ui.userInterfaceValues import vanillaControlsSize
 
 ### Constants
 Extreme = namedtuple('Extreme', ['y', 'glyphName', 'styleName'])
