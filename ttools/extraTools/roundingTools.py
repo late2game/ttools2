@@ -1,22 +1,21 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-#######################
-# round Tropf corners #
-#######################
-
 ### Modules
-# custom
-import calcFunctions
-reload(calcFunctions)
-from calcFunctions import calcAngle, getLinearRelation
-
 # standard
+from __future__ import print_function
+from builtins import next
+import importlib
 from lib.tools.bezierTools import intersectCubicCircle, intersectCircleLine
 from collections import namedtuple
 from math import cos, sin, radians
 from mojo.roboFont import CurrentGlyph, version
 from mojo.UI import UpdateCurrentGlyphView
+
+# custom
+from . import calcFunctions
+importlib.reload(calcFunctions)
+from calcFunctions import calcAngle, getLinearRelation
 
 ### Constants
 Relation = namedtuple('Relation', ['angleDegrees', 'radius', 'bcpLength'])
@@ -119,7 +118,7 @@ def makeGlyphRound(aGlyph, roundingsData, sourceLayerName, targetLayerName, circ
             prevAnchor = anchor
 
         # then we calc which have to be inserted
-        indexKeys = segments.keys()
+        indexKeys = list(segments.keys())
         indexKeys.sort()
         maxIndex = max(indexKeys)
 
@@ -130,10 +129,10 @@ def makeGlyphRound(aGlyph, roundingsData, sourceLayerName, targetLayerName, circ
 
             # if they have to be rounded...
             if set(eachSegment.labels) & set(possibleLabels):
-                thisCorner = (aDict for aDict in roundingsData if aDict["labelName"] in eachSegment.labels).next()
+                thisCorner = next((aDict for aDict in roundingsData if aDict["labelName"] in eachSegment.labels))
                 if thisCorner is None:
-                    print 'no data for this label: {}'.format(eachSegment.labels)
-                    raise StandardError
+                    print('no data for this label: {}'.format(eachSegment.labels))
+                    raise Exception
 
                 # define which radius amount and which bcpLength
                 prevAngleRel = calcAngle(eachSegment.anchor, prevSegment.anchor, 'degrees', makePositive=True)
@@ -163,12 +162,12 @@ def makeGlyphRound(aGlyph, roundingsData, sourceLayerName, targetLayerName, circ
                     prevIntersection = intersectCubicCircle(*prevCurve,
                                                             c=eachSegment.anchor, r=radius)
                     if prevIntersection.status == 'No Intersection':
-                        print prevIntersection.status
-                        print 'GlyphName: {}'.format(eachGlyphName)
-                        print prevCurve
-                        print 'Circle center: {0}, {1}'.format(eachSegment.anchor.x, eachSegment.anchor.y)
-                        print 'Radius: {0}'.format(radius)
-                        raise StandardError
+                        print(prevIntersection.status)
+                        print('GlyphName: {}'.format(eachGlyphName))
+                        print(prevCurve)
+                        print('Circle center: {0}, {1}'.format(eachSegment.anchor.x, eachSegment.anchor.y))
+                        print('Radius: {0}'.format(radius))
+                        raise Exception
 
                     prevSlicedCurve = sliceBezier(prevCurve, prevIntersection.t[0])[0]
                     prevAngle = 180 + calcAngle(prevSlicedCurve.pt2, prevSlicedCurve.bcp2, makePositive=True)
@@ -182,12 +181,12 @@ def makeGlyphRound(aGlyph, roundingsData, sourceLayerName, targetLayerName, circ
                     nextIntersection = intersectCubicCircle(*nextCurve,
                                                             c=eachSegment.anchor, r=radius)
                     if nextIntersection.status == 'No Intersection':
-                        print prevIntersection.status
-                        print 'GlyphName: {}'.format(eachGlyphName)
-                        print nextCurve
-                        print 'Circle center: {0}, {1}'.format(eachSegment.anchor.x, eachSegment.anchor.y)
-                        print 'Radius: {0}'.format(radius)
-                        raise StandardError
+                        print(prevIntersection.status)
+                        print('GlyphName: {}'.format(eachGlyphName))
+                        print(nextCurve)
+                        print('Circle center: {0}, {1}'.format(eachSegment.anchor.x, eachSegment.anchor.y))
+                        print('Radius: {0}'.format(radius))
+                        raise Exception
 
                     nextSlicedCurve = sliceBezier(nextCurve, nextIntersection.t[0])[1]
                     nextAngle = 180 + calcAngle(nextSlicedCurve.pt1, nextSlicedCurve.bcp1, makePositive=True)
@@ -239,7 +238,7 @@ def makeGlyphRound(aGlyph, roundingsData, sourceLayerName, targetLayerName, circ
                                (eachSegment.anchor.x, eachSegment.anchor.y, radius*2),
                                label=eachSegment.labels)
 
-        references = segments.keys()
+        references = list(segments.keys())
         references.sort()
 
         cornerPen = targetLayer.getPen()
