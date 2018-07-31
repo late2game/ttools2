@@ -22,9 +22,20 @@ def intersectionBetweenSegments(pt_a, pt_b, pt_c, pt_d):
     iy = upy / dwy
     return ix, iy
 
-def calcAngle(pt1, pt2):
-    ang = degrees(atan2((pt2[1] - pt1[1]), (pt2[0] - pt1[0])))
-    return ang
+def calcAngle(pt1, pt2, mode='degrees', makePositive=False):
+    assert mode == 'degrees' or mode == 'radians'
+    if hasattr(pt1, 'x') and hasattr(pt1, 'y') and hasattr(pt2, 'x') and hasattr(pt2, 'y'):
+        ang = atan2((pt2.y - pt1.y), (pt2.x - pt1.x))
+    else:
+        ang = atan2((pt2[1] - pt1[1]), (pt2[0] - pt1[0]))
+    if mode == 'radians':
+        return ang
+    else:
+        ang = degrees(ang)
+        if makePositive is True and ang < 0:
+            return 360 + ang
+        else:
+            return ang
 
 def calcDistance(pt1, pt2):
     return sqrt((pt1[0] - pt2[0])**2 + (pt1[1] - pt2[1])**2)
@@ -35,15 +46,23 @@ def calcDistanceBetweenPTs(pt1, pt2):
 def calcMidPoint(pt1, pt2):
     return (pt1[0]+pt2[0])/2, (pt1[1]+pt2[1])/2
 
-def interpolateValue(poleOne, poleTwo, factor):
+def lerp(poleOne, poleTwo, factor):
     desiredValue = poleOne + factor*(poleTwo-poleOne)
     return desiredValue
+
+def getFactor(a, b, innerValue):
+    return (innerValue-a)/(b-a)
+
+def getLinearRelation(pt1, pt2, x):
+    xFactor = getFactor(pt1[0], pt2[0], x)
+    y = lerp(pt1[1], pt2[1], xFactor)
+    return y
 
 def isBlackInBetween(glyph, pt1, pt2):
     distance = int(round(calcDistanceBetweenPTs(pt1, pt2), 0))
     for index in range(distance):
-        eachX = interpolateValue(pt1.x, pt2.x, index/float(distance))
-        eachY = interpolateValue(pt1.y, pt2.y, index/float(distance))
+        eachX = lerp(pt1.x, pt2.x, index/float(distance))
+        eachY = lerp(pt1.y, pt2.y, index/float(distance))
         if glyph.pointInside((eachX, eachY)) is False:
             return False
         else:

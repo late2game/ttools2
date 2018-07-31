@@ -32,7 +32,7 @@ from mojo.drawingTools import *
 from .extraTools import miscFunctions
 importlib.reload(miscFunctions)
 from .extraTools.miscFunctions import collectIDsFromSelectedPoints
-from .extraTools.calcFunctions import interpolateValue, calcDistance
+from .extraTools.calcFunctions import lerp, calcDistance
 from .extraTools.bezierTools import calcPointOnBezier, collectsPointsOnBezierCurve
 from .extraTools.bezierTools import collectsPointsOnBezierCurveWithFixedDistance
 
@@ -381,9 +381,9 @@ class BroadNib(BaseWindowController):
                     bezPoints = collectsPointsOnBezierCurveWithFixedDistance(pt1, pt2, pt3, pt4, distance)
                     for indexBezPt, eachBezPt in enumerate(bezPoints):
                         factor = indexBezPt/float(len(bezPoints))
-                        width = interpolateValue(startLib['width'], endLib['width'], factor)
-                        height = interpolateValue(startLib['height'], endLib['height'], factor)
-                        angle = interpolateValue(startLib['angle'], endLib['angle'], factor)
+                        width = lerp(startLib['width'], endLib['width'], factor)
+                        height = lerp(startLib['height'], endLib['height'], factor)
+                        angle = lerp(startLib['angle'], endLib['angle'], factor)
 
                         if mode == 'canvas':
                             save()
