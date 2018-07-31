@@ -7,7 +7,6 @@
 # standard
 from __future__ import print_function
 from __future__ import division
-from past.utils import old_div
 import importlib
 import traceback
 from AppKit import NSCenterTextAlignment
@@ -81,7 +80,7 @@ class SpacingMatrix(Group):
         pointerX, pointerY = notification.locationInWindow().x-MARGIN_LFT, notification.locationInWindow().y-MARGIN_HALFROW
 
         # translate abs coordinates to element indexes
-        xRatio = old_div(pointerX,SPACING_COL_WIDTH)
+        xRatio = pointerX/SPACING_COL_WIDTH
         indexGlyphName = int(xRatio)
         if indexGlyphName >= len(self.glyphNamesToDisplay):
             indexGlyphName = None
@@ -92,7 +91,7 @@ class SpacingMatrix(Group):
             self.activeSide = 'rgt'
 
         if pointerY < len(self.fontsOrder)*vanillaControlsSize['EditTextSmallHeight']*2:
-            yRatio = old_div(pointerY,(vanillaControlsSize['EditTextSmallHeight']*2))
+            yRatio = pointerY/(vanillaControlsSize['EditTextSmallHeight']*2)
 
             # it starts counting from the bottom, so I have to subtract the result from the length of the fonts order attribute
             indexFont = len(self.fontsOrder)-int(yRatio)
@@ -116,13 +115,13 @@ class SpacingMatrix(Group):
 
             # how wide the ctrls? it depends
             if self.activeElement == 'margins':
-                activeEditWidth = old_div(SPACING_COL_WIDTH,2.)
+                activeEditWidth = SPACING_COL_WIDTH/2.
             else:
                 activeEditWidth = SPACING_COL_WIDTH
 
             # origin of vanilla ctrls is top left, but indexes are already ok for this, I guess
             if self.activeElement == 'margins' and self.activeSide == 'rgt':
-                activeEditX = indexGlyphName*SPACING_COL_WIDTH+old_div(SPACING_COL_WIDTH,2.)
+                activeEditX = indexGlyphName*SPACING_COL_WIDTH+SPACING_COL_WIDTH/2.
             else:
                 activeEditX = indexGlyphName*SPACING_COL_WIDTH
 
@@ -143,7 +142,7 @@ class SpacingMatrix(Group):
             self.canvas.activeEdit = CustomEditText((activeEditX, activeEditY, activeEditWidth, vanillaControlsSize['EditTextSmallHeight']),
                                                     sizeStyle='small',
                                                     continuous=False,
-                                                    text='%d' % activeValue,
+                                                    text='{:d}'.format(activeValue),
                                                     callback=self.activeEditCallback)
             self.canvas.activeEdit.centerAlignment()
 
@@ -215,7 +214,7 @@ class SpacingMatrix(Group):
 
         textWidth, textHeight = dt.textSize(glyphName)
         self._setTypeQualities(BLACK)
-        dt.text(glyphName, (old_div(SPACING_COL_WIDTH,2.)-old_div(textWidth,2.), BASELINE_CORRECTION))
+        dt.text(glyphName, (SPACING_COL_WIDTH/2.-textWidth/2., BASELINE_CORRECTION))
         dt.translate(0, -vanillaControlsSize['EditTextSmallHeight'])
 
         # metrics
@@ -234,25 +233,25 @@ class SpacingMatrix(Group):
             self._setBoxQualities()
             dt.line((0, vanillaControlsSize['EditTextSmallHeight']), (SPACING_COL_WIDTH, vanillaControlsSize['EditTextSmallHeight']))
 
-            textWidth, textHeight = dt.textSize('%d' % eachGlyph.width)
+            textWidth, textHeight = dt.textSize('{:d}'.format(eachGlyph.width))
             self._setTypeQualities(color)
-            dt.text('%d' % eachGlyph.width, (old_div(SPACING_COL_WIDTH,2.)-old_div(textWidth,2.), BASELINE_CORRECTION))
+            dt.text('{:d}'.format(eachGlyph.width), (SPACING_COL_WIDTH/2.)-textWidth/2., BASELINE_CORRECTION)
 
             # line over sidebearings
             self._setBoxQualities()
             dt.line((0, 0), (SPACING_COL_WIDTH, 0))
             dt.translate(0, -vanillaControlsSize['EditTextSmallHeight'])
 
-            textWidth, textHeight = dt.textSize('%d' % eachGlyph.leftMargin)
+            textWidth, textHeight = dt.textSize('{:d}'.format(eachGlyph.leftMargin))
             self._setTypeQualities(color)
-            dt.text('%d' % eachGlyph.leftMargin, (old_div(SPACING_COL_WIDTH,4.)-old_div(textWidth,2.), BASELINE_CORRECTION))
+            dt.text('{:d}'.format(eachGlyph.leftMargin), (SPACING_COL_WIDTH/4.-textWidth/2., BASELINE_CORRECTION))
 
             self._setBoxQualities()
-            dt.line((old_div(SPACING_COL_WIDTH,2.), 0), (old_div(SPACING_COL_WIDTH,2.), vanillaControlsSize['EditTextSmallHeight']))
+            dt.line((SPACING_COL_WIDTH/2., 0), (SPACING_COL_WIDTH/2., vanillaControlsSize['EditTextSmallHeight']))
 
-            textWidth, textHeight = dt.textSize('%d' % eachGlyph.rightMargin)
+            textWidth, textHeight = dt.textSize('{:d}'.format(eachGlyph.rightMargin))
             self._setTypeQualities(color)
-            dt.text('%d' % eachGlyph.rightMargin, (SPACING_COL_WIDTH*3/4.-old_div(textWidth,2.), BASELINE_CORRECTION))
+            dt.text('{:d}'.format(eachGlyph.rightMargin), (SPACING_COL_WIDTH*3/4.-textWidth/2., BASELINE_CORRECTION))
             
             dt.translate(0, -vanillaControlsSize['EditTextSmallHeight'])
 

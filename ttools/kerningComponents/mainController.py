@@ -10,7 +10,6 @@
 from __future__ import absolute_import
 from __future__ import division
 from builtins import range
-from past.utils import old_div
 import importlib
 import os
 import traceback
@@ -287,7 +286,7 @@ class KerningController(BaseWindowController):
         netTotalWindowHeight = windowHeight-MARGIN_COL-MARGIN_VER*2-vanillaControlsSize['TextBoxRegularHeight']-MARGIN_HOR*(len(self.fontsOrder)-1)
         
         try:
-            singleWindowHeight = old_div(netTotalWindowHeight,len(self.fontsOrder))
+            singleWindowHeight = netTotalWindowHeight/len(self.fontsOrder)
         except ZeroDivisionError:
             singleWindowHeight = 0
 
@@ -618,7 +617,7 @@ class KerningController(BaseWindowController):
         netTotalWindowHeight = windowHeight-initY-MARGIN_VER-MARGIN_HOR*(len(self.fontsOrder)-1)
 
         try:
-            singleWordDisplayHeight = old_div(netTotalWindowHeight,len(self.fontsOrder))
+            singleWordDisplayHeight = netTotalWindowHeight/len(self.fontsOrder)
         except ZeroDivisionError:
             singleWordDisplayHeight = 0
 

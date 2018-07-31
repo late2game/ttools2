@@ -6,7 +6,6 @@
 from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
-from past.utils import old_div
 import traceback
 import importlib
 from defconAppKit.tools.textSplitter import splitText
@@ -206,11 +205,11 @@ class WordDisplay(Group):
         dt.fill(*BLACK)
         dt.stroke(None)
         dt.translate(0, self.fontObj.info.unitsPerEm+self.fontObj.info.descender+100)
-        dt.scale(old_div(1,(old_div(self.ctrlHeight,(self.canvasScalingFactor*self.fontObj.info.unitsPerEm)))))
+        dt.scale(1/(self.ctrlHeight/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm)))
         dt.font(SYSTEM_FONT_NAME)
         dt.fontSize(BODY_SIZE)
-        textWidth, textHeight = dt.textSize('%s' % correction)
-        dt.textBox('%s' % correction, (old_div(-textWidth,2.), old_div(-textHeight,2.), textWidth, textHeight), align='center')
+        textWidth, textHeight = dt.textSize('{}'.format(correction))
+        dt.textBox('{}'.format(correction), (-textWidth/2., -textHeight/2., textWidth, textHeight), align='center')
 
         dt.restore()
 
@@ -226,7 +225,7 @@ class WordDisplay(Group):
         dt.save()
         glyphToDisplay = self.fontObj[glyphName]
         dt.translate(0, self.fontObj.info.descender)
-        reverseScalingFactor = old_div(1,(old_div(self.ctrlHeight,(self.canvasScalingFactor*self.fontObj.info.unitsPerEm))))
+        reverseScalingFactor = 1/(self.ctrlHeight/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm))
 
         if self.isSidebearingsActive is True:
             dt.fill(None)
@@ -245,10 +244,10 @@ class WordDisplay(Group):
         dt.font(SYSTEM_FONT_NAME)
         dt.fontSize(BODY_SIZE*reverseScalingFactor)
 
-        textWidth, textHeight = dt.textSize(u'%s' % glyphToDisplay.width)
-        dt.textBox(u'%d' % glyphToDisplay.width, (0, 0, glyphToDisplay.width, textHeight*2), align='center')
-        dt.textBox(u'\n%d' % glyphToDisplay.leftMargin, (0, 0, old_div(glyphToDisplay.width,2.), textHeight*2), align='center')
-        dt.textBox(u'\n%d' % glyphToDisplay.rightMargin, (old_div(glyphToDisplay.width,2.), 0, old_div(glyphToDisplay.width,2.), textHeight*2), align='center')
+        textWidth, textHeight = dt.textSize(u'{}'.format(glyphToDisplay.width))
+        dt.textBox(u'{:d}'.format(glyphToDisplay.width), (0, 0, glyphToDisplay.width, textHeight*2), align='center')
+        dt.textBox(u'\n{:d}'.format(glyphToDisplay.leftMargin), (0, 0, glyphToDisplay.width/2., textHeight*2), align='center')
+        dt.textBox(u'\n{:d}'.format(glyphToDisplay.rightMargin), (glyphToDisplay.width/2., 0, glyphToDisplay.width/2., textHeight*2), align='center')
         dt.restore()
 
     def _drawBaseline(self, glyphName):
@@ -258,7 +257,7 @@ class WordDisplay(Group):
         dt.stroke(*BLACK)
         dt.fill(None)
         # reversed scaling factor
-        dt.strokeWidth(old_div(1,(old_div(self.ctrlHeight,(self.canvasScalingFactor*self.fontObj.info.unitsPerEm)))))
+        dt.strokeWidth(1/(self.ctrlHeight/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm)))
         dt.line((0, 0), (glyphToDisplay.width, 0))
         dt.restore()
 
@@ -270,7 +269,7 @@ class WordDisplay(Group):
         dt.fill(None)
 
         # reversed scaling factor
-        dt.strokeWidth(old_div(1,(old_div(self.ctrlHeight,(self.canvasScalingFactor*self.fontObj.info.unitsPerEm)))))
+        dt.strokeWidth(1/(self.ctrlHeight/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm)))
 
         dt.fill(*LIGHT_GRAY)
         dt.line((0, self.fontObj.info.descender), (0, self.fontObj.info.descender+self.fontObj.info.unitsPerEm))
@@ -306,17 +305,17 @@ class WordDisplay(Group):
         lftGlyph = self.fontObj[lftGlyphName]
         rgtGlyph = self.fontObj[rgtGlyphName]
 
-        lftCursorWidth = old_div(lftGlyph.width,2.) + old_div(correction,2.)
-        rgtCursorWidth = old_div(rgtGlyph.width,2.) + old_div(correction,2.)
+        lftCursorWidth = lftGlyph.width/2. + correction/2.
+        rgtCursorWidth = rgtGlyph.width/2. + correction/2.
         cursorHeight = 50   # upm
 
         # lft
         dt.fill(*lftColor)
-        dt.rect(old_div(-lftGlyph.width,2.)-correction, self.fontObj.info.descender-cursorHeight+old_div(cursorHeight,2.), lftCursorWidth, cursorHeight)
+        dt.rect(-lftGlyph.width/2.-correction, self.fontObj.info.descender-cursorHeight+cursorHeight/2., lftCursorWidth, cursorHeight)
         
         # rgt
         dt.fill(*rgtColor)
-        dt.rect(old_div(-correction,2.), self.fontObj.info.descender-cursorHeight+old_div(cursorHeight,2.), rgtCursorWidth, cursorHeight)
+        dt.rect(-correction/2., self.fontObj.info.descender-cursorHeight+cursorHeight/2., rgtCursorWidth, cursorHeight)
         dt.restore()
 
     def _drawGlyphOutlinesFromGroups(self, aPair, kerningReference, correction):
@@ -328,7 +327,7 @@ class WordDisplay(Group):
             rgtReference = whichGroup(eachGlyphName, 'right', self.fontObj)
 
         prevGlyph, eachGlyph = self.fontObj[prevGlyphName], self.fontObj[eachGlyphName]
-        reverseScalingFactor = old_div(1,(old_div(self.ctrlHeight,(self.canvasScalingFactor*self.fontObj.info.unitsPerEm))))
+        reverseScalingFactor = 1/(self.ctrlHeight/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm))
 
         # _L__ group
         if lftReference:
@@ -349,7 +348,7 @@ class WordDisplay(Group):
                 dt.font(SYSTEM_FONT_NAME)
                 dt.fontSize(GROUP_NAME_BODY_SIZE*reverseScalingFactor)
                 textWidth, textHeight = dt.textSize(lftReference)
-                dt.text(lftReference, (old_div(glyphToDisplay.width,2.)-old_div(textWidth,2.), -GROUP_NAME_BODY_SIZE*reverseScalingFactor*2))
+                dt.text(lftReference, (glyphToDisplay.width/2.-textWidth/2., -GROUP_NAME_BODY_SIZE*reverseScalingFactor*2))
                 dt.restore()
 
         # _R__ group
@@ -368,7 +367,7 @@ class WordDisplay(Group):
                 dt.font(SYSTEM_FONT_NAME)
                 dt.fontSize(GROUP_NAME_BODY_SIZE*reverseScalingFactor)
                 textWidth, textHeight = dt.textSize(rgtReference)
-                dt.text(rgtReference, (old_div(glyphToDisplay.width,2.)-old_div(textWidth,2.), -GROUP_NAME_BODY_SIZE*reverseScalingFactor*2))
+                dt.text(rgtReference, (glyphToDisplay.width/2.-textWidth/2., -GROUP_NAME_BODY_SIZE*reverseScalingFactor*2))
                 dt.restore()
 
     def _drawCollisions(self, aPair):
@@ -459,7 +458,7 @@ class WordDisplay(Group):
                 dt.rect(0, 0, self.ctrlWidth, self.ctrlHeight)
                 dt.restore()
 
-            dt.scale(old_div(self.ctrlHeight,(self.canvasScalingFactor*self.fontObj.info.unitsPerEm)))   # the canvas is virtually scaled according to self.canvasScalingFactor value and canvasSize
+            dt.scale(self.ctrlHeight/(self.canvasScalingFactor*self.fontObj.info.unitsPerEm))   # the canvas is virtually scaled according to self.canvasScalingFactor value and canvasSize
             dt.translate(TEXT_MARGIN, 0)
 
             # group glyphs

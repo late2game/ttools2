@@ -4,7 +4,6 @@
 from __future__ import absolute_import
 from __future__ import division
 from builtins import range
-from past.utils import old_div
 from math import radians, cos, sin
 import importlib
 
@@ -16,8 +15,8 @@ def calcWavyLine(pt1, pt2, waveLength, waveHeight, pseudoSquaring=.57):
     diagonal = calcDistance(pt1, pt2)
     angleRad = radians(calcAngle(pt1, pt2))
 
-    howManyWaves = int(old_div(diagonal,float(waveLength)))
-    waveLengthAdj = old_div(diagonal,float(old_div(howManyWaves,2.)))
+    howManyWaves = int(diagonal/float(waveLength))
+    waveLengthAdj = diagonal/float(howManyWaves/2.)
     bcpLength = waveLength/2.*pseudoSquaring
 
     wavePoints = [pt1]

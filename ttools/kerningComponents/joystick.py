@@ -7,7 +7,6 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 from builtins import chr
-from past.utils import old_div
 import importlib
 import traceback
 from vanilla import Group, SquareButton, CheckBox, EditText
@@ -108,7 +107,7 @@ class JoystickController(Group):
 
         buttonSide = 36
         self.ctrlWidth, self.ctrlHeight = posSize[2], posSize[3]
-        self.jumping_X = old_div(buttonSide,2.)
+        self.jumping_X = buttonSide/2.
         self.jumping_Y = 0
 
         self.minusMajorCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
@@ -138,7 +137,7 @@ class JoystickController(Group):
                                           callback=self.plusMajorCtrlCallback)
         self.plusMajorCtrl.bind(*PLUS_MAJOR_SHORTCUT)
 
-        self.jumping_X = old_div(buttonSide,2.)
+        self.jumping_X = buttonSide/2.
         self.jumping_Y += buttonSide
         self.lftSwitchCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide*2, buttonSide*.75),
                                         "lft switch",
@@ -153,7 +152,7 @@ class JoystickController(Group):
                                        callback=self.rgtSwitchCtrlCallback)
         self.rgtSwitchCtrl.bind(*RIGHT_BROWSING_SHORTCUT)
 
-        self.jumping_X = old_div(buttonSide,2.)
+        self.jumping_X = buttonSide/2.
         self.jumping_Y += buttonSide
         self.exceptionTrigger = SquareButton((self.jumping_X, self.jumping_Y, buttonSide*2, buttonSide*.75),
                                                 'exception',
@@ -175,7 +174,7 @@ class JoystickController(Group):
                                        callback=self.redoButtonCallback)
         self.redoButton.bind(*REDO_SHORTCUT)
 
-        self.jumping_X = old_div(buttonSide,2.)
+        self.jumping_X = buttonSide/2.
         self.jumping_Y += buttonSide*.75
         self.previewCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide*2, buttonSide*.75),
                                         "preview",
@@ -190,7 +189,7 @@ class JoystickController(Group):
                                        callback=self.solvedCtrlCallback)
         self.solvedCtrl.bind(*SOLVED_SHORTCUT)
 
-        self.jumping_X = old_div(buttonSide,2.)
+        self.jumping_X = buttonSide/2.
         self.jumping_Y += buttonSide*.75+2
         self.symmetricalModeCheck = CheckBox((self.jumping_X, self.jumping_Y, self.ctrlWidth, vanillaControlsSize['CheckBoxRegularHeight']),
                                           'symmetrical editing',

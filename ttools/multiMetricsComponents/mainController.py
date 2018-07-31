@@ -8,7 +8,6 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
 from builtins import range
-from past.utils import old_div
 import os, importlib
 from math import floor, ceil
 import traceback
@@ -48,7 +47,7 @@ importlib.reload(spacingMatrix)
 from .spacingMatrix import SpacingMatrix
 
 ### Constants
-LIGHT_YELLOW = (old_div(255.,255), old_div(248.,255), old_div(216.,255), 1)
+LIGHT_YELLOW = (255/255, 248/255, 216/255, 1)
 
 MARGIN_LFT = 15
 MARGIN_RGT = 15

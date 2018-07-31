@@ -8,8 +8,8 @@
 ### Modules
 # standard
 from __future__ import absolute_import
-from builtins import object
 import importlib
+from defconAppKit.windows.baseWindow import BaseWindowController
 from mojo.roboFont import AllFonts, CurrentFont, CurrentGlyph, version
 from vanilla import FloatingWindow, PopUpButton, EditText, TextBox, Button
 
@@ -58,9 +58,11 @@ def gridFit(glyph, cellSide):
         glyph.update()
 
 
-class GridFitter(object):
+class GridFitter(BaseWindowController):
 
     def __init__(self):
+        super(GridFitter, self).__init__()
+
         self.fontTarget = FONT_TARGET_OPTIONS[0]
         self.glyphTarget = GLYPH_TARGET_OPTIONS[0]
         self.gridSize = 4

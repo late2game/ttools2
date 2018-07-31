@@ -120,5 +120,5 @@ def importFontInfoFromUFOtoCurrentFont():
         else:
             sourceFont = OpenFont(aFontPath, showUI=False)
         sourceFontInfos = sourceFont.info.asDict()
-        for eachAttribute, eachValue in list(sourceFontInfos.items()):
+        for eachAttribute, eachValue in sourceFontInfos.items():
             setattr(CurrentFont().info, eachAttribute, eachValue)

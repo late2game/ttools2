@@ -230,10 +230,10 @@ class VisualReporter(BaseWindowController):
                 db.text('{:0>4d}'.format(indexName), (COLS['line'], 0))
 
                 # unicode hex
-                if eachGlyphName in referenceFont and referenceFont[eachGlyphName].str:
-                    uniIntValue = referenceFont[eachGlyphName].str
-                elif eachGlyphName in someFonts[0] and someFonts[0][eachGlyphName].str:
-                    uniIntValue = someFonts[0][eachGlyphName].str
+                if eachGlyphName in referenceFont and referenceFont[eachGlyphName].unicode:
+                    uniIntValue = referenceFont[eachGlyphName].unicode
+                elif eachGlyphName in someFonts[0] and someFonts[0][eachGlyphName].unicode:
+                    uniIntValue = someFonts[0][eachGlyphName].unicode
                 else:
                     uniIntValue = None
 

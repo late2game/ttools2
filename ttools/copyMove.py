@@ -8,10 +8,10 @@
 ### Modules
 # standard
 from __future__ import absolute_import
-from builtins import object
 import os, importlib
 from mojo.roboFont import AllFonts, CurrentFont
 from vanilla import FloatingWindow, PopUpButton, TextBox, EditText, Button
+from defconAppKit.windows.baseWindow import BaseWindowController
 
 # custom
 from .ui import userInterfaceValues
@@ -66,12 +66,13 @@ MARGIN_VER = 8
 NET_WIDTH = PLUGIN_WIDTH - MARGIN_HOR*2
 
 ### Classes
-class CopyAndMove(object):
+class CopyAndMove(BaseWindowController):
 
     isOffsetAllowed = False
     verticalOffset = 0
 
     def __init__(self):
+        super(CopyAndMove, self).__init__()
         self.transferList = NAME_2_GLYPHLIST[GLYPHLISTS_OPTIONS[0]]
         self.target = TARGET_OPTIONS[0]
 

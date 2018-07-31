@@ -4,7 +4,6 @@
 ### Modules
 from __future__ import absolute_import
 from __future__ import division
-from past.utils import old_div
 import importlib
 
 # custom
@@ -49,7 +48,7 @@ class GraphicsManager(Group):
         self.ctrlCaption = TextBox((0, jumping_Y, self.ctrlWidth, vanillaControlsSize['TextBoxRegularHeight']),
                                    'Display options:')
 
-        jumping_Y = vanillaControlsSize['TextBoxRegularHeight'] + old_div(MARGIN_VER,2.)
+        jumping_Y = vanillaControlsSize['TextBoxRegularHeight'] + MARGIN_VER/2.
         indent = 16
         self.showKerningCheck = CheckBox((indent, jumping_Y, self.ctrlWidth-indent, vanillaControlsSize['CheckBoxRegularHeight']),
                                           'show kerning',

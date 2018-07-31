@@ -24,7 +24,7 @@ MARGIN_COL = 10
 def spitDecentString(someGlyphs, unicodeData):
     assert isinstance(someGlyphs, list)
     assert isinstance(unicodeData, dict)
-    flippedUnicodeData = {eachV[0]: eachK for (eachK, eachV) in list(unicodeData.items())}
+    flippedUnicodeData = {eachV[0]: eachK for (eachK, eachV) in unicodeData.items()}
     decentString = ''
     for eachGlyphName in someGlyphs:
         if eachGlyphName in flippedUnicodeData:

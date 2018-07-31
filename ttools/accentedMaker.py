@@ -10,7 +10,6 @@
 from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import division
-from past.utils import old_div
 import os, importlib
 from mojo.roboFont import version
 from AppKit import NSColor
@@ -187,10 +186,10 @@ class AccentedMaker(BaseWindowController):
                 if selectAnchorByName(eachGlyph, self.anchorName):
                     anchorToDel = selectAnchorByName(eachGlyph, self.anchorName)
                     eachGlyph.removeAnchor(anchorToDel)
-                eachGlyph.appendAnchor(self.anchorName, (old_div(eachGlyph.width,2.), self.anchorHeight))
+                eachGlyph.appendAnchor(self.anchorName, (eachGlyph.width/2, self.anchorHeight))
 
                 if self.isVerbose is True:
-                    print(APPEND_ANCHOR % {'anchorName': self.anchorName, 'anchorX': old_div(eachGlyph.width,2.), 'anchorHeight': self.anchorHeight, 'glyphName': eachGlyphName})
+                    print(APPEND_ANCHOR % {'anchorName': self.anchorName, 'anchorX': eachGlyph.width/2, 'anchorHeight': self.anchorHeight, 'glyphName': eachGlyphName})
 
         if self.isVerbose is True:
             print(END_FUNC.format(funcName=self.placeAnchors.__name__))
@@ -554,16 +553,16 @@ class AnchorsCtrls(Group):
         x, y, width, height = posSize
 
         jumpinY = 0
-        self.heightCaption = TextBox((32, jumpinY, old_div(width,2.), vanillaControlsSize['TextBoxRegularHeight']),
+        self.heightCaption = TextBox((32, jumpinY, width/2, vanillaControlsSize['TextBoxRegularHeight']),
                                      'Height:')
-        self.heightEdit = EditText((old_div(width,2.), jumpinY, old_div(width,2.), vanillaControlsSize['EditTextRegularHeight']),
+        self.heightEdit = EditText((width/2, jumpinY, width/2, vanillaControlsSize['EditTextRegularHeight']),
                                    continuous=False,
                                    callback=self.heightEditCallback)
 
         jumpinY += self.heightEdit.getPosSize()[3] + MARGIN_ROW
-        self.nameCaption = TextBox((32, jumpinY, old_div(width,2.), vanillaControlsSize['TextBoxRegularHeight']),
+        self.nameCaption = TextBox((32, jumpinY, width/2, vanillaControlsSize['TextBoxRegularHeight']),
                                    'Anchor:')
-        self.nameCombo = ComboBox((old_div(width,2.), jumpinY, old_div(width,2.), vanillaControlsSize['ComboBoxRegularHeight']),
+        self.nameCombo = ComboBox((width/2, jumpinY, width/2, vanillaControlsSize['ComboBoxRegularHeight']),
                                   ['top', '_top', 'bottom', '_bottom'],
                                   callback=self.nameComboCallback)
 
