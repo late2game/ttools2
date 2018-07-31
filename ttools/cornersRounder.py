@@ -7,6 +7,7 @@
 
 ### Modules
 # custom
+from builtins import range
 import constants
 reload(constants)
 from constants import MODIFIERS
