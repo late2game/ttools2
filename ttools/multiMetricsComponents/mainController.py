@@ -14,7 +14,7 @@ import traceback
 from AppKit import NSColor, NSFont, NSCenterTextAlignment
 from mojo.UI import MultiLineView, OpenGlyphWindow
 from mojo.events import addObserver, removeObserver
-from mojo.roboFont import AllFonts, OpenFont, RFont, version
+from mojo.roboFont import AllFonts, CurrentGlyph, CurrentFont, OpenFont, RFont, version
 from vanilla import Window, EditText, CheckBox
 from vanilla import PopUpButton, HorizontalLine
 from vanilla.dialogs import message
@@ -183,6 +183,9 @@ class MultiFontMetricsWindow(BaseWindowController):
                                         displayOptions=self.multiLineOptions,
                                         updateUserDefaults=False,
                                         menuForEventCallback=None)
+
+        # we need to setFont otherwise it crashes 🤷‍♂️
+        # self.w.lineView.setFont(CurrentFont())
 
         # static options
             # body

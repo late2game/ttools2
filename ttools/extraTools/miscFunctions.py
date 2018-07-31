@@ -38,14 +38,14 @@ def collectIDsFromSelectedPoints(glyph):
     for eachContour in glyph:
         for eachSegment in eachContour:
             if eachSegment.onCurve.selected is True:
-                selectedIDs.append(eachSegment.onCurve.naked().uniqueID)
+                selectedIDs.append(eachSegment.onCurve.getIdentifier())
     selectedIDs.sort()
     return selectedIDs
 
 def getPointFromID(glyph, ID):
     for eachContour in glyph:
         for eachPt in eachContour:
-            if eachPt.onCurve.naked().uniqueID == ID:
+            if eachPt.onCurve.getIdentifier() == ID:
                 return eachPt.onCurve
     return None
 
@@ -92,25 +92,17 @@ def loadGlyphNamesTable(aPath):
     return names
 
 def sortFontAccordingToSmartSets(aFont):
-    # loading smart sets path
     smartSetsPaths = catchFilesAndFolders(SMART_SETS_FOLDER, '.txt')
-    # building a reference glyph order from smart sets
+    smartSetsPaths.sort()
     smartSetsGlyphOrder = []
     for eachPath in smartSetsPaths:
-        smartSetsGlyphOrder += [name.strip() for name in codecs.open(eachPath, 'r', 'utf-8').readlines()]
-    # creating a glyph order to push into the font (according to its content)
-    sortedGlyphOrder = []
-    for eachGlyphName in smartSetsGlyphOrder:
-        if eachGlyphName in aFont.glyphOrder:
-            sortedGlyphOrder.append(eachGlyphName)
-    # filtering glyphs which are not part of our standard
-    extraStandardGlyphs = [name for name in aFont.glyphOrder if name not in smartSetsGlyphOrder]
-    sortedGlyphOrder += extraStandardGlyphs
-    # pushing glyph order
-    aFont.glyphOrder = sortedGlyphOrder
-    # return extra standard glyphs, it could be helpful to know them...
-    return extraStandardGlyphs
-
+        smartSetsGlyphOrder.extend([name.strip() for name in codecs.open(eachPath, 'r', 'utf-8').readlines()])
+    commonGlyphs = set(aFont.glyphOrder) & set(smartSetsGlyphOrder)
+    extraStandardGlyphNames = set(aFont.glyphOrder) - set(smartSetsGlyphOrder)
+    newGlyphOrder = [gl for gl in smartSetsGlyphOrder if gl in commonGlyphs]
+    newGlyphOrder.extend(gl for gl in aFont.glyphOrder if gl in extraStandardGlyphNames)
+    aFont.glyphOrder = newGlyphOrder
+    return extraStandardGlyphNames
 
 def importFontInfoFromUFOtoCurrentFont():
     aFontPath = getFile(messageText='Please, choose a UFO file', fileTypes=['ufo'])[0]

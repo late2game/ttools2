@@ -828,7 +828,7 @@ class DrawingAssistant(BaseWindowController):
                     absBcpOut = eachBcp.anchor[0] + eachBcp.bcpOut[0], eachBcp.anchor[1] + eachBcp.bcpOut[1]
                     bcpOutAngle = calcAngle(eachBcp.anchor, absBcpOut)
                     bcpOutLenght = calcDistance(eachBcp.anchor, absBcpOut)
-                    captionBcpOut = '→{:d}'.format(bcpOutLenght)
+                    captionBcpOut = '→{:d}'.format(int(bcpOutLenght))
                     projOut_X = eachBcp.anchor[0]+cos(radians(bcpOutAngle))*bcpOutLenght/2.
                     projOut_Y = eachBcp.anchor[1]+sin(radians(bcpOutAngle))*bcpOutLenght/2.
 
@@ -851,7 +851,7 @@ class DrawingAssistant(BaseWindowController):
                     absBcpIn = eachBcp.anchor[0] + eachBcp.bcpIn[0], eachBcp.anchor[1] + eachBcp.bcpIn[1]
                     bcpInAngle = calcAngle(eachBcp.anchor, absBcpIn)
                     bcpInLenght = calcDistance(eachBcp.anchor, absBcpIn)
-                    captionBcpIn = '→{:d}'.format(bcpInLenght)
+                    captionBcpIn = '→{:d}'.format(int(bcpInLenght))
 
                     projIn_X = eachBcp.anchor[0]+cos(radians(bcpInAngle))*bcpInLenght/2.
                     projIn_Y = eachBcp.anchor[1]+sin(radians(bcpInAngle))*bcpInLenght/2.
@@ -902,7 +902,7 @@ class DrawingAssistant(BaseWindowController):
                         projOut_X = eachBcp.anchor[0]+cos(radians(angleOut))*handleOutLen
                         projOut_Y = eachBcp.anchor[1]+sin(radians(angleOut))*handleOutLen
                         if angleOut != 0 and angleOut % 90 != 0:
-                            captionSqrOut = '{:.2f}%, {:d}°'.format(sqrOut, angleOut%180)
+                            captionSqrOut = '{:.2f}%, {:d}°'.format(sqrOut, int(angleOut)%180)
                         else:
                             captionSqrOut = '{:.2f}%'.format(sqrOut)
                         captionSqrOut = captionSqrOut.replace('0.', '')
@@ -925,7 +925,7 @@ class DrawingAssistant(BaseWindowController):
                         projIn_X = nextBcp.anchor[0]+cos(radians(angleIn))*nextHandleInLen
                         projIn_Y = nextBcp.anchor[1]+sin(radians(angleIn))*nextHandleInLen
                         if angleIn != 0 and angleIn % 90 != 0:
-                            captionSqrIn = '{:.2f}%, {:d}°'.format(sqrIn, angleIn%180)
+                            captionSqrIn = '{:.2f}%, {:d}°'.format(sqrIn, int(angleIn)%180)
                         else:
                             captionSqrIn = '{:.2f}%'.format(sqrIn)
                         captionSqrIn = captionSqrIn.replace('0.', '')
@@ -1035,7 +1035,7 @@ class DrawingAssistant(BaseWindowController):
             dt.save()
             dt.translate(offset_X, 0)
             textQualities(BODYSIZE_CAPTION*scalingFactor)
-            dataToPlot = '↑{:d}\n→{:d}'.format(verDiff, horDiff)
+            dataToPlot = '↑{:d}\n→{:d}'.format(int(verDiff), int(horDiff))
             textWidth, textHeight = dt.textSize(dataToPlot)
             textRect = (middlePoint[0]-textWidth/2., middlePoint[1]-textHeight/2., textWidth, textHeight)
             dt.textBox(dataToPlot, textRect, align='center')
@@ -1083,7 +1083,7 @@ class DrawingAssistant(BaseWindowController):
                 dt.rotate(angle)
                 textBoxY = 0
 
-            dataToPlot = '∡{:.1f} ↗{}'.format(angle%180, distance)
+            dataToPlot = '∡{:.1f} ↗{:.1f}'.format(angle%180, distance)
             textWidth, textHeight = dt.textSize(dataToPlot)
             dt.textBox(dataToPlot, (-textWidth/2., textBoxY, textWidth, BODYSIZE_CAPTION*1.2*scalingFactor), align='center')
             dt.restore()

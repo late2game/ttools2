@@ -9,6 +9,7 @@
 # standard
 from __future__ import absolute_import
 import os, sys, importlib
+import codecs
 import traceback
 from datetime import datetime
 from mojo.events import addObserver, removeObserver
@@ -182,19 +183,14 @@ class TestMetrics(BaseWindowController):
 
         testsToRun = self.testFunctions[self.chosenTest]
         rightNow = datetime.now()
-        reportFile = open(putFile('Choose where to save the report',
-                          '{}{}{}_{}_{}.txt'.format(rightNow.year, rightNow.month, rightNow.day,
-                          os.path.basename(self.chosenFont.path)[:-4],
-                          self.testOptionsAbbr[self.testOptions.index(self.chosenTest)])),
-                          'w')
+        reportPath = putFile('Choose where to save the report',
+                             fileName='{}{:0>2d}{:0>2d}_{}_{}.txt'.format(rightNow.year, rightNow.month, rightNow.day, os.path.basename(self.chosenFont.path)[:-4], self.testOptionsAbbr[self.testOptions.index(self.chosenTest)]))
 
-        # progressWindow = self.startProgress('Running Tests')
-        for eachFunc in testsToRun:
-            errorLines, missingGlyphs = eachFunc(self.chosenFont)
-            report = convertLinesToString(errorLines, missingGlyphs, self.showMissingGlyph)
-            reportFile.write(report)
-        reportFile.close()
-        # progressWindow.close()
+        with codecs.open(reportPath, 'w', 'utf-8') as reportFile:
+          for eachFunc in testsToRun:
+              errorLines, missingGlyphs = eachFunc(self.chosenFont)
+              report = convertLinesToString(errorLines, missingGlyphs, self.showMissingGlyph)
+              reportFile.write(report)
 
 ### Instructions
 if __name__ == '__main__':

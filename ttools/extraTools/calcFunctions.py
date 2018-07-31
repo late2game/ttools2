@@ -75,7 +75,7 @@ def calcStemsData(glyph, pluginKey):
         ptsToDisplay = []
         for eachContour in glyph:
             for eachSegment in eachContour:
-                currentID = eachSegment.onCurve.naked().uniqueID
+                currentID = eachSegment.onCurve.getIdentifier()
                 if currentID == ID1 or currentID == ID2:
                     ptsToDisplay.append(eachSegment.onCurve)
         assert len(ptsToDisplay) == 2, 'the points to display are not 2: {}'.format(ptsToDisplay)
@@ -93,7 +93,7 @@ def calcDiagonalsData(glyph, pluginKey):
         ptsToDisplay = []
         for eachContour in glyph:
             for eachSegment in eachContour:
-                currentID = eachSegment.onCurve.naked().uniqueID
+                currentID = eachSegment.onCurve.getIdentifier()
                 if currentID == ID1 or currentID == ID2:
                     ptsToDisplay.append((eachSegment.onCurve.x, eachSegment.onCurve.y))
         assert len(ptsToDisplay) == 2

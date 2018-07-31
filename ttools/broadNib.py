@@ -295,8 +295,8 @@ class BroadNib(BaseWindowController):
         if PLUGIN_KEY in glyph.lib:
             for eachContour in glyph:
                 for eachPt in eachContour.points:
-                    if eachPt.selected is True and eachPt.type != 'offCurve' and eachPt.naked().uniqueID in glyph.lib[PLUGIN_KEY]:
-                        self.loadDataFromLib(glyph, eachPt.naked().uniqueID)
+                    if eachPt.selected is True and eachPt.type != 'offCurve' and eachPt.getIdentifier() in glyph.lib[PLUGIN_KEY]:
+                        self.loadDataFromLib(glyph, eachPt.getIdentifier())
 
         # draw interpolateValued ovals
         if self.preview is True and PLUGIN_KEY in glyph.lib:
@@ -306,7 +306,7 @@ class BroadNib(BaseWindowController):
         if self.preview is True and PLUGIN_KEY in glyph.lib:
             for eachContour in glyph:
                 for eachSegment in eachContour:
-                    ID = eachSegment.onCurve.naked().uniqueID
+                    ID = eachSegment.onCurve.getIdentifier()
                     if ID in glyph.lib[PLUGIN_KEY]:
                         elementDict = glyph.lib[PLUGIN_KEY][ID]
                         save()
@@ -325,7 +325,7 @@ class BroadNib(BaseWindowController):
         if self.drawValues is True and PLUGIN_KEY in glyph.lib:
             for eachContour in glyph:
                 for eachSegment in eachContour:
-                    ID = eachSegment.onCurve.naked().uniqueID
+                    ID = eachSegment.onCurve.getIdentifier()
                     if ID in glyph.lib[PLUGIN_KEY]:
                         nibData = glyph.lib[PLUGIN_KEY][ID]
                         values = '{}: {}\n{}: {}\n{}: {}'.format('width', nibData['width'], 'height', nibData['height'], 'angle', nibData['angle'])
@@ -373,10 +373,10 @@ class BroadNib(BaseWindowController):
                 pt1 = eachSegment.onCurve.x, eachSegment.onCurve.y
                 pt4 = nextSegment.onCurve.x, nextSegment.onCurve.y
 
-                if eachSegment.onCurve.naked().uniqueID in glyph.lib[PLUGIN_KEY] and \
-                   nextSegment.onCurve.naked().uniqueID in glyph.lib[PLUGIN_KEY]:
-                    startLib = glyph.lib[PLUGIN_KEY][eachSegment.onCurve.naked().uniqueID]
-                    endLib = glyph.lib[PLUGIN_KEY][nextSegment.onCurve.naked().uniqueID]
+                if eachSegment.onCurve.getIdentifier() in glyph.lib[PLUGIN_KEY] and \
+                   nextSegment.onCurve.getIdentifier() in glyph.lib[PLUGIN_KEY]:
+                    startLib = glyph.lib[PLUGIN_KEY][eachSegment.onCurve.getIdentifier()]
+                    endLib = glyph.lib[PLUGIN_KEY][nextSegment.onCurve.getIdentifier()]
 
                     bezPoints = collectsPointsOnBezierCurveWithFixedDistance(pt1, pt2, pt3, pt4, distance)
                     for indexBezPt, eachBezPt in enumerate(bezPoints):
