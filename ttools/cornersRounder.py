@@ -6,23 +6,10 @@
 ################
 
 ### Modules
-# custom
-from builtins import range
-import constants
-reload(constants)
-from constants import MODIFIERS
-
-import ui.userInterfaceValues
-reload(ui.userInterfaceValues)
-from ui.userInterfaceValues import vanillaControlsSize
-
-import extraTools.roundingTools
-reload(extraTools.roundingTools)
-from extraTools.roundingTools import attachLabelToSelectedPoints, makeGlyphRound
-
 # standard
-import os
+import os, importlib
 import logging
+from builtins import range
 from collections import OrderedDict
 from mojo.roboFont import AllFonts, CurrentFont, CurrentGlyph, version
 from mojo.events import addObserver, removeObserver
@@ -31,6 +18,21 @@ from defconAppKit.windows.baseWindow import BaseWindowController
 from vanilla import Window, Group, EditText, SquareButton
 from vanilla import List, HorizontalLine, TextBox, PopUpButton, ComboBox
 from vanilla.dialogs import message
+
+# custom
+import constants
+reload(constants)
+from constants import MODIFIERS
+
+from .ui import userInterfaceValues
+importlib.reload(userInterfaceValues)
+from .ui.userInterfaceValues import vanillaControlsSize
+
+from .extraTools import roundingTools
+importlib.reload(roundingTools)
+from .extraTools.roundingTools import attachLabelToSelectedPoints, makeGlyphRound
+
+
 
 ### Constants
 PLUGIN_TITLE = 'TT Round Corners'
