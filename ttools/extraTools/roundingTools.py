@@ -64,11 +64,10 @@ def attachLabelToSelectedPoints(labelName):
     for eachContour in myGlyph:
         for eachPt in eachContour.points:
             if eachPt.selected is True:
+                print('-'*20)
+                print(labelName)
                 eachPt.name = labelName
-    if version[0] == '2':
-        myGlyph.changed()
-    else:
-        myGlyph.update()
+                eachPt.update()
     UpdateCurrentGlyphView()
 
 
@@ -88,8 +87,9 @@ def makeGlyphRound(aGlyph, roundingsData, sourceLayerName, targetLayerName, circ
     corrected = False
 
     # access glyph data
-    targetLayer = aGlyph.getLayer(targetLayerName, clear=True)
     sourceLayer = aGlyph.getLayer(sourceLayerName, clear=False)
+    targetLayer = aGlyph.getLayer(targetLayerName, clear=True)
+    targetLayer.width = sourceLayer.width
 
     # filter data
     roundingsData = [aDict for aDict in roundingsData if aDict['labelName']]
@@ -102,7 +102,6 @@ def makeGlyphRound(aGlyph, roundingsData, sourceLayerName, targetLayerName, circ
 
     # iterate over glyph contours
     for eachContour in sourceLayer:
-
         # collect segments into a custom data type
         segments = {}
         prevAnchor = Point(eachContour[-1].onCurve.x, eachContour[-1].onCurve.y)
