@@ -275,9 +275,9 @@ class BroadNib(BaseWindowController):
 
     def loadDataFromLib(self, glyph, ID):
         nibData = glyph.lib[PLUGIN_KEY][ID]
-        self.win.widthEdit.set('%s' % nibData['width'])
-        self.win.heightEdit.set('%s' % nibData['height'])
-        self.win.angleEdit.set('%s' % nibData['angle'])
+        self.win.widthEdit.set('{}'.format(nibData['width']))
+        self.win.heightEdit.set('{}'.format(nibData['height']))
+        self.win.angleEdit.set('{}'.format(nibData['angle']))
         self.nibWidth = nibData['width']
         self.nibHeight = nibData['height']
         self.nibAngle = nibData['angle']
@@ -328,7 +328,7 @@ class BroadNib(BaseWindowController):
                     ID = eachSegment.onCurve.naked().uniqueID
                     if ID in glyph.lib[PLUGIN_KEY]:
                         nibData = glyph.lib[PLUGIN_KEY][ID]
-                        values = '%s: %s\n%s: %s\n%s: %s' % ('width', nibData['width'], 'height', nibData['height'], 'angle', nibData['angle'])
+                        values = '{}: {}\n{}: {}\n{}: {}'.format('width', nibData['width'], 'height', nibData['height'], 'angle', nibData['angle'])
                         view._drawTextAtPoint(values,
                                               textAttributes,
                                               (eachSegment.onCurve.x, eachSegment.onCurve.y),

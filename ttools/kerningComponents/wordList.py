@@ -71,7 +71,7 @@ class WordListController(Group):
 
         self.wordsDone = len([row['done?'] for row in self.wordsWorkingList if row['done?'] != 0])
         self.infoCaption = TextBox((0, jumping_Y+2, self.ctrlWidth-self.wordsFilterCtrl.getPosSize()[2], vanillaControlsSize['TextBoxRegularHeight']),
-                                   'done: %d/%d' % (self.wordsDone, len(self.wordsWorkingList)))
+                                   'done: {:d}/{:d}'.format(self.wordsDone, len(self.wordsWorkingList)))
 
         jumping_Y += self.wordsFilterCtrl.getPosSize()[3] + MARGIN_VER
         self.loadStatus = SquareButton((0, jumping_Y, 90, vanillaControlsSize['ButtonRegularHeight']+2),
@@ -131,7 +131,7 @@ class WordListController(Group):
         self.wordsListCtrl.setSelection([activeWordIndex])
 
     def updateInfoCaption(self):
-        self.infoCaption.set('done: %d/%d' % (self.wordsDone, len(self.wordsWorkingList)))
+        self.infoCaption.set('done: {:d}/{:d}'.format(self.wordsDone, len(self.wordsWorkingList)))
 
     # ctrls callbacks
     def kerningVocabularyPopUpCallback(self, sender):

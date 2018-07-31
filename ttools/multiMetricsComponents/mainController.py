@@ -189,7 +189,7 @@ class MultiFontMetricsWindow(BaseWindowController):
         self.w.bodyCtrl = ComboBoxWithCaption((-(RIGHT_COLUMN+MARGIN_RGT), jumpingY, RIGHT_COLUMN, vanillaControlsSize['ComboBoxSmallHeight']+1),
                                                 'Body Size:',
                                                 self.bodySizeOptions,
-                                                '%s' % self.bodySize,
+                                                '{}'.format(self.bodySize),
                                                 sizeStyle='small',
                                                 callback=self.bodyCtrlCallback)
 
@@ -198,7 +198,7 @@ class MultiFontMetricsWindow(BaseWindowController):
         self.w.lineHgtCtrl = ComboBoxWithCaption((-(RIGHT_COLUMN+MARGIN_RGT), jumpingY, RIGHT_COLUMN, vanillaControlsSize['ComboBoxSmallHeight']+1),
                                                    'Line Height:',
                                                    self.lineHeightOptions,
-                                                   '%s' % self.lineHeight,
+                                                   '{}'.format(self.lineHeight),
                                                    sizeStyle='small',
                                                    callback=self.lineHgtCtrlCallback)
 
@@ -333,7 +333,6 @@ class MultiFontMetricsWindow(BaseWindowController):
         for eachKey, eachValue in list(allUnicodeData.items()):
             for eachFont in self.fontsOrder:
                 if eachKey not in eachFont.naked().unicodeData:
-                    # print '[WARNING] %s unicode value is not shared across the fonts' % eachKey
                     break
             self.unicodeMinimum[eachKey] = eachValue
 

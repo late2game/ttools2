@@ -52,12 +52,12 @@ class FontsOrderController(Group):
                               isTop=isTop,
                               isBottom=isBottom,
                               callback=self.fontRowCallback)
-            setattr(self, 'fontRow%02d' % (indexFont+1), fontRow)
+            setattr(self, 'fontRow{:0>2d}'.format(indexFont+1), fontRow)
             jumping_Y += FONT_ROW_HEIGHT
 
     def _delFontsList(self):
         for indexFont, eachFont in enumerate(self.fontsOrder):
-            delattr(self, 'fontRow%02d' % (indexFont+1))
+            delattr(self, 'fontRow{:0>2d}'.format(indexFont+1))
 
     def setFontsOrder(self, fontsOrder):
         self._delFontsList()
@@ -79,7 +79,7 @@ class FontsOrderController(Group):
         self.fontsOrder[mainToSwapIndex], self.fontsOrder[subToSwapIndex] = self.fontsOrder[subToSwapIndex], self.fontsOrder[mainToSwapIndex]
         
         for indexFont, eachFont in enumerate(self.fontsOrder):
-            getattr(self, 'fontRow%02d' % (indexFont+1)).setFont(eachFont)
+            getattr(self, 'fontRow{:0>2d}'.format(indexFont+1)).setFont(eachFont)
         self.callback(self)
 
 
@@ -97,7 +97,7 @@ class FontRow(Group):
         squareButtonSide = FONT_ROW_HEIGHT-3
 
         self.caption = TextBox((0, 4, 140, vanillaControlsSize['TextBoxRegularHeight']),
-                               '%s' % os.path.basename(self.ctrlFont.path))
+                               '{}'.format(os.path.basename(self.ctrlFont.path)))
 
         self.buttonUp = SquareButton((-(squareButtonSide*2+MARGIN_COL), 0, squareButtonSide, squareButtonSide),
                                      u'↑',
@@ -113,7 +113,7 @@ class FontRow(Group):
 
     def setFont(self, aFont):
         self.ctrlFont = aFont
-        self.caption.set('%s' % os.path.basename(self.ctrlFont.path))
+        self.caption.set('{}'.format(os.path.basename(self.ctrlFont.path)))
 
     def getDirection(self):
         return self.lastDirection

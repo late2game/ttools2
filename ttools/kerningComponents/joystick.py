@@ -111,28 +111,28 @@ class JoystickController(Group):
         self.jumping_Y = 0
 
         self.minusMajorCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
-                                           "-%s" % MAJOR_STEP,
+                                           "-{}".format(MAJOR_STEP),
                                            sizeStyle='small',
                                            callback=self.minusMajorCtrlCallback)
         self.minusMajorCtrl.bind(*MINUS_MAJOR_SHORTCUT)
 
         self.jumping_X += buttonSide
         self.minusMinorCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
-                                           "-%s" % MINOR_STEP,
+                                           "-{}".format(MINOR_STEP),
                                            sizeStyle='small',
                                            callback=self.minusMinorCtrlCallback)
         self.minusMinorCtrl.bind(*MINUS_MINOR_SHORTCUT)
 
         self.jumping_X += buttonSide
         self.plusMinorCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
-                                          "+%s" % MINOR_STEP,
+                                          "+{}".format(MINOR_STEP),
                                           sizeStyle='small',
                                           callback=self.plusMinorCtrlCallback)
         self.plusMinorCtrl.bind(*PLUS_MINOR_SHORTCUT)
 
         self.jumping_X += buttonSide
         self.plusMajorCtrl = SquareButton((self.jumping_X, self.jumping_Y, buttonSide, buttonSide),
-                                          "+%s" % MAJOR_STEP,
+                                          "+{}".format(MAJOR_STEP),
                                           sizeStyle='small',
                                           callback=self.plusMajorCtrlCallback)
         self.plusMajorCtrl.bind(*PLUS_MAJOR_SHORTCUT)
@@ -234,7 +234,7 @@ class JoystickController(Group):
 
         self.jumping_X += buttonSide*1.5
         self.activePairEditCorrection = EditText((self.jumping_X, self.jumping_Y, 50, vanillaControlsSize['EditTextRegularHeight']),
-                                                 text='%s' % 0,   # init value
+                                                 text='0',   # init value
                                                  continuous=False,
                                                  callback=self.activePairEditCorrectionCallback)
 
@@ -281,7 +281,7 @@ class JoystickController(Group):
         self.autoSaveSpanPopUp = PopUpButton((self.jumping_X, self.jumping_Y, buttonSide*1.5, vanillaControlsSize['PopUpButtonRegularHeight']),
                                              AUTO_SAVE_SPAN_OPTIONS,
                                              callback=self.autoSaveSpanPopUpCallback)
-        self.autoSaveSpanPopUp.set(AUTO_SAVE_SPAN_OPTIONS.index("%d'" % self.autoSaveSpan))
+        self.autoSaveSpanPopUp.set(AUTO_SAVE_SPAN_OPTIONS.index("{}'".format(self.autoSaveSpan)))
 
     # goes out
     def getLastEvent(self):
@@ -312,7 +312,7 @@ class JoystickController(Group):
 
     def updateCorrectionValue(self):
         correction, kerningReference, pairKind = getCorrection(self.activePair, self.fontObj)
-        self.activePairEditCorrection.set('%s' % correction)
+        self.activePairEditCorrection.set('{}'.format(correction))
 
     # callbacks
     def minusMajorCtrlCallback(self, sender):
@@ -419,7 +419,7 @@ class JoystickController(Group):
             self.callback(self)
         except ValueError:
             if sender.get() != '-' or sender.get() != '':
-                self.activePairEditCorrection.set('%s' % self.keyboardCorrection)
+                self.activePairEditCorrection.set('{}'.format(self.keyboardCorrection))
                 print(traceback.format_exc())
 
     def autoSaveCheckCallback(self, sender):

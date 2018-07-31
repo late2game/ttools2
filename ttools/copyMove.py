@@ -98,7 +98,7 @@ class CopyAndMove(BaseWindowController):
         # offset edit text
         self.w.offsetEdit = EditText((MARGIN_HOR+NET_WIDTH*.25, jumpingY, NET_WIDTH*.35, vanillaControlsSize['EditTextRegularHeight']),
                                      callback=self.offsetEditCallback)
-        self.w.offsetEdit.set('%d' % self.verticalOffset)
+        self.w.offsetEdit.set('{:d}'.format(self.verticalOffset))
         jumpingY += vanillaControlsSize['EditTextRegularHeight']+MARGIN_VER
 
         # clean button
@@ -132,7 +132,7 @@ class CopyAndMove(BaseWindowController):
         try:
             self.verticalOffset = int(sender.get())
         except ValueError:
-            self.w.offsetEdit.set('%d' % self.verticalOffset)
+            self.w.offsetEdit.set('{:d}'.format(self.verticalOffset))
 
     def cleanButtonCallback(self, sender):
         if self.target == 'All Fonts':

@@ -104,7 +104,7 @@ class MultipleGridController(Group):
         self.ctrlsAmount = ctrlsAmount
         self.activeCtrls = activeCtrls
         self.offgridActive = offgridActive
-        self.gridIndexes = ['%d' % integ for integ in range(1, ctrlsAmount+1)]
+        self.gridIndexes = ['{:d}'.format(integ) for integ in range(1, ctrlsAmount+1)]
         self.callback = callback
 
         self.gridsDB = [{'horizontal': False, 'vertical': False, 'step': None, 'color': color} for color in GRID_COLOR_INIT]
@@ -125,7 +125,7 @@ class MultipleGridController(Group):
                                             gridColor=GRID_COLOR_INIT[eachI-1],
                                             callback=self.gridCtrlCallback)
             gridCtrl.enable(self.gridActive)
-            setattr(self, 'grid%#02d' % eachI, gridCtrl)
+            setattr(self, 'grid{:0>2d}'.format(eachI), gridCtrl)
 
         jumpin_Y += vanillaControlsSize['EditTextRegularHeight'] + MARGIN_VER
         self.showOffgridCheck = CheckBox((0, jumpin_Y, NET_WIDTH, vanillaControlsSize['CheckBoxRegularHeight']),
@@ -144,7 +144,7 @@ class MultipleGridController(Group):
     def gridActiveCheckCallback(self, sender):
         self.gridActive = bool(sender.get())
         for eachI in range(1, self.ctrlsAmount+1):
-            gridCtrl = getattr(self, 'grid%#02d' % eachI)
+            gridCtrl = getattr(self, 'grid{:0>2d}'.format(eachI))
             gridCtrl.enable(self.gridActive)
         self.callback(self)
 
@@ -170,7 +170,7 @@ class SingleGridController(Group):
 
         # ctrls
         jumpin_X = 12
-        self.indexText = TextBox((jumpin_X, 0, 16, vanillaControlsSize['TextBoxRegularHeight']), '%d)' % index)
+        self.indexText = TextBox((jumpin_X, 0, 16, vanillaControlsSize['TextBoxRegularHeight']), '{:d})'.format(index))
         jumpin_X += self.indexText.getPosSize()[2]
 
         self.stepCtrl = EditText((jumpin_X, 0, 38, vanillaControlsSize['EditTextRegularHeight']),
@@ -311,7 +311,7 @@ class DistancesController(Group):
 
     def addStemButtonCallback(self, sender):
         if self.currentGlyph and STEM_KEY not in self.currentGlyph.lib:
-            self.currentGlyph.prepareUndo(undoTitle='create a %s lib' % STEM_KEY)
+            self.currentGlyph.prepareUndo(undoTitle='create a {} lib'.format(STEM_KEY))
             self.currentGlyph.lib[STEM_KEY] = []
             self.currentGlyph.performUndo()
 
@@ -321,7 +321,7 @@ class DistancesController(Group):
 
         elif len(selectedPointsIDs) == 2:
             if tuple(selectedPointsIDs) not in self.currentGlyph.lib[STEM_KEY]:
-                self.currentGlyph.prepareUndo(undoTitle='append a stem to %s lib' % STEM_KEY)
+                self.currentGlyph.prepareUndo(undoTitle='append a stem to {} lib'.format(STEM_KEY))
                 self.currentGlyph.lib[STEM_KEY].append(tuple(selectedPointsIDs))
                 self.currentGlyph.performUndo()
 
@@ -329,7 +329,7 @@ class DistancesController(Group):
             guessedStems = guessStemPoints(self.currentGlyph)
             for eachStem in guessedStems:
                 if eachStem not in self.currentGlyph.lib[STEM_KEY]:
-                    self.currentGlyph.prepareUndo(undoTitle='append a stem to %s lib' % STEM_KEY)
+                    self.currentGlyph.prepareUndo(undoTitle='append a stem to {} lib'.format(STEM_KEY))
                     self.currentGlyph.lib[STEM_KEY].append(eachStem)
                     self.currentGlyph.performUndo()
         if version[0] == '2':
@@ -339,14 +339,14 @@ class DistancesController(Group):
 
     def addDiagonalsButtonCallback(self, sender):
         if self.currentGlyph and DIAGONALS_KEY not in self.currentGlyph.lib:
-            self.currentGlyph.prepareUndo(undoTitle='create a %s lib' % DIAGONALS_KEY)
+            self.currentGlyph.prepareUndo(undoTitle='create a {} lib'.format(DIAGONALS_KEY))
             self.currentGlyph.lib[DIAGONALS_KEY] = []
             self.currentGlyph.performUndo()
 
         selectedPointsIDs = collectIDsFromSelectedPoints(self.currentGlyph)
         if len(selectedPointsIDs) == 2:
             if tuple(selectedPointsIDs) not in self.currentGlyph.lib[DIAGONALS_KEY]:
-                self.currentGlyph.prepareUndo(undoTitle='append a stem to %s lib' % DIAGONALS_KEY)
+                self.currentGlyph.prepareUndo(undoTitle='append a stem to {} lib'.format(DIAGONALS_KEY))
                 self.currentGlyph.lib[DIAGONALS_KEY].append(tuple(selectedPointsIDs))
                 self.currentGlyph.performUndo()
 
@@ -358,7 +358,7 @@ class DistancesController(Group):
                     originalStemStatus = self.currentGlyph.lib[STEM_KEY]
                     for eachStem in originalStemStatus:
                         if eachID in eachStem:
-                            self.currentGlyph.prepareUndo(undoTitle='remove a stem from %s lib' % STEM_KEY)
+                            self.currentGlyph.prepareUndo(undoTitle='remove a stem from {} lib'.format(STEM_KEY))
                             self.currentGlyph.lib[STEM_KEY].remove(eachStem)
                             self.currentGlyph.performUndo()
 
@@ -367,7 +367,7 @@ class DistancesController(Group):
                     originalStemStatus = self.currentGlyph.lib[DIAGONALS_KEY]
                     for eachStem in originalStemStatus:
                         if eachID in eachStem:
-                            self.currentGlyph.prepareUndo(undoTitle='remove a stem from %s lib' % DIAGONALS_KEY)
+                            self.currentGlyph.prepareUndo(undoTitle='remove a stem from {} lib'.format(DIAGONALS_KEY))
                             self.currentGlyph.lib[DIAGONALS_KEY].remove(eachStem)
                             self.currentGlyph.performUndo()
             if version[0] == '2':
@@ -828,7 +828,7 @@ class DrawingAssistant(BaseWindowController):
                     absBcpOut = eachBcp.anchor[0] + eachBcp.bcpOut[0], eachBcp.anchor[1] + eachBcp.bcpOut[1]
                     bcpOutAngle = calcAngle(eachBcp.anchor, absBcpOut)
                     bcpOutLenght = calcDistance(eachBcp.anchor, absBcpOut)
-                    captionBcpOut = u'→%d' % bcpOutLenght
+                    captionBcpOut = '→{:d}'.format(bcpOutLenght)
                     projOut_X = eachBcp.anchor[0]+cos(radians(bcpOutAngle))*bcpOutLenght/2.
                     projOut_Y = eachBcp.anchor[1]+sin(radians(bcpOutAngle))*bcpOutLenght/2.
 
@@ -851,7 +851,7 @@ class DrawingAssistant(BaseWindowController):
                     absBcpIn = eachBcp.anchor[0] + eachBcp.bcpIn[0], eachBcp.anchor[1] + eachBcp.bcpIn[1]
                     bcpInAngle = calcAngle(eachBcp.anchor, absBcpIn)
                     bcpInLenght = calcDistance(eachBcp.anchor, absBcpIn)
-                    captionBcpIn = u'→%d' % bcpInLenght
+                    captionBcpIn = '→{:d}'.format(bcpInLenght)
 
                     projIn_X = eachBcp.anchor[0]+cos(radians(bcpInAngle))*bcpInLenght/2.
                     projIn_Y = eachBcp.anchor[1]+sin(radians(bcpInAngle))*bcpInLenght/2.
@@ -902,9 +902,9 @@ class DrawingAssistant(BaseWindowController):
                         projOut_X = eachBcp.anchor[0]+cos(radians(angleOut))*handleOutLen
                         projOut_Y = eachBcp.anchor[1]+sin(radians(angleOut))*handleOutLen
                         if angleOut != 0 and angleOut % 90 != 0:
-                            captionSqrOut = u'%.2f%%, %d°' % (sqrOut, angleOut%180)
+                            captionSqrOut = '{:.2f}%, {:d}°'.format(sqrOut, angleOut%180)
                         else:
-                            captionSqrOut = '%.2f%%' % sqrOut
+                            captionSqrOut = '{:.2f}%'.format(sqrOut)
                         captionSqrOut = captionSqrOut.replace('0.', '')
 
                         dt.save()
@@ -925,9 +925,9 @@ class DrawingAssistant(BaseWindowController):
                         projIn_X = nextBcp.anchor[0]+cos(radians(angleIn))*nextHandleInLen
                         projIn_Y = nextBcp.anchor[1]+sin(radians(angleIn))*nextHandleInLen
                         if angleIn != 0 and angleIn % 90 != 0:
-                            captionSqrIn = u'%.2f%%, %d°' % (sqrIn, angleIn%180)
+                            captionSqrIn = '{:.2f}%, {:d}°'.format(sqrIn, angleIn%180)
                         else:
-                            captionSqrIn = '%.2f%%' % sqrIn
+                            captionSqrIn = '{:.2f}%'.format(sqrIn)
                         captionSqrIn = captionSqrIn.replace('0.', '')
 
                         dt.save()
@@ -1035,7 +1035,7 @@ class DrawingAssistant(BaseWindowController):
             dt.save()
             dt.translate(offset_X, 0)
             textQualities(BODYSIZE_CAPTION*scalingFactor)
-            dataToPlot = u'↑%d\n→%d' % (verDiff, horDiff)
+            dataToPlot = '↑{:d}\n→{:d}'.format(verDiff, horDiff)
             textWidth, textHeight = dt.textSize(dataToPlot)
             textRect = (middlePoint[0]-textWidth/2., middlePoint[1]-textHeight/2., textWidth, textHeight)
             dt.textBox(dataToPlot, textRect, align='center')
@@ -1083,7 +1083,7 @@ class DrawingAssistant(BaseWindowController):
                 dt.rotate(angle)
                 textBoxY = 0
 
-            dataToPlot = u'∡%.1f ↗%d' % (angle%180, distance)
+            dataToPlot = '∡{:.1f} ↗{}'.format(angle%180, distance)
             textWidth, textHeight = dt.textSize(dataToPlot)
             dt.textBox(dataToPlot, (-textWidth/2., textBoxY, textWidth, BODYSIZE_CAPTION*1.2*scalingFactor), align='center')
             dt.restore()
@@ -1115,14 +1115,14 @@ class DrawingAssistant(BaseWindowController):
     def pushFontAttr(self, attrName):
         fontToBePushed = getattr(self, attrName)
         self.neighborsController.neighborsDB[attrName][1] = fontToBePushed
-        setattr(self.neighborsController, '%sController.activeFont' % attrName[:3], fontToBePushed)
-        getattr(self.neighborsController, '%sController' % attrName[:3]).updateGlyphList()
+        setattr(self.neighborsController, '{}Controller.activeFont'.format(attrName[:3]), fontToBePushed)
+        getattr(self.neighborsController, '{}Controller'.format(attrName[:3])).updateGlyphList()
 
     def pushGlyphAttr(self, attrName):
         glyphToBePushed = getattr(self, attrName)
         self.neighborsController.neighborsDB[attrName][2] = glyphToBePushed
-        setattr(self.neighborsController, '%sController.activeGlyph' % attrName[:3], glyphToBePushed)
-        getattr(self.neighborsController, '%sController' % attrName[:3]).updateGlyphList()
+        setattr(self.neighborsController, '{}Controller.activeGlyph'.format(attrName[:3]), glyphToBePushed)
+        getattr(self.neighborsController, '{}Controller'.format(attrName[:3])).updateGlyphList()
 
     def aFontIsOpening(self, infoDict):
         originalState = list(self.openedFonts)

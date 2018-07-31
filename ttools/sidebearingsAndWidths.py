@@ -275,7 +275,7 @@ class SidebearingsManager(Group):
         try:
             self.amount = int(sender.get())
         except ValueError:
-            self.amountEdit.set('%d' % self.amount)
+            self.amountEdit.set('{:d}'.format(self.amount))
         self.callback(self)
 
     def beamCheckCallback(self, sender):
@@ -287,7 +287,7 @@ class SidebearingsManager(Group):
         try:
             self.beamHeight = int(sender.get())
         except ValueError:
-            self.beamEdit.set('%d' % self.beamHeight)
+            self.beamEdit.set('{:d}'.format(self.beamHeight))
         self.callback(self)
 
 
@@ -338,7 +338,7 @@ class WidthsManager(Group):
         try:
             self.width = int(sender.get())
         except ValueError:
-            self.widthEdit.set('%d' % self.width)
+            self.widthEdit.set('{:d}'.format(self.width))
         self.callback(self)
 
 

@@ -117,7 +117,7 @@ class TestMetrics(BaseWindowController):
         # target pop up
         jumpingY = MARGIN_TOP
         self.w.targetPopUp = PopUpButton((MARGIN_LFT, jumpingY, NET_WIDTH, vanillaControlsSize['PopUpButtonRegularHeight']),
-                                           ['%s %s' % (font.info.familyName, font.info.styleName) for font in self.fontOptions],
+                                           ['{} {}'.format(font.info.familyName, font.info.styleName) for font in self.fontOptions],
                                            callback=self.targetPopUpCallback)
 
         # test choice
@@ -161,7 +161,7 @@ class TestMetrics(BaseWindowController):
 
     def updateFontList(self, sender):
         self.fontOptions = AllFonts()
-        self.w.targetPopUp.setItems(['%s %s' % (font.info.familyName, font.info.styleName) for font in self.fontOptions])
+        self.w.targetPopUp.setItems(['{} {}'.format(font.info.familyName, font.info.styleName) for font in self.fontOptions])
 
         if self.fontOptions:
             self.chosenFont = self.fontOptions
@@ -170,7 +170,7 @@ class TestMetrics(BaseWindowController):
 
     def targetPopUpCallback(self, sender):
         self.chosenFont = self.fontOptions[sender.get()]
-        assert isinstance(self.chosenFont, RFont), '%r is not a RFont instance' % self.chosenFont
+        assert isinstance(self.chosenFont, RFont), '{} is not a RFont instance'.format(self.chosenFont)
 
     def testChoiceCallback(self, sender):
         self.chosenTest = self.testOptions[sender.get()]
