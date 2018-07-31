@@ -15,7 +15,7 @@ from mojo.UI import UpdateCurrentGlyphView
 # custom
 from . import calcFunctions
 importlib.reload(calcFunctions)
-from calcFunctions import calcAngle, getLinearRelation
+from .calcFunctions import calcAngle, getLinearRelation
 
 ### Constants
 Relation = namedtuple('Relation', ['angleDegrees', 'radius', 'bcpLength'])
