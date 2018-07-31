@@ -20,10 +20,6 @@ from vanilla import List, HorizontalLine, TextBox, PopUpButton, ComboBox
 from vanilla.dialogs import message
 
 # custom
-import constants
-reload(constants)
-from constants import MODIFIERS
-
 from .ui import userInterfaceValues
 importlib.reload(userInterfaceValues)
 from .ui.userInterfaceValues import vanillaControlsSize
@@ -33,8 +29,16 @@ importlib.reload(roundingTools)
 from .extraTools.roundingTools import attachLabelToSelectedPoints, makeGlyphRound
 
 
-
 ### Constants
+MODIFIERS = {1048840: 'CMD_LEFT',
+             1048848: 'CMD_RIGHT',
+             131330 : 'SHIFT_LEFT',
+             131332 : 'SHIFT_RIGHT',
+             524576 : 'ALT_LEFT',
+             524608 : 'ALT_RIGHT',
+             262401 : 'CTRL',
+             8388864: 'FN'}
+
 PLUGIN_TITLE = 'TT Round Corners'
 PLUGIN_WIDTH = 360
 PLUGIN_HEIGHT = 600
