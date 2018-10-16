@@ -19,6 +19,20 @@ def getFontLabel(font):
         fontLabel = (font.info.familyName + " " + font.info.styleName)
     return fontLabel
 
+def renameGroups(font, table):
+    table = dict(table)
+    groups = {}
+    renameCount = 0
+    for groupName in font.groups.keys():
+        newGroupName = table.get(groupName, groupName)
+        if newGroupName != groupName:
+            renameCount += 1
+        groups[newGroupName] = font.groups[groupName]
+    font.groups.clear()
+    for groupName in groups.keys():
+        font.groups[groupName] = groups[groupName]
+    return renameCount
+
 
 class RenameGroupsWindow:
 
@@ -79,21 +93,6 @@ class RenameGroupsWindow:
             return "The table contains duplicate new group names."
         return None
 
-    @staticmethod
-    def renameGroups(font, table):
-        table = dict(table)
-        groups = {}
-        renameCount = 0
-        for groupName in font.groups.keys():
-            newGroupName = table.get(groupName, groupName)
-            if newGroupName != groupName:
-                renameCount += 1
-            groups[newGroupName] = font.groups[groupName]
-        font.groups.clear()
-        for groupName in groups.keys():
-            font.groups[groupName] = groups[groupName]
-        return renameCount
-
     def doRenameCallback(self, sender):
         table = self.replacementTable
         if not table:
@@ -115,7 +114,7 @@ class RenameGroupsWindow:
         report = []
         totalCount = 0
         for f in fonts:
-            renameCount = self.renameGroups(f, table)
+            renameCount = renameGroups(f, table)
             totalCount += renameCount
             report.append("%s: %s" % (getFontLabel(f), renameCount))
         report = "\n".join(report)
