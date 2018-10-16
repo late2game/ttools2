@@ -32,6 +32,16 @@ def renameGroups(font, table):
             del font.groups[groupName]
     for groupName in groups.keys():
         font.groups[groupName] = groups[groupName]
+    for left, right in font.kerning.keys():
+        newLeft = table.get(left, left)
+        newRight = table.get(right, right)
+        originalPair = left, right
+        newPair = newLeft, newRight
+        if originalPair != newPair:
+            value = font.kerning[originalPair]
+            del font.kerning[originalPair]
+            font.kerning[newPair] = value
+    font.update()
     return renameCount
 
 
