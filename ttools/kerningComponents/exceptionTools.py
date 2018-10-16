@@ -14,11 +14,11 @@ Point = namedtuple('Point', ['x', 'y'])
 
 
 # UFO 2
-KERN_GROUP_LEFT_PREFIX = '@MMK_L_'
-KERN_GROUP_RIGHT_PREFIX = '@MMK_R_'
+#KERN_GROUP_LEFT_PREFIX = '@MMK_L_'
+#KERN_GROUP_RIGHT_PREFIX = '@MMK_R_'
 # UFO 3
-#KERN_GROUP_LEFT_PREFIX = 'public.kern1.'
-#KERN_GROUP_RIGHT_PREFIX = 'public.kern2.'
+KERN_GROUP_LEFT_PREFIX = 'public.kern1.'
+KERN_GROUP_RIGHT_PREFIX = 'public.kern2.'
 
 def isLeftGroup(name):
     return name.startswith(KERN_GROUP_LEFT_PREFIX)
