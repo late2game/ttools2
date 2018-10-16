@@ -19,6 +19,7 @@ def getFontLabel(font):
         fontLabel = (font.info.familyName + " " + font.info.styleName)
     return fontLabel
 
+
 def renameGroups(font, table):
     table = dict(table)
     groups = {}
@@ -27,8 +28,8 @@ def renameGroups(font, table):
         newGroupName = table.get(groupName, groupName)
         if newGroupName != groupName:
             renameCount += 1
-        groups[newGroupName] = font.groups[groupName]
-    font.groups.clear()
+            groups[newGroupName] = font.groups[groupName]
+            del font.groups[groupName]
     for groupName in groups.keys():
         font.groups[groupName] = groups[groupName]
     return renameCount
