@@ -242,7 +242,6 @@ class KerningController(BaseWindowController):
         removeObserver(self, "fontWillClose")
         self.exceptionWindow.close()
         super(KerningController, self).windowCloseCallback(sender)
-        self.w.close()
 
     def openCloseFontCallback(self, sender):
         self.deleteWordDisplays()
