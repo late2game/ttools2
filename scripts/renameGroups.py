@@ -20,7 +20,7 @@ def getFontLabel(font):
     return fontLabel
 
 
-class RenameGroups:
+class RenameGroupsWindow:
 
     def __init__(self):
         self.replacementTable = None
@@ -124,4 +124,4 @@ class RenameGroups:
 
 
 if __name__ == "__main__":
-    RenameGroups()
+    RenameGroupsWindow()
