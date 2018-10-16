@@ -246,8 +246,8 @@ class WordDisplay(Group):
 
         textWidth, textHeight = dt.textSize(u'{}'.format(glyphToDisplay.width))
         dt.textBox(u'{:d}'.format(glyphToDisplay.width), (0, 0, glyphToDisplay.width, textHeight*2), align='center')
-        dt.textBox(u'\n{:d}'.format(glyphToDisplay.leftMargin), (0, 0, glyphToDisplay.width/2., textHeight*2), align='center')
-        dt.textBox(u'\n{:d}'.format(glyphToDisplay.rightMargin), (glyphToDisplay.width/2., 0, glyphToDisplay.width/2., textHeight*2), align='center')
+        dt.textBox(u'\n{:d}'.format(glyphToDisplay.leftMargin or 0), (0, 0, glyphToDisplay.width/2., textHeight*2), align='center')
+        dt.textBox(u'\n{:d}'.format(glyphToDisplay.rightMargin or 0), (glyphToDisplay.width/2., 0, glyphToDisplay.width/2., textHeight*2), align='center')
         dt.restore()
 
     def _drawBaseline(self, glyphName):
