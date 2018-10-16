@@ -399,7 +399,7 @@ class WordDisplay(Group):
             for eachRgtName in rgtGlyphs:
                 isTouching = checkIfPairOverlaps(self.fontObj[eachLftName], self.fontObj[eachRgtName])
                 if isTouching:
-                    dt.text(u'💥', (0, 0))
+                    dt.text(u'\U0001F4A5', (0, 0))
                     breakCycle = True
                     break
 
