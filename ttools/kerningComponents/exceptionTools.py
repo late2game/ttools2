@@ -75,10 +75,15 @@ def collectPairMapping(aPair, aFont):
     lftGroup = whichGroup(lftGlyphName, 'left', aFont)
     rgtGroup = whichGroup(rgtGlyphName, 'right', aFont)
 
-    pairsDB = [{'kind': 'gl2gl', 'key': (lftGlyphName, rgtGlyphName), 'amount': aFont.kerning.get((lftGlyphName, rgtGlyphName))},
-               {'kind': 'gl2gr', 'key': (lftGlyphName, rgtGroup)    , 'amount': aFont.kerning.get((lftGlyphName, rgtGroup))},
-               {'kind': 'gr2gl', 'key': (lftGroup,     rgtGlyphName), 'amount': aFont.kerning.get((lftGroup,     rgtGlyphName))},
-               {'kind': 'gr2gr', 'key': (lftGroup,     rgtGroup)    , 'amount': aFont.kerning.get((lftGroup,     rgtGroup))}]
+    pairsDB = [{'kind': 'gl2gl', 'key': (lftGlyphName, rgtGlyphName)},
+               {'kind': 'gl2gr', 'key': (lftGlyphName, rgtGroup)    },
+               {'kind': 'gr2gl', 'key': (lftGroup,     rgtGlyphName)},
+               {'kind': 'gr2gr', 'key': (lftGroup,     rgtGroup)    }]
+    for pair in pairsDB:
+        if None not in pair['key']:
+            pair['amount'] = aFont.kerning.get(pair['key'])
+        else:
+            pair['amount'] = None
     pairsDB = [pair for pair in pairsDB if pair['amount'] is not None]
     return pairsDB
 
