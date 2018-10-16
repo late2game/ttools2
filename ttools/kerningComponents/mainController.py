@@ -86,7 +86,9 @@ JOYSTICK_EVENTS = ['exceptionTrigger', 'verticalAlignedEditing', 'minusMajor', '
 KERNING_NOT_DISPLAYED_ERROR = 'Why are you editing kerning if it is not displayed?'
 
 # log messages
-SET_CORRECTION_LOG.format(leftGlyphName=ightGlyphName} from {familyName}{styleName=et to {amount} DELETE_PAIR_LOG='{leftGlyphName}{rightGlyphName} rom=amilyName} {styleName} eleted=om)kerning dictionary'
+SET_CORRECTION_LOG = '{leftGlyphName}{rightGlyphName} from {familyName} {styleName} set to {amount}'
+DELETE_PAIR_LOG = '{leftGlyphName}{rightGlyphName} from {familyName} {styleName} deleted from kerning dictionary'
+
 
 # ui
 LEFT_COLUMN = 200
@@ -222,7 +224,7 @@ class KerningController(BaseWindowController):
         self.kerningLogger = logging.getLogger('kerningLogger')
         self.kerningLogger.setLevel(logging.INFO)
         # create file handler which logs info messages
-        fileHandle = logging.FileHandler('kerningLogger.log')
+        fileHandle = logging.FileHandler('kerningLogger.log', encoding="utf-8")
         fileHandle.setLevel(logging.INFO)
         # create console handler with a higher log level, only errors
         consoleHandler = logging.StreamHandler()
