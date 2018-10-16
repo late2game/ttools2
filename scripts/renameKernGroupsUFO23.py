@@ -47,7 +47,6 @@ class RenameKernGroupsUFO23:
             patterns = [(UFO2_LEFT_PREFIX, UFO3_LEFT_PREFIX), (UFO2_RIGHT_PREFIX, UFO3_RIGHT_PREFIX)]
         else:
             patterns = [(UFO3_LEFT_PREFIX, UFO2_LEFT_PREFIX), (UFO3_RIGHT_PREFIX, UFO2_RIGHT_PREFIX)]
-        print(patterns)
 
         report = []
         totalCount = 0
