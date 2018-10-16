@@ -22,7 +22,7 @@ from ..extraTools.findPossibleOverlappingSegmentsPen import FindPossibleOverlapp
 
 from . import exceptionTools
 importlib.reload(exceptionTools)
-from .exceptionTools import whichGroup, isPairException
+from .exceptionTools import whichGroup, collectPairMapping, isPairException
 
 ### Constants
 MARGIN_VER = 8
@@ -153,20 +153,6 @@ def whichKindOfPair(aPair):
         return 'gl2gr'
     else:
         return 'gl2gl'
-
-
-def collectPairMapping(aPair, aFont):
-    """here I assume aPair is made of two glyphnames, no classes"""
-    lftGlyphName, rgtGlyphName = aPair
-    lftGroup = whichGroup(lftGlyphName, 'left', aFont)
-    rgtGroup = whichGroup(rgtGlyphName, 'right', aFont)
-
-    pairsDB = [{'kind': 'gl2gl', 'key': (lftGlyphName, rgtGlyphName), 'amount': aFont.kerning.get((lftGlyphName, rgtGlyphName))},
-               {'kind': 'gl2gr', 'key': (lftGlyphName, rgtGroup)    , 'amount': aFont.kerning.get((lftGlyphName, rgtGroup))},
-               {'kind': 'gr2gl', 'key': (lftGroup,     rgtGlyphName), 'amount': aFont.kerning.get((lftGroup,     rgtGlyphName))},
-               {'kind': 'gr2gr', 'key': (lftGroup,     rgtGroup)    , 'amount': aFont.kerning.get((lftGroup,     rgtGroup))}]
-    pairsDB = [pair for pair in pairsDB if pair['amount'] is not None]
-    return pairsDB
 
 
 def setRawCorrection(kerningReference, aFont, amount):
