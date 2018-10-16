@@ -22,7 +22,7 @@ from ..extraTools.findPossibleOverlappingSegmentsPen import FindPossibleOverlapp
 
 from . import exceptionTools
 importlib.reload(exceptionTools)
-from .exceptionTools import whichGroup, collectPairMapping, isPairException
+from .exceptionTools import whichGroup, collectPairMapping, isPairException, isLeftGroup, isRightGroup
 
 ### Constants
 MARGIN_VER = 8
@@ -145,11 +145,11 @@ def loadKerningTexts(kerningTextFolder):
 def whichKindOfPair(aPair):
     lftReference, rgtReference = aPair
 
-    if lftReference.startswith('@MMK_L_') and rgtReference.startswith('@MMK_R_'):
+    if isLeftGroup(lftReference) and isRightGroup(rgtReference):
         return 'gr2gr'
-    elif lftReference.startswith('@MMK_L_'):
+    elif isLeftGroup(lftReference):
         return 'gr2gl'
-    elif rgtReference.startswith('@MMK_R_'):
+    elif isRightGroup(rgtReference):
         return 'gl2gr'
     else:
         return 'gl2gl'

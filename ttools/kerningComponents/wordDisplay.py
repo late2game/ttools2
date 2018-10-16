@@ -23,7 +23,7 @@ from .kerningMisc import CANVAS_SCALING_FACTOR_INIT
 
 from . import exceptionTools
 importlib.reload(exceptionTools)
-from .exceptionTools import checkPairConflicts, isPairException, calcWiggle
+from .exceptionTools import checkPairConflicts, isPairException, calcWiggle, isLeftGroup, isRightGroup
 
 from ..ui import userInterfaceValues
 importlib.reload(userInterfaceValues)
@@ -331,7 +331,7 @@ class WordDisplay(Group):
 
         # _L__ group
         if lftReference:
-            if lftReference.startswith('@MMK_L_'):
+            if isLeftGroup(lftReference):
                 dt.save()
                 dt.fill(*LAYERED_GLYPHS_COLOR)
                 groupContent = self.fontObj.groups[lftReference]
@@ -353,7 +353,7 @@ class WordDisplay(Group):
 
         # _R__ group
         if rgtReference:
-            if rgtReference.startswith('@MMK_R_'):
+            if isRightGroup(rgtReference):
                 dt.save()
                 dt.translate(correction, 0)
                 dt.fill(*LAYERED_GLYPHS_COLOR)
@@ -381,13 +381,13 @@ class WordDisplay(Group):
             lftName, rgtName = kerningReference
 
         lftGlyphs = []
-        if lftName.startswith('@MMK') is True:
+        if isLeftGroup(lftName):
             lftGlyphs = self.fontObj.groups[lftName]
         else:
             lftGlyphs = [lftName]
 
         rgtGlyphs = []
-        if rgtName.startswith('@MMK') is True:
+        if isRightGroup(rgtName):
             rgtGlyphs = self.fontObj.groups[rgtName]
         else:
             rgtGlyphs = [rgtName]

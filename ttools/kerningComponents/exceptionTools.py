@@ -12,12 +12,27 @@ from collections import namedtuple
 ### Constants
 Point = namedtuple('Point', ['x', 'y'])
 
+
+# UFO 2
+KERN_GROUP_LEFT_PREFIX = '@MMK_L_'
+KERN_GROUP_RIGHT_PREFIX = '@MMK_R_'
+# UFO 3
+#KERN_GROUP_LEFT_PREFIX = 'public.kern1.'
+#KERN_GROUP_RIGHT_PREFIX = 'public.kern2.'
+
+def isLeftGroup(name):
+    return name.startswith(KERN_GROUP_LEFT_PREFIX)
+
+def isRightGroup(name):
+    return name.startswith(KERN_GROUP_RIGHT_PREFIX)
+
+
 ### Classes and functions
 def checkGlyphPresenceInMultipleGroups(glyphName, location, aFont):
 
     locationPrefixes = {
-            'left': '@MMK_L_',
-            'right': '@MMK_R_'}
+            'left': KERN_GROUP_LEFT_PREFIX,
+            'right': KERN_GROUP_RIGHT_PREFIX}
 
     whichAreTheGroups = []
     for eachGroupName, eachGroupContent in aFont.groups.items():
@@ -34,9 +49,9 @@ def checkGroupConflicts(aFont):
     glyphsInvolvedInLft = []
     glyphsInvolvedInRgt = []
     for eachGroupName, eachGroupContent in aFont.groups.items():
-        if '@MMK_L' in eachGroupName:
+        if KERN_GROUP_LEFT_PREFIX in eachGroupName:
             _ = [glyphsInvolvedInLft.append(glyphName) for glyphName in eachGroupContent if glyphName not in glyphsInvolvedInLft]
-        elif '@MMK_R' in eachGroupName:
+        elif KERN_GROUP_RIGHT_PREFIX in eachGroupName:
             _ = [glyphsInvolvedInRgt.append(glyphName) for glyphName in eachGroupContent if glyphName not in glyphsInvolvedInRgt]
 
     report = []
@@ -59,8 +74,8 @@ def checkGroupConflicts(aFont):
 def whichGroup(targetGlyphName, aLocation, aFont):
     assert aLocation in ['left', 'right']
 
-    locationPrefixes = {'left': '@MMK_L_',
-                        'right': '@MMK_R_'}
+    locationPrefixes = {'left': KERN_GROUP_LEFT_PREFIX,
+                        'right': KERN_GROUP_RIGHT_PREFIX}
 
     filteredGroups = {name: content for name, content in aFont.groups.items() if name.startswith(locationPrefixes[aLocation])}
     for eachGroupName, eachGroupContent in filteredGroups.items():
@@ -115,16 +130,16 @@ def isPairException(kerningReference, aFont):
     else:
         doesExists = False
 
-    if lftReference.startswith('@MMK_L_') and rgtReference.startswith('@MMK_R_'):
+    if isLeftGroup(lftReference) and isRightGroup(rgtReference):
         return False, doesExists, None
 
-    elif lftReference.startswith('@MMK_L_'):
+    elif isLeftGroup(lftReference):
         rgtGroup = whichGroup(rgtReference, 'right', aFont)
         if rgtGroup:
             if aFont.kerning.get((lftReference, rgtGroup)) is not None:
                 return True, doesExists, [(lftReference, rgtGroup)]
 
-    elif rgtReference.startswith('@MMK_R_'):
+    elif isRightGroup(rgtReference):
         lftGroup = whichGroup(lftReference, 'left', aFont)
         if lftGroup:
             if aFont.kerning.get((lftGroup, rgtReference)) is not None:
@@ -155,9 +170,9 @@ def possibleExceptions(aPair, kerningReference, aFont):
 
     # building options
     options = {'gl2gl': (lftGlyphName, rgtGlyphName)}
-    if rgtReference.startswith('@MMK_R_'):
+    if isRightGroup(rgtReference):
         options['gl2gr'] = (lftGlyphName, rgtReference)
-    if lftReference.startswith('@MMK_L_'):
+    if isLeftGroup(lftReference):
         options['gr2gl'] = (lftReference, rgtGlyphName)
 
     # filtering options
